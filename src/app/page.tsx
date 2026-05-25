@@ -108,6 +108,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== SHOP SACRED INTENTION ===== */}
+      <section className="section-pad" style={{ background: 'var(--bg-soft, #FAF6F1)' }}>
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow">
+              <i className="fa-solid fa-compass me-2"></i>Cosmic Navigation
+            </span>
+            <h2 className="section-title">Shop Sacred <span>Intention</span></h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+            <p className="section-subtitle">
+              Crystals carry frequencies. Choose the focus your soul desires, and let the elemental stone synchronize with your energy field.
+            </p>
+          </div>
+          <div className="row g-4">
+            {[
+              {
+                title: 'Love & Harmony',
+                desc: 'Amplify relationship fidelity, self-acceptance, and heart chakra alignment.',
+                icon: 'fa-solid fa-heart',
+                href: '/shop?intent=love',
+              },
+              {
+                title: 'Wealth & Abundance',
+                desc: 'Unlock entrepreneurial prosperity, attract positive career flow, and clear debt blocks.',
+                icon: 'fa-solid fa-gem',
+                href: '/shop?intent=wealth',
+              },
+              {
+                title: 'Aura Protection',
+                desc: 'Ground negative external energy fields, hex blocks, and EMF radiation.',
+                icon: 'fa-solid fa-shield-halved',
+                href: '/shop?intent=protection',
+              },
+              {
+                title: 'Peace & Serenity',
+                desc: 'Soften anxious breathing patterns, clear overthinking, and enjoy restorative sleep.',
+                icon: 'fa-solid fa-wand-magic-sparkles',
+                href: '/shop?intent=peace',
+              },
+            ].map((item, idx) => (
+              <div className="col-sm-6 col-lg-3" key={item.title}>
+                <ScrollFade delay={idx * 80}>
+                  <Link href={item.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
+                    <div className="intention-card">
+                      <div className="intention-icon">
+                        <i className={item.icon}></i>
+                      </div>
+                      <h4 className="intention-title">{item.title}</h4>
+                      <p className="intention-desc">{item.desc}</p>
+                    </div>
+                  </Link>
+                </ScrollFade>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== FEATURED PRODUCTS ===== */}
       <section className="products-section section-pad" id="featured-products">
         <div className="container">
@@ -137,64 +195,102 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== SERVICES ===== */}
+      {/* ===== SACRED INTUITIVE SESSIONS ===== */}
       <section className="services-section section-pad">
         <div className="container">
           <div className="text-center mb-5">
-            <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>Spiritual Services</span>
+            <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>
+              <i className="fa-solid fa-moon me-2"></i>Cosmic Services
+            </span>
             <h2 className="section-title" style={{ color: '#fff' }}>
-              Healing <span>Sessions &amp; Rituals</span>
+              Sacred <span>Intuitive Sessions</span>
             </h2>
             <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              Book a personalised session with Kriss and step into transformation.
+            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.55)', maxWidth: 680, margin: '0 auto' }}>
+              Directly book highly personalized tarot readings, custom spells, and astro-numerology charts. All sessions require manual founder approval to guarantee aligned schedules.
             </p>
           </div>
 
-          <div className="row g-4">
+          <div className="row g-4 justify-content-center">
             {[
               {
-                title: 'Tarot Reading',
-                desc: 'Receive guidance on love, career, relationships and life path through an intuitive tarot session.',
-                image: 'https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/Tarrot-Reading.webp',
-                icon: 'fa-solid fa-star-and-crescent',
-                link: '/services#tarot',
+                path: 'PATH I',
+                title: 'Tarot Reading — Voice Chat',
+                category: 'Tarot Readings',
+                desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your burning questions within 24–48 hours of your booked date.',
+                bullets: [
+                  'No live timer pressure',
+                  'Submit questions 24–48 hours before',
+                  'Audio recorded directly by the founder',
+                  'Lifetime re-listen access',
+                ],
+                tiers: [
+                  { label: '30 minutes', price: 1200 },
+                  { label: '1 hour', price: 2000 },
+                ],
+                slug: 'tarot',
               },
               {
-                title: 'Candle Spell Session',
-                desc: 'Harness the power of fire magic with ritually crafted candle spells tailored to your intentions.',
-                image: 'https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/Candle.webp',
-                icon: 'fa-solid fa-fire-flame-curved',
-                link: '/services#candle',
+                path: 'PATH II',
+                title: 'Live Tarot Reading — Video Call',
+                category: 'Tarot Readings',
+                desc: 'Conducted face-to-face via Zoom or WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
+                bullets: [
+                  'Live face-to-face interaction',
+                  'Instant card-pull explanations',
+                  'Zoom or WhatsApp video options',
+                  'Live energetic connection',
+                ],
+                tiers: [
+                  { label: '30 minutes', price: 2500 },
+                  { label: '1 hour', price: 4500 },
+                ],
+                slug: 'tarot',
               },
               {
-                title: 'Spell Jars',
-                desc: 'Custom spell jars created with herbs, crystals and intentions to manifest your specific desires.',
-                image: 'https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/Spell-Jar.webp',
-                icon: 'fa-solid fa-jar',
-                link: '/services#spelljar',
-              },
-              {
-                title: 'Numerology',
-                desc: 'Unlock the hidden patterns in your birth date and name to reveal your life\'s purpose and destiny.',
-                image: 'https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/Numerology.webp',
-                icon: 'fa-solid fa-infinity',
-                link: '/services#numerology',
+                path: 'PATH III',
+                title: 'Bespoke Spell Casting Ritual',
+                category: 'Spell Casting Services',
+                desc: 'Custom spell jars, cleansing rituals, or wealth attunement circles performed on your behalf by our founder. Session details and proof of altar magic shared via WhatsApp/email.',
+                bullets: [
+                  'Personalized intention crafting',
+                  'Herb, crystal, and candle magic',
+                  'Full altar activation by the founder',
+                  'Photo & video proof of the ritual',
+                ],
+                tiers: [
+                  { label: '30 minutes', price: 5000 },
+                  { label: '1 hour', price: 8500 },
+                ],
+                slug: 'candle',
               },
             ].map((svc, idx) => (
-              <div className="col-sm-6 col-lg-3" key={svc.title}>
-                <ScrollFade delay={idx * 80}>
-                  <div className="service-card">
-                    <img src={svc.image} alt={svc.title} className="service-card-img" loading="lazy" />
-                    <div className="service-card-overlay"></div>
-                    <div className="service-card-body">
-                      <div className="service-icon"><i className={svc.icon}></i></div>
-                      <h3 className="service-title">{svc.title}</h3>
-                      <p className="service-desc">{svc.desc}</p>
-                      <Link href={svc.link} className="service-link">
-                        Book Now <i className="fa-solid fa-arrow-right"></i>
-                      </Link>
+              <div className="col-md-6 col-lg-4" key={svc.title}>
+                <ScrollFade delay={idx * 100}>
+                  <div className="session-card">
+                    <span className="session-path">✦ {svc.path} ✦</span>
+                    <h3 className="session-title">{svc.title}</h3>
+                    <p className="session-category">{svc.category}</p>
+                    <p className="session-desc">{svc.desc}</p>
+                    <ul className="session-bullets">
+                      {svc.bullets.map((b) => (
+                        <li key={b}>
+                          <span className="session-bullet-mark">✦</span> {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="session-tiers">
+                      {svc.tiers.map((t) => (
+                        <div key={t.label} className="session-tier">
+                          <div className="session-tier-label">{t.label}</div>
+                          <div className="session-tier-price">₹{t.price.toLocaleString('en-IN')}</div>
+                        </div>
+                      ))}
                     </div>
+                    <Link href={`/booking/${svc.slug}`} className="session-cta">
+                      <i className="fa-solid fa-circle-arrow-right me-2"></i>
+                      Select Service
+                    </Link>
                   </div>
                 </ScrollFade>
               </div>

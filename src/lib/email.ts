@@ -107,6 +107,28 @@ export function bookingStatusEmail(name: string, serviceTitle: string, status: '
   };
 }
 
+export function orderStatusEmail(name: string, orderNumber: string, status: string): EmailMessage {
+  const statusLabels: Record<string, string> = {
+    confirmed: 'confirmed',
+    shipped: 'shipped',
+    delivered: 'delivered',
+    cancelled: 'cancelled',
+  };
+  const label = statusLabels[status] ?? status;
+  const isDelivered = status === 'delivered';
+  const isCancelled = status === 'cancelled';
+  return {
+    to: '',
+    subject: `Order ${label} · ${orderNumber}`,
+    html: shell(
+      isDelivered ? `Your order has arrived, ${name}!` : isCancelled ? `Order cancelled · ${orderNumber}` : `Order update · ${orderNumber}`,
+      `<p>Your order <strong>${orderNumber}</strong> has been updated to <strong>${label.toUpperCase()}</strong>.</p>
+       ${isDelivered ? '<p>Thank you for your purchase! We hope you enjoy your crystals.</p>' : ''}
+       ${isCancelled ? '<p>If you have any questions, please reach out to us.</p>' : ''}`,
+    ),
+  };
+}
+
 export function passwordResetEmail(name: string, resetUrl: string): EmailMessage {
   return {
     to: '',

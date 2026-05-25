@@ -1,18 +1,27 @@
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
-import { auth, signOut } from '@/auth';
-import AdminNav from './AdminNav';
+import { headers, cookies } from 'next/headers';
+import { verifyAdminToken, ADMIN_COOKIE } from '@/lib/adminSession';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const session = await auth();
-  if (!session?.user) redirect('/login?callbackUrl=/admin');
-  if (session.user.role !== 'admin') redirect('/dashboard');
+  const pathname = (await headers()).get('x-pathname') ?? '';
+
+  // Let the login page render without the admin shell or auth check
+  if (pathname === '/admin/login') return <>{children}</>;
+
+  const jar = await cookies();
+  const token = jar.get(ADMIN_COOKIE)?.value;
+  const admin = token ? await verifyAdminToken(token) : null;
+
+  if (!admin) redirect('/admin/login');
 
   async function logout() {
     'use server';
-    await signOut({ redirectTo: '/' });
+    const jar = await cookies();
+    jar.delete(ADMIN_COOKIE);
+    redirect('/admin/login');
   }
 
   return (
@@ -36,7 +45,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           KrissMaagiic Admin
         </div>
         <div className="d-flex align-items-center gap-3" style={{ fontSize: '0.85rem' }}>
-          <span style={{ opacity: 0.7 }}>Signed in as {session.user.email}</span>
+          <span style={{ opacity: 0.7 }}>{admin.email}</span>
           <a href="/" style={{ color: '#fff', opacity: 0.7, textDecoration: 'none' }}>
             <i className="fa-solid fa-house"></i> Site
           </a>
@@ -66,3 +75,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     </div>
   );
 }
+
+// Inline to avoid circular import issues
+import AdminNav from './AdminNav';

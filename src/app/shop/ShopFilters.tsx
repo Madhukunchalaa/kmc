@@ -38,6 +38,7 @@ function toLegacy(p: CatalogProduct) {
     badge: p.badge,
     desc: p.desc,
     chakras: p.chakras,
+    stock: p.stock,
   };
 }
 
@@ -119,7 +120,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
           {filtered.map((p, idx) => (
             <div className="col-sm-6 col-lg-4" key={p.id}>
               <ScrollFade delay={Math.min(idx, 6) * 60}>
-                <ProductCard product={toLegacy(p)} />
+                <ProductCard product={toLegacy(p)} stock={p.stock} />
               </ScrollFade>
             </div>
           ))}

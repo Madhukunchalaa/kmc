@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
+import NotificationBell from '@/components/NotificationBell';
 
 export default function Header() {
   const pathname = usePathname();
@@ -69,6 +70,12 @@ export default function Header() {
                 </li>
               );
             })}
+
+            {status === 'authenticated' && (
+              <li className="nav-item d-flex align-items-center">
+                <NotificationBell />
+              </li>
+            )}
 
             <li className="nav-item">
               <Link

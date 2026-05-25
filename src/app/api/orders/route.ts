@@ -32,13 +32,25 @@ export async function POST(req: Request) {
 
   // Resolve products from DB (or fall back to seed for resilience).
   const dbProducts = await Product.find({ slug: { $in: items.map((i) => i.productId) }, active: true }).lean();
-  const productMap = new Map<string, { _id: string; slug: string; name: string; price: number }>();
+  const productMap = new Map<string, { _id: string; slug: string; name: string; price: number; stock: number | null }>();
   for (const p of dbProducts) {
-    productMap.set(p.slug, { _id: String(p._id), slug: p.slug, name: p.name, price: p.price });
+    productMap.set(p.slug, { _id: String(p._id), slug: p.slug, name: p.name, price: p.price, stock: p.stock ?? null });
   }
   for (const sp of seedProducts) {
     if (!productMap.has(sp.id)) {
-      productMap.set(sp.id, { _id: sp.id, slug: sp.id, name: sp.name, price: sp.price });
+      productMap.set(sp.id, { _id: sp.id, slug: sp.id, name: sp.name, price: sp.price, stock: null });
+    }
+  }
+
+  // Stock validation — only for DB products (seed products have no tracked stock).
+  for (const it of items) {
+    const p = productMap.get(it.productId);
+    if (p && p.stock !== null && p.stock < it.qty) {
+      const label = p.stock === 0 ? 'out of stock' : `only ${p.stock} left`;
+      return NextResponse.json(
+        { ok: false, reason: `"${p.name}" is ${label}` },
+        { status: 409 },
+      );
     }
   }
 
@@ -78,13 +90,28 @@ export async function POST(req: Request) {
       customer,
     });
 
-    // Clear cart in mongo if session present.
-    if (sid) {
-      try {
-        const db = await getDb();
-        await db.collection('carts').deleteOne({ sessionId: sid });
-      } catch {/* non-fatal */}
+    // Decrement stock for DB-tracked products.
+    const stockUpdates = lines
+      .filter((l) => /^[a-f0-9]{24}$/i.test(l.productId))
+      .map((l) => ({
+        updateOne: {
+          filter: { _id: l.productId },
+          update: { $inc: { stock: -l.qty } },
+        },
+      }));
+    if (stockUpdates.length > 0) {
+      Product.bulkWrite(stockUpdates).catch(() => {});
     }
+
+    // Clear cart — by userId for logged-in users, by sessionId for guests.
+    try {
+      const db = await getDb();
+      if (session?.user?.id) {
+        await db.collection('carts').deleteOne({ userId: session.user.id });
+      } else if (sid) {
+        await db.collection('carts').deleteOne({ sessionId: sid });
+      }
+    } catch {/* non-fatal */}
 
     // Notify the user in-app if logged in.
     if (session?.user?.id) {

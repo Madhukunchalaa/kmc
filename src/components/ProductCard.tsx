@@ -7,16 +7,20 @@ import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
   product: Product;
+  stock?: number;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, stock }: ProductCardProps) {
   const { addItem } = useCart();
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
 
+  const outOfStock = typeof stock === 'number' && stock === 0;
+
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (outOfStock) return;
     await addItem(product.id, 1);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1800);
@@ -31,11 +35,13 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="product-card">
       <div className="product-img-wrapper">
-        {product.badge && (
+        {outOfStock ? (
+          <span className="product-badge" style={{ background: '#888' }}>Out of Stock</span>
+        ) : product.badge ? (
           <span className={`product-badge ${product.badge.toLowerCase()}`}>
             {product.badge}
           </span>
-        )}
+        ) : null}
         <Link href={`/shop/${product.id}`} aria-label={product.name}>
           <img src={product.image} alt={product.name} />
         </Link>
@@ -79,12 +85,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           <button
             className="add-to-cart-btn"
             onClick={handleAddToCart}
+            disabled={outOfStock}
             style={{
-              backgroundColor: addedToCart ? '#4CAF50' : undefined,
-              color: addedToCart ? '#fff' : undefined,
+              backgroundColor: outOfStock ? '#ccc' : addedToCart ? '#4CAF50' : undefined,
+              color: outOfStock ? '#888' : addedToCart ? '#fff' : undefined,
+              cursor: outOfStock ? 'not-allowed' : undefined,
             }}
           >
-            {addedToCart ? 'Added! ✓' : 'Add to Cart'}
+            {outOfStock ? 'Out of Stock' : addedToCart ? 'Added! ✓' : 'Add to Cart'}
           </button>
         </div>
       </div>

@@ -17,6 +17,45 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const button = e.currentTarget;
+    const cardEl = button.closest('.product-card');
+    const imgEl = cardEl?.querySelector('.pc-image') as HTMLImageElement;
+    const cartEl = document.querySelector('.navbar-cart');
+
+    if (imgEl && cartEl) {
+      const imgRect = imgEl.getBoundingClientRect();
+      const cartRect = cartEl.getBoundingClientRect();
+
+      const clone = document.createElement('img');
+      clone.src = imgEl.src;
+      clone.style.position = 'fixed';
+      clone.style.top = `${imgRect.top}px`;
+      clone.style.left = `${imgRect.left}px`;
+      clone.style.width = `${imgRect.width}px`;
+      clone.style.height = `${imgRect.height}px`;
+      clone.style.zIndex = '9999';
+      clone.style.transition = 'all 1.4s cubic-bezier(0.25, 1, 0.35, 1)';
+      clone.style.pointerEvents = 'none';
+      clone.style.boxShadow = '0 10px 30px rgba(200, 149, 108, 0.6)';
+      document.body.appendChild(clone);
+
+      requestAnimationFrame(() => {
+        clone.style.top = `${cartRect.top + cartRect.height / 2 - 20}px`;
+        clone.style.left = `${cartRect.left + cartRect.width / 2 - 20}px`;
+        clone.style.width = '30px';
+        clone.style.height = '30px';
+        clone.style.opacity = '0.1';
+        clone.style.transform = 'rotate(720deg) scale(0.1)';
+      });
+
+      setTimeout(() => {
+        clone.remove();
+        cartEl.classList.add('cart-pulse');
+        setTimeout(() => cartEl.classList.remove('cart-pulse'), 500);
+      }, 1400);
+    }
+
     await addItem(product.id, 1);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1800);
@@ -30,62 +69,51 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="product-card">
-      <div className="product-img-wrapper">
-        {product.badge && (
-          <span className={`product-badge ${product.badge.toLowerCase()}`}>
-            {product.badge}
-          </span>
-        )}
-        <Link href={`/shop/${product.id}`} aria-label={product.name}>
-          <img src={product.image} alt={product.name} />
-        </Link>
-        <div className="product-actions">
-          <button
-            className="product-action-btn"
-            onClick={handleWishlist}
-            aria-label="Add to Wishlist"
-            style={{ color: isInWishlist ? '#D95F5F' : undefined }}
-          >
-            <i className={`${isInWishlist ? 'fas' : 'far'} fa-heart`}></i>
-          </button>
-          <Link
-            href={`/shop/${product.id}`}
-            className="product-action-btn"
-            aria-label="Quick View"
-          >
-            <i className="far fa-eye"></i>
-          </Link>
-        </div>
-      </div>
-      <div className="product-body">
-        <span className="product-category">{product.subcategory}</span>
-        <h3 className="product-name">
-          <Link href={`/shop/${product.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-            {product.name}
-          </Link>
-        </h3>
-        <p className="product-desc">{product.desc}</p>
-        <div className="product-footer">
-          <span className="product-price">
+      {/* Badge */}
+      {product.badge && (
+        <span className={`pc-badge pc-badge--${product.badge.toLowerCase()}`}>
+          {product.badge}
+        </span>
+      )}
+
+      {/* Wishlist */}
+      <button
+        className={`pc-wish ${isInWishlist ? 'pc-wish--active' : ''}`}
+        onClick={handleWishlist}
+        aria-label="Wishlist"
+      >
+        <i className={`${isInWishlist ? 'fas' : 'far'} fa-heart`} />
+      </button>
+
+      {/* Full-bleed image */}
+      <Link href={`/shop/${product.id}`} className="pc-img-link" aria-label={product.name}>
+        <img className="pc-image" src={product.image} alt={product.name} />
+      </Link>
+
+      {/* Cinematic hover overlay */}
+      <div className="pc-overlay">
+        <div className="pc-overlay-inner">
+          <span className="pc-overlay-cat">{product.subcategory}</span>
+          <h3 className="pc-overlay-name">
+            <Link href={`/shop/${product.id}`}>{product.name}</Link>
+          </h3>
+          <div className="pc-overlay-price">
             {product.originalPrice && (
-              <span className="original">
-                <span className="currency">₹</span>
-                {product.originalPrice.toLocaleString('en-IN')}
-              </span>
+              <s className="pc-overlay-orig">
+                ₹{product.originalPrice.toLocaleString('en-IN')}
+              </s>
             )}
-            <span className="currency">₹</span>
-            {product.price.toLocaleString('en-IN')}
-          </span>
-          <button
-            className="add-to-cart-btn"
-            onClick={handleAddToCart}
-            style={{
-              backgroundColor: addedToCart ? '#4CAF50' : undefined,
-              color: addedToCart ? '#fff' : undefined,
-            }}
-          >
-            {addedToCart ? 'Added! ✓' : 'Add to Cart'}
-          </button>
+            <span className="pc-overlay-sale">₹{product.price.toLocaleString('en-IN')}</span>
+          </div>
+          <div className="pc-overlay-actions">
+            <button className="pc-btn-cart" onClick={handleAddToCart}>
+              <i className="fa-solid fa-bag-shopping" />
+              {addedToCart ? 'Added ✓' : 'Add to Cart'}
+            </button>
+            <Link href={`/shop/${product.id}`} className="pc-btn-view" aria-label="View product">
+              <i className="fa-solid fa-arrow-right" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

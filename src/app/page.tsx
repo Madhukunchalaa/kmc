@@ -1,16 +1,26 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
-import Newsletter from '@/components/Newsletter';
+import BookingModal, { BookingTier } from '@/components/BookingModal';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
+
+interface SelectedSession {
+  serviceSlug: string;
+  title: string;
+  tiers: BookingTier[];
+}
 
 export default function Home() {
   // Bestsellers / Featured crystals (first 6 items matching the homepage feel)
   const featuredProducts = products.slice(0, 6);
+  const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
+
+
 
   return (
     <>
@@ -19,42 +29,64 @@ export default function Home() {
 
       {/* ===== TRUST STRIP ===== */}
       <div className="trust-strip">
-        <div className="container">
-          <div className="row gy-3">
-            <div className="col-6 col-md-3">
-              <div className="trust-item">
-                <i className="fa-solid fa-shield-halved"></i>
-                <span>100% Authentic</span>
-              </div>
+        <div className="trust-strip-track">
+          {/* Group 1 */}
+          <div className="trust-strip-group">
+            <div className="trust-item">
+              <i className="fa-solid fa-shield-halved"></i>
+              <span>100% Authentic</span>
             </div>
-            <div className="col-6 col-md-3">
-              <div className="trust-item">
-                <i className="fa-solid fa-bolt"></i>
-                <span>Energised Stones</span>
-              </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-bolt"></i>
+              <span>Energised Stones</span>
             </div>
-            <div className="col-6 col-md-3">
-              <div className="trust-item">
-                <i className="fa-solid fa-hand-sparkles"></i>
-                <span>Intuitively Selected</span>
-              </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-hand-sparkles"></i>
+              <span>Intuitively Selected</span>
             </div>
-            <div className="col-6 col-md-3">
-              <div className="trust-item">
-                <i className="fa-solid fa-truck-fast"></i>
-                <span>Pan-India Shipping</span>
-              </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-truck-fast"></i>
+              <span>Pan-India Shipping</span>
+            </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-globe"></i>
+              <span>International Delivery</span>
+            </div>
+          </div>
+          {/* Group 2 (Duplicate for infinite seamless scroll) */}
+          <div className="trust-strip-group" aria-hidden="true">
+            <div className="trust-item">
+              <i className="fa-solid fa-shield-halved"></i>
+              <span>100% Authentic</span>
+            </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-bolt"></i>
+              <span>Energised Stones</span>
+            </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-hand-sparkles"></i>
+              <span>Intuitively Selected</span>
+            </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-truck-fast"></i>
+              <span>Pan-India Shipping</span>
+            </div>
+            <div className="trust-item">
+              <i className="fa-solid fa-globe"></i>
+              <span>International Delivery</span>
             </div>
           </div>
         </div>
       </div>
+
+
 
       {/* ===== BRAND FEATURES ===== */}
       <section className="brand-strip section-pad">
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-eyebrow">Why KrissMaagiic</span>
-            <h2 className="section-title" style={{ color: '#fff' }}>
+            <h2 className="section-title">
               Crystals with <span>Purpose &amp; Soul</span>
             </h2>
             <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
@@ -63,6 +95,7 @@ export default function Home() {
             <div className="col-sm-6 col-lg-3">
               <ScrollFade delay={0}>
                 <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">I</span>
                   <div className="brand-feature-icon"><i className="fa-solid fa-gem"></i></div>
                   <h4 className="brand-feature-title">Handpicked Crystals</h4>
                   <p className="brand-feature-desc">
@@ -74,6 +107,7 @@ export default function Home() {
             <div className="col-sm-6 col-lg-3">
               <ScrollFade delay={80}>
                 <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">II</span>
                   <div className="brand-feature-icon"><i className="fa-solid fa-sun"></i></div>
                   <h4 className="brand-feature-title">Ritually Energised</h4>
                   <p className="brand-feature-desc">
@@ -85,6 +119,7 @@ export default function Home() {
             <div className="col-sm-6 col-lg-3">
               <ScrollFade delay={160}>
                 <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">III</span>
                   <div className="brand-feature-icon"><i className="fa-solid fa-certificate"></i></div>
                   <h4 className="brand-feature-title">Certified Authenticity</h4>
                   <p className="brand-feature-desc">
@@ -96,6 +131,7 @@ export default function Home() {
             <div className="col-sm-6 col-lg-3">
               <ScrollFade delay={240}>
                 <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">IV</span>
                   <div className="brand-feature-icon"><i className="fa-solid fa-heart-pulse"></i></div>
                   <h4 className="brand-feature-title">Healing-First Curation</h4>
                   <p className="brand-feature-desc">
@@ -176,9 +212,9 @@ export default function Home() {
             <p className="section-subtitle">Each piece is handpicked, energised and ready to work its magic in your life.</p>
           </div>
 
-          <div className="row g-4">
+          <div className="row g-3">
             {featuredProducts.map((product, idx) => (
-              <div className="col-sm-6 col-lg-4" key={product.id}>
+              <div className="col-6 col-md-4 col-lg-3" key={product.id}>
                 <ScrollFade delay={idx * 80}>
                   <ProductCard product={product} />
                 </ScrollFade>
@@ -187,9 +223,9 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-5">
-            <Link href="/shop" className="btn-outline-custom">
-              <i className="fa-solid fa-store"></i>
-              <span>View All Products</span>
+            <Link href="/shop" className="btn-primary-custom">
+              <i className="fa-solid fa-gem"></i>
+              <span>Explore All Products</span>
             </Link>
           </div>
         </div>
@@ -199,14 +235,14 @@ export default function Home() {
       <section className="services-section section-pad">
         <div className="container">
           <div className="text-center mb-5">
-            <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>
+            <span className="section-eyebrow">
               <i className="fa-solid fa-moon me-2"></i>Cosmic Services
             </span>
-            <h2 className="section-title" style={{ color: '#fff' }}>
+            <h2 className="section-title">
               Sacred <span>Intuitive Sessions</span>
             </h2>
             <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.55)', maxWidth: 680, margin: '0 auto' }}>
+            <p className="section-subtitle" style={{ maxWidth: 680, margin: '0 auto' }}>
               Directly book highly personalized tarot readings, custom spells, and astro-numerology charts. All sessions require manual founder approval to guarantee aligned schedules.
             </p>
           </div>
@@ -215,6 +251,7 @@ export default function Home() {
             {[
               {
                 path: 'PATH I',
+                icon: 'fa-solid fa-headphones',
                 title: 'Tarot Reading — Voice Chat',
                 category: 'Tarot Readings',
                 desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your burning questions within 24–48 hours of your booked date.',
@@ -229,9 +266,11 @@ export default function Home() {
                   { label: '1 hour', price: 2000 },
                 ],
                 slug: 'tarot',
+                featured: false,
               },
               {
                 path: 'PATH II',
+                icon: 'fa-solid fa-video',
                 title: 'Live Tarot Reading — Video Call',
                 category: 'Tarot Readings',
                 desc: 'Conducted face-to-face via Zoom or WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
@@ -246,9 +285,11 @@ export default function Home() {
                   { label: '1 hour', price: 4500 },
                 ],
                 slug: 'tarot',
+                featured: true,
               },
               {
                 path: 'PATH III',
+                icon: 'fa-solid fa-wand-magic-sparkles',
                 title: 'Bespoke Spell Casting Ritual',
                 category: 'Spell Casting Services',
                 desc: 'Custom spell jars, cleansing rituals, or wealth attunement circles performed on your behalf by our founder. Session details and proof of altar magic shared via WhatsApp/email.',
@@ -263,34 +304,47 @@ export default function Home() {
                   { label: '1 hour', price: 8500 },
                 ],
                 slug: 'candle',
+                featured: false,
               },
             ].map((svc, idx) => (
               <div className="col-md-6 col-lg-4" key={svc.title}>
                 <ScrollFade delay={idx * 100}>
-                  <div className="session-card">
-                    <span className="session-path">✦ {svc.path} ✦</span>
-                    <h3 className="session-title">{svc.title}</h3>
-                    <p className="session-category">{svc.category}</p>
-                    <p className="session-desc">{svc.desc}</p>
-                    <ul className="session-bullets">
-                      {svc.bullets.map((b) => (
-                        <li key={b}>
-                          <span className="session-bullet-mark">✦</span> {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="session-tiers">
-                      {svc.tiers.map((t) => (
-                        <div key={t.label} className="session-tier">
-                          <div className="session-tier-label">{t.label}</div>
-                          <div className="session-tier-price">₹{t.price.toLocaleString('en-IN')}</div>
-                        </div>
-                      ))}
+                  <div className={`session-card${svc.featured ? ' featured' : ''}`}>
+                    {svc.featured && <span className="session-popular-badge">Most Popular</span>}
+                    <div className="session-icon-wrap">
+                      <div className="session-icon">
+                        <i className={svc.icon}></i>
+                      </div>
                     </div>
-                    <Link href={`/booking/${svc.slug}`} className="session-cta">
-                      <i className="fa-solid fa-circle-arrow-right me-2"></i>
-                      Select Service
-                    </Link>
+                    <div className="session-body">
+                      <span className="session-path">✦ {svc.path} ✦</span>
+                      <h3 className="session-title">{svc.title}</h3>
+                      <p className="session-category">{svc.category}</p>
+                      <p className="session-desc">{svc.desc}</p>
+                      <ul className="session-bullets">
+                        {svc.bullets.map((b) => (
+                          <li key={b}>
+                            <span className="session-bullet-mark">✦</span> {b}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="session-tiers">
+                        {svc.tiers.map((t) => (
+                          <div key={t.label} className="session-tier">
+                            <div className="session-tier-label">{t.label}</div>
+                            <div className="session-tier-price">₹{t.price.toLocaleString('en-IN')}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        className="session-cta"
+                        onClick={() => setActiveSession({ serviceSlug: svc.slug, title: svc.title, tiers: svc.tiers })}
+                      >
+                        <i className="fa-solid fa-circle-arrow-right me-2"></i>
+                        Select Service
+                      </button>
+                    </div>
                   </div>
                 </ScrollFade>
               </div>
@@ -405,19 +459,23 @@ export default function Home() {
       {/* ===== CTA BANNER ===== */}
       <section className="cta-banner">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <span className="section-eyebrow" style={{ color: 'rgba(255,255,255,0.7)' }}>Find Your Crystal</span>
-          <h2 className="section-title" style={{ color: '#fff' }}>
-            Not Sure Which Crystal is <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>Right for You?</span>
+          <div className="cta-gem">
+            <i className="fa-solid fa-gem"></i>
+          </div>
+          <span className="section-eyebrow">Find Your Crystal</span>
+          <h2 className="section-title">
+            Not Sure Which Crystal is <span>Right for You?</span>
           </h2>
-          <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.75)' }}>
+          <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+          <p className="section-subtitle" style={{ maxWidth: 560, margin: '0 auto' }}>
             Take our quick Crystal Suggestion quiz and we&apos;ll match you with your perfect stone.
           </p>
-          <div className="d-flex gap-3 justify-content-center flex-wrap mt-4">
-            <Link href="/crystal-strength#quiz" className="btn-primary-custom">
+          <div className="cta-banner-btns">
+            <Link href="/crystal-strength#quiz" className="cta-banner-btn-primary">
               <i className="fa-solid fa-wand-sparkles"></i>
               <span>Take the Quiz</span>
             </Link>
-            <Link href="/contact" className="btn-ghost-white">
+            <Link href="/contact" className="cta-banner-btn-ghost">
               <i className="fa-solid fa-comments"></i>
               <span>Talk to Kriss</span>
             </Link>
@@ -425,8 +483,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== NEWSLETTER ===== */}
-      <Newsletter />
+      {/* ===== BOOKING MODAL ===== */}
+      {activeSession && (
+        <BookingModal
+          open={true}
+          onClose={() => setActiveSession(null)}
+          serviceSlug={activeSession.serviceSlug}
+          title={activeSession.title}
+          tiers={activeSession.tiers}
+        />
+      )}
     </>
   );
 }

@@ -1,0 +1,259 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { products, Product } from '@/data/products';
+import ProductCard from '@/components/ProductCard';
+
+const RECIPIENTS = [
+  {
+    key: 'partner',
+    label: 'Partner',
+    subtitle: 'Soulmate or lover',
+    icon: 'fa-solid fa-heart',
+    tagline: 'Crystals of love, deep connection & romance',
+    keywords: ['rose', 'love', 'heart', 'rhodonite', 'garnet', 'ruby', 'moonstone'],
+    fallback: 'bracelets',
+    color: '#D95F7A',
+    bg: 'rgba(217,95,122,0.12)',
+  },
+  {
+    key: 'friend',
+    label: 'Best Friend',
+    subtitle: 'Your ride-or-die',
+    icon: 'fa-solid fa-user-group',
+    tagline: 'Joyful, vibrant crystals for a sparkling bond',
+    keywords: ['citrine', 'amethyst', 'seven chakra', 'happiness', 'joy', 'clear quartz'],
+    fallback: 'bracelets',
+    color: '#C8956C',
+    bg: 'rgba(200,149,108,0.12)',
+  },
+  {
+    key: 'family',
+    label: 'Family',
+    subtitle: 'Parents & loved ones',
+    icon: 'fa-solid fa-house-heart',
+    tagline: 'Protective, healing stones for the home',
+    keywords: ['protection', 'black', 'obsidian', 'tourmaline', 'family', 'healing'],
+    fallback: 'bracelets',
+    color: '#9B8940',
+    bg: 'rgba(155,137,64,0.12)',
+  },
+  {
+    key: 'brother',
+    label: 'Brother',
+    subtitle: 'Strong & grounded',
+    icon: 'fa-solid fa-shield-halved',
+    tagline: 'Grounding crystals for strength & confidence',
+    keywords: ['tiger', 'pyrite', 'onyx', 'hematite', 'triple protection', 'obsidian'],
+    fallback: 'bracelets',
+    color: '#2E86AB',
+    bg: 'rgba(46,134,171,0.12)',
+  },
+  {
+    key: 'sister',
+    label: 'Sister',
+    subtitle: 'Radiant & free',
+    icon: 'fa-solid fa-star',
+    tagline: 'Feminine crystals for grace & intuition',
+    keywords: ['moonstone', 'rose quartz', 'pink', 'amethyst', 'labradorite', 'angel'],
+    fallback: 'bracelets',
+    color: '#C45FA0',
+    bg: 'rgba(196,95,160,0.12)',
+  },
+  {
+    key: 'self',
+    label: 'Yourself',
+    subtitle: 'You deserve it',
+    icon: 'fa-solid fa-spa',
+    tagline: 'Your soul picked this — trust the pull',
+    keywords: [],
+    fallback: 'bracelets',
+    color: '#27AE60',
+    bg: 'rgba(39,174,96,0.12)',
+  },
+];
+
+type Recipient = typeof RECIPIENTS[0];
+
+function getGiftProducts(recipient: Recipient): Product[] {
+  if (recipient.keywords.length === 0) return products.slice(0, 8);
+  const matched = products.filter(p =>
+    recipient.keywords.some(kw =>
+      p.name.toLowerCase().includes(kw) ||
+      p.desc.toLowerCase().includes(kw)
+    )
+  );
+  if (matched.length >= 4) return matched.slice(0, 8);
+  return products.filter(p => p.category === recipient.fallback).slice(0, 8);
+}
+
+// CSS confetti pieces rendered via JS for variety
+const CONFETTI_COLORS = ['#F7C948', '#E8647A', '#C8956C', '#9B59B6', '#27AE60', '#2E86AB', '#F0D080'];
+
+export default function GiftingExperience() {
+  const [open, setOpen] = useState(false);
+  const [recipient, setRecipient] = useState<Recipient | null>(null);
+  const [giftProducts, setGiftProducts] = useState<Product[]>([]);
+  const [giftMsg, setGiftMsg] = useState('');
+  const [msgOpen, setMsgOpen] = useState(false);
+
+  useEffect(() => {
+    if (recipient) setGiftProducts(getGiftProducts(recipient));
+  }, [recipient]);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setTimeout(() => { setRecipient(null); setMsgOpen(false); setGiftMsg(''); }, 400);
+  }, []);
+
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  return (
+    <>
+      {/* ── Gift Banner ── */}
+      <button className="gift-banner" onClick={() => setOpen(true)}>
+        <div className="gift-banner-sparkles" aria-hidden="true">
+          {['✦','✧','✦','✧','✦'].map((s, i) => (
+            <span key={i} style={{ animationDelay: `${i * 0.4}s` }}>{s}</span>
+          ))}
+        </div>
+        <div className="gift-banner-left">
+          <div className="gift-banner-icon-wrap">
+            <i className="fa-solid fa-gift" />
+          </div>
+          <div>
+            <span className="gift-banner-eyebrow">Looking for a gift?</span>
+            <h4 className="gift-banner-title">Gift Something Sacred &amp; Meaningful</h4>
+            <p className="gift-banner-sub">Crystals chosen with love, ritually cleansed for them</p>
+          </div>
+        </div>
+        <span className="gift-banner-cta">
+          Find Their Crystal <i className="fa-solid fa-arrow-right ms-2" />
+        </span>
+      </button>
+
+      {/* ── Overlay ── */}
+      <div className={`gift-overlay${open ? ' gift-overlay--open' : ''}`} role="dialog" aria-modal="true">
+
+        {/* Confetti */}
+        <div className="gift-confetti-layer" aria-hidden="true">
+          {Array.from({ length: 24 }).map((_, i) => (
+            <span
+              key={i}
+              className="gift-confetti-dot"
+              style={{
+                '--left': `${(i * 13 + 3) % 100}%`,
+                '--delay': `${(i * 0.18) % 2.5}s`,
+                '--dur': `${2 + (i % 3) * 0.6}s`,
+                '--color': CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+                '--size': `${6 + (i % 4) * 3}px`,
+              } as React.CSSProperties}
+            />
+          ))}
+        </div>
+
+        <button className="gift-close-btn" onClick={handleClose} aria-label="Close gifting">
+          <i className="fa-solid fa-xmark" />
+        </button>
+
+        <div className="gift-scroll-area">
+          {!recipient ? (
+            /* ── Step 1: Choose recipient ── */
+            <div className="gift-step">
+              <div className="gift-step-header">
+                <div className="gift-step-gem">
+                  <i className="fa-solid fa-gift" />
+                </div>
+                <p className="gift-step-eyebrow">✦ Sacred Gifting Guide ✦</p>
+                <h2 className="gift-step-title">Who are you gifting?</h2>
+                <p className="gift-step-subtitle">We'll hand-pick the perfect crystal energy for them</p>
+              </div>
+
+              <div className="gift-recipients-grid">
+                {RECIPIENTS.map((r) => (
+                  <button
+                    key={r.key}
+                    className="gift-recipient-card"
+                    onClick={() => setRecipient(r)}
+                    style={{ '--gc': r.color, '--gb': r.bg } as React.CSSProperties}
+                  >
+                    <div className="gift-recipient-icon">
+                      <i className={r.icon} />
+                    </div>
+                    <span className="gift-recipient-name">{r.label}</span>
+                    <span className="gift-recipient-sub">{r.subtitle}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* ── Step 2: Show products ── */
+            <div className="gift-step gift-step--products">
+              <button className="gift-back-btn" onClick={() => setRecipient(null)}>
+                <i className="fa-solid fa-arrow-left" /> Back
+              </button>
+
+              <div className="gift-step-header">
+                <div className="gift-recipient-pill" style={{ '--gc': recipient.color } as React.CSSProperties}>
+                  <i className={recipient.icon} /> {recipient.label}
+                </div>
+                <h2 className="gift-step-title">{recipient.tagline}</h2>
+                <p className="gift-step-subtitle">
+                  Personally curated crystals — ritually cleansed &amp; ready to gift
+                </p>
+              </div>
+
+              {/* Gift message box */}
+              <div className="gift-msg-wrap">
+                <button className="gift-msg-toggle" onClick={() => setMsgOpen(v => !v)}>
+                  <i className="fa-solid fa-envelope-open-text me-2" />
+                  {msgOpen ? 'Hide gift message' : 'Add a personal gift message'}
+                </button>
+                {msgOpen && (
+                  <div className="gift-msg-box">
+                    <textarea
+                      className="gift-msg-input"
+                      rows={3}
+                      maxLength={160}
+                      value={giftMsg}
+                      onChange={e => setGiftMsg(e.target.value)}
+                      placeholder={`Write something beautiful for your ${recipient.label}...`}
+                    />
+                    <span className="gift-msg-count">{giftMsg.length}/160</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Products */}
+              <div className="row g-3" style={{ maxWidth: 1000, margin: '0 auto', width: '100%' }}>
+                {giftProducts.map((p) => (
+                  <div className="col-6 col-md-3" key={p.id}>
+                    <div className="gift-product-wrap">
+                      <span className="gift-product-label">
+                        <i className="fa-solid fa-gift me-1" /> Perfect Gift
+                      </span>
+                      <ProductCard product={p} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="gift-step-footer">
+                <Link href="/shop" className="gift-shop-all" onClick={handleClose}>
+                  <i className="fa-solid fa-gem me-2" /> Explore All Crystals
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {open && <div className="gift-backdrop" onClick={handleClose} />}
+    </>
+  );
+}

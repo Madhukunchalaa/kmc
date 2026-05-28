@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ShopFilters from './ShopFilters';
+import GiftingExperience from '@/components/GiftingExperience';
 import { getAllProducts } from '@/lib/catalog';
 
 export const dynamic = 'force-dynamic';
@@ -34,6 +35,8 @@ export default async function ShopPage() {
           </p>
         </div>
       </section>
+
+      <GiftingExperience />
 
       <section className="section-pad">
         <div className="container">

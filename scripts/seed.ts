@@ -40,6 +40,9 @@ async function main() {
   }
 
   // --- Products ---
+  await Product.deleteMany({});
+  console.log('✓ cleared existing products');
+  
   for (const p of productSeed) {
     const existing = await Product.findOne({ slug: p.id });
     const payload = {
@@ -52,7 +55,7 @@ async function main() {
       image: p.image,
       badge: p.badge,
       desc: p.desc,
-      longDesc: '',
+      longDesc: p.longDesc ?? '',
       chakras: p.chakras,
       stock: 99,
       active: true,

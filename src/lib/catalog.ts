@@ -44,7 +44,7 @@ function fromSeed(p: SeedProduct): CatalogProduct {
     image: p.image,
     badge: p.badge,
     desc: p.desc,
-    longDesc: '',
+    longDesc: p.longDesc ?? '',
     chakras: p.chakras,
     stock: 99,
   };

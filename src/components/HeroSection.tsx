@@ -1,108 +1,173 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import HeroParticles from '@/components/HeroParticles';
 import Counter from '@/components/Counter';
 
 export default function HeroSection() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const x = (clientX - window.innerWidth / 2) / 35;
+      const y = (clientY - window.innerHeight / 2) / 35;
+      setMousePos({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <section className="hero-pro">
+    <section className="hero-split">
 
-      {/* ── Full-bleed background image with overlay ── */}
-      <div className="hero-pro-bg">
-        <img
-          src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/IMG_3040-convert.io_.webp"
-          alt=""
-          aria-hidden="true"
-          className="hero-pro-bg-img"
-          loading="eager"
-        />
-        {/* Layered gradient overlay for professional depth */}
-        <div className="hero-pro-overlay" />
-      </div>
-
-      {/* Subtle particles on top */}
+      {/* Subtle ambient particles */}
       <HeroParticles />
 
-      {/* ── Main content ── */}
-      <div className="hero-pro-content">
+      {/* Decorative background gradient blobs */}
+      <div className="hero-split-blob hero-split-blob--1" aria-hidden="true" />
+      <div className="hero-split-blob hero-split-blob--2" aria-hidden="true" />
 
-        {/* Eyebrow */}
-        <div className="hero-pro-eyebrow">
-          <span className="hero-pro-eyebrow-line" />
-          <span>Guided by Intuition &nbsp;·&nbsp; Curated by Kriss</span>
-          <span className="hero-pro-eyebrow-line" />
+      {/* ══ LEFT — Text Content ══ */}
+      <div className="hero-split-left">
+
+        {/* Eyebrow badge */}
+        <div className="hero-split-eyebrow">
+          <i className="fa-solid fa-star-and-crescent" />
+          <span>Guided by Intuition · Curated by Kriss</span>
+          <i className="fa-solid fa-star-and-crescent" />
         </div>
 
-        {/* Headline */}
-        <h1 className="hero-pro-title">
-          Crystals That<br />
-          <em>Speak to Your Soul</em>
+        {/* Main headline */}
+        <h1 className="hero-split-title">
+          <span className="hero-split-title-plain">Crystals That</span>{' '}
+          <span className="hero-split-title-accent">Speak to</span>{' '}
+          <span className="hero-split-title-soul">Your Soul</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="hero-pro-subtitle">
-          Each stone is energised, authentic &amp; intuitively selected —<br className="d-none d-md-block" />
-          a piece of the earth&apos;s wisdom, yours to carry.
+        <p className="hero-split-subtitle">
+          Every crystal is handpicked, cleansed, and chosen with intention — 
+          bringing earth’s energy closer to your journey.
         </p>
 
         {/* CTA buttons */}
-        <div className="hero-pro-ctas">
-          <Link href="/shop" className="hero-pro-btn-primary">
-            <i className="fa-solid fa-gem" />
-            <span>Explore the Shop</span>
+        <div className="hero-split-ctas">
+          <Link href="/shop" className="hero-split-btn-primary">
+            Explore Collection
           </Link>
-          <Link href="/services" className="hero-pro-btn-outline">
-            <i className="fa-solid fa-moon" />
-            <span>Our Services</span>
+          <Link href="/services" className="hero-split-btn-ghost">
+            Book Guidance Session
           </Link>
         </div>
 
-        {/* Location + trust */}
-        <div className="hero-pro-meta">
-          <span className="hero-pro-location">
-            <i className="fa-solid fa-location-dot" />
-            Hyderabad, Telangana &nbsp;·&nbsp; Est. by Kriss
+        {/* Social Proof Rating */}
+        <div className="hero-split-social-proof">
+          <div className="social-proof-stars">
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+          </div>
+          <span className="social-proof-text">
+            Trusted by <strong>500+</strong> customers &amp; rated <strong>4.9/5</strong>
           </span>
-          <span className="hero-pro-meta-sep" />
-          <span className="hero-pro-trust">
-            <i className="fa-solid fa-shield-halved" /> 100% Authentic
+        </div>
+
+        {/* Trust Badges */}
+        <div className="hero-split-trust-badges">
+          <span className="hero-trust-badge">
+            <i className="fa-solid fa-circle-check" style={{ color: '#2ECC71' }} />
+            <span>Handpicked Crystals</span>
           </span>
-          <span className="hero-pro-meta-sep" />
-          <span className="hero-pro-trust">
-            <i className="fa-solid fa-bolt" /> Energised Stones
+          <span className="hero-trust-badge">
+            <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#F1C40F' }} />
+            <span>Cleansed &amp; Energised</span>
+          </span>
+          <span className="hero-trust-badge">
+            <i className="fa-solid fa-globe" style={{ color: '#3498DB' }} />
+            <span>Worldwide Delivery</span>
+          </span>
+          <span className="hero-trust-badge">
+            <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
+            <span>500+ Happy Clients</span>
           </span>
         </div>
       </div>
 
-      {/* ── Bottom stats bar ── */}
-      <div className="hero-pro-stats">
-        <div className="hero-pro-stat">
-          <span className="hero-pro-stat-num"><Counter target={500} suffix="+" /></span>
-          <span className="hero-pro-stat-lbl">Crystals Sold</span>
+      {/* ══ RIGHT — Floating Crystal Image ══ */}
+      <div className="hero-split-right">
+
+        {/* Decorative large ring */}
+        <div 
+          className="hero-split-ring hero-split-ring--outer" 
+          style={{ transform: `translate3d(${mousePos.x * -0.4}px, ${mousePos.y * -0.4}px, 0)` }}
+          aria-hidden="true" 
+        />
+        <div 
+          className="hero-split-ring hero-split-ring--inner" 
+          style={{ transform: `translate3d(${mousePos.x * -0.2}px, ${mousePos.y * -0.2}px, 0)` }}
+          aria-hidden="true" 
+        />
+
+        {/* Glow orb behind image */}
+        <div 
+          className="hero-split-glow" 
+          style={{ transform: `translate3d(${mousePos.x * -0.15}px, ${mousePos.y * -0.15}px, 0)` }}
+          aria-hidden="true" 
+        />
+
+        {/* Image container wrapped for parallax */}
+        <div 
+          className="hero-split-parallax-img-wrap"
+          style={{ transform: `translate3d(${mousePos.x * 0.7}px, ${mousePos.y * 0.7}px, 0)` }}
+        >
+          <div className="hero-split-img-wrap">
+            <img
+              src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/IMG_3040-convert.io_.webp"
+              alt="KrissMaagiic Crystal Collection"
+              className="hero-split-img"
+              loading="eager"
+            />
+            {/* Soft edge fade on left so it blends into text side */}
+            <div className="hero-split-img-fade" aria-hidden="true" />
+          </div>
         </div>
-        <div className="hero-pro-stat-divider" />
-        <div className="hero-pro-stat">
-          <span className="hero-pro-stat-num"><Counter target={200} suffix="+" /></span>
-          <span className="hero-pro-stat-lbl">Happy Clients</span>
+
+        {/* Floating badge cards */}
+        <div className="hero-split-card hero-split-card--top">
+          <i className="fa-solid fa-star" />
+          <span>Est. by Kriss</span>
         </div>
-        <div className="hero-pro-stat-divider" />
-        <div className="hero-pro-stat">
-          <span className="hero-pro-stat-num">4</span>
-          <span className="hero-pro-stat-lbl">Healing Services</span>
+        <div className="hero-split-card hero-split-card--bottom">
+          <i className="fa-solid fa-gem" />
+          <span>Certified Natural</span>
         </div>
-        <div className="hero-pro-stat-divider" />
-        <div className="hero-pro-stat">
-          <span className="hero-pro-stat-num"><Counter target={98} suffix="%" /></span>
-          <span className="hero-pro-stat-lbl">Satisfaction Rate</span>
+
+      </div>
+
+      {/* ══ Stats Bar — full width ══ */}
+      <div className="hero-split-stats">
+        <div className="hero-split-stat">
+          <span className="hero-split-stat-num"><Counter target={500} suffix="+" /></span>
+          <span className="hero-split-stat-lbl">Crystals Sold</span>
+        </div>
+        <div className="hero-split-stat">
+          <span className="hero-split-stat-num"><Counter target={200} suffix="+" /></span>
+          <span className="hero-split-stat-lbl">Happy Clients</span>
+        </div>
+        <div className="hero-split-stat">
+          <span className="hero-split-stat-num">4</span>
+          <span className="hero-split-stat-lbl">Healing Services</span>
+        </div>
+        <div className="hero-split-stat">
+          <span className="hero-split-stat-num"><Counter target={98} suffix="%" /></span>
+          <span className="hero-split-stat-lbl">Satisfaction Rate</span>
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <div className="hero-scroll-hint">
-        <span>Scroll</span>
-        <div className="scroll-mouse" />
-      </div>
     </section>
   );
 }

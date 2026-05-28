@@ -84,10 +84,14 @@ export const serviceInputSchema = z.object({
 });
 
 export const createBookingSchema = z.object({
+  // Accepts a Mongo ObjectId OR a service slug (e.g. "tarot")
   serviceId: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'invalid date'),
   timeSlot: z.string().regex(/^\d{2}:\d{2}$/),
   notes: z.string().max(600).optional().or(z.literal('')),
+  // Optional tier — overrides title + price when present (for tier-based session cards)
+  tierLabel: z.string().max(40).optional(),
+  tierPrice: z.number().min(0).optional(),
   customer: z.object({
     name: z.string().min(2).max(120),
     email: z.string().email(),

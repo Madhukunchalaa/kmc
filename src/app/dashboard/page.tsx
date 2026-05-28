@@ -28,7 +28,7 @@ export default async function DashboardHome() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
         {[
-          { label: 'Orders', value: orders, icon: 'fa-solid fa-bag-shopping', color: '#7B5EA7', href: '/dashboard/orders' },
+          { label: 'Orders', value: orders, icon: 'fa-solid fa-bag-shopping', color: '#C9A84C', href: '/dashboard/orders' },
           { label: 'Bookings', value: bookings, icon: 'fa-solid fa-calendar-check', color: '#4CAF50', href: '/dashboard/bookings' },
           { label: 'Unread Notifications', value: unread, icon: 'fa-solid fa-bell', color: '#C8956C', href: '/dashboard/notifications' },
         ].map((c) => (

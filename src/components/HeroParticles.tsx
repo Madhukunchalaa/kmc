@@ -9,8 +9,10 @@ interface Particle {
   left: string;
   background: string;
   opacity: string;
-  animationDuration: string;
-  animationDelay: string;
+  floatDuration: string;
+  floatDelay: string;
+  twinkleDuration: string;
+  twinkleDelay: string;
 }
 
 export default function HeroParticles() {
@@ -18,20 +20,22 @@ export default function HeroParticles() {
 
   useEffect(() => {
     const count = window.innerWidth < 768 ? 12 : 22;
-    const colors = ['#C8956C', '#7B5EA7', '#E8C99A', '#EBBCB8', '#C9A84C'];
+    const colors = ['#C8956C', '#E8C99A', '#EBBCB8', '#C9A84C'];
     const generated: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
-      const size = Math.random() * 6 + 2;
+      const size = Math.random() * 5 + 2; // 2px to 7px size
       generated.push({
         id: i,
         width: `${size}px`,
         height: `${size}px`,
         left: `${Math.random() * 100}%`,
         background: colors[Math.floor(Math.random() * colors.length)],
-        opacity: String(Math.random() * 0.5 + 0.2),
-        animationDuration: `${Math.random() * 12 + 8}s`,
-        animationDelay: `${Math.random() * 8}s`,
+        opacity: String(Math.random() * 0.5 + 0.3),
+        floatDuration: `${Math.random() * 12 + 8}s`,
+        floatDelay: `${Math.random() * 8}s`,
+        twinkleDuration: `${Math.random() * 2 + 3}s`, // 3s to 5s twinkle pulse
+        twinkleDelay: `${Math.random() * 3}s`,
       });
     }
     setParticles(generated);
@@ -42,17 +46,26 @@ export default function HeroParticles() {
       {particles.map((p) => (
         <div
           key={p.id}
-          className="particle"
+          className="particle-wrapper"
           style={{
-            width: p.width,
-            height: p.height,
             left: p.left,
-            background: p.background,
-            opacity: p.opacity,
-            animationDuration: p.animationDuration,
-            animationDelay: p.animationDelay,
+            animationDuration: p.floatDuration,
+            animationDelay: p.floatDelay,
           }}
-        />
+        >
+          <div
+            className="particle"
+            style={{
+              width: p.width,
+              height: p.height,
+              background: p.background,
+              opacity: p.opacity,
+              animationDuration: p.twinkleDuration,
+              animationDelay: p.twinkleDelay,
+              color: p.background,
+            }}
+          />
+        </div>
       ))}
     </div>
   );

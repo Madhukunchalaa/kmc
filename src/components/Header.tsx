@@ -15,12 +15,17 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
+  // Pages without a dark hero need the solid navbar always — otherwise white-on-light is unreadable.
+  const isHome = pathname === '/';
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const solid = scrolled || !isHome;
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -32,17 +37,15 @@ export default function Header() {
   ];
 
   return (
-    <nav className={`navbar navbar-expand-lg navbar-dark navbar-custom${scrolled ? ' scrolled' : ''}`}>
+    <nav className={`navbar navbar-expand-lg navbar-dark navbar-custom${solid ? ' scrolled' : ''}`}>
       <div className="container">
         <Link href="/" className="navbar-brand">
-          <img
-            src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/01/site-logo.webp"
-            alt="KrissMaagiic Crystals Logo"
-            className="navbar-logo-img"
-          />
-          <div className="navbar-brand-text">
-            <span className="navbar-brand-main">KrissMaagiic Crystals</span>
-            <span className="navbar-brand-sub">Energised · Authentic · Selected</span>
+          <div className="navbar-logo-wrap">
+            <img
+              src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/01/site-logo.webp"
+              alt="KrissMaagiic Crystals Logo"
+              className="navbar-logo-img"
+            />
           </div>
         </Link>
         <button

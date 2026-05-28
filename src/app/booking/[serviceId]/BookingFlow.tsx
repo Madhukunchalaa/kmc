@@ -120,10 +120,44 @@ export default function BookingFlow({
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ display: 'grid', gap: 24 }}>
-      <div style={{ background: '#fff', padding: 24, borderRadius: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', marginTop: 0 }}>1. Pick a date</h3>
-        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+    <form onSubmit={onSubmit} style={{ display: 'grid', gap: 28, width: '100%', boxSizing: 'border-box' }}>
+      {/* 1. Pick a Date */}
+      <div style={{
+        background: '#fff',
+        padding: '28px 24px',
+        borderRadius: 24,
+        border: '1px solid rgba(200, 149, 108, 0.15)',
+        boxShadow: '0 8px 30px rgba(45, 27, 14, 0.03)',
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        overflow: 'hidden'
+      }}>
+        <h3 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '1.25rem',
+          fontWeight: 600,
+          color: 'var(--dark-2)',
+          marginTop: 0,
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <i className="fa-regular fa-calendar-days me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+          1. Pick a Date
+        </h3>
+        <div className="custom-scrollbar" style={{
+          display: 'flex',
+          gap: 12,
+          overflowX: 'auto',
+          paddingBottom: 8,
+          scrollBehavior: 'smooth',
+          justifyContent: 'flex-start',
+          width: '100%',
+          maxWidth: '100%',
+          boxSizing: 'border-box'
+        }}>
           {dateOptions.map((d) => {
             const v = ymd(d);
             const active = v === selectedDate;
@@ -134,21 +168,31 @@ export default function BookingFlow({
                 type="button"
                 onClick={() => setSelectedDate(v)}
                 style={{
-                  flex: '0 0 auto', minWidth: 76,
-                  padding: '10px 8px', borderRadius: 10,
-                  border: '1px solid', borderColor: active ? 'var(--primary,#C8956C)' : 'rgba(0,0,0,0.1)',
-                  background: active ? 'var(--primary,#C8956C)' : '#fff',
-                  color: active ? '#fff' : 'inherit',
-                  cursor: 'pointer', textAlign: 'center', fontWeight: 600,
+                  flex: '0 0 auto',
+                  minWidth: 80,
+                  padding: '12px 10px',
+                  borderRadius: 16,
+                  border: active ? 'none' : '1px solid rgba(200, 149, 108, 0.18)',
+                  background: active 
+                    ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)' 
+                    : '#fff',
+                  color: active ? '#fff' : 'var(--dark-2)',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  boxShadow: active ? '0 8px 20px rgba(200, 149, 108, 0.35)' : 'none',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transform: active ? 'scale(1.02)' : 'none',
                 }}
+                className="date-picker-btn"
               >
-                <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.7 }}>
+                <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', opacity: active ? 0.9 : 0.6, letterSpacing: '0.05em' }}>
                   {d.toLocaleDateString('en-IN', { weekday: 'short' })}
                 </div>
-                <div style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)' }}>
+                <div style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', margin: '4px 0', fontWeight: 700 }}>
                   {d.getDate()}
                 </div>
-                <div style={{ fontSize: '0.7rem', opacity: 0.7 }}>
+                <div style={{ fontSize: '0.68rem', opacity: active ? 0.9 : 0.6 }}>
                   {isToday ? 'Today' : d.toLocaleDateString('en-IN', { month: 'short' })}
                 </div>
               </button>
@@ -157,12 +201,38 @@ export default function BookingFlow({
         </div>
       </div>
 
-      <div style={{ background: '#fff', padding: 24, borderRadius: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', marginTop: 0 }}>2. Pick a time</h3>
+      {/* 2. Pick a Time */}
+      <div style={{
+        background: '#fff',
+        padding: '28px 24px',
+        borderRadius: 24,
+        border: '1px solid rgba(200, 149, 108, 0.15)',
+        boxShadow: '0 8px 30px rgba(45, 27, 14, 0.03)',
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        overflow: 'hidden'
+      }}>
+        <h3 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '1.25rem',
+          fontWeight: 600,
+          color: 'var(--dark-2)',
+          marginTop: 0,
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <i className="fa-regular fa-clock me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+          2. Pick a Time
+        </h3>
         {loading ? (
-          <p style={{ color: '#888' }}>Loading available slots…</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-light,#999)', padding: '10px 0', justifyContent: 'center' }}>
+            <Spinner /> <span>Loading available slots…</span>
+          </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 120px))', gap: 10, justifyContent: 'center', width: '100%' }}>
             {slots.map((s) => {
               const active = selectedTime === s.time;
               return (
@@ -172,15 +242,22 @@ export default function BookingFlow({
                   disabled={!s.available}
                   onClick={() => setSelectedTime(s.time)}
                   style={{
-                    padding: '10px 12px',
-                    borderRadius: 10,
-                    border: '1px solid', borderColor: active ? 'var(--primary,#C8956C)' : 'rgba(0,0,0,0.1)',
-                    background: active ? 'var(--primary,#C8956C)' : (s.available ? '#fff' : '#F4F4F4'),
-                    color: active ? '#fff' : (s.available ? 'inherit' : '#bbb'),
+                    padding: '12px 14px',
+                    borderRadius: 14,
+                    border: active ? 'none' : '1px solid rgba(200, 149, 108, 0.18)',
+                    background: active 
+                      ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)' 
+                      : (s.available ? '#fff' : '#f8f6f4'),
+                    color: active ? '#fff' : (s.available ? 'var(--dark-2)' : '#c0b8b2'),
                     cursor: s.available ? 'pointer' : 'not-allowed',
                     fontWeight: 600,
+                    fontSize: '0.9rem',
                     textDecoration: s.available ? 'none' : 'line-through',
+                    boxShadow: active ? '0 8px 18px rgba(200, 149, 108, 0.3)' : 'none',
+                    transition: 'all 0.25s ease',
+                    transform: active ? 'scale(1.02)' : 'none',
                   }}
+                  className="time-picker-btn"
                 >
                   {s.time}
                 </button>
@@ -190,40 +267,99 @@ export default function BookingFlow({
         )}
       </div>
 
-      <div style={{ background: '#fff', padding: 24, borderRadius: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
-        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', marginTop: 0 }}>3. Your details</h3>
-        <div className="row g-3">
-          <div className="col-md-6">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Name *</label>
-            <input required value={name} onChange={(e) => setName(e.target.value)} className="newsletter-input" style={{ width: '100%' }} />
+      {/* 3. Your Details */}
+      <div style={{
+        background: '#fff',
+        padding: '28px 24px',
+        borderRadius: 24,
+        border: '1px solid rgba(200, 149, 108, 0.15)',
+        boxShadow: '0 8px 30px rgba(45, 27, 14, 0.03)',
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        overflow: 'hidden'
+      }}>
+        <h3 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '1.25rem',
+          fontWeight: 600,
+          color: 'var(--dark-2)',
+          marginTop: 0,
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <i className="fa-regular fa-user me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+          3. Your Details
+        </h3>
+        <div className="row g-3 mx-0" style={{ width: '100%', boxSizing: 'border-box' }}>
+          <div className="col-12 col-md-4 px-2" style={{ boxSizing: 'border-box' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--primary,#C8956C)', marginBottom: 8, display: 'block' }}>Name *</label>
+            <input required value={name} onChange={(e) => setName(e.target.value)} className="form-control-custom" placeholder="Your name" style={{ boxSizing: 'border-box' }} />
           </div>
-          <div className="col-md-6">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Email *</label>
-            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="newsletter-input" style={{ width: '100%' }} />
+          <div className="col-12 col-md-4 px-2" style={{ boxSizing: 'border-box' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--primary,#C8956C)', marginBottom: 8, display: 'block' }}>Email *</label>
+            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control-custom" placeholder="email@example.com" style={{ boxSizing: 'border-box' }} />
           </div>
-          <div className="col-md-6">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone *</label>
-            <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="newsletter-input" style={{ width: '100%' }} />
+          <div className="col-12 col-md-4 px-2" style={{ boxSizing: 'border-box' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--primary,#C8956C)', marginBottom: 8, display: 'block' }}>Phone *</label>
+            <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="form-control-custom" placeholder="+91 XXXXX XXXXX" style={{ boxSizing: 'border-box' }} />
           </div>
-          <div className="col-12">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Notes (optional)</label>
-            <textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="Share the focus of your session, questions, or intentions…" />
+          <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--primary,#C8956C)', marginBottom: 8, display: 'block' }}>Notes (optional)</label>
+            <textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} className="form-control-custom" placeholder="Share the focus of your session, questions, or intentions…" style={{ resize: 'none', boxSizing: 'border-box' }} />
           </div>
         </div>
       </div>
 
       {error && (
-        <p style={{ color: '#D95F5F' }}><i className="fa-solid fa-circle-exclamation me-2"></i>{error}</p>
+        <div style={{
+          color: '#D95F5F',
+          background: 'rgba(217, 95, 95, 0.08)',
+          padding: '12px 18px',
+          borderRadius: 12,
+          fontWeight: 600,
+          fontSize: '0.9rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          boxSizing: 'border-box'
+        }}>
+          <i className="fa-solid fa-circle-exclamation"></i>
+          {error}
+        </div>
       )}
 
-      <div className="d-flex justify-content-between align-items-center gap-3 flex-wrap" style={{ background: 'var(--bg-soft,#FAF6F1)', padding: 20, borderRadius: 16 }}>
+      {/* Booking Summary Strip */}
+      <div className="d-flex justify-content-between align-items-center gap-3 flex-wrap" style={{
+        background: 'linear-gradient(135deg, #FAF6F1 0%, #F5EDE4 100%)',
+        padding: '24px 28px',
+        borderRadius: 20,
+        border: '1px solid rgba(200, 149, 108, 0.12)',
+        width: '100%',
+        boxSizing: 'border-box'
+      }}>
         <div>
-          <div style={{ color: '#888', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Session fee</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 700 }}>₹{servicePrice.toLocaleString('en-IN')}</div>
+          <div style={{ color: '#8b8076', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, marginBottom: 2 }}>Session fee</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', fontWeight: 700, color: 'var(--dark-2)' }}>₹{servicePrice.toLocaleString('en-IN')}</div>
         </div>
-        <button type="submit" disabled={submitting} className="btn-primary-custom" style={{ minWidth: 220, justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
-          {submitting ? <Spinner /> : <i className="fa-solid fa-calendar-plus"></i>}
-          <span>{submitting ? 'Submitting…' : 'Request booking'}</span>
+        <button 
+          type="submit" 
+          disabled={submitting} 
+          className="btn-primary-custom" 
+          style={{ 
+            minWidth: 220, 
+            justifyContent: 'center', 
+            opacity: submitting ? 0.85 : 1, 
+            cursor: submitting ? 'wait' : 'pointer',
+            padding: '14px 28px',
+            borderRadius: 50,
+            fontSize: '0.9rem',
+            boxShadow: '0 8px 24px rgba(200, 149, 108, 0.35)'
+          }}
+        >
+          {submitting ? <Spinner /> : <i className="fa-solid fa-calendar-check me-1"></i>}
+          <span>{submitting ? 'Requesting…' : 'Request booking'}</span>
         </button>
       </div>
     </form>

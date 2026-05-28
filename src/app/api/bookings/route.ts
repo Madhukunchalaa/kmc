@@ -16,15 +16,19 @@ export async function POST(req: Request) {
   const parsed = createBookingSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
 
-  const { serviceId, date, timeSlot, notes, customer } = parsed.data;
+  const { serviceId, date, timeSlot, notes, tierLabel, tierPrice, customer } = parsed.data;
 
   await connectMongoose();
-  const service = await Service.findById(serviceId).lean();
+  // Accept either ObjectId or slug
+  const isObjectId = /^[a-f0-9]{24}$/i.test(serviceId);
+  const service = await (isObjectId
+    ? Service.findById(serviceId).lean()
+    : Service.findOne({ slug: serviceId }).lean());
   if (!service) return NextResponse.json({ ok: false, reason: 'service-not-found' }, { status: 404 });
 
-  // Conflict check.
+  // Conflict check (use the resolved service _id, not the slug).
   const clash = await Booking.findOne({
-    service: serviceId,
+    service: service._id,
     date,
     timeSlot,
     status: { $in: ['pending', 'approved'] },
@@ -32,12 +36,14 @@ export async function POST(req: Request) {
   if (clash) return NextResponse.json({ ok: false, reason: 'slot-already-taken' }, { status: 409 });
 
   const bookingNumber = 'BKG-' + Date.now().toString(36).toUpperCase();
+  const finalTitle = tierLabel ? `${service.title} (${tierLabel})` : service.title;
+  const finalPrice = typeof tierPrice === 'number' ? tierPrice : service.price;
   const booking = await Booking.create({
     bookingNumber,
     user: session.user.id,
-    service: serviceId,
-    serviceTitle: service.title,
-    servicePrice: service.price,
+    service: service._id,
+    serviceTitle: finalTitle,
+    servicePrice: finalPrice,
     date,
     timeSlot,
     notes: notes || '',

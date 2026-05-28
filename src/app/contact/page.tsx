@@ -8,7 +8,15 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section style={{ paddingTop: '160px', paddingBottom: '60px', background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)', color: '#fff' }}>
+      <section style={{
+        paddingTop: '160px',
+        paddingBottom: '60px',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/contact-hero.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#fff'
+      }}>
         <div className="container text-center">
           <p className="hero-eyebrow" style={{ justifyContent: 'center', display: 'inline-flex' }}>
             <span className="hero-eyebrow-line"></span>
@@ -68,10 +76,10 @@ export default function ContactPage() {
                 </div>
                 <div className="d-flex gap-3 align-items-start">
                   <div className="service-icon" style={{ width: 48, height: 48, fontSize: '1.1rem' }}>
-                    <i className="fa-brands fa-whatsapp"></i>
+                    <i className="fa-solid fa-comments"></i>
                   </div>
                   <div>
-                    <strong>WhatsApp</strong>
+                    <strong>Instant Chat</strong>
                     <p style={{ margin: 0 }}>
                       <a
                         href="https://wa.me/918096223929"

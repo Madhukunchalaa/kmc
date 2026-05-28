@@ -10,7 +10,15 @@ export const metadata = {
 export default function CrystalStrengthPage() {
   return (
     <>
-      <section style={{ paddingTop: '160px', paddingBottom: '60px', background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)', color: '#fff' }}>
+      <section style={{
+        paddingTop: '160px',
+        paddingBottom: '60px',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/strength-hero.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#fff'
+      }}>
         <div className="container text-center">
           <p className="hero-eyebrow" style={{ justifyContent: 'center', display: 'inline-flex' }}>
             <span className="hero-eyebrow-line"></span>

@@ -10,7 +10,7 @@ const STATUS_COLOR: Record<string, string> = {
   pending: '#C8956C',
   approved: '#4CAF50',
   rejected: '#D95F5F',
-  completed: '#7B5EA7',
+  completed: '#C9A84C',
   cancelled: '#999',
 };
 

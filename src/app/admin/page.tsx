@@ -50,7 +50,7 @@ export default async function AdminHome() {
 
   const cards: StatCard[] = [
     { label: 'Pending Bookings', value: stats.pendingBookings, icon: 'fa-solid fa-hourglass-half', color: '#C8956C', href: '/admin/bookings?status=pending' },
-    { label: 'Pending Orders', value: stats.pendingOrders, icon: 'fa-solid fa-bag-shopping', color: '#7B5EA7', href: '/admin/orders?status=pending' },
+    { label: 'Pending Orders', value: stats.pendingOrders, icon: 'fa-solid fa-bag-shopping', color: '#C9A84C', href: '/admin/orders?status=pending' },
     { label: 'Total Bookings', value: stats.totalBookings, icon: 'fa-solid fa-calendar-check', color: '#4CAF50', href: '/admin/bookings' },
     { label: 'Total Orders', value: stats.totalOrders, icon: 'fa-solid fa-receipt', color: '#3F8EFC', href: '/admin/orders' },
     { label: 'Products Live', value: stats.products, icon: 'fa-solid fa-gem', color: '#E59500', href: '/admin/products' },

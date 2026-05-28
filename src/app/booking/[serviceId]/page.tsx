@@ -16,7 +16,15 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
 
   return (
     <>
-      <section style={{ paddingTop: '140px', paddingBottom: '40px', background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)', color: '#fff' }}>
+      <section style={{
+        paddingTop: '160px',
+        paddingBottom: '60px',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/services-hero.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#fff'
+      }}>
         <div className="container">
           <Link href="/services" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>← All services</Link>
           <h1 className="hero-title" style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)', marginTop: 10 }}>
@@ -28,8 +36,8 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
         </div>
       </section>
 
-      <section className="section-pad">
-        <div className="container" style={{ maxWidth: 820 }}>
+      <section style={{ padding: '6rem 0', width: '100%', display: 'block', boxSizing: 'border-box' }}>
+        <div style={{ maxWidth: '820px', width: '100%', padding: '0 15px', marginLeft: 'auto', marginRight: 'auto', boxSizing: 'border-box' }}>
           <BookingFlow
             serviceId={service.id}
             servicePrice={service.price}

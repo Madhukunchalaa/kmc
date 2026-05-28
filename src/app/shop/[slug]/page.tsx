@@ -69,7 +69,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                 </div>
               )}
 
-              <ProductBuyPanel productId={product.slug} />
+              <ProductBuyPanel productId={product.slug} stock={product.stock} />
 
               <ul style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'grid', gap: 10, color: 'var(--text-light,#666)', fontSize: '0.9rem' }}>
                 <li><i className="fa-solid fa-shield-halved me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> 100% authentic, ritually energised</li>
@@ -96,7 +96,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                     id: p.slug, name: p.name, category: p.category, subcategory: p.subcategory,
                     price: p.price, originalPrice: p.originalPrice, image: p.image, badge: p.badge,
                     desc: p.desc, chakras: p.chakras,
-                  }} />
+                  }} stock={p.stock} />
                 </div>
               ))}
             </div>

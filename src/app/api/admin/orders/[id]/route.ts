@@ -4,6 +4,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { Notification } from '@/models/Notification';
 import { orderStatusUpdateSchema, zodErrorMessage } from '@/lib/validators';
+import { sendEmail, orderStatusEmail } from '@/lib/email';
 
 export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/orders/[id]'>) {
   const g = await requireAdmin();
@@ -32,6 +33,15 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/orders/[
         link: `/dashboard/orders/${doc._id}`,
       }).catch(() => {});
     }
+
+    const emailStatuses = ['confirmed', 'shipped', 'delivered', 'cancelled'];
+    if (emailStatuses.includes(parsed.data.status) && doc.customer?.email) {
+      sendEmail({
+        ...orderStatusEmail(doc.customer.name, doc.orderNumber, parsed.data.status),
+        to: doc.customer.email,
+      }).catch(() => {});
+    }
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);

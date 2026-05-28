@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
+import { cookies } from 'next/headers';
+import { verifyAdminToken, ADMIN_COOKIE } from '@/lib/adminSession';
 
 export async function requireAdmin(): Promise<{ ok: true; userId: string } | { ok: false; res: Response }> {
-  const session = await auth();
-  if (!session?.user) {
+  const jar = await cookies();
+  const token = jar.get(ADMIN_COOKIE)?.value;
+  const admin = token ? await verifyAdminToken(token) : null;
+
+  if (!admin) {
     return { ok: false, res: NextResponse.json({ ok: false, reason: 'unauthorized' }, { status: 401 }) };
   }
-  if (session.user.role !== 'admin') {
-    return { ok: false, res: NextResponse.json({ ok: false, reason: 'forbidden' }, { status: 403 }) };
-  }
-  return { ok: true, userId: session.user.id };
+
+  return { ok: true, userId: admin.userId };
 }

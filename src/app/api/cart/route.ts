@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { auth } from '@/auth';
 import { getDb } from '@/lib/mongodb';
 import { CART_COOKIE } from '@/lib/cartSession';
 import { updateCartSchema, zodErrorMessage } from '@/lib/validators';
@@ -9,18 +10,32 @@ interface CartItem {
   qty: number;
 }
 
-async function getSessionId(): Promise<string | null> {
+// Authenticated users: cart keyed by userId.
+// Guests: cart keyed by kmc_sid session cookie.
+async function cartKey(): Promise<
+  | { type: 'user'; filter: { userId: string }; doc: { userId: string } }
+  | { type: 'session'; filter: { sessionId: string }; doc: { sessionId: string } }
+  | null
+> {
+  const session = await auth();
+  if (session?.user?.id) {
+    const f = { userId: session.user.id };
+    return { type: 'user', filter: f, doc: f };
+  }
   const store = await cookies();
-  return store.get(CART_COOKIE)?.value ?? null;
+  const sid = store.get(CART_COOKIE)?.value ?? null;
+  if (!sid) return null;
+  const f = { sessionId: sid };
+  return { type: 'session', filter: f, doc: f };
 }
 
 export async function GET() {
-  const sid = await getSessionId();
-  if (!sid) return NextResponse.json({ items: [] });
+  const key = await cartKey();
+  if (!key) return NextResponse.json({ items: [] });
 
   try {
     const db = await getDb();
-    const doc = await db.collection('carts').findOne({ sessionId: sid });
+    const doc = await db.collection('carts').findOne(key.filter);
     return NextResponse.json({ items: (doc?.items as CartItem[]) ?? [] });
   } catch (err) {
     console.error('cart GET failed', err);
@@ -29,13 +44,11 @@ export async function GET() {
 }
 
 export async function PUT(req: Request) {
-  const sid = await getSessionId();
-  if (!sid) return NextResponse.json({ ok: false, reason: 'no-session' }, { status: 400 });
+  const key = await cartKey();
+  if (!key) return NextResponse.json({ ok: false, reason: 'no-session' }, { status: 400 });
 
   let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
+  try { body = await req.json(); } catch {
     return NextResponse.json({ ok: false, reason: 'bad-json' }, { status: 400 });
   }
   const parsed = updateCartSchema.safeParse(body);
@@ -47,8 +60,8 @@ export async function PUT(req: Request) {
   try {
     const db = await getDb();
     await db.collection('carts').updateOne(
-      { sessionId: sid },
-      { $set: { sessionId: sid, items, updatedAt: new Date() } },
+      key.filter,
+      { $set: { ...key.doc, items, updatedAt: new Date() } },
       { upsert: true },
     );
     return NextResponse.json({ ok: true, items });
@@ -59,11 +72,11 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE() {
-  const sid = await getSessionId();
-  if (!sid) return NextResponse.json({ ok: true });
+  const key = await cartKey();
+  if (!key) return NextResponse.json({ ok: true });
   try {
     const db = await getDb();
-    await db.collection('carts').deleteOne({ sessionId: sid });
+    await db.collection('carts').deleteOne(key.filter);
   } catch (err) {
     console.error('cart DELETE failed', err);
   }

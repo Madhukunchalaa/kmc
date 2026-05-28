@@ -96,7 +96,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                     id: p.slug, name: p.name, category: p.category, subcategory: p.subcategory,
                     price: p.price, originalPrice: p.originalPrice, image: p.image, badge: p.badge,
                     desc: p.desc, chakras: p.chakras,
-                  }} stock={p.stock} />
+                  }} />
                 </div>
               ))}
             </div>

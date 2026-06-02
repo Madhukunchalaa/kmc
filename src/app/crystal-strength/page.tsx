@@ -11,13 +11,14 @@ export default function CrystalStrengthPage() {
   return (
     <>
       <section style={{
-        paddingTop: '160px',
-        paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/strength-hero.png")',
+        paddingTop: '220px',
+        paddingBottom: '120px',
+        backgroundImage: 'linear-gradient(to bottom, rgba(8, 4, 15, 0.25) 0%, rgba(6, 2, 12, 0.5) 100%), url("/strength-hero.png")',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center 70%',
         backgroundRepeat: 'no-repeat',
-        color: '#fff'
+        color: '#fff',
+        borderBottom: '1px solid rgba(200, 149, 108, 0.15)'
       }}>
         <div className="container text-center">
           <p className="hero-eyebrow" style={{ justifyContent: 'center', display: 'inline-flex' }}>
@@ -33,16 +34,25 @@ export default function CrystalStrengthPage() {
         </div>
       </section>
 
-      <section className="crystals-section section-pad">
-        <div className="container">
+      <section className="crystals-section section-pad" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Galaxy / Starry night background elements */}
+        <div className="galaxy-stars-wrapper">
+          <div className="galaxy-nebula nebula-purple"></div>
+          <div className="galaxy-nebula nebula-blue"></div>
+          <div className="space-stars stars-small"></div>
+          <div className="space-stars stars-medium"></div>
+          <div className="space-stars stars-large"></div>
+          <div className="celestial-orbit-1"></div>
+          <div className="celestial-orbit-2"></div>
+        </div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="row g-4">
             {crystals.map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>
                 <ScrollFade delay={Math.min(idx, 6) * 60}>
                   <div className="crystal-card">
-                    <div className="crystal-gem">
-                      <div className="crystal-gem-shape" style={{ background: c.gradient }}></div>
-                      <span style={{ position: 'relative', zIndex: 1, fontSize: '2rem' }}>{c.emoji}</span>
+                    <div className="crystal-gem-image-wrapper">
+                      <img src={c.image} alt={c.name} className="crystal-gem-image" />
                     </div>
                     <h3 className="crystal-name">{c.name}</h3>
                     <p className="crystal-keyword">{c.keyword}</p>
@@ -52,7 +62,7 @@ export default function CrystalStrengthPage() {
                         <span className="crystal-tag" key={t}>{t}</span>
                       ))}
                     </div>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-light,#999)', marginTop: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    <p style={{ fontSize: '0.75rem', color: 'rgba(255, 200, 150, 0.75)', marginTop: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                       {c.chakras.join(' · ')}
                     </p>
                   </div>

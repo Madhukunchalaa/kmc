@@ -79,154 +79,53 @@ export default function Home() {
         </div>
       </div>
 
-
-
-      {/* ===== BRAND FEATURES ===== */}
-      <section className="brand-strip section-pad">
+      {/* ===== HOW KRISSMAAGIIC WAS BORN ===== */}
+      <section className="section-pad" style={{ background: 'radial-gradient(circle at 20% 30%, #2D1B0E 0%, #1C0A02 100%)', color: '#fff' }}>
         <div className="container">
-          <div className="text-center mb-5">
-            <span className="section-eyebrow">Why KrissMaagiic</span>
-            <h2 className="section-title">
-              Crystals with <span>Purpose &amp; Soul</span>
-            </h2>
-            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-          </div>
-          <div className="row g-4">
-            <div className="col-sm-6 col-lg-3">
+          <div className="row g-5 align-items-center">
+            <div className="col-lg-6">
               <ScrollFade delay={0}>
-                <div className="brand-feature-card text-center">
-                  <span className="brand-feature-number">I</span>
-                  <div className="brand-feature-icon"><i className="fa-solid fa-gem"></i></div>
-                  <h4 className="brand-feature-title">Handpicked Crystals</h4>
-                  <p className="brand-feature-desc">
-                    Every crystal is personally selected by Kriss with deep intuition, ensuring only the finest, most energetically aligned stones reach you.
-                  </p>
-                </div>
-              </ScrollFade>
-            </div>
-            <div className="col-sm-6 col-lg-3">
-              <ScrollFade delay={80}>
-                <div className="brand-feature-card text-center">
-                  <span className="brand-feature-number">II</span>
-                  <div className="brand-feature-icon"><i className="fa-solid fa-sun"></i></div>
-                  <h4 className="brand-feature-title">Ritually Energised</h4>
-                  <p className="brand-feature-desc">
-                    Each piece is cleansed and charged under moonlight or sunlight, infused with healing intentions before reaching your hands.
-                  </p>
-                </div>
-              </ScrollFade>
-            </div>
-            <div className="col-sm-6 col-lg-3">
-              <ScrollFade delay={160}>
-                <div className="brand-feature-card text-center">
-                  <span className="brand-feature-number">III</span>
-                  <div className="brand-feature-icon"><i className="fa-solid fa-certificate"></i></div>
-                  <h4 className="brand-feature-title">Certified Authenticity</h4>
-                  <p className="brand-feature-desc">
-                    We source directly from trusted mines. No fakes, no dyed stones. Genuine crystals with verifiable origins and natural inclusions.
-                  </p>
-                </div>
-              </ScrollFade>
-            </div>
-            <div className="col-sm-6 col-lg-3">
-              <ScrollFade delay={240}>
-                <div className="brand-feature-card text-center">
-                  <span className="brand-feature-number">IV</span>
-                  <div className="brand-feature-icon"><i className="fa-solid fa-heart-pulse"></i></div>
-                  <h4 className="brand-feature-title">Healing-First Curation</h4>
-                  <p className="brand-feature-desc">
-                    Our collections are curated around chakra healing, astrological compatibility, and emotional wellness — not just aesthetics.
-                  </p>
-                </div>
-              </ScrollFade>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SHOP SACRED INTENTION ===== */}
-      <section className="section-pad" style={{ background: 'var(--bg-soft, #FAF6F1)' }}>
-        <div className="container">
-          <div className="text-center mb-5">
-            <span className="section-eyebrow">
-              <i className="fa-solid fa-compass me-2"></i>Cosmic Navigation
-            </span>
-            <h2 className="section-title">Shop Sacred <span>Intention</span></h2>
-            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-            <p className="section-subtitle">
-              Crystals carry frequencies. Choose the focus your soul desires, and let the elemental stone synchronize with your energy field.
-            </p>
-          </div>
-          <div className="row g-4">
-            {[
-              {
-                title: 'Love & Harmony',
-                desc: 'Amplify relationship fidelity, self-acceptance, and heart chakra alignment.',
-                icon: 'fa-solid fa-heart',
-                href: '/shop?intent=love',
-              },
-              {
-                title: 'Wealth & Abundance',
-                desc: 'Unlock entrepreneurial prosperity, attract positive career flow, and clear debt blocks.',
-                icon: 'fa-solid fa-gem',
-                href: '/shop?intent=wealth',
-              },
-              {
-                title: 'Aura Protection',
-                desc: 'Ground negative external energy fields, hex blocks, and EMF radiation.',
-                icon: 'fa-solid fa-shield-halved',
-                href: '/shop?intent=protection',
-              },
-              {
-                title: 'Peace & Serenity',
-                desc: 'Soften anxious breathing patterns, clear overthinking, and enjoy restorative sleep.',
-                icon: 'fa-solid fa-wand-magic-sparkles',
-                href: '/shop?intent=peace',
-              },
-            ].map((item, idx) => (
-              <div className="col-sm-6 col-lg-3" key={item.title}>
-                <ScrollFade delay={idx * 80}>
-                  <Link href={item.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
-                    <div className="intention-card">
-                      <div className="intention-icon">
-                        <i className={item.icon}></i>
-                      </div>
-                      <h4 className="intention-title">{item.title}</h4>
-                      <p className="intention-desc">{item.desc}</p>
+                <div className="about-collage">
+                  <div className="about-collage-bg-glow" />
+                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '90%', height: '420px', inset: 'auto', margin: '0 auto' }}>
+                    <div className="founder-placeholder-dashed">
+                      <i className="fa-solid fa-wand-magic-sparkles founder-placeholder-icon" />
+                      <span className="founder-placeholder-text">Founder</span>
+                      <span className="founder-placeholder-subtext">Space for Kriss's Photo</span>
                     </div>
-                  </Link>
-                </ScrollFade>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="products-section section-pad" id="featured-products">
-        <div className="container">
-          <div className="text-center mb-5">
-            <span className="section-eyebrow">Our Bestsellers</span>
-            <h2 className="section-title">Featured <span>Crystal Collections</span></h2>
-            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-            <p className="section-subtitle">Each piece is handpicked, energised and ready to work its magic in your life.</p>
-          </div>
-
-          <div className="row g-3">
-            {featuredProducts.map((product, idx) => (
-              <div className="col-6 col-md-4 col-lg-3" key={product.id}>
-                <ScrollFade delay={idx * 80}>
-                  <ProductCard product={product} />
-                </ScrollFade>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-5">
-            <Link href="/shop" className="btn-primary-custom">
-              <i className="fa-solid fa-gem"></i>
-              <span>Explore All Products</span>
-            </Link>
+                  </div>
+                </div>
+              </ScrollFade>
+            </div>
+            <div className="col-lg-6">
+              <ScrollFade delay={100}>
+                <span className="section-eyebrow" style={{ color: 'var(--gold-light, #FFEFA6)' }}>The beginning</span>
+                <h2 className="section-title" style={{ textAlign: 'left', color: '#fff' }}>How <span style={{ color: 'var(--gold-light, #FFEFA6)' }}>KrissMaagiic</span> was born</h2>
+                <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
+                  It started with a single piece of amethyst — bought on a quiet afternoon in Hyderabad, slipped into a pocket, forgotten and then remembered when life began to soften in unexpected ways.
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
+                  Kriss began collecting, studying and sitting with crystals. She learned which stones worked with which chakras, which carried which intention, which felt alive. Friends asked her to source pieces. Then their friends. Then strangers. KrissMaagiic was named the day she realised this wasn&apos;t a hobby — it was a calling.
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+                  Today, every crystal is hand-selected, every ritual is held with care, and every customer is a soul we genuinely hope to serve.
+                </p>
+                
+                <div style={{
+                  padding: '1.25rem 1.5rem',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  borderLeft: '3px solid var(--primary, #C8956C)',
+                  borderRadius: '0 12px 12px 0',
+                  fontStyle: 'italic',
+                  color: 'var(--gold-light, #FFEFA6)',
+                  opacity: 0.95,
+                  marginTop: '1.5rem'
+                }}>
+                  &quot;Guided by intuition, every crystal is chosen to align with your soul&apos;s unique calling.&quot;
+                  <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.5rem', fontStyle: 'normal', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: '#fff' }}>— Kriss, Founder</span>
+                </div>
+              </ScrollFade>
+            </div>
           </div>
         </div>
       </section>
@@ -353,6 +252,175 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== FEATURED PRODUCTS ===== */}
+      <section className="products-section section-pad" id="featured-products">
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow">Our Bestsellers</span>
+            <h2 className="section-title">Featured <span>Crystal Collections</span></h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+            <p className="section-subtitle">Each piece is handpicked, energised and ready to work its magic in your life.</p>
+          </div>
+
+          <div className="row g-3">
+            {featuredProducts.map((product, idx) => (
+              <div className="col-6 col-md-4 col-lg-3" key={product.id}>
+                <ScrollFade delay={idx * 80}>
+                  <ProductCard product={product} />
+                </ScrollFade>
+              </div>
+            ))}
+
+            {/* View More Card */}
+            <div className="col-6 col-md-4 col-lg-3">
+              <ScrollFade delay={featuredProducts.length * 80}>
+                <Link href="/shop" className="pc-view-more-card">
+                  <div className="pc-view-more-inner">
+                    <i className="fa-solid fa-gem pc-view-more-icon" />
+                    <h3 className="pc-view-more-title">View More</h3>
+                    <p className="pc-view-more-desc">Explore the entire sacred collection</p>
+                  </div>
+                </Link>
+              </ScrollFade>
+            </div>
+          </div>
+
+          <div className="text-center mt-5">
+            <Link href="/shop" className="btn-primary-custom">
+              <i className="fa-solid fa-gem"></i>
+              <span>Explore All Products</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SHOP SACRED INTENTION ===== */}
+      <section className="section-pad" style={{ background: 'var(--bg-soft, #FAF6F1)' }}>
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow">
+              <i className="fa-solid fa-compass me-2"></i>Cosmic Navigation
+            </span>
+            <h2 className="section-title">Shop Sacred <span>Intention</span></h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+            <p className="section-subtitle">
+              Crystals carry frequencies. Choose the focus your soul desires, and let the elemental stone synchronize with your energy field.
+            </p>
+          </div>
+          <div className="row g-4">
+            {[
+              {
+                title: 'Love & Harmony',
+                desc: 'Amplify relationship fidelity, self-acceptance, and heart chakra alignment.',
+                icon: 'fa-solid fa-heart',
+                href: '/shop?intent=love',
+              },
+              {
+                title: 'Wealth & Abundance',
+                desc: 'Unlock entrepreneurial prosperity, attract positive career flow, and clear debt blocks.',
+                icon: 'fa-solid fa-gem',
+                href: '/shop?intent=wealth',
+              },
+              {
+                title: 'Aura Protection',
+                desc: 'Ground negative external energy fields, hex blocks, and EMF radiation.',
+                icon: 'fa-solid fa-shield-halved',
+                href: '/shop?intent=protection',
+              },
+              {
+                title: 'Peace & Serenity',
+                desc: 'Soften anxious breathing patterns, clear overthinking, and enjoy restorative sleep.',
+                icon: 'fa-solid fa-wand-magic-sparkles',
+                href: '/shop?intent=peace',
+              },
+            ].map((item, idx) => (
+              <div className="col-sm-6 col-lg-3" key={item.title}>
+                <ScrollFade delay={idx * 80}>
+                  <Link href={item.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
+                    <div className="intention-card">
+                      <div className="intention-icon">
+                        <i className={item.icon}></i>
+                      </div>
+                      <h4 className="intention-title">{item.title}</h4>
+                      <p className="intention-desc">{item.desc}</p>
+                    </div>
+                  </Link>
+                </ScrollFade>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BRAND FEATURES ===== */}
+      <section className="brand-strip section-pad">
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow">Why KrissMaagiic</span>
+            <h2 className="section-title">
+              Crystals with <span>Purpose &amp; Soul</span>
+            </h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+          </div>
+          <div className="row g-4">
+            <div className="col-sm-6 col-lg-3">
+              <ScrollFade delay={0}>
+                <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">I</span>
+                  <div className="brand-feature-icon"><i className="fa-solid fa-gem"></i></div>
+                  <h4 className="brand-feature-title">Handpicked Crystals</h4>
+                  <p className="brand-feature-desc">
+                    Every crystal is personally selected by Kriss with deep intuition, ensuring only the finest, most energetically aligned stones reach you.
+                  </p>
+                </div>
+              </ScrollFade>
+            </div>
+            <div className="col-sm-6 col-lg-3">
+              <ScrollFade delay={80}>
+                <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">II</span>
+                  <div className="brand-feature-icon"><i className="fa-solid fa-sun"></i></div>
+                  <h4 className="brand-feature-title">Ritually Energised</h4>
+                  <p className="brand-feature-desc">
+                    Each piece is cleansed and charged under moonlight or sunlight, infused with healing intentions before reaching your hands.
+                  </p>
+                </div>
+              </ScrollFade>
+            </div>
+            <div className="col-sm-6 col-lg-3">
+              <ScrollFade delay={160}>
+                <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">III</span>
+                  <div className="brand-feature-icon"><i className="fa-solid fa-certificate"></i></div>
+                  <h4 className="brand-feature-title">Certified Authenticity</h4>
+                  <p className="brand-feature-desc">
+                    We source directly from trusted mines. No fakes, no dyed stones. Genuine crystals with verifiable origins and natural inclusions.
+                  </p>
+                </div>
+              </ScrollFade>
+            </div>
+            <div className="col-sm-6 col-lg-3">
+              <ScrollFade delay={240}>
+                <div className="brand-feature-card text-center">
+                  <span className="brand-feature-number">IV</span>
+                  <div className="brand-feature-icon"><i className="fa-solid fa-heart-pulse"></i></div>
+                  <h4 className="brand-feature-title">Healing-First Curation</h4>
+                  <p className="brand-feature-desc">
+                    Our collections are curated around chakra healing, astrological compatibility, and emotional wellness — not just aesthetics.
+                  </p>
+                </div>
+              </ScrollFade>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
       {/* ===== CRYSTAL STRENGTH PREVIEW ===== */}
       <section className="crystals-section section-pad">
         <div className="container">
@@ -372,6 +440,7 @@ export default function Home() {
                 color: 'rgba(139,58,163,0.15)',
                 gradient: 'linear-gradient(135deg,#9B59B6,#6C3483)',
                 emoji: '🔮',
+                image: '/images/crystals/amethyst.png',
                 tags: ['Peace', 'Clarity', 'Protection'],
               },
               {
@@ -381,6 +450,7 @@ export default function Home() {
                 color: 'rgba(235,140,150,0.15)',
                 gradient: 'linear-gradient(135deg,#F48FB1,#E91E8C)',
                 emoji: '🩷',
+                image: '/images/crystals/rosequartz.png',
                 tags: ['Love', 'Harmony', 'Healing'],
               },
               {
@@ -390,15 +460,15 @@ export default function Home() {
                 color: 'rgba(100,149,237,0.15)',
                 gradient: 'linear-gradient(135deg,#C8E6FA,#7EC8E3)',
                 emoji: '💎',
+                image: '/images/crystals/celestite.png',
                 tags: ['Angelic', 'Calm', 'Intuition'],
               },
             ].map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>
                 <ScrollFade delay={idx * 80}>
                   <div className="crystal-card" style={{ '--crystal-color': c.color } as React.CSSProperties}>
-                    <div className="crystal-gem">
-                      <div className="crystal-gem-shape" style={{ background: c.gradient }}></div>
-                      <span style={{ position: 'relative', zIndex: 1, fontSize: '2rem' }}>{c.emoji}</span>
+                    <div className="crystal-gem-image-wrapper">
+                      <img src={c.image} alt={c.name} className="crystal-gem-image" />
                     </div>
                     <h3 className="crystal-name">{c.name}</h3>
                     <p className="crystal-keyword">{c.keyword}</p>
@@ -428,7 +498,7 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-5">
             <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>Client Love</span>
-            <h2 className="section-title" style={{ color: '#fff' }}>
+            <h2 className="section-title">
               What Our <span>Clients Say</span>
             </h2>
             <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
@@ -456,7 +526,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CTA BANNER ===== */}
+      {/* ===== CTA BANNER (Hidden for now) ===== */}
+      {/* 
       <section className="cta-banner">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="cta-gem">
@@ -482,6 +553,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
+
 
       {/* ===== BOOKING MODAL ===== */}
       {activeSession && (

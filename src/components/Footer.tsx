@@ -4,6 +4,14 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container">
+        
+        <div className="footer-top-decor mb-5">
+          <div className="decor-line"></div>
+          <div className="decor-center">
+            <i className="fa-solid fa-gem"></i>
+          </div>
+          <div className="decor-line"></div>
+        </div>
 
         <div className="row g-5">
 
@@ -11,7 +19,7 @@ export default function Footer() {
           <div className="col-lg-4">
             <div className="footer-brand">
               <img
-                src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/01/site-logo.webp"
+                src="/site-logo.png"
                 alt="KrissMaagiic Crystals"
                 className="footer-logo"
               />

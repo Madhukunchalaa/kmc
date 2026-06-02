@@ -28,7 +28,7 @@ export default function AboutPage() {
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/about-hero.png")',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.35), rgba(10, 0, 20, 0.55)), url("/about-hero.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -48,31 +48,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Story */}
-      <section className="section-pad">
-        <div className="container">
-          <div className="row g-5 align-items-center">
-            <div className="col-lg-6">
-              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: 'var(--shadow-lg, 0 20px 50px rgba(0,0,0,0.1))' }}>
-                <img src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/IMG_3040-convert.io_.webp" alt="Crystal collection by KrissMaagiic" style={{ width: '100%', display: 'block' }} />
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <span className="section-eyebrow">The beginning</span>
-              <h2 className="section-title" style={{ textAlign: 'left' }}>How <span>KrissMaagiic</span> was born</h2>
-              <p style={{ color: 'var(--text-light,#666)', lineHeight: 1.8 }}>
-                It started with a single piece of amethyst — bought on a quiet afternoon in Hyderabad, slipped into a pocket, forgotten and then remembered when life began to soften in unexpected ways.
-              </p>
-              <p style={{ color: 'var(--text-light,#666)', lineHeight: 1.8 }}>
-                Kriss began collecting, studying and sitting with crystals. She learned which stones worked with which chakras, which carried which intention, which felt alive. Friends asked her to source pieces. Then their friends. Then strangers. KrissMaagiic was named the day she realised this wasn&apos;t a hobby — it was a calling.
-              </p>
-              <p style={{ color: 'var(--text-light,#666)', lineHeight: 1.8 }}>
-                Today, every crystal is hand-selected, every ritual is held with care, and every customer is a soul we genuinely hope to serve.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Mission + Vision */}
       <section className="brand-strip section-pad" style={{ position: 'relative', overflow: 'hidden' }}>

@@ -90,6 +90,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         <img className="pc-image" src={product.image} alt={product.name} />
       </Link>
 
+      {/* Product Name (Always visible until hover) */}
+      <div className="pc-visible-title">
+        <h3 className="pc-visible-name">{product.name}</h3>
+      </div>
+
       {/* Cinematic hover overlay */}
       <div className="pc-overlay">
         <div className="pc-overlay-inner">

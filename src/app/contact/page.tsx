@@ -31,86 +31,107 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-pad">
-        <div className="container">
-          <div className="row g-5">
+      <section style={{
+        background: 'linear-gradient(135deg, #0d0418 0%, #120818 50%, #0a0212 100%)',
+        padding: '80px 0',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        {/* Background glow orbs */}
+        <div style={{ position: 'absolute', top: '20%', left: '5%', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(200,149,108,0.06) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: 350, height: 350, borderRadius: '50%', background: 'radial-gradient(circle, rgba(120,60,180,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="row g-5 align-items-start">
+
+            {/* LEFT — contact info */}
             <div className="col-lg-5">
-              <h3 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Reach me here</h3>
-              <p style={{ color: 'var(--text-light,#666)', marginTop: '1rem', lineHeight: 1.7 }}>
+              <span style={{
+                display: 'inline-block', fontSize: '0.68rem', fontWeight: 700,
+                letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--primary,#C8956C)',
+                marginBottom: '1rem', fontFamily: 'var(--font-display)',
+              }}>Reach Me Here</span>
+              <h2 style={{
+                fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem,3vw,2.2rem)',
+                fontWeight: 700, color: '#fff', marginBottom: '1rem', lineHeight: 1.3,
+              }}>
+                Let&apos;s <span style={{ color: 'var(--primary,#C8956C)' }}>Connect</span>
+              </h2>
+              <div style={{ width: 48, height: 2, background: 'var(--primary,#C8956C)', borderRadius: 2, marginBottom: '1.5rem', opacity: 0.6 }} />
+              <p style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, marginBottom: '2.5rem', fontSize: '0.92rem' }}>
                 I personally answer every message. Replies usually arrive within a day — sometimes sooner if the moon is kind.
               </p>
 
-              <div style={{ display: 'grid', gap: '1.25rem', marginTop: '2rem' }}>
-                <div className="d-flex gap-3 align-items-start">
-                  <div className="service-icon" style={{ width: 48, height: 48, fontSize: '1.1rem' }}>
-                    <i className="fa-solid fa-location-dot"></i>
-                  </div>
-                  <div>
-                    <strong>Studio</strong>
-                    <p style={{ color: 'var(--text-light,#666)', margin: 0 }}>Hyderabad, Telangana, India</p>
-                  </div>
-                </div>
-                <div className="d-flex gap-3 align-items-start">
-                  <div className="service-icon" style={{ width: 48, height: 48, fontSize: '1.1rem' }}>
-                    <i className="fa-solid fa-phone"></i>
-                  </div>
-                  <div>
-                    <strong>Phone</strong>
-                    <p style={{ margin: 0 }}>
-                      <a href="tel:+918096223929" style={{ color: 'var(--text-light,#666)', textDecoration: 'none' }}>+91 80962 23929</a>
-                    </p>
-                  </div>
-                </div>
-                <div className="d-flex gap-3 align-items-start">
-                  <div className="service-icon" style={{ width: 48, height: 48, fontSize: '1.1rem' }}>
-                    <i className="fa-solid fa-envelope"></i>
-                  </div>
-                  <div>
-                    <strong>Email</strong>
-                    <p style={{ margin: 0 }}>
-                      <a href="mailto:krissmaagiicrystals@gmail.com" style={{ color: 'var(--text-light,#666)', textDecoration: 'none' }}>
-                        krissmaagiicrystals@gmail.com
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div className="d-flex gap-3 align-items-start">
-                  <div className="service-icon" style={{ width: 48, height: 48, fontSize: '1.1rem' }}>
-                    <i className="fa-solid fa-comments"></i>
-                  </div>
-                  <div>
-                    <strong>Instant Chat</strong>
-                    <p style={{ margin: 0 }}>
-                      <a
-                        href="https://wa.me/918096223929"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: 'var(--text-light,#666)', textDecoration: 'none' }}
-                      >
-                        Start a chat
-                      </a>
-                    </p>
-                  </div>
-                </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {[
+                  { icon: 'fa-solid fa-phone', label: 'Phone', value: '+91 80962 23929', href: 'tel:+918096223929' },
+                  { icon: 'fa-solid fa-envelope', label: 'Email', value: 'krissmaagiicrystals@gmail.com', href: 'mailto:krissmaagiicrystals@gmail.com' },
+                  { icon: 'fa-brands fa-whatsapp', label: 'WhatsApp', value: 'Start a chat', href: 'https://wa.me/918096223929' },
+                ].map((item) => (
+                  <a key={item.label} href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', gap: '1.1rem', alignItems: 'center' }}>
+                    <div style={{
+                      width: 52, height: 52, borderRadius: 14, flexShrink: 0,
+                      background: 'rgba(200,149,108,0.1)',
+                      border: '1px solid rgba(200,149,108,0.25)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      boxShadow: '0 4px 15px rgba(200,149,108,0.08)',
+                      transition: 'all 0.3s ease',
+                    }}>
+                      <i className={item.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.15rem' }} />
+                    </div>
+                    <div>
+                      <p style={{ margin: 0, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 3 }}>{item.label}</p>
+                      <p style={{ margin: 0, color: 'rgba(255,255,255,0.85)', fontSize: '0.92rem', fontWeight: 500 }}>{item.value}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* Decorative quote */}
+              <div style={{
+                marginTop: '3rem', padding: '1.25rem 1.5rem',
+                background: 'rgba(200,149,108,0.04)',
+                border: '1px solid rgba(200,149,108,0.15)',
+                borderLeft: '3px solid var(--primary,#C8956C)',
+                borderRadius: '0 12px 12px 0',
+              }}>
+                <p style={{ margin: 0, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', fontSize: '0.88rem', lineHeight: 1.7 }}>
+                  &quot;Every crystal starts with a conversation. Reach out — your stone is waiting.&quot;
+                </p>
+                <span style={{ display: 'block', marginTop: '0.5rem', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--primary,#C8956C)' }}>— Kriss</span>
               </div>
             </div>
 
+            {/* RIGHT — form */}
             <div className="col-lg-7">
-              <div
-                style={{
-                  background: '#fff',
-                  padding: 'clamp(1.5rem, 3vw, 2.5rem)',
-                  borderRadius: '20px',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
-                }}
-              >
-                <h3 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Send a message</h3>
+              <div style={{
+                background: 'rgba(255,255,255,0.03)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 24,
+                padding: 'clamp(1.75rem, 4vw, 3rem)',
+                boxShadow: '0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+              }}>
+                {/* Form header */}
+                <div style={{ marginBottom: '2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--primary,#C8956C)', boxShadow: '0 0 8px rgba(200,149,108,0.6)' }} />
+                    <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--primary,#C8956C)', fontFamily: 'var(--font-display)' }}>Send a Message</span>
+                  </div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', color: '#fff', fontSize: '1.4rem', margin: 0 }}>
+                    How can I help you?
+                  </h3>
+                </div>
+
                 <ContactForm />
               </div>
             </div>
+
           </div>
         </div>
       </section>
+
     </>
   );
 }

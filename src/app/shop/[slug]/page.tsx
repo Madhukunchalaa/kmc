@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug } from '@/lib/catalog';
 import ProductCard from '@/components/ProductCard';
 import ProductBuyPanel from './ProductBuyPanel';
+import ProductDescription from './ProductDescription';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,11 +15,38 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
   const all = await getAllProducts();
   const related = all.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, 3);
 
+  // Safely parse JSON description if present in desc or longDesc
+  let descObj: {
+    description?: string;
+    whoShouldWear?: string[];
+    benefits?: string[];
+    howToWear?: string[];
+    careInstructions?: string[];
+    disclaimer?: string;
+  } | null = null;
+
+  let rawJsonField = '';
+  if (product.desc && (product.desc.trim().startsWith('{') || product.desc.trim().startsWith('['))) {
+    rawJsonField = product.desc;
+  } else if (product.longDesc && (product.longDesc.trim().startsWith('{') || product.longDesc.trim().startsWith('['))) {
+    rawJsonField = product.longDesc;
+  }
+
+  try {
+    if (rawJsonField) {
+      descObj = JSON.parse(rawJsonField);
+    }
+  } catch (e) {
+    // Fail silently
+  }
+
+  const cleanDescText = descObj ? descObj.description || '' : product.desc;
+
   const legacy = {
     id: product.slug,
     name: product.name, category: product.category, subcategory: product.subcategory,
     price: product.price, originalPrice: product.originalPrice, image: product.image,
-    badge: product.badge, desc: product.desc, chakras: product.chakras,
+    badge: product.badge, desc: cleanDescText || product.desc, chakras: product.chakras,
   };
 
   return (
@@ -57,8 +85,9 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                 </span>
                 {product.badge && <span className={`product-badge ${product.badge.toLowerCase()}`} style={{ position: 'static' }}>{product.badge}</span>}
               </div>
-              <p style={{ marginTop: 20, lineHeight: 1.7, color: 'var(--text-light,#666)' }}>{product.desc}</p>
-              {product.longDesc && <p style={{ lineHeight: 1.7, color: 'var(--text-light,#666)' }}>{product.longDesc}</p>}
+              
+              {/* Product description / JSON layout rendering */}
+              <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} />
 
               {product.chakras.length > 0 && (
                 <div className="mt-4">

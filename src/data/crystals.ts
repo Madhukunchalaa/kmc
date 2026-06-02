@@ -4,6 +4,7 @@ export interface CrystalGuide {
   desc: string;
   gradient: string;
   emoji: string;
+  image: string;
   tags: string[];
   chakras: string[];
 }
@@ -15,6 +16,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'A natural stress reliever that encourages inner strength. Amethyst calms the mind and deepens meditation.',
     gradient: 'linear-gradient(135deg,#9B59B6,#6C3483)',
     emoji: '🔮',
+    image: '/images/crystals/amethyst.png',
     tags: ['Peace', 'Clarity', 'Protection'],
     chakras: ['Third Eye', 'Crown'],
   },
@@ -24,6 +26,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'The stone of unconditional love. Opens the heart chakra, promoting self-love, compassion and peace.',
     gradient: 'linear-gradient(135deg,#F48FB1,#E91E8C)',
     emoji: '🩷',
+    image: '/images/crystals/rosequartz.png',
     tags: ['Love', 'Harmony', 'Healing'],
     chakras: ['Heart'],
   },
@@ -33,6 +36,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'The merchant\'s stone — Citrine draws prosperity, sharpens willpower and brightens your aura.',
     gradient: 'linear-gradient(135deg,#FFD27F,#E59500)',
     emoji: '💛',
+    image: '/images/crystals/citrine.png',
     tags: ['Wealth', 'Joy', 'Success'],
     chakras: ['Solar Plexus', 'Sacral'],
   },
@@ -42,6 +46,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'A powerful shield against negative energies and EMFs. Grounds you firmly into the present moment.',
     gradient: 'linear-gradient(135deg,#444,#111)',
     emoji: '🖤',
+    image: '/images/crystals/blacktourmaline.png',
     tags: ['Shielding', 'Stability', 'Detox'],
     chakras: ['Root'],
   },
@@ -51,6 +56,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'The master healer. Amplifies any intention you set and clears mental fog with crystalline brightness.',
     gradient: 'linear-gradient(135deg,#F5F7FA,#B8C6DB)',
     emoji: '💎',
+    image: '/images/crystals/clearquartz.png',
     tags: ['Amplify', 'Focus', 'Cleansing'],
     chakras: ['Crown', 'All chakras'],
   },
@@ -60,6 +66,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'A self-cleansing crystal that purifies your aura and the energy of any other stones placed near it.',
     gradient: 'linear-gradient(135deg,#FFFFFF,#E0E7FF)',
     emoji: '🤍',
+    image: '/images/crystals/selenite.png',
     tags: ['Cleanse', 'Light', 'Angelic'],
     chakras: ['Crown'],
   },
@@ -69,6 +76,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'A grounding stone that sharpens focus, restores confidence and turns hesitation into bold action.',
     gradient: 'linear-gradient(135deg,#C68642,#5C3317)',
     emoji: '🐯',
+    image: '/images/crystals/tigerseye.png',
     tags: ['Courage', 'Drive', 'Focus'],
     chakras: ['Solar Plexus', 'Sacral'],
   },
@@ -78,6 +86,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'Known as the stone of opportunity — Green Aventurine attracts new chances and softens the heart.',
     gradient: 'linear-gradient(135deg,#A8E063,#1E8449)',
     emoji: '🍀',
+    image: '/images/crystals/greenaventurine.png',
     tags: ['Luck', 'Growth', 'Heart'],
     chakras: ['Heart'],
   },
@@ -87,6 +96,7 @@ export const crystals: CrystalGuide[] = [
     desc: 'A royal stone of self-knowledge and honest expression. Sharpens intuition and clears the throat chakra.',
     gradient: 'linear-gradient(135deg,#1E3A8A,#0F1F4D)',
     emoji: '🔷',
+    image: '/images/crystals/lapislazuli.png',
     tags: ['Truth', 'Wisdom', 'Voice'],
     chakras: ['Throat', 'Third Eye'],
   },

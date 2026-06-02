@@ -38,18 +38,29 @@ export default async function ShopPage() {
 
       <GiftingExperience />
 
-      <section className="section-pad">
-        <div className="container">
+      <section className="section-pad shop-catalog-section" style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Galaxy / Starry night background elements */}
+        <div className="galaxy-stars-wrapper">
+          <div className="galaxy-nebula nebula-purple"></div>
+          <div className="galaxy-nebula nebula-blue"></div>
+          <div className="space-stars stars-small"></div>
+          <div className="space-stars stars-medium"></div>
+          <div className="space-stars stars-large"></div>
+          <div className="celestial-orbit-1"></div>
+          <div className="celestial-orbit-2"></div>
+        </div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <ShopFilters products={products} />
 
-          <div className="text-center mt-3">
-            <Link href="/crystal-strength" className="btn-outline-custom">
+          <div className="text-center mt-5">
+            <Link href="/crystal-strength" className="btn-celestial-guide">
               <i className="fa-solid fa-book-open"></i>
               <span>Not sure which crystal? Read the guide</span>
             </Link>
           </div>
         </div>
       </section>
+
     </>
   );
 }

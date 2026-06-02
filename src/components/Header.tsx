@@ -42,7 +42,7 @@ export default function Header() {
         <Link href="/" className="navbar-brand">
           <div className="navbar-logo-wrap">
             <img
-              src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/01/site-logo.webp"
+              src="/site-logo.png"
               alt="KrissMaagiic Crystals Logo"
               className="navbar-logo-img"
             />

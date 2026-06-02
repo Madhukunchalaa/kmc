@@ -202,7 +202,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
             </button>
           </div>
         ) : (
-          <div className="row g-3">
+          <div className="row g-4">
             {paginatedProducts.map((p, idx) => (
               <div className="col-6 col-md-4" key={p.id}>
                 <ScrollFade delay={Math.min(idx, 6) * 50}>

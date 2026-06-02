@@ -27,7 +27,7 @@ export default function Preloader() {
     <div id="preloader" className={hide ? 'hide' : ''}>
       <div className="preloader-crystal">
         <img
-          src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/01/site-logo.webp"
+          src="/site-logo.png"
           alt="Pulsing crystal logo"
         />
       </div>

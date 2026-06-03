@@ -270,30 +270,21 @@ export default function BookingFlow({
         </div>
 
         {/* ── Spiritual insight banner for selected date ── */}
-        <div style={{
-          marginTop: 20,
-          padding: '16px 18px',
-          borderRadius: 16,
-          background: 'linear-gradient(120deg, rgba(162,59,236,0.12) 0%, rgba(200,149,108,0.1) 100%)',
-          border: '1px solid rgba(200,149,108,0.2)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3,1fr)',
-          gap: 12,
-        }}>
+        <div className="booking-spiritual-insight">
           {/* Moon phase */}
-          <div style={{ textAlign: 'center' }}>
+          <div className="booking-spiritual-col">
             <div style={{ fontSize: '1.6rem', lineHeight: 1, marginBottom: 4 }}>{moon.emoji}</div>
             <div style={{ fontSize: '0.62rem', color: '#C4D4F5', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{moon.name}</div>
             <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{moon.energy}</div>
           </div>
           {/* Planetary ruler */}
-          <div style={{ textAlign: 'center', borderLeft: '1px solid rgba(255,255,255,0.08)', borderRight: '1px solid rgba(255,255,255,0.08)', padding: '0 8px' }}>
+          <div className="booking-spiritual-col-center">
             <div style={{ fontSize: '1.6rem', lineHeight: 1, marginBottom: 4 }}>{planet.emoji}</div>
             <div style={{ fontSize: '0.62rem', color: planet.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{planet.name} Day</div>
             <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{planet.energy}</div>
           </div>
           {/* Numerology */}
-          <div style={{ textAlign: 'center' }}>
+          <div className="booking-spiritual-col">
             <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--gold-light,#FFEFA6)', lineHeight: 1, marginBottom: 4 }}>{num.number}</div>
             <div style={{ fontSize: '0.62rem', color: 'var(--gold-light,#FFEFA6)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Life Path {num.number}</div>
             <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{num.label}</div>
@@ -327,7 +318,7 @@ export default function BookingFlow({
             <Spinner /> <span>Loading available slots…</span>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 120px))', gap: 10, justifyContent: 'center', width: '100%' }}>
+          <div className="booking-time-picker-grid">
             {slots.map((s) => {
               const active = selectedTime === s.time;
               return (
@@ -428,13 +419,7 @@ export default function BookingFlow({
       )}
 
       {/* ── Booking Summary Strip ── */}
-      <div className="d-flex justify-content-between align-items-center gap-3 flex-wrap" style={{
-        background: 'linear-gradient(135deg, rgba(200,149,108,0.12) 0%, rgba(162,59,236,0.1) 100%)',
-        padding: '24px 28px', borderRadius: 20,
-        border: '1px solid rgba(200,149,108,0.25)',
-        backdropFilter: 'blur(14px)',
-        width: '100%', boxSizing: 'border-box',
-      }}>
+      <div className="booking-summary-strip">
         <div>
           <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: 2 }}>Session fee</div>
           <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>₹{servicePrice.toLocaleString('en-IN')}</div>

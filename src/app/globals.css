@@ -5735,11 +5735,269 @@ body.theme-rose .hero-v2-orb {
    SERVICES PAGE — GALAXY THEME
 ═══════════════════════════════════════════════ */
 
+.services-galaxy-card {
+  scroll-margin-top: 120px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.5rem;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,149,108,0.2);
+  border-radius: 28px;
+  padding: 2.5rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(162,59,236,0.05);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+}
+
 .services-galaxy-card:hover {
   border-color: rgba(200, 149, 108, 0.45) !important;
   box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(162,59,236,0.1), 0 0 30px rgba(200,149,108,0.12) !important;
   transform: translateY(-4px);
 }
+
+.services-card-image-col {
+  position: relative;
+}
+
+.services-card-content-col {
+  position: relative;
+  z-index: 1;
+}
+
+/* Alternating layout on desktop */
+.services-galaxy-card:nth-child(even) .services-card-image-col {
+  order: 2;
+}
+.services-galaxy-card:nth-child(even) .services-card-content-col {
+  order: 1;
+}
+.services-galaxy-card:nth-child(odd) .services-card-image-col {
+  order: 1;
+}
+.services-galaxy-card:nth-child(odd) .services-card-content-col {
+  order: 2;
+}
+
+.services-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.services-card-footer-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(200,149,108,0.2);
+}
+
+/* Services page responsive adjustments */
+@media (max-width: 991px) {
+  .services-galaxy-card {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  /* Force image top, content bottom on tablet/mobile */
+  .services-card-image-col {
+    order: 1 !important;
+  }
+  .services-card-content-col {
+    order: 2 !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .services-galaxy-card {
+    padding: 1.5rem;
+    gap: 1.5rem;
+    border-radius: 20px;
+  }
+  .services-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    text-align: center;
+  }
+  .services-card-footer-divider {
+    display: none;
+  }
+  .services-card-footer .btn-primary-custom {
+    margin-left: 0 !important;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BOOKING FLOW — RESPONSIVE STYLES
+═══════════════════════════════════════════════ */
+
+.booking-spiritual-insight {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, rgba(162,59,236,0.12) 0%, rgba(200,149,108,0.1) 100%);
+  border: 1px solid rgba(200,149,108,0.2);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.booking-spiritual-col {
+  text-align: center;
+}
+
+.booking-spiritual-col-center {
+  text-align: center;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 0 8px;
+}
+
+.booking-summary-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(200,149,108,0.12) 0%, rgba(162,59,236,0.1) 100%);
+  padding: 24px 28px;
+  border-radius: 20px;
+  border: 1px solid rgba(200,149,108,0.25);
+  backdrop-filter: blur(14px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.booking-time-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 576px) {
+  .booking-spiritual-insight {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px 14px;
+  }
+  .booking-spiritual-col, .booking-spiritual-col-center {
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 0 12px 0;
+  }
+  .booking-spiritual-insight > div:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .booking-summary-strip {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: 20px;
+  }
+  .booking-summary-strip button {
+    width: 100%;
+    min-width: 100% !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SHOP FILTERS — RESPONSIVE STYLES
+═══════════════════════════════════════════════ */
+
+.shop-filters-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.shop-sidebar-col {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.shop-sidebar-sticky {
+  position: sticky;
+  top: 90px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  padding: 16px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(200, 149, 108, 0.25);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+}
+
+.shop-sidebar-categories-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 991px) {
+  .shop-filters-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .shop-sidebar-col {
+    width: 100%;
+  }
+  .shop-sidebar-sticky {
+    position: static !important;
+    padding: 12px 16px;
+    border-radius: 16px;
+  }
+  .shop-sidebar-sticky h4 {
+    display: none !important; /* Hide Collections heading on mobile */
+  }
+  .shop-sidebar-categories-container {
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Elegant modern thin scrollbar for category list */
+  .shop-sidebar-categories-container::-webkit-scrollbar {
+    height: 4px;
+  }
+  .shop-sidebar-categories-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .shop-sidebar-categories-container::-webkit-scrollbar-thumb {
+    background: rgba(200, 149, 108, 0.25);
+    border-radius: 2px;
+  }
+  .shop-sidebar-category-btn {
+    width: auto !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    padding: 8px 12px !important;
+    border-radius: 12px !important;
+  }
+  .shop-sidebar-category-btn span {
+    font-size: 0.82rem;
+  }
+  .shop-sidebar-category-btn .category-icon-wrapper {
+    width: 28px !important;
+    height: 28px !important;
+    margin-right: 8px !important;
+    border-radius: 8px !important;
+  }
+  .shop-sidebar-category-btn .category-icon-wrapper i {
+    font-size: 0.8rem !important;
+  }
+  .shop-sidebar-category-btn .hover-arrow, .shop-sidebar-category-btn .fa-chevron-right {
+    display: none !important; /* Hide right arrow icons in chip mode */
+  }
+}
+
 
 @keyframes shootingStar {
   0%   { left: -10%; opacity: 0; }

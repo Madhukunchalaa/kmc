@@ -82,19 +82,10 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
 
   return (
-    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+    <div className="shop-filters-layout">
       {/* Sidebar Collections Column */}
-      <div style={{ width: '260px', flexShrink: 0 }}>
-        <div style={{
-          position: 'sticky',
-          top: '90px',
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-          padding: '16px 20px',
-          borderRadius: '20px',
-          border: '1px solid rgba(200, 149, 108, 0.25)',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.3)',
-          backdropFilter: 'blur(10px)',
-        }}>
+      <div className="shop-sidebar-col">
+        <div className="shop-sidebar-sticky">
           <h4 style={{
             fontFamily: 'var(--font-heading)',
             fontSize: '1.25rem',
@@ -112,7 +103,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
             <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '1.1rem' }}></i>
             Collections
           </h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="shop-sidebar-categories-container">
             {CATEGORIES.map((c) => {
               const active = activeCat === c.key;
               return (

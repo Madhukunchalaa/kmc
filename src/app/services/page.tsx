@@ -99,22 +99,6 @@ export default async function ServicesPage() {
               <ScrollFade key={svc.id} delay={idx * 80}>
                 <div
                   id={svc.slug}
-                  style={{
-                    scrollMarginTop: '120px',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '2rem',
-                    alignItems: 'center',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(200,149,108,0.2)',
-                    borderRadius: 28,
-                    padding: '2rem',
-                    backdropFilter: 'blur(12px)',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(162,59,236,0.05)',
-                    transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}
                   className="services-galaxy-card"
                 >
                   {/* Glow corner accent */}
@@ -130,7 +114,7 @@ export default async function ServicesPage() {
                   }} />
 
                   {/* Image side */}
-                  <div style={{ order: idx % 2 === 1 ? 2 : 1 }}>
+                  <div className="services-card-image-col">
                     <div style={{
                       borderRadius: 20,
                       overflow: 'hidden',
@@ -153,7 +137,7 @@ export default async function ServicesPage() {
                   </div>
 
                   {/* Content side */}
-                  <div style={{ order: idx % 2 === 1 ? 1 : 2, position: 'relative', zIndex: 1 }}>
+                  <div className="services-card-content-col">
                     {/* Service icon */}
                     <div style={{
                       width: 64, height: 64, borderRadius: '18px',
@@ -200,7 +184,7 @@ export default async function ServicesPage() {
                       </ul>
                     )}
 
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+                    <div className="services-card-footer">
                       {/* Price */}
                       <div>
                         <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>From</div>
@@ -210,7 +194,7 @@ export default async function ServicesPage() {
                       </div>
 
                       {/* Divider */}
-                      <div style={{ width: 1, height: 40, background: 'rgba(200,149,108,0.2)' }} />
+                      <div className="services-card-footer-divider" />
 
                       {/* Duration */}
                       <div>

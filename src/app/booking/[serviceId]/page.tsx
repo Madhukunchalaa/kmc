@@ -36,8 +36,36 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
         </div>
       </section>
 
-      <section style={{ padding: '6rem 0', width: '100%', display: 'block', boxSizing: 'border-box' }}>
-        <div style={{ maxWidth: '820px', width: '100%', padding: '0 15px', marginLeft: 'auto', marginRight: 'auto', boxSizing: 'border-box' }}>
+      <section style={{
+        padding: '6rem 0',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'radial-gradient(circle at 50% 20%, #0d041a 0%, #06020c 60%, #010003 100%)',
+        borderTop: '1px solid rgba(200,149,108,0.15)',
+        width: '100%',
+        display: 'block',
+        boxSizing: 'border-box'
+      }}>
+        {/* Galaxy layers */}
+        <div className="galaxy-stars-wrapper">
+          <div className="galaxy-nebula nebula-purple"></div>
+          <div className="galaxy-nebula nebula-blue"></div>
+          <div className="space-stars stars-small"></div>
+          <div className="space-stars stars-medium"></div>
+          <div className="space-stars stars-large"></div>
+          <div className="celestial-orbit-1"></div>
+          <div className="celestial-orbit-2"></div>
+          <div className="svc-planet svc-planet--1"><div className="svc-planet__ring"></div></div>
+          <div className="svc-planet svc-planet--2"></div>
+          <div className="svc-planet svc-planet--4"></div>
+          <div className="svc-planet svc-planet--5"></div>
+          <div className="svc-asteroid svc-asteroid--2"></div>
+          <div className="svc-asteroid svc-asteroid--4"></div>
+          <div className="svc-asteroid svc-asteroid--6"></div>
+          <div className="svc-asteroid svc-asteroid--9"></div>
+        </div>
+
+        <div style={{ maxWidth: '820px', width: '100%', padding: '0 15px', marginLeft: 'auto', marginRight: 'auto', boxSizing: 'border-box', position: 'relative', zIndex: 2 }}>
           <BookingFlow
             serviceId={service.id}
             servicePrice={service.price}
@@ -47,6 +75,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
           />
         </div>
       </section>
+
     </>
   );
 }

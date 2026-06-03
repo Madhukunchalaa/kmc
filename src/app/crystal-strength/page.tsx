@@ -11,11 +11,11 @@ export default function CrystalStrengthPage() {
   return (
     <>
       <section style={{
-        paddingTop: '220px',
-        paddingBottom: '120px',
+        paddingTop: '160px',
+        paddingBottom: '60px',
         backgroundImage: 'linear-gradient(to bottom, rgba(8, 4, 15, 0.25) 0%, rgba(6, 2, 12, 0.5) 100%), url("/strength-hero.png")',
         backgroundSize: 'cover',
-        backgroundPosition: 'center 70%',
+        backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
         color: '#fff',
         borderBottom: '1px solid rgba(200, 149, 108, 0.15)'

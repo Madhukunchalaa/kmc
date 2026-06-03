@@ -312,25 +312,25 @@ export default function Home() {
               {
                 title: 'Love & Harmony',
                 desc: 'Amplify relationship fidelity, self-acceptance, and heart chakra alignment.',
-                icon: 'fa-solid fa-heart',
+                icon: '/images/icons/love-harmony.png',
                 href: '/shop?intent=love',
               },
               {
                 title: 'Wealth & Abundance',
                 desc: 'Unlock entrepreneurial prosperity, attract positive career flow, and clear debt blocks.',
-                icon: 'fa-solid fa-gem',
+                icon: '/images/icons/wealth-abundance.png',
                 href: '/shop?intent=wealth',
               },
               {
                 title: 'Aura Protection',
                 desc: 'Ground negative external energy fields, hex blocks, and EMF radiation.',
-                icon: 'fa-solid fa-shield-halved',
+                icon: '/images/icons/aura-protection.png',
                 href: '/shop?intent=protection',
               },
               {
                 title: 'Peace & Serenity',
                 desc: 'Soften anxious breathing patterns, clear overthinking, and enjoy restorative sleep.',
-                icon: 'fa-solid fa-wand-magic-sparkles',
+                icon: '/images/icons/peace-serenity.png',
                 href: '/shop?intent=peace',
               },
             ].map((item, idx) => (
@@ -339,7 +339,7 @@ export default function Home() {
                   <Link href={item.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
                     <div className="intention-card">
                       <div className="intention-icon">
-                        <i className={item.icon}></i>
+                        <img src={item.icon} alt={item.title} style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
                       </div>
                       <h4 className="intention-title">{item.title}</h4>
                       <p className="intention-desc">{item.desc}</p>

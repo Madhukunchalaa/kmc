@@ -3175,7 +3175,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer {
   background: radial-gradient(circle at top, #FFFDFB 0%, var(--light) 100%);
   color: var(--text-light);
-  padding: 5rem 0 0;
+  padding: 2.5rem 0 0;
   position: relative;
   border-top: 1px solid rgba(200, 149, 108, 0.15);
 }
@@ -3193,7 +3193,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 12px;
+  margin-bottom: 1.5rem;
 }
 
 .footer-top-decor .decor-line {
@@ -3393,8 +3394,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Bottom bar */
 .footer-bottom {
   border-top: 1px solid rgba(200, 149, 108, 0.18);
-  padding: 2rem 0;
-  margin-top: 4rem;
+  padding: 1.25rem 0;
+  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -5730,7 +5731,469 @@ body.theme-rose .hero-v2-orb {
   transform: scale(1.12) translateY(-4px) rotate(4deg);
 }
 
+/* ═══════════════════════════════════════════════
+   SERVICES PAGE — GALAXY THEME
+═══════════════════════════════════════════════ */
+
+.services-galaxy-card:hover {
+  border-color: rgba(200, 149, 108, 0.45) !important;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 50px rgba(162,59,236,0.1), 0 0 30px rgba(200,149,108,0.12) !important;
+  transform: translateY(-4px);
+}
+
+@keyframes shootingStar {
+  0%   { left: -10%; opacity: 0; }
+  5%   { opacity: 1; }
+  30%  { opacity: 0; }
+  100% { left: 110%; opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICES PAGE — PLANETS
+═══════════════════════════════════════════════ */
+
+/* Base planet style */
+.svc-planet {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Planet ring (Saturn-style) */
+.svc-planet__ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  transform: translate(-50%, -50%) rotateX(70deg);
+  pointer-events: none;
+}
+
+/* ── Planet 1: Large violet, top-left, slow float ── */
+.svc-planet--1 {
+  width: 110px; height: 110px;
+  top: 8%; left: 3%;
+  background: radial-gradient(circle at 35% 35%,
+    #c084fc 0%, #7c3aed 45%, #3b0764 100%);
+  box-shadow:
+    0 0 40px rgba(162, 59, 236, 0.5),
+    0 0 80px rgba(162, 59, 236, 0.2),
+    inset -15px -15px 30px rgba(0,0,0,0.4);
+  animation: planetFloat1 18s ease-in-out infinite alternate;
+}
+.svc-planet--1 .svc-planet__ring {
+  width: 170px; height: 170px;
+  border-color: rgba(192, 132, 252, 0.25);
+  border-width: 4px;
+  animation: planetRingSpin 20s linear infinite;
+}
+
+/* ── Planet 2: Medium amber/gold, top-right ── */
+.svc-planet--2 {
+  width: 70px; height: 70px;
+  top: 12%; right: 6%;
+  background: radial-gradient(circle at 40% 30%,
+    #fde68a 0%, #f59e0b 40%, #92400e 100%);
+  box-shadow:
+    0 0 30px rgba(245, 158, 11, 0.55),
+    0 0 60px rgba(245, 158, 11, 0.2),
+    inset -10px -10px 20px rgba(0,0,0,0.35);
+  animation: planetFloat2 14s ease-in-out infinite alternate;
+}
+
+/* ── Planet 3: Small icy blue, mid-left ── */
+.svc-planet--3 {
+  width: 55px; height: 55px;
+  top: 45%; left: 2%;
+  background: radial-gradient(circle at 38% 32%,
+    #bae6fd 0%, #38bdf8 40%, #0c4a6e 100%);
+  box-shadow:
+    0 0 25px rgba(56, 189, 248, 0.5),
+    0 0 50px rgba(56, 189, 248, 0.15),
+    inset -8px -8px 18px rgba(0,0,0,0.4);
+  animation: planetFloat3 22s ease-in-out infinite alternate;
+}
+.svc-planet--3 .svc-planet__ring {
+  width: 88px; height: 88px;
+  border-color: rgba(186, 230, 253, 0.3);
+  border-width: 2px;
+  animation: planetRingSpin 15s linear infinite reverse;
+}
+
+/* ── Planet 4: Tiny red-orange, bottom-right ── */
+.svc-planet--4 {
+  width: 42px; height: 42px;
+  bottom: 15%; right: 4%;
+  background: radial-gradient(circle at 35% 30%,
+    #fca5a5 0%, #ef4444 45%, #7f1d1d 100%);
+  box-shadow:
+    0 0 20px rgba(239, 68, 68, 0.5),
+    0 0 40px rgba(239, 68, 68, 0.2),
+    inset -6px -6px 14px rgba(0,0,0,0.4);
+  animation: planetFloat4 16s ease-in-out infinite alternate;
+}
+
+/* ── Planet 5: Micro pearl/green, center-right ── */
+.svc-planet--5 {
+  width: 28px; height: 28px;
+  top: 65%; right: 12%;
+  background: radial-gradient(circle at 40% 35%,
+    #d9f99d 0%, #4ade80 45%, #14532d 100%);
+  box-shadow:
+    0 0 14px rgba(74, 222, 128, 0.55),
+    0 0 28px rgba(74, 222, 128, 0.2),
+    inset -4px -4px 10px rgba(0,0,0,0.4);
+  animation: planetFloat5 11s ease-in-out infinite alternate;
+}
+
+/* ── Float keyframes — each unique path ── */
+@keyframes planetFloat1 {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-22px) rotate(4deg); }
+  100% { transform: translateY(10px) rotate(-3deg); }
+}
+@keyframes planetFloat2 {
+  0%   { transform: translateY(0) translateX(0) scale(1); }
+  50%  { transform: translateY(-18px) translateX(10px) scale(1.04); }
+  100% { transform: translateY(8px) translateX(-6px) scale(0.97); }
+}
+@keyframes planetFloat3 {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(18px) rotate(-5deg); }
+  100% { transform: translateY(-12px) rotate(3deg); }
+}
+@keyframes planetFloat4 {
+  0%   { transform: translateY(0) translateX(0); }
+  50%  { transform: translateY(-14px) translateX(-8px); }
+  100% { transform: translateY(6px) translateX(5px); }
+}
+@keyframes planetFloat5 {
+  0%   { transform: translateY(0) scale(1); }
+  50%  { transform: translateY(-10px) scale(1.08); }
+  100% { transform: translateY(5px) scale(0.95); }
+}
+
+/* Ring spin */
+@keyframes planetRingSpin {
+  from { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg); }
+  to   { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(360deg); }
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICES PAGE — ASTEROIDS
+═══════════════════════════════════════════════ */
+
+/* Base asteroid */
+.svc-asteroid {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Falling asteroid animation */
+@keyframes asteroidFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  5% { opacity: 1; }
+  90% { opacity: 0.7; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--ax, 300px), var(--ay, 600px)) rotate(var(--ar, 180deg));
+  }
+}
+
+/* ── Asteroid 1 — medium rocky brown, left side ── */
+.svc-asteroid--1 {
+  width: 14px; height: 9px;
+  top: 5%; left: 20%;
+  --ax: 220px; --ay: 700px; --ar: 200deg;
+  background: radial-gradient(circle at 40% 35%, #a8754a, #5c3d1e);
+  box-shadow: 0 0 6px rgba(168,117,74,0.6), 8px 0 12px rgba(168,117,74,0.3);
+  animation: asteroidFall 6s 0s infinite linear;
+}
+
+/* ── Asteroid 2 — small grey, top-right ── */
+.svc-asteroid--2 {
+  width: 8px; height: 5px;
+  top: 2%; right: 25%;
+  --ax: 180px; --ay: 800px; --ar: 160deg;
+  background: radial-gradient(circle at 38% 32%, #9ca3af, #374151);
+  box-shadow: 0 0 5px rgba(156,163,175,0.5), 6px 0 10px rgba(156,163,175,0.25);
+  animation: asteroidFall 4.5s 1.2s infinite linear;
+}
+
+/* ── Asteroid 3 — large amber chunk, top-left ── */
+.svc-asteroid--3 {
+  width: 20px; height: 12px;
+  top: 0%; left: 55%;
+  --ax: 260px; --ay: 900px; --ar: 240deg;
+  background: radial-gradient(circle at 35% 38%, #d97706, #78350f);
+  box-shadow: 0 0 10px rgba(217,119,6,0.7), 10px 0 18px rgba(217,119,6,0.3);
+  border-radius: 45% 55% 60% 40% / 48% 52% 48% 52%;
+  animation: asteroidFall 7.5s 0.4s infinite linear;
+}
+
+/* ── Asteroid 4 — tiny white pebble ── */
+.svc-asteroid--4 {
+  width: 5px; height: 4px;
+  top: 8%; left: 75%;
+  --ax: 140px; --ay: 700px; --ar: 130deg;
+  background: radial-gradient(circle, #e5e7eb, #6b7280);
+  box-shadow: 0 0 4px rgba(229,231,235,0.7), 4px 0 8px rgba(229,231,235,0.3);
+  animation: asteroidFall 3.8s 2.5s infinite linear;
+}
+
+/* ── Asteroid 5 — medium purple glowing ── */
+.svc-asteroid--5 {
+  width: 11px; height: 7px;
+  top: 3%; left: 40%;
+  --ax: -80px; --ay: 750px; --ar: -170deg;
+  background: radial-gradient(circle at 42% 36%, #c084fc, #4c1d95);
+  box-shadow: 0 0 8px rgba(192,132,252,0.7), 8px 0 14px rgba(192,132,252,0.35);
+  border-radius: 55% 45% 50% 50% / 42% 58% 42% 58%;
+  animation: asteroidFall 5.5s 3.1s infinite linear;
+}
+
+/* ── Asteroid 6 — tiny reddish, right side ── */
+.svc-asteroid--6 {
+  width: 6px; height: 4px;
+  top: 1%; right: 10%;
+  --ax: -200px; --ay: 850px; --ar: -150deg;
+  background: radial-gradient(circle, #f87171, #7f1d1d);
+  box-shadow: 0 0 5px rgba(248,113,113,0.6);
+  animation: asteroidFall 4.2s 1.8s infinite linear;
+}
+
+/* ── Asteroid 7 — medium icy blue ── */
+.svc-asteroid--7 {
+  width: 16px; height: 10px;
+  top: 6%; left: 85%;
+  --ax: -300px; --ay: 920px; --ar: -200deg;
+  background: radial-gradient(circle at 38% 33%, #7dd3fc, #0c4a6e);
+  box-shadow: 0 0 9px rgba(125,211,252,0.65), -8px 0 15px rgba(125,211,252,0.3);
+  border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+  animation: asteroidFall 8s 0.8s infinite linear;
+}
+
+/* ── Asteroid 8 — small golden ── */
+.svc-asteroid--8 {
+  width: 9px; height: 6px;
+  top: 0%; left: 30%;
+  --ax: 310px; --ay: 1000px; --ar: 220deg;
+  background: radial-gradient(circle, #fcd34d, #92400e);
+  box-shadow: 0 0 7px rgba(252,211,77,0.65);
+  animation: asteroidFall 5s 4.2s infinite linear;
+}
+
+/* ── Asteroid 9 — tiny dark rock ── */
+.svc-asteroid--9 {
+  width: 7px; height: 5px;
+  top: 4%; left: 60%;
+  --ax: 180px; --ay: 800px; --ar: 190deg;
+  background: radial-gradient(circle, #6b7280, #1f2937);
+  box-shadow: 0 0 4px rgba(107,114,128,0.5);
+  border-radius: 48% 52% 44% 56% / 56% 44% 56% 44%;
+  animation: asteroidFall 3.5s 5.5s infinite linear;
+}
+
+/* ── Asteroid 10 — large dramatic orange fireball ── */
+.svc-asteroid--10 {
+  width: 24px; height: 14px;
+  top: 0%; left: 10%;
+  --ax: 380px; --ay: 1100px; --ar: 260deg;
+  background: radial-gradient(circle at 30% 30%, #fff7ed, #ea580c 40%, #7c2d12 100%);
+  box-shadow:
+    0 0 15px rgba(234,88,12,0.8),
+    0 0 30px rgba(234,88,12,0.4),
+    12px 0 24px rgba(234,88,12,0.5);
+  border-radius: 42% 58% 55% 45% / 45% 55% 45% 55%;
+  animation: asteroidFall 9s 6.5s infinite linear;
+}
+
+/* ═══════════════════════════════════════════════
+   SERVICES — SHOOTING STARS & GLOW STARS
+═══════════════════════════════════════════════ */
+
+/* Extra large orbit ring */
+.svc-orbit-xl {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  border: 1px dashed rgba(200,149,108,0.06);
+  transform: translate(-50%,-50%) rotate(15deg);
+  animation: cosmic-rotate 160s infinite linear;
+  pointer-events: none;
+}
+
+/* Base shooting star */
+.svc-shoot {
+  position: absolute;
+  height: 1.5px;
+  border-radius: 100px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.9) 50%, transparent 100%);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes svcShoot {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  4%   { opacity: 1; }
+  85%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(var(--sx), var(--sy)); }
+}
+
+/* 12 shooting stars — varied start, angle, length, speed, delay */
+.svc-shoot--1  { width:200px; top: 8%;  left: 5%;  --sx:350px; --sy:280px; animation: svcShoot 5s  0.0s infinite; transform: rotate(-12deg); }
+.svc-shoot--2  { width:120px; top: 3%;  left:55%;  --sx:200px; --sy:320px; animation: svcShoot 3.8s 1.2s infinite; transform: rotate(-18deg); }
+.svc-shoot--3  { width:260px; top:15%;  left:20%;  --sx:420px; --sy:380px; animation: svcShoot 6.5s 0.6s infinite; transform: rotate(-10deg); }
+.svc-shoot--4  { width: 90px; top: 1%;  left:80%;  --sx:-180px;--sy:280px; animation: svcShoot 3.2s 2.1s infinite; transform: rotate(-22deg) scaleX(-1); }
+.svc-shoot--5  { width:180px; top:30%;  left: 0%;  --sx:300px; --sy:200px; animation: svcShoot 4.5s 3.0s infinite; transform: rotate(-8deg); }
+.svc-shoot--6  { width:140px; top:50%;  left:70%;  --sx:-250px;--sy:180px; animation: svcShoot 4.0s 0.3s infinite; transform: rotate(-15deg) scaleX(-1); }
+.svc-shoot--7  { width:220px; top: 5%;  left:40%;  --sx:360px; --sy:300px; animation: svcShoot 7.0s 4.5s infinite; transform: rotate(-14deg); }
+.svc-shoot--8  { width: 80px; top:60%;  left:10%;  --sx:150px; --sy:120px; animation: svcShoot 2.8s 1.8s infinite; transform: rotate(-20deg); }
+.svc-shoot--9  { width:160px; top:20%;  left:90%;  --sx:-280px;--sy:250px; animation: svcShoot 5.5s 5.2s infinite; transform: rotate(-16deg) scaleX(-1); }
+.svc-shoot--10 { width:300px; top: 0%;  left:15%;  --sx:480px; --sy:360px; animation: svcShoot 8.0s 2.8s infinite; transform: rotate(-9deg); }
+.svc-shoot--11 { width:100px; top:75%;  left:60%;  --sx:180px; --sy:100px; animation: svcShoot 3.5s 6.1s infinite; transform: rotate(-25deg); }
+.svc-shoot--12 { width:240px; top:10%;  left:30%;  --sx:-400px;--sy:280px; animation: svcShoot 6.0s 3.7s infinite; transform: rotate(-13deg) scaleX(-1); }
+
+/* Pulsing bright star dots */
+.svc-glow-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: none;
+  box-shadow: 0 0 6px 2px rgba(255,255,255,0.6), 0 0 14px 4px rgba(255,255,255,0.2);
+  animation: glowStarPulse 3s ease-in-out infinite alternate;
+}
+@keyframes glowStarPulse {
+  0%   { opacity: 0.4; transform: scale(0.8); box-shadow: 0 0 4px 1px rgba(255,255,255,0.4); }
+  100% { opacity: 1;   transform: scale(1.4); box-shadow: 0 0 10px 4px rgba(255,255,255,0.7), 0 0 20px 8px rgba(200,149,108,0.2); }
+}
+/* Offset each star's pulse */
+.svc-glow-star:nth-child(1) { animation-delay: 0s;    animation-duration: 2.8s; }
+.svc-glow-star:nth-child(2) { animation-delay: 0.6s;  animation-duration: 3.5s; }
+.svc-glow-star:nth-child(3) { animation-delay: 1.2s;  animation-duration: 2.4s; }
+.svc-glow-star:nth-child(4) { animation-delay: 0.3s;  animation-duration: 4.0s; }
+.svc-glow-star:nth-child(5) { animation-delay: 1.8s;  animation-duration: 3.2s; }
+.svc-glow-star:nth-child(6) { animation-delay: 0.9s;  animation-duration: 2.6s; }
+.svc-glow-star:nth-child(7) { animation-delay: 2.1s;  animation-duration: 3.8s; }
+.svc-glow-star:nth-child(8) { animation-delay: 1.5s;  animation-duration: 2.2s; }
+
+/* ═══════════════════════════════════════════════
+   REALISTIC METEORS — 3 DIRECTIONS, EVERY 6s
+═══════════════════════════════════════════════ */
+
+.svc-meteor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* Glowing trail */
+.svc-meteor::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  border-radius: 100px;
+  /* bright head on right, fading tail on left */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255,255,255,0.05) 20%,
+    rgba(200,220,255,0.5) 55%,
+    rgba(255,255,255,0.95) 85%,
+    #fff 100%
+  );
+  box-shadow:
+    0 0 6px 1px rgba(180,210,255,0.8),
+    0 0 14px 3px rgba(140,185,255,0.4);
+}
+
+/* Bright glowing head */
+.svc-meteor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 8px 3px rgba(210,235,255,0.95),
+    0 0 20px 6px rgba(160,200,255,0.6),
+    0 0 40px 10px rgba(120,170,255,0.25);
+}
+
+/* ── Direction 1: top-left → bottom-right, -30deg ── */
+.svc-meteor--1 {
+  top: 10%;
+  left: -350px;
+  transform: rotate(-30deg);
+}
+.svc-meteor--1::after { width: 320px; }
+.svc-meteor--1::before { right: -5px; width: 7px; height: 7px; }
+.svc-meteor--1 {
+  animation: meteorDir1 6s 0s infinite ease-in;
+}
+
+@keyframes meteorDir1 {
+  0%   { opacity: 0;   transform: rotate(-30deg) translateX(0); }
+  5%   { opacity: 1; }
+  80%  { opacity: 0.9; }
+  100% { opacity: 0;   transform: rotate(-30deg) translateX(130vw); }
+}
+
+/* ── Direction 2: top-right → bottom-left, flipped ── */
+.svc-meteor--2 {
+  top: 5%;
+  right: -350px;
+  transform: rotate(210deg);
+}
+.svc-meteor--2::after { width: 280px; }
+.svc-meteor--2::before { right: -4px; width: 6px; height: 6px; }
+.svc-meteor--2 {
+  animation: meteorDir2 6s 2s infinite ease-in;
+}
+
+@keyframes meteorDir2 {
+  0%   { opacity: 0;   transform: rotate(210deg) translateX(0); }
+  5%   { opacity: 1; }
+  80%  { opacity: 0.9; }
+  100% { opacity: 0;   transform: rotate(210deg) translateX(130vw); }
+}
+
+/* ── Direction 3: top-center → bottom-right, steeper -45deg ── */
+.svc-meteor--3 {
+  top: -10px;
+  left: 35%;
+  transform: rotate(-48deg);
+}
+.svc-meteor--3::after { width: 380px; }
+.svc-meteor--3::before { right: -5px; width: 8px; height: 8px; }
+.svc-meteor--3 {
+  animation: meteorDir3 6s 4s infinite ease-in;
+}
+
+@keyframes meteorDir3 {
+  0%   { opacity: 0;   transform: rotate(-48deg) translateX(0); }
+  5%   { opacity: 1; }
+  80%  { opacity: 0.85; }
+  100% { opacity: 0;   transform: rotate(-48deg) translateX(120vw); }
+}
+
 /* (crystals-section dark override consolidated above) */
+
+
+
 
 
 

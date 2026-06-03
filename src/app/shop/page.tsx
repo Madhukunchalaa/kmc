@@ -52,12 +52,6 @@ export default async function ShopPage() {
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <ShopFilters products={products} />
 
-          <div className="text-center mt-5">
-            <Link href="/crystal-strength" className="btn-celestial-guide">
-              <i className="fa-solid fa-book-open"></i>
-              <span>Not sure which crystal? Read the guide</span>
-            </Link>
-          </div>
         </div>
       </section>
 

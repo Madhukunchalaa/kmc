@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
+import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import ScrollFade from '@/components/ScrollFade';
 import type { CatalogProduct } from '@/lib/catalog';
@@ -81,27 +82,28 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
 
   return (
-    <div className="row g-4">
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
       {/* Sidebar Collections Column */}
-      <div className="col-lg-3">
+      <div style={{ width: '260px', flexShrink: 0 }}>
         <div style={{
           position: 'sticky',
-          top: '120px',
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #FCFAF7 100%)',
-          padding: '28px 24px',
-          borderRadius: '30px',
-          border: '1px solid rgba(200, 149, 108, 0.18)',
-          boxShadow: '0 12px 40px rgba(45, 27, 14, 0.04)',
+          top: '90px',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+          padding: '16px 20px',
+          borderRadius: '20px',
+          border: '1px solid rgba(200, 149, 108, 0.25)',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.3)',
+          backdropFilter: 'blur(10px)',
         }}>
           <h4 style={{
             fontFamily: 'var(--font-heading)',
             fontSize: '1.25rem',
-            color: 'var(--dark-2)',
+            color: '#ffffff',
             fontWeight: 700,
             marginTop: 0,
             marginBottom: '1.5rem',
             paddingBottom: '12px',
-            borderBottom: '2px solid rgba(200, 149, 108, 0.12)',
+            borderBottom: '2px solid rgba(200, 149, 108, 0.25)',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
@@ -125,9 +127,9 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
                     borderRadius: '16px',
                     border: 'none',
                     background: active 
-                      ? 'linear-gradient(135deg, rgba(200, 149, 108, 0.15) 0%, rgba(200, 149, 108, 0.05) 100%)' 
+                      ? 'linear-gradient(135deg, rgba(200, 149, 108, 0.25) 0%, rgba(200, 149, 108, 0.1) 100%)' 
                       : 'transparent',
-                    color: active ? 'var(--dark-2)' : 'var(--text-light,#7A5C4A)',
+                    color: active ? '#ffffff' : 'rgba(255,255,255,0.65)',
                     cursor: 'pointer',
                     fontWeight: active ? 700 : 500,
                     textAlign: 'left',
@@ -158,7 +160,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
                   >
                     <i className={c.icon} style={{ fontSize: '0.9rem' }}></i>
                   </div>
-                  <span style={{ flexGrow: 1 }}>{c.label}</span>
+                  <span style={{ flexGrow: 1, color: active ? '#ffffff' : 'rgba(255,255,255,0.75)' }}>{c.label}</span>
                   {active ? (
                     <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.75rem', color: 'var(--primary,#C8956C)', opacity: 0.8 }}></i>
                   ) : (
@@ -172,7 +174,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       </div>
 
       {/* Main Catalog Column */}
-      <div className="col-lg-9">
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div className="row g-3 align-items-center mb-4">
           <div className="col-md-8">
             <div style={{ position: 'relative' }}>
@@ -215,15 +217,16 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
         {/* Circular Premium Pagination Controls */}
         {totalPages > 1 && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 8,
-            marginTop: 40,
-            paddingTop: 24,
-            borderTop: '1px solid rgba(200, 149, 108, 0.12)'
-          }}>
+          <>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 8,
+              marginTop: 40,
+              paddingTop: 24,
+              borderTop: '1px solid rgba(200, 149, 108, 0.12)'
+            }}>
             {/* Prev Button */}
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -314,10 +317,18 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
               <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.78rem' }}></i>
             </button>
           </div>
+
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Link href="/crystal-strength" className="btn-celestial-guide">
+              <i className="fa-solid fa-book-open"></i>
+              <span>Not sure which crystal? Read the guide</span>
+            </Link>
+          </div>
+          </>
         )}
 
         <p className="text-center mt-4" style={{ color: 'var(--text-light,#777)', fontSize: '0.88rem' }}>
-          Showing {filtered.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} crystals.
+          Showing {filtered.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}&ndash;{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} crystals.
         </p>
       </div>
     </div>

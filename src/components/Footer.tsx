@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         
-        <div className="footer-top-decor mb-5">
+        <div className="footer-top-decor mb-3">
           <div className="decor-line"></div>
           <div className="decor-center">
             <i className="fa-solid fa-gem"></i>
@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="decor-line"></div>
         </div>
 
-        <div className="row g-5">
+        <div className="row g-4">
 
           {/* Brand */}
           <div className="col-lg-4">

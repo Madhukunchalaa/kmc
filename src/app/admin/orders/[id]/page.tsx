@@ -21,6 +21,12 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
       </h1>
       <p style={{ color: '#888' }}>
         Placed {new Date(order.createdAt).toLocaleString('en-IN')} · Status: <strong>{order.status}</strong>
+        {order.paymentStatus && (
+          <> · Payment: <strong>{order.paymentStatus}</strong></>
+        )}
+        {order.razorpayPaymentId && (
+          <> · Razorpay: <code style={{ fontSize: '0.8rem' }}>{order.razorpayPaymentId}</code></>
+        )}
       </p>
 
       <div className="row g-4 mt-2">

@@ -1,6 +1,7 @@
 import mongoose, { Schema, models, model, Model } from 'mongoose';
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+export type PaymentStatus = 'unpaid' | 'paid' | 'failed';
 
 export interface OrderLine {
   productId?: mongoose.Types.ObjectId | string | null;
@@ -20,6 +21,9 @@ export interface OrderDoc {
   subtotal: number;
   currency: string;
   status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  razorpayOrderId?: string | null;
+  razorpayPaymentId?: string | null;
   customer: {
     name: string;
     email: string;
@@ -61,6 +65,14 @@ const OrderSchema = new Schema<OrderDoc>(
       default: 'pending',
       index: true,
     },
+    paymentStatus: {
+      type: String,
+      enum: ['unpaid', 'paid', 'failed'],
+      default: 'unpaid',
+      index: true,
+    },
+    razorpayOrderId: { type: String, default: null, index: true },
+    razorpayPaymentId: { type: String, default: null },
     customer: {
       name: { type: String, required: true },
       email: { type: String, required: true },

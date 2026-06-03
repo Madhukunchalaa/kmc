@@ -1,0 +1,82 @@
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { connectMongoose } from '@/lib/mongoose';
+import { Order } from '@/models/Order';
+import { getRazorpayClient, getRazorpayKeyId, isRazorpayConfigured, toPaise } from '@/lib/razorpay';
+import { razorpayCreateSchema, zodErrorMessage } from '@/lib/validators';
+
+export async function POST(req: Request) {
+  if (!isRazorpayConfigured()) {
+    return NextResponse.json({ ok: false, reason: 'razorpay-not-configured' }, { status: 503 });
+  }
+
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ ok: false, reason: 'unauthorized' }, { status: 401 });
+  }
+
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ ok: false, reason: 'bad-json' }, { status: 400 });
+  }
+
+  const parsed = razorpayCreateSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
+  }
+
+  const razorpay = getRazorpayClient();
+  const keyId = getRazorpayKeyId();
+  if (!razorpay || !keyId) {
+    return NextResponse.json({ ok: false, reason: 'razorpay-not-configured' }, { status: 503 });
+  }
+
+  await connectMongoose();
+  const order = await Order.findOne({
+    _id: parsed.data.orderId,
+    user: session.user.id,
+    paymentStatus: 'unpaid',
+    status: { $ne: 'cancelled' },
+  });
+
+  if (!order) {
+    return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
+  }
+
+  try {
+    let razorpayOrderId = order.razorpayOrderId;
+    if (!razorpayOrderId) {
+      const rpOrder = await razorpay.orders.create({
+        amount: toPaise(order.subtotal),
+        currency: order.currency || 'INR',
+        receipt: order.orderNumber,
+        notes: {
+          kmcOrderId: String(order._id),
+          orderNumber: order.orderNumber,
+        },
+      });
+      razorpayOrderId = rpOrder.id;
+      order.razorpayOrderId = razorpayOrderId;
+      await order.save();
+    }
+
+    return NextResponse.json({
+      ok: true,
+      keyId,
+      razorpayOrderId,
+      amount: toPaise(order.subtotal),
+      currency: order.currency || 'INR',
+      orderNumber: order.orderNumber,
+      customer: {
+        name: order.customer.name,
+        email: order.customer.email,
+        phone: order.customer.phone,
+      },
+    });
+  } catch (err) {
+    console.error('razorpay order create failed', err);
+    return NextResponse.json({ ok: false, reason: 'razorpay-error' }, { status: 502 });
+  }
+}

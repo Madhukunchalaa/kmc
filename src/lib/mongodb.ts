@@ -1,3 +1,4 @@
+import '@/lib/mongoDns';
 import { MongoClient, Db } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;

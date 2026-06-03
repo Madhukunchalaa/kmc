@@ -68,15 +68,15 @@ export function welcomeEmail(name: string): EmailMessage {
   };
 }
 
-export function orderEmail(name: string, orderNumber: string, subtotal: number): EmailMessage {
+export function orderPaidEmail(name: string, orderNumber: string, subtotal: number): EmailMessage {
   return {
     to: '',
-    subject: `Order received · ${orderNumber}`,
+    subject: `Payment confirmed · ${orderNumber}`,
     html: shell(
       `Thank you, ${name}!`,
-      `<p>We've received your order <strong>${orderNumber}</strong>.</p>
-       <p>Total: <strong>₹${subtotal.toLocaleString('en-IN')}</strong></p>
-       <p>We'll reach out shortly to confirm shipping and payment details.</p>`,
+      `<p>Your payment for order <strong>${orderNumber}</strong> was successful.</p>
+       <p>Amount paid: <strong>₹${subtotal.toLocaleString('en-IN')}</strong></p>
+       <p>We're preparing your crystals and will update you when your order ships.</p>`,
     ),
   };
 }

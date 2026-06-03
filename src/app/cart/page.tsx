@@ -153,7 +153,7 @@ export default function CartPage() {
                     <span>Proceed to Checkout</span>
                   </Link>
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-light,#999)', marginTop: '0.75rem', textAlign: 'center' }}>
-                    Secure checkout · 100% authentic crystals
+                    Secure Razorpay checkout · 100% authentic crystals
                   </p>
                 </div>
               </div>

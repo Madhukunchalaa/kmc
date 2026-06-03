@@ -17,7 +17,12 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
     <div>
       <Link href="/dashboard/orders" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>← My orders</Link>
       <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginTop: 12 }}>{o.orderNumber}</h1>
-      <p style={{ color: '#888' }}>Placed {new Date(o.createdAt).toLocaleString('en-IN')} · Status: <strong>{o.status}</strong></p>
+      <p style={{ color: '#888' }}>
+        Placed {new Date(o.createdAt).toLocaleString('en-IN')} · Status: <strong>{o.status}</strong>
+        {o.paymentStatus && (
+          <> · Payment: <strong>{o.paymentStatus === 'paid' ? 'Paid' : o.paymentStatus}</strong></>
+        )}
+      </p>
 
       <div className="row g-4 mt-2">
         <div className="col-lg-8">

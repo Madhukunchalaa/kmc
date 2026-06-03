@@ -62,7 +62,7 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
                 </td>
                 <td style={{ padding: 12 }}>{o.items.length} item{o.items.length === 1 ? '' : 's'}</td>
                 <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{o.subtotal.toLocaleString('en-IN')}</td>
-                <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
+                <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
                 <td style={{ padding: 12, textAlign: 'right', fontSize: '0.82rem', color: '#888' }}>{new Date(o.createdAt).toLocaleDateString('en-IN')}</td>
                 <td style={{ padding: 12, textAlign: 'right' }}>
                   <Link href={`/admin/orders/${o._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>View →</Link>

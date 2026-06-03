@@ -34,7 +34,7 @@ export default async function MyOrders() {
                   <td style={{ padding: 12, fontWeight: 600 }}>{o.orderNumber}</td>
                   <td style={{ padding: 12 }}>{o.items.length}</td>
                   <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{o.subtotal.toLocaleString('en-IN')}</td>
-                  <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
+                  <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
                   <td style={{ padding: 12, textAlign: 'right', color: '#888', fontSize: '0.82rem' }}>{new Date(o.createdAt).toLocaleDateString('en-IN')}</td>
                   <td style={{ padding: 12, textAlign: 'right' }}>
                     <Link href={`/dashboard/orders/${o._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>View →</Link>

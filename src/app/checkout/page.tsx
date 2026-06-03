@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
 import Spinner from '@/components/Spinner';
+import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 
 interface Form {
   name: string;
@@ -54,21 +55,72 @@ export default function CheckoutPage() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch('/api/orders', {
+      const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ items, customer: form }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        setError(data.reason ?? 'Failed to place order. Please try again.');
+      const orderData = await orderRes.json();
+      if (!orderRes.ok || !orderData.ok) {
+        const msg =
+          orderData.reason === 'razorpay-not-configured'
+            ? 'Online payments are not configured yet. Please contact us to complete your order.'
+            : orderData.reason === 'login-required'
+              ? 'Please sign in to checkout.'
+              : (orderData.reason ?? 'Failed to place order. Please try again.');
+        setError(msg);
         setSubmitting(false);
         return;
       }
-      setOrderNumber(data.orderNumber);
+
+      const payRes = await fetch('/api/payments/razorpay/create', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ orderId: orderData.orderId }),
+      });
+      const payData = await payRes.json();
+      if (!payRes.ok || !payData.ok) {
+        setError(payData.reason ?? 'Could not start payment. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      const payment = await openRazorpayCheckout({
+        keyId: payData.keyId,
+        amount: payData.amount,
+        currency: payData.currency,
+        razorpayOrderId: payData.razorpayOrderId,
+        orderNumber: payData.orderNumber,
+        name: payData.customer.name,
+        email: payData.customer.email,
+        phone: payData.customer.phone,
+      });
+
+      const verifyRes = await fetch('/api/payments/razorpay/verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          orderId: orderData.orderId,
+          razorpay_order_id: payment.razorpay_order_id,
+          razorpay_payment_id: payment.razorpay_payment_id,
+          razorpay_signature: payment.razorpay_signature,
+        }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        setError(verifyData.reason ?? 'Payment verification failed. Contact us with your order number.');
+        setSubmitting(false);
+        return;
+      }
+
+      setOrderNumber(verifyData.orderNumber);
       await clear();
-    } catch {
-      setError('Network error. Please try again.');
+    } catch (err) {
+      if (err instanceof Error && err.message === 'payment-cancelled') {
+        setError('Payment was cancelled. Your order is saved — you can try paying again from your dashboard or contact us.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -79,17 +131,23 @@ export default function CheckoutPage() {
       <section className="section-pad" style={{ paddingTop: '160px' }}>
         <div className="container text-center" style={{ maxWidth: 640 }}>
           <div style={{ fontSize: '4rem' }}>✨</div>
-          <h1 className="section-title">Order <span>Placed!</span></h1>
+          <h1 className="section-title">Payment <span>Confirmed!</span></h1>
           <p className="section-subtitle">
-            Thank you, {form.name || 'friend'}. Your order <strong>{orderNumber}</strong> has been received.
+            Thank you, {form.name || 'friend'}. Your order <strong>{orderNumber}</strong> is confirmed.
           </p>
           <p style={{ color: 'var(--text-light,#666)' }}>
-            We&apos;ll reach out on WhatsApp/email shortly to confirm and arrange payment & shipping.
+            We&apos;ve received your payment and will prepare your crystals for shipping. You&apos;ll get updates by email.
           </p>
-          <Link href="/shop" className="btn-primary-custom mt-3">
-            <i className="fa-solid fa-gem"></i>
-            <span>Keep Shopping</span>
-          </Link>
+          <div className="d-flex flex-wrap gap-2 justify-content-center mt-3">
+            <Link href="/dashboard/orders" className="btn-primary-custom">
+              <i className="fa-solid fa-box"></i>
+              <span>View My Orders</span>
+            </Link>
+            <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', color: 'var(--primary,#C8956C)', border: '2px solid var(--primary,#C8956C)' }}>
+              <i className="fa-solid fa-gem"></i>
+              <span>Keep Shopping</span>
+            </Link>
+          </div>
         </div>
       </section>
     );
@@ -174,11 +232,11 @@ export default function CheckoutPage() {
 
                 <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
                   {submitting ? <Spinner /> : <i className="fa-solid fa-lock"></i>}
-                  <span>{submitting ? 'Placing order…' : `Place Order · ₹${subtotal.toLocaleString('en-IN')}`}</span>
+                  <span>{submitting ? 'Processing…' : `Pay ₹${subtotal.toLocaleString('en-IN')}`}</span>
                 </button>
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
-                  Payment instructions (UPI/bank transfer) will be shared on confirmation. No card payment is taken on this site.
+                  Secure payment via Razorpay — UPI, cards, netbanking & wallets accepted.
                 </p>
               </form>
             </div>

@@ -2880,6 +2880,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .crystal-card:hover .crystal-tag { background: var(--primary); border-color: var(--primary); color: #fff; }
 
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  background: rgba(200, 149, 108, 0.12);
+  color: #8A4F27;
+  border-color: rgba(200, 149, 108, 0.35);
+  text-transform: uppercase;
+}
+
 /* ---------- Testimonials ---------- */
 .testimonials-section {
   background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%);

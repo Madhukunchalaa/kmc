@@ -54,6 +54,17 @@ export const createOrderSchema = z.object({
   customer: orderCustomerSchema,
 });
 
+export const razorpayCreateSchema = z.object({
+  orderId: z.string().min(1),
+});
+
+export const razorpayVerifySchema = z.object({
+  orderId: z.string().min(1),
+  razorpay_order_id: z.string().min(1),
+  razorpay_payment_id: z.string().min(1),
+  razorpay_signature: z.string().min(1),
+});
+
 export const productInputSchema = z.object({
   slug: z.string().min(2).max(120).regex(/^[a-z0-9-]+$/, 'lowercase letters, numbers and dashes only'),
   name: z.string().min(2).max(200),

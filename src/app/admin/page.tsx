@@ -127,7 +127,7 @@ export default async function AdminHome() {
                         ₹{o.subtotal.toLocaleString('en-IN')}
                       </td>
                       <td style={{ padding: '8px 0 8px 12px', textAlign: 'right' }}>
-                        <span className="crystal-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span>
+                        <span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span>
                       </td>
                     </tr>
                   ))}
@@ -158,7 +158,7 @@ export default async function AdminHome() {
                         </div>
                       </td>
                       <td style={{ padding: '8px 0 8px 12px', textAlign: 'right' }}>
-                        <span className="crystal-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span>
+                        <span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span>
                       </td>
                     </tr>
                   ))}

@@ -58,7 +58,7 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
                   {b.customer.name}<div style={{ color: '#888', fontSize: '0.78rem' }}>{b.customer.email}</div>
                 </td>
                 <td style={{ padding: 12 }}>{b.date} <strong>{b.timeSlot}</strong></td>
-                <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span></td>
+                <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span></td>
                 <td style={{ padding: 12, textAlign: 'right' }}>
                   <Link href={`/admin/bookings/${b._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>Review →</Link>
                 </td>

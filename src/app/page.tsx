@@ -19,8 +19,17 @@ export default function Home() {
   // Bestsellers / Featured crystals (first 6 items matching the homepage feel)
   const featuredProducts = products.slice(0, 6);
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
+  const [activeSessionIdx, setActiveSessionIdx] = useState(0);
 
-
+  const handleCarouselScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const scrollLeft = container.scrollLeft;
+    const width = container.clientWidth;
+    if (width > 0) {
+      const newIdx = Math.round(scrollLeft / width);
+      setActiveSessionIdx(newIdx);
+    }
+  };
 
   return (
     <>
@@ -146,7 +155,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="row g-4 justify-content-center">
+          <div id="sessions-carousel" onScroll={handleCarouselScroll} className="row g-4 justify-content-center sessions-carousel-container">
             {[
               {
                 path: 'PATH I',
@@ -206,7 +215,7 @@ export default function Home() {
                 featured: false,
               },
             ].map((svc, idx) => (
-              <div className="col-md-6 col-lg-4" key={svc.title}>
+              <div className="col-md-6 col-lg-4 sessions-carousel-slide" key={svc.title}>
                 <ScrollFade delay={idx * 100}>
                   <div className={`session-card${svc.featured ? ' featured' : ''}`}>
                     {svc.featured && <span className="session-popular-badge">Most Popular</span>}
@@ -247,6 +256,26 @@ export default function Home() {
                   </div>
                 </ScrollFade>
               </div>
+            ))}
+          </div>
+
+          <div className="sessions-carousel-dots">
+            {[0, 1, 2].map((idx) => (
+              <button
+                key={idx}
+                type="button"
+                className={`sessions-carousel-dot ${activeSessionIdx === idx ? 'active' : ''}`}
+                onClick={() => {
+                  const container = document.getElementById('sessions-carousel');
+                  if (container) {
+                    container.scrollTo({
+                      left: idx * container.clientWidth,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
             ))}
           </div>
         </div>

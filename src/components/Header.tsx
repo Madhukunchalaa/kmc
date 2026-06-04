@@ -47,6 +47,10 @@ export default function Header() {
               className="navbar-logo-img"
             />
           </div>
+          <div className="navbar-brand-text">
+            <span className="navbar-brand-main">KrissMaagiic Crystals</span>
+            <span className="navbar-brand-sub">Crystals &amp; Healing</span>
+          </div>
         </Link>
         <button
           className="navbar-toggler"

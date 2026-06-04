@@ -107,7 +107,7 @@ export default function HeroSection() {
         >
           <div className="hero-split-img-wrap">
             <img
-              src="/images/hero-collection.png"
+              src="/hero-banner.jpeg"
               alt="KrissMaagiic Crystal Collection"
               className="hero-split-img"
               loading="eager"

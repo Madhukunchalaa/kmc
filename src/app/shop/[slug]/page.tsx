@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug } from '@/lib/catalog';
+import { resolveProductImage } from '@/lib/resolveProductImage';
 import ProductCard from '@/components/ProductCard';
 import ProductBuyPanel from './ProductBuyPanel';
 import ProductDescription from './ProductDescription';
@@ -68,7 +69,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
           <div className="row g-5 align-items-start">
             <div className="col-lg-6">
               <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: 'var(--shadow-lg, 0 20px 50px rgba(0,0,0,0.1))' }}>
-                <img src={product.image} alt={product.name} style={{ width: '100%', display: 'block' }} />
+                <img src={resolveProductImage(product.image, product.category, product.name)} alt={product.name} style={{ width: '100%', display: 'block' }} />
               </div>
             </div>
             <div className="col-lg-6">

@@ -4,10 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { resolveProductImage } from '@/lib/resolveProductImage';
 
 interface ProductCardProps {
   product: Product;
 }
+
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
@@ -87,7 +89,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {/* Full-bleed image */}
       <Link href={`/shop/${product.id}`} className="pc-img-link" aria-label={product.name}>
-        <img className="pc-image" src={product.image} alt={product.name} />
+        <img className="pc-image" src={resolveProductImage(product.image, product.category, product.name)} alt={product.name} />
       </Link>
 
       {/* Product Name (Always visible until hover) */}

@@ -107,7 +107,7 @@ export default function HeroSection() {
         >
           <div className="hero-split-img-wrap">
             <img
-              src="https://krissmaagiiccrystals.com/wp-content/uploads/2026/02/IMG_3040-convert.io_.webp"
+              src="/images/hero-collection.png"
               alt="KrissMaagiic Crystal Collection"
               className="hero-split-img"
               loading="eager"

@@ -33,8 +33,8 @@ export default function HeroSection() {
 
           {/* Main headline */}
           <h1 className="hero-editorial-title">
-            Crystals That
-            <span className="hero-editorial-title-accent">Speak to Your Soul</span>
+            <i className="fa-solid fa-moon me-3" style={{ color: '#D4AF37' }} />Aligned With The Universe,
+            <span className="hero-editorial-title-accent">Chosen For You</span>
           </h1>
 
           {/* Subtitle */}
@@ -57,7 +57,7 @@ export default function HeroSection() {
         {/* Right Side: Image & Badges */}
         <div className="hero-editorial-right">
           <img
-            src="/hero-editorial.png"
+            src="/hero-aligned.jpg"
             alt="KrissMaagiic Crystal Collection"
             className="hero-editorial-img"
             loading="eager"

@@ -9,6 +9,9 @@ export interface ProductDoc {
   price: number;
   originalPrice?: number | null;
   image: string;
+  images?: string[];
+  usdPrice?: number;
+  originalUsdPrice?: number | null;
   badge?: 'Popular' | 'New' | 'Sale' | 'Bestseller' | null;
   desc: string;
   longDesc?: string;
@@ -28,6 +31,9 @@ const ProductSchema = new Schema<ProductDoc>(
     price: { type: Number, required: true, min: 0 },
     originalPrice: { type: Number, default: null, min: 0 },
     image: { type: String, required: true },
+    images: { type: [String], default: [] },
+    usdPrice: { type: Number, default: 0 },
+    originalUsdPrice: { type: Number, default: null },
     badge: { type: String, enum: ['Popular', 'New', 'Sale', 'Bestseller', null], default: null },
     desc: { type: String, required: true },
     longDesc: { type: String, default: '' },

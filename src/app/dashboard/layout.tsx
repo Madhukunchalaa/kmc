@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { auth, signOut } from '@/auth';
 import DashboardNav from './DashboardNav';
@@ -30,17 +31,17 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         }}
       >
         <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem' }}>
-          <a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
             <i className="fa-solid fa-gem me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
             KrissMaagiic
-          </a>
+          </Link>
           <span style={{ color: '#999', fontSize: '0.85rem', marginLeft: 8 }}>· My Dashboard</span>
         </div>
         <div className="d-flex align-items-center gap-3" style={{ fontSize: '0.85rem' }}>
           <span style={{ color: '#888' }}>Hi, {session.user.name?.split(' ')[0] || session.user.email}</span>
-          <a href="/" style={{ color: '#888', textDecoration: 'none' }}>
+          <Link href="/" style={{ color: '#888', textDecoration: 'none' }}>
             <i className="fa-solid fa-house"></i> Site
-          </a>
+          </Link>
           <form action={logout}>
             <button
               type="submit"

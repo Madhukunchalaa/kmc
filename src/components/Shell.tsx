@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { CartProvider } from '@/context/CartContext';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 import Preloader from './Preloader';
 import Header from './Header';
 import Footer from './Footer';
@@ -23,14 +24,16 @@ export default function Shell({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider>
-      <CartProvider>
-        {chrome && !isAuth && <Preloader />}
-        {chrome && <Header />}
-        {children}
-        {chrome && <Footer />}
-        {chrome && !isAuth && <WhatsAppFloat />}
-        {chrome && !isAuth && <BackToTop />}
-      </CartProvider>
+      <CurrencyProvider>
+        <CartProvider>
+          {chrome && !isAuth && <Preloader />}
+          {chrome && <Header />}
+          {children}
+          {chrome && <Footer />}
+          {chrome && !isAuth && <WhatsAppFloat />}
+          {chrome && !isAuth && <BackToTop />}
+        </CartProvider>
+      </CurrencyProvider>
     </SessionProvider>
   );
 }

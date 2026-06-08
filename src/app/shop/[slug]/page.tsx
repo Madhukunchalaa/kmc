@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug } from '@/lib/catalog';
-import { resolveProductImage } from '@/lib/resolveProductImage';
 import ProductCard from '@/components/ProductCard';
 import ProductBuyPanel from './ProductBuyPanel';
 import ProductDescription from './ProductDescription';
+import ProductPriceDisplay from '@/components/ProductPriceDisplay';
+import ProductImageGallery from '@/components/ProductImageGallery';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,23 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
   if (!product) notFound();
 
   const all = await getAllProducts();
-  const related = all.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, 3);
+
+  // Group products into our 4 target categories for better related products matching
+  const getProductGroup = (p: { category: string; subcategory?: string; name: string }) => {
+    const sub = (p.subcategory || '').toLowerCase();
+    const cat = (p.category || '').toLowerCase();
+    const name = (p.name || '').toLowerCase();
+    if (sub === 'designer bracelets') return 'designer';
+    if (sub === 'signature bracelets') return 'signature';
+    if (sub === 'spell jars' || name.includes('spell jar')) return 'spelljar';
+    if (cat === 'bracelets') return 'bycrystal';
+    return 'other';
+  };
+
+  const productGroup = getProductGroup(product);
+  const related = all
+    .filter((p) => p.slug !== product.slug && getProductGroup(p) === productGroup)
+    .slice(0, 6);
 
   // Safely parse JSON description if present in desc or longDesc
   let descObj: {
@@ -37,18 +54,9 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
     if (rawJsonField) {
       descObj = JSON.parse(rawJsonField);
     }
-  } catch (e) {
+  } catch {
     // Fail silently
   }
-
-  const cleanDescText = descObj ? descObj.description || '' : product.desc;
-
-  const legacy = {
-    id: product.slug,
-    name: product.name, category: product.category, subcategory: product.subcategory,
-    price: product.price, originalPrice: product.originalPrice, image: product.image,
-    badge: product.badge, desc: cleanDescText || product.desc, chakras: product.chakras,
-  };
 
   return (
     <>
@@ -68,22 +76,23 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
         <div className="container">
           <div className="row g-5 align-items-start">
             <div className="col-lg-6">
-              <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: 'var(--shadow-lg, 0 20px 50px rgba(0,0,0,0.1))' }}>
-                <img src={resolveProductImage(product.image, product.category, product.name)} alt={product.name} style={{ width: '100%', display: 'block' }} />
-              </div>
+              <ProductImageGallery
+                images={product.images}
+                mainImage={product.image}
+                category={product.category}
+                name={product.name}
+              />
             </div>
             <div className="col-lg-6">
               <span className="product-category" style={{ fontSize: '0.85rem' }}>{product.subcategory}</span>
               <h1 className="section-title" style={{ textAlign: 'left', fontSize: '2.4rem', marginTop: 8 }}>{product.name}</h1>
               <div className="d-flex align-items-center gap-3 mt-3">
-                <span className="product-price" style={{ fontSize: '1.6rem' }}>
-                  {product.originalPrice && (
-                    <span className="original">
-                      <span className="currency">₹</span>{product.originalPrice.toLocaleString('en-IN')}
-                    </span>
-                  )}
-                  <span className="currency">₹</span>{product.price.toLocaleString('en-IN')}
-                </span>
+                <ProductPriceDisplay
+                  price={product.price}
+                  originalPrice={product.originalPrice}
+                  usdPrice={product.usdPrice}
+                  originalUsdPrice={product.originalUsdPrice}
+                />
                 {product.badge && <span className={`product-badge ${product.badge.toLowerCase()}`} style={{ position: 'static' }}>{product.badge}</span>}
               </div>
               
@@ -119,15 +128,13 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
               <h2 className="section-title">Similar <span>Crystals</span></h2>
               <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
             </div>
-            <div className="row g-4">
+            <div className="shop-products-grid">
               {related.map((p) => (
-                <div className="col-sm-6 col-lg-4" key={p.slug}>
-                  <ProductCard product={{
-                    id: p.slug, name: p.name, category: p.category, subcategory: p.subcategory,
-                    price: p.price, originalPrice: p.originalPrice, image: p.image, badge: p.badge,
-                    desc: p.desc, chakras: p.chakras,
-                  }} />
-                </div>
+                <ProductCard key={p.slug} product={{
+                  id: p.slug, name: p.name, category: p.category, subcategory: p.subcategory,
+                  price: p.price, originalPrice: p.originalPrice, image: p.image, badge: p.badge,
+                  desc: p.desc, chakras: p.chakras,
+                }} />
               ))}
             </div>
           </div>

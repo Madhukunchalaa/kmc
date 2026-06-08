@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
   }
 
-  const { items, customer } = parsed.data;
+  const { items, customer, currency } = parsed.data;
   const sid = (await cookies()).get(CART_COOKIE)?.value ?? null;
   const session = await auth();
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
   await connectMongoose();
 
-  const { lines, subtotal, stockError } = await resolveOrderLines(items);
+  const { lines, subtotal, stockError } = await resolveOrderLines(items, currency);
   if (stockError) {
     const status = stockError === 'no-valid-items' ? 400 : 409;
     return NextResponse.json({ ok: false, reason: stockError }, { status });
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         lineTotal: l.lineTotal,
       })) as never,
       subtotal,
-      currency: 'INR',
+      currency,
       status: 'pending',
       paymentStatus: 'unpaid',
       customer,

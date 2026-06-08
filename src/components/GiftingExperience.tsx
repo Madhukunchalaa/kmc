@@ -94,13 +94,10 @@ const CONFETTI_COLORS = ['#F7C948', '#E8647A', '#C8956C', '#9B59B6', '#27AE60', 
 export default function GiftingExperience() {
   const [open, setOpen] = useState(false);
   const [recipient, setRecipient] = useState<Recipient | null>(null);
-  const [giftProducts, setGiftProducts] = useState<Product[]>([]);
   const [giftMsg, setGiftMsg] = useState('');
   const [msgOpen, setMsgOpen] = useState(false);
 
-  useEffect(() => {
-    if (recipient) setGiftProducts(getGiftProducts(recipient));
-  }, [recipient]);
+  const giftProducts = recipient ? getGiftProducts(recipient) : [];
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -171,7 +168,7 @@ export default function GiftingExperience() {
                 </div>
                 <p className="gift-step-eyebrow">✦ Sacred Gifting Guide ✦</p>
                 <h2 className="gift-step-title">Who are you gifting?</h2>
-                <p className="gift-step-subtitle">We'll hand-pick the perfect crystal energy for them</p>
+                <p className="gift-step-subtitle">We&apos;ll hand-pick the perfect crystal energy for them</p>
               </div>
 
               <div className="gift-recipients-grid">

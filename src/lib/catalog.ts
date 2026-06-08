@@ -12,6 +12,9 @@ export interface CatalogProduct {
   price: number;
   originalPrice: number | null;
   image: string;
+  images?: string[];
+  usdPrice?: number;
+  originalUsdPrice?: number | null;
   badge: 'Popular' | 'New' | 'Sale' | 'Bestseller' | null;
   desc: string;
   longDesc?: string;
@@ -42,6 +45,9 @@ function fromSeed(p: SeedProduct): CatalogProduct {
     price: p.price,
     originalPrice: p.originalPrice ?? null,
     image: p.image,
+    images: p.images ?? [],
+    usdPrice: p.usdPrice ?? 0,
+    originalUsdPrice: p.originalUsdPrice ?? null,
     badge: p.badge,
     desc: p.desc,
     longDesc: p.longDesc ?? '',
@@ -64,6 +70,9 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
       price: d.price,
       originalPrice: d.originalPrice ?? null,
       image: d.image,
+      images: d.images ?? [],
+      usdPrice: d.usdPrice ?? 0,
+      originalUsdPrice: d.originalUsdPrice ?? null,
       badge: d.badge ?? null,
       desc: d.desc,
       longDesc: d.longDesc ?? '',
@@ -90,6 +99,9 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
         price: d.price,
         originalPrice: d.originalPrice ?? null,
         image: d.image,
+        images: d.images ?? [],
+        usdPrice: d.usdPrice ?? 0,
+        originalUsdPrice: d.originalUsdPrice ?? null,
         badge: d.badge ?? null,
         desc: d.desc,
         longDesc: d.longDesc ?? '',

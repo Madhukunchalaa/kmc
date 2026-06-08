@@ -134,8 +134,12 @@ export default function BookingFlow({
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    setSelectedTime(null);
+    Promise.resolve().then(() => {
+      if (!cancelled) {
+        setLoading(true);
+        setSelectedTime(null);
+      }
+    });
     (async () => {
       try {
         const res  = await fetch(`/api/slots?serviceId=${serviceId}&date=${selectedDate}`);

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import Spinner from '@/components/Spinner';
 
 export default function AdminLoginForm() {
@@ -132,9 +133,9 @@ export default function AdminLoginForm() {
       </button>
 
       <div style={{ textAlign: 'center', marginTop: 4 }}>
-        <a href="/" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem', textDecoration: 'none' }}>
+        <Link href="/" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem', textDecoration: 'none' }}>
           ← Back to site
-        </a>
+        </Link>
       </div>
     </form>
   );

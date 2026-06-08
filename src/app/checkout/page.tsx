@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import Spinner from '@/components/Spinner';
 import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 
@@ -24,8 +25,14 @@ const EMPTY: Form = { name: '', email: '', phone: '', address: '', city: '', sta
 export default function CheckoutPage() {
   const router = useRouter();
   const { status, data: session } = useSession();
-  const { hydrated, items, subtotal, clear, loading } = useCart();
+  const { hydrated, items, clear, loading } = useCart();
+  const { currency, getRawPrice } = useCurrency();
   const [form, setForm] = useState<Form>(EMPTY);
+
+  const rawSubtotal = hydrated.reduce(
+    (sum, it) => sum + getRawPrice(it.product.price, it.product.usdPrice) * it.qty,
+    0
+  );
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -35,11 +42,13 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (session?.user) {
-      setForm((f) => ({
-        ...f,
-        name: f.name || session.user.name || '',
-        email: f.email || session.user.email || '',
-      }));
+      Promise.resolve().then(() => {
+        setForm((f) => ({
+          ...f,
+          name: f.name || session.user.name || '',
+          email: f.email || session.user.email || '',
+        }));
+      });
     }
   }, [session]);
   const [submitting, setSubmitting] = useState(false);
@@ -58,7 +67,7 @@ export default function CheckoutPage() {
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items, customer: form }),
+        body: JSON.stringify({ items, customer: form, currency }),
       });
       const orderData = await orderRes.json();
       if (!orderRes.ok || !orderData.ok) {
@@ -232,7 +241,7 @@ export default function CheckoutPage() {
 
                 <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
                   {submitting ? <Spinner /> : <i className="fa-solid fa-lock"></i>}
-                  <span>{submitting ? 'Processing…' : `Pay ₹${subtotal.toLocaleString('en-IN')}`}</span>
+                  <span>{submitting ? 'Processing…' : `Pay ${currency === 'USD' ? '$' : '₹'}${rawSubtotal.toLocaleString('en-IN')}`}</span>
                 </button>
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
@@ -252,18 +261,18 @@ export default function CheckoutPage() {
                         <div style={{ fontWeight: 600 }}>{it.product.name}</div>
                         <div style={{ color: 'var(--text-light,#777)' }}>Qty {it.qty}</div>
                       </div>
-                      <div style={{ fontWeight: 700 }}>₹{it.lineTotal.toLocaleString('en-IN')}</div>
+                      <div style={{ fontWeight: 700 }}>{currency === 'USD' ? '$' : '₹'}{(getRawPrice(it.product.price, it.product.usdPrice) * it.qty).toLocaleString('en-IN')}</div>
                     </div>
                   ))}
                 </div>
                 <hr style={{ margin: '1rem 0' }} />
-                <div className="d-flex justify-content-between"><span>Subtotal</span><strong>₹{subtotal.toLocaleString('en-IN')}</strong></div>
+                <div className="d-flex justify-content-between"><span>Subtotal</span><strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong></div>
                 <div className="d-flex justify-content-between mt-2" style={{ color: 'var(--text-light,#777)', fontSize: '0.9rem' }}>
                   <span>Shipping</span><span>Calculated after confirmation</span>
                 </div>
                 <hr style={{ margin: '1rem 0' }} />
                 <div className="d-flex justify-content-between" style={{ fontSize: '1.1rem' }}>
-                  <strong>Total</strong><strong>₹{subtotal.toLocaleString('en-IN')}</strong>
+                  <strong>Total</strong><strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong>
                 </div>
               </div>
             </div>

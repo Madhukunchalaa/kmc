@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import { resolveProductImage } from '@/lib/resolveProductImage';
 
 interface ProductCardProps {
@@ -13,6 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const { formatPrice } = useCurrency();
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
 
@@ -89,7 +92,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {/* Full-bleed image */}
       <Link href={`/shop/${product.id}`} className="pc-img-link" aria-label={product.name}>
-        <img className="pc-image" src={resolveProductImage(product.image, product.category, product.name)} alt={product.name} />
+        <Image 
+          className="pc-image" 
+          src={resolveProductImage(product.image, product.category, product.name)} 
+          alt={product.name} 
+          fill 
+          sizes="(max-width: 768px) 50vw, 33vw" 
+        />
       </Link>
 
       {/* Product Name (Always visible until hover) */}
@@ -107,10 +116,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="pc-overlay-price">
             {product.originalPrice && (
               <s className="pc-overlay-orig">
-                ₹{product.originalPrice.toLocaleString('en-IN')}
+                {formatPrice(product.originalPrice, product.originalUsdPrice)}
               </s>
             )}
-            <span className="pc-overlay-sale">₹{product.price.toLocaleString('en-IN')}</span>
+            <span className="pc-overlay-sale">{formatPrice(product.price, product.usdPrice)}</span>
           </div>
           <div className="pc-overlay-actions">
             <button className="pc-btn-cart" onClick={handleAddToCart}>

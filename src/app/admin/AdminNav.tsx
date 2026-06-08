@@ -9,6 +9,7 @@ const LINKS = [
   { href: '/admin/bookings', label: 'Bookings', icon: 'fa-solid fa-calendar-check' },
   { href: '/admin/products', label: 'Products', icon: 'fa-solid fa-gem' },
   { href: '/admin/services', label: 'Services', icon: 'fa-solid fa-wand-magic-sparkles' },
+  { href: '/admin/blogs', label: 'Blogs', icon: 'fa-solid fa-pen-nib' },
   { href: '/admin/users', label: 'Users', icon: 'fa-solid fa-users' },
 ];
 

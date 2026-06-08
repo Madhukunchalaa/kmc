@@ -70,7 +70,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (status === 'loading') return;
 
     let cancelled = false;
-    setLoading(true);
+    Promise.resolve().then(() => {
+      if (!cancelled) setLoading(true);
+    });
 
     const storedOwner = readOwner();
     const userChanged = storedOwner !== userId;
@@ -83,11 +85,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       writeOwner(userId);
       // Rotate the anonymous session cookie so the old guest cart isn't leaked.
       if (storedOwner !== '') rotateSid();
-      setItems([]);
+      Promise.resolve().then(() => {
+        if (!cancelled) setItems([]);
+      });
     }
 
     const local = readLocal(); // empty when just cleared, existing items when same user
-    if (!cancelled) setItems(local);
+    Promise.resolve().then(() => {
+      if (!cancelled) setItems(local);
+    });
     getOrCreateClientSessionId();
 
     (async () => {

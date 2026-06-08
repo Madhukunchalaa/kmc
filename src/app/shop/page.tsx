@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import ShopFilters from './ShopFilters';
 import GiftingExperience from '@/components/GiftingExperience';
 import { getAllProducts } from '@/lib/catalog';

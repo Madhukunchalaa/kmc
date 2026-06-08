@@ -38,7 +38,9 @@ export default function HeroParticles() {
         twinkleDelay: `${Math.random() * 3}s`,
       });
     }
-    setParticles(generated);
+    requestAnimationFrame(() => {
+      setParticles(generated);
+    });
   }, []);
 
   return (

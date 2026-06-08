@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface AppNotification {
   _id: string;
@@ -50,7 +51,9 @@ export default function NotificationBell() {
   }
 
   useEffect(() => {
-    fetchNotifications();
+    Promise.resolve().then(() => {
+      fetchNotifications();
+    });
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
   }, []);
@@ -284,13 +287,13 @@ export default function NotificationBell() {
           </div>
 
           <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(0,0,0,0.07)', textAlign: 'center' }}>
-            <a
+            <Link
               href="/dashboard/notifications"
               onClick={() => setOpen(false)}
               style={{ fontSize: '0.82rem', color: '#C8956C', fontWeight: 600, textDecoration: 'none' }}
             >
               View all notifications →
-            </a>
+            </Link>
           </div>
         </div>
       )}

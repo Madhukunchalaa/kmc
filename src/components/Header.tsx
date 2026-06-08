@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency, Currency } from '@/context/CurrencyContext';
 import NotificationBell from '@/components/NotificationBell';
 
 export default function Header() {
   const pathname = usePathname();
   const { count } = useCart();
+  const { currency, setCurrency } = useCurrency();
   const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -83,6 +85,28 @@ export default function Header() {
                 <NotificationBell />
               </li>
             )}
+
+            <li className="nav-item d-flex align-items-center me-2">
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as Currency)}
+                style={{
+                  background: 'transparent',
+                  color: '#fff',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '0.82rem',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                }}
+                className="currency-select"
+              >
+                <option value="INR" style={{ color: '#000' }}>🇮🇳 INR (₹)</option>
+                <option value="USD" style={{ color: '#000' }}>🇺🇸 USD ($)</option>
+              </select>
+            </li>
 
             <li className="nav-item">
               <Link

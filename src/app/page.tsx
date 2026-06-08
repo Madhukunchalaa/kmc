@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
 import BookingModal, { BookingTier } from '@/components/BookingModal';
+import SignatureCarousel from '@/components/SignatureCarousel';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
 
@@ -16,8 +17,10 @@ interface SelectedSession {
 }
 
 export default function Home() {
-  // Bestsellers / Featured crystals (first 6 items matching the homepage feel)
-  const featuredProducts = products.slice(0, 6);
+  // Bestsellers / Featured crystals (first 5 items matching the homepage feel)
+  const featuredProducts = products.slice(0, 5);
+  // Signature Bracelets
+  const signatureProducts = products.filter(p => p.subcategory === 'Signature Bracelets').slice(0, 8);
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
 
@@ -36,57 +39,7 @@ export default function Home() {
       {/* ===== HERO ===== */}
       <HeroSection />
 
-      {/* ===== TRUST STRIP ===== */}
-      <div className="trust-strip">
-        <div className="trust-strip-track">
-          {/* Group 1 */}
-          <div className="trust-strip-group">
-            <div className="trust-item">
-              <i className="fa-solid fa-shield-halved"></i>
-              <span>100% Authentic</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-bolt"></i>
-              <span>Energised Stones</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-hand-sparkles"></i>
-              <span>Intuitively Selected</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-truck-fast"></i>
-              <span>Pan-India Shipping</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-globe"></i>
-              <span>International Delivery</span>
-            </div>
-          </div>
-          {/* Group 2 (Duplicate for infinite seamless scroll) */}
-          <div className="trust-strip-group" aria-hidden="true">
-            <div className="trust-item">
-              <i className="fa-solid fa-shield-halved"></i>
-              <span>100% Authentic</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-bolt"></i>
-              <span>Energised Stones</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-hand-sparkles"></i>
-              <span>Intuitively Selected</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-truck-fast"></i>
-              <span>Pan-India Shipping</span>
-            </div>
-            <div className="trust-item">
-              <i className="fa-solid fa-globe"></i>
-              <span>International Delivery</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Trust strip removed because it's now integrated inside HeroSection */}
 
       {/* ===== HOW KRISSMAAGIIC WAS BORN ===== */}
       <section className="section-pad" style={{ background: 'radial-gradient(circle at 20% 30%, #2D1B0E 0%, #1C0A02 100%)', color: '#fff' }}>
@@ -100,7 +53,7 @@ export default function Home() {
                     <div className="founder-placeholder-dashed">
                       <i className="fa-solid fa-wand-magic-sparkles founder-placeholder-icon" />
                       <span className="founder-placeholder-text">Founder</span>
-                      <span className="founder-placeholder-subtext">Space for Kriss's Photo</span>
+                      <span className="founder-placeholder-subtext">Space for Kriss&apos;s Photo</span>
                     </div>
                   </div>
                 </div>
@@ -281,6 +234,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== SIGNATURE CRYSTALS CAROUSEL ===== */}
+      <SignatureCarousel products={signatureProducts} />
+
       {/* ===== FEATURED PRODUCTS ===== */}
       <section className="products-section section-pad" id="featured-products">
         <div className="container">
@@ -291,27 +247,23 @@ export default function Home() {
             <p className="section-subtitle">Each piece is handpicked, energised and ready to work its magic in your life.</p>
           </div>
 
-          <div className="row g-3">
+          <div className="shop-products-grid">
             {featuredProducts.map((product, idx) => (
-              <div className="col-6 col-md-4 col-lg-3" key={product.id}>
-                <ScrollFade delay={idx * 80}>
-                  <ProductCard product={product} />
-                </ScrollFade>
-              </div>
+              <ScrollFade key={product.id} delay={idx * 80}>
+                <ProductCard product={product} />
+              </ScrollFade>
             ))}
 
             {/* View More Card */}
-            <div className="col-6 col-md-4 col-lg-3">
-              <ScrollFade delay={featuredProducts.length * 80}>
-                <Link href="/shop" className="pc-view-more-card">
-                  <div className="pc-view-more-inner">
-                    <i className="fa-solid fa-gem pc-view-more-icon" />
-                    <h3 className="pc-view-more-title">View More</h3>
-                    <p className="pc-view-more-desc">Explore the entire sacred collection</p>
-                  </div>
-                </Link>
-              </ScrollFade>
-            </div>
+            <ScrollFade delay={featuredProducts.length * 80}>
+              <Link href="/shop" className="pc-view-more-card">
+                <div className="pc-view-more-inner">
+                  <i className="fa-solid fa-gem pc-view-more-icon" />
+                  <h3 className="pc-view-more-title">View More</h3>
+                  <p className="pc-view-more-desc">Explore the entire sacred collection</p>
+                </div>
+              </Link>
+            </ScrollFade>
           </div>
 
           <div className="text-center mt-5">

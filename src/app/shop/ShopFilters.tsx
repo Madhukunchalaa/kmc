@@ -6,19 +6,14 @@ import ProductCard from '@/components/ProductCard';
 import ScrollFade from '@/components/ScrollFade';
 import type { CatalogProduct } from '@/lib/catalog';
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 30;
 
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
-  { key: 'all', label: 'All Collections', icon: 'fa-solid fa-gem' },
-  { key: 'bracelets', label: 'Bracelets', icon: 'fa-solid fa-circle-notch' },
-  { key: 'malas', label: 'Malas', icon: 'fa-solid fa-ellipsis-h' },
-  { key: 'pendants', label: 'Pendants', icon: 'fa-solid fa-certificate' },
-  { key: 'raw', label: 'Raw Crystals', icon: 'fa-solid fa-mountain' },
-  { key: 'spheres', label: 'Spheres', icon: 'fa-solid fa-circle' },
-  { key: 'towers', label: 'Towers', icon: 'fa-solid fa-monument' },
-  { key: 'trees', label: 'Trees', icon: 'fa-solid fa-tree' },
-  { key: 'evileye', label: 'Evil Eye', icon: 'fa-solid fa-eye' },
-  { key: 'silver', label: 'Silver Jewellery', icon: 'fa-solid fa-award' },
+  { key: 'all',       label: 'All Collections',      icon: 'fa-solid fa-gem' },
+  { key: 'designer',  label: 'Designer Bracelets',   icon: 'fa-solid fa-wand-magic-sparkles' },
+  { key: 'signature', label: 'Signature Crystals',   icon: 'fa-solid fa-crown' },
+  { key: 'spelljar',  label: 'Spell Jars',           icon: 'fa-solid fa-jar' },
+  { key: 'bycrystal', label: 'Bracelets by Crystals',icon: 'fa-solid fa-circle-notch' },
 ];
 
 const SORTS = [
@@ -52,11 +47,41 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
   // Reset to page 1 whenever category, sort, or search query changes
   useEffect(() => {
-    setCurrentPage(1);
+    Promise.resolve().then(() => {
+      setCurrentPage(1);
+    });
   }, [activeCat, sort, query]);
 
   const filtered = useMemo(() => {
-    let list = activeCat === 'all' ? [...products] : products.filter((p) => p.category === activeCat);
+    // Filter out items not belonging to the 4 target categories
+    const allowed = products.filter((p) => {
+      const sub = (p.subcategory || '').toLowerCase();
+      const cat = (p.category || '').toLowerCase();
+      const name = (p.name || '').toLowerCase();
+      
+      const isDesigner = sub === 'designer bracelets';
+      const isSignature = sub === 'signature bracelets';
+      const isSpellJar = sub === 'spell jars' || name.includes('spell jar');
+      const isByCrystal = cat === 'bracelets' && !isDesigner && !isSignature;
+      
+      return isDesigner || isSignature || isSpellJar || isByCrystal;
+    });
+
+    let list = [...allowed];
+    if (activeCat !== 'all') {
+      list = allowed.filter((p) => {
+        const sub = (p.subcategory || '').toLowerCase();
+        const cat = (p.category || '').toLowerCase();
+        const name = (p.name || '').toLowerCase();
+        
+        if (activeCat === 'designer') return sub === 'designer bracelets';
+        if (activeCat === 'signature') return sub === 'signature bracelets';
+        if (activeCat === 'spelljar') return sub === 'spell jars' || name.includes('spell jar');
+        if (activeCat === 'bycrystal') return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
+        return false;
+      });
+    }
+
     if (query.trim()) {
       const q = query.trim().toLowerCase();
       list = list.filter((p) =>
@@ -82,90 +107,63 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
 
   return (
-    <div className="shop-filters-layout">
-      {/* Sidebar Collections Column */}
-      <div className="shop-sidebar-col">
-        <div className="shop-sidebar-sticky">
-          <h4 style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '1.25rem',
-            color: '#ffffff',
-            fontWeight: 700,
-            marginTop: 0,
-            marginBottom: '1.5rem',
-            paddingBottom: '12px',
-            borderBottom: '2px solid rgba(200, 149, 108, 0.25)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            letterSpacing: '0.04em'
-          }}>
-            <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '1.1rem' }}></i>
-            Collections
-          </h4>
-          <div className="shop-sidebar-categories-container">
-            {CATEGORIES.map((c) => {
-              const active = activeCat === c.key;
-              return (
-                <button
-                  key={c.key}
-                  onClick={() => setActiveCat(c.key)}
+    <div style={{ width: '100%' }}>
+      {/* Horizontal Collections Filter Bar on Top */}
+      <div className="shop-top-collections-bar">
+        <h4 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '1.25rem',
+          color: '#ffffff',
+          fontWeight: 700,
+          margin: 0,
+          paddingBottom: '12px',
+          borderBottom: '2px solid rgba(200, 149, 108, 0.25)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          letterSpacing: '0.04em'
+        }}>
+          <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '1.1rem' }}></i>
+          Collections
+        </h4>
+        <div className="shop-top-categories-track">
+          {CATEGORIES.map((c) => {
+            const active = activeCat === c.key;
+            return (
+              <button
+                key={c.key}
+                onClick={() => setActiveCat(c.key)}
+                className={`shop-top-category-btn${active ? ' active' : ''}`}
+              >
+                <div 
+                  className="category-icon-wrapper"
                   style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '10px',
+                    background: active 
+                      ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' 
+                      : 'rgba(200, 149, 108, 0.08)',
+                    color: active ? '#fff' : 'var(--primary)',
                     display: 'flex',
                     alignItems: 'center',
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '16px',
-                    border: 'none',
-                    background: active 
-                      ? 'linear-gradient(135deg, rgba(200, 149, 108, 0.25) 0%, rgba(200, 149, 108, 0.1) 100%)' 
-                      : 'transparent',
-                    color: active ? '#ffffff' : 'rgba(255,255,255,0.65)',
-                    cursor: 'pointer',
-                    fontWeight: active ? 700 : 500,
-                    textAlign: 'left',
-                    fontSize: '0.9rem',
-                    fontFamily: 'var(--font-heading)',
-                    letterSpacing: '0.04em',
-                    transform: active ? 'translateX(4px)' : 'none',
+                    justifyContent: 'center',
+                    marginRight: '12px',
+                    boxShadow: active ? '0 4px 12px rgba(200, 149, 108, 0.25)' : 'none',
+                    transition: 'all 0.3s ease',
                   }}
-                  className="shop-sidebar-category-btn"
                 >
-                  <div 
-                    className="category-icon-wrapper"
-                    style={{
-                      width: '36px',
-                      height: '36px',
-                      borderRadius: '12px',
-                      background: active 
-                        ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' 
-                        : 'rgba(200, 149, 108, 0.08)',
-                      color: active ? '#fff' : 'var(--primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginRight: '14px',
-                      boxShadow: active ? '0 4px 12px rgba(200, 149, 108, 0.25)' : 'none',
-                      transition: 'all 0.3s ease',
-                    }}
-                  >
-                    <i className={c.icon} style={{ fontSize: '0.9rem' }}></i>
-                  </div>
-                  <span style={{ flexGrow: 1, color: active ? '#ffffff' : 'rgba(255,255,255,0.75)' }}>{c.label}</span>
-                  {active ? (
-                    <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.75rem', color: 'var(--primary,#C8956C)', opacity: 0.8 }}></i>
-                  ) : (
-                    <i className="fa-solid fa-chevron-right hover-arrow" style={{ fontSize: '0.75rem', color: 'var(--primary,#C8956C)', opacity: 0, transition: 'all 0.3s ease' }}></i>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                  <i className={c.icon} style={{ fontSize: '0.85rem' }}></i>
+                </div>
+                <span>{c.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Main Catalog Column */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ width: '100%', minWidth: 0 }}>
         <div className="row g-3 align-items-center mb-4">
           <div className="col-md-8">
             <div style={{ position: 'relative' }}>
@@ -195,13 +193,11 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
             </button>
           </div>
         ) : (
-          <div className="row g-4">
+          <div className="shop-products-grid">
             {paginatedProducts.map((p, idx) => (
-              <div className="col-6 col-md-4" key={p.id}>
-                <ScrollFade delay={Math.min(idx, 6) * 50}>
-                  <ProductCard product={toLegacy(p)} />
-                </ScrollFade>
-              </div>
+              <ScrollFade key={p.id} delay={Math.min(idx, 6) * 50}>
+                <ProductCard product={toLegacy(p)} />
+              </ScrollFade>
             ))}
           </div>
         )}

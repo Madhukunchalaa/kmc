@@ -3,10 +3,17 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 export default function CartPage() {
-  const { hydrated, subtotal, updateQty, removeItem, clear, loading } = useCart();
+  const { hydrated, updateQty, removeItem, clear, loading } = useCart();
   const { status } = useSession();
+  const { currency, getRawPrice } = useCurrency();
+
+  const rawSubtotal = hydrated.reduce(
+    (sum, it) => sum + getRawPrice(it.product.price, it.product.usdPrice) * it.qty,
+    0
+  );
 
   return (
     <>
@@ -96,7 +103,7 @@ export default function CartPage() {
                         </div>
                       </div>
                       <div style={{ textAlign: 'right', fontWeight: 700, fontFamily: 'var(--font-heading)', fontSize: '1.1rem' }}>
-                        ₹{it.lineTotal.toLocaleString('en-IN')}
+                        {currency === 'USD' ? '$' : '₹'}{(getRawPrice(it.product.price, it.product.usdPrice) * it.qty).toLocaleString('en-IN')}
                       </div>
                     </div>
                   ))}
@@ -130,7 +137,7 @@ export default function CartPage() {
                   <h3 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)', fontSize: '1.1rem' }}>Order Summary</h3>
                   <div className="d-flex justify-content-between mt-3">
                     <span>Subtotal</span>
-                    <strong>₹{subtotal.toLocaleString('en-IN')}</strong>
+                    <strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong>
                   </div>
                   <div className="d-flex justify-content-between mt-2" style={{ color: 'var(--text-light,#777)', fontSize: '0.9rem' }}>
                     <span>Shipping</span>
@@ -139,7 +146,7 @@ export default function CartPage() {
                   <hr style={{ margin: '1rem 0' }} />
                   <div className="d-flex justify-content-between" style={{ fontSize: '1.1rem' }}>
                     <strong>Total</strong>
-                    <strong>₹{subtotal.toLocaleString('en-IN')}</strong>
+                    <strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong>
                   </div>
                   {status === 'unauthenticated' && (
                     <div style={{ background: '#FAF6F1', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 10, padding: 12, marginTop: 16, fontSize: '0.85rem' }}>

@@ -55,20 +55,24 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
   // Reset when reopened or service changes
   useEffect(() => {
     if (open) {
-      setTierIdx(0);
-      setSelectedDate(ymd(today));
-      setSelectedTime(null);
-      setNotes('');
-      setError(null);
-      setDone(null);
+      Promise.resolve().then(() => {
+        setTierIdx(0);
+        setSelectedDate(ymd(today));
+        setSelectedTime(null);
+        setNotes('');
+        setError(null);
+        setDone(null);
+      });
     }
   }, [open, serviceSlug, today]);
 
   // Pre-fill from session
   useEffect(() => {
     if (session?.user) {
-      setName((n) => n || session.user.name || '');
-      setEmail((e) => e || session.user.email || '');
+      Promise.resolve().then(() => {
+        setName((n) => n || session.user.name || '');
+        setEmail((e) => e || session.user.email || '');
+      });
     }
   }, [session]);
 
@@ -92,8 +96,12 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
-    setLoadingSlots(true);
-    setSelectedTime(null);
+    Promise.resolve().then(() => {
+      if (!cancelled) {
+        setLoadingSlots(true);
+        setSelectedTime(null);
+      }
+    });
     (async () => {
       try {
         const res = await fetch(`/api/slots?serviceId=${serviceSlug}&date=${selectedDate}`);

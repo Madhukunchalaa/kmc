@@ -1,0 +1,200 @@
+/* ════════ EDITORIAL HERO REDESIGN ════════ */
+.hero-editorial {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #0A0604;
+  overflow: hidden;
+}
+
+.hero-editorial-main {
+  flex: 1;
+  display: flex;
+  width: 100%;
+}
+
+.hero-editorial-left {
+  width: 45%;
+  padding: 8rem 4rem 6rem 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-editorial-right {
+  width: 55%;
+  position: relative;
+}
+
+.hero-editorial-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0; left: 0;
+  border-bottom-left-radius: 40px;
+}
+
+/* Dark gradient fade blending left and right */
+.hero-editorial-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #0A0604 0%, rgba(10, 6, 4, 0.4) 30%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Typography & Content */
+.hero-editorial-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-cinzel);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #D4AF37;
+  margin-bottom: 2rem;
+}
+
+.hero-editorial-title {
+  font-family: var(--font-cinzel);
+  font-size: clamp(3rem, 4.5vw, 5rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.95);
+}
+
+.hero-editorial-title-accent {
+  display: block;
+  background: linear-gradient(to right, #F9E596, #D4AF37);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-style: italic;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.hero-editorial-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 3rem;
+  font-weight: 300;
+  max-width: 90%;
+}
+
+.hero-editorial-ctas {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.hero-editorial-btn-primary {
+  background: #D4AF37;
+  color: #0A0604;
+  padding: 1.1rem 2.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.hero-editorial-btn-primary:hover {
+  background: #F9E596;
+  transform: translateY(-2px);
+}
+
+.hero-editorial-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #D4AF37;
+  padding: 1.1rem 2.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.hero-editorial-btn-ghost:hover {
+  border-color: #D4AF37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* Badges positioned over the image */
+.hero-editorial-badges {
+  position: absolute;
+  left: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 20;
+}
+
+.hero-editorial-badge {
+  background: rgba(10, 6, 4, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #F9E596;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Trust Strip and Stats at the bottom */
+.hero-editorial-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #080402;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  z-index: 10;
+}
+
+.hero-editorial-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem 5%;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.hero-editorial-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-editorial-stat-num {
+  font-family: var(--font-cinzel);
+  font-size: 2rem;
+  color: #D4AF37;
+  font-weight: 600;
+}
+.hero-editorial-stat-lbl {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+}
+
+@media (max-width: 1024px) {
+  .hero-editorial-main { flex-direction: column; }
+  .hero-editorial-left { width: 100%; padding: 6rem 5% 4rem; }
+  .hero-editorial-right { width: 100%; height: 50vh; }
+  .hero-editorial-badges { left: 5%; top: -20px; flex-direction: row; }
+}

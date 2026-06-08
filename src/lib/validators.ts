@@ -52,6 +52,7 @@ export const orderCustomerSchema = z.object({
 export const createOrderSchema = z.object({
   items: z.array(cartItemSchema).min(1),
   customer: orderCustomerSchema,
+  currency: z.enum(['INR', 'USD']).optional().default('INR'),
 });
 
 export const razorpayCreateSchema = z.object({
@@ -72,7 +73,7 @@ export const productInputSchema = z.object({
   subcategory: z.string().min(2).max(120),
   price: z.number().min(0),
   originalPrice: z.number().min(0).nullable().optional(),
-  image: z.string().url(),
+  image: z.string().min(1),
   badge: z.enum(['Popular', 'New', 'Sale', 'Bestseller']).nullable().optional(),
   desc: z.string().min(5).max(600),
   longDesc: z.string().max(4000).optional().or(z.literal('')),
@@ -86,7 +87,7 @@ export const serviceInputSchema = z.object({
   title: z.string().min(2).max(120),
   tagline: z.string().max(200).optional().or(z.literal('')),
   desc: z.string().min(5).max(2000),
-  image: z.string().url(),
+  image: z.string().min(1),
   icon: z.string().max(120).default('fa-solid fa-sparkles'),
   price: z.number().min(0),
   durationMins: z.number().int().min(5).max(600),
@@ -133,3 +134,13 @@ export const passwordChangeSchema = z.object({
 export function zodErrorMessage(err: z.ZodError): string {
   return err.issues.map((i) => `${i.path.join('.') || 'field'}: ${i.message}`).join('; ');
 }
+
+export const blogInputSchema = z.object({
+  title: z.string().min(2).max(200),
+  slug: z.string().min(2).max(150).regex(/^[a-z0-9-]+$/),
+  content: z.string().min(10),
+  excerpt: z.string().min(10).max(400),
+  image: z.string().min(1),
+  author: z.string().min(2).max(100),
+  published: z.boolean().default(false),
+});

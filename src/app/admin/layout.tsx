@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { headers, cookies } from 'next/headers';
 import { verifyAdminToken, ADMIN_COOKIE } from '@/lib/adminSession';
@@ -46,9 +47,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </div>
         <div className="d-flex align-items-center gap-3" style={{ fontSize: '0.85rem' }}>
           <span style={{ opacity: 0.7 }}>{admin.email}</span>
-          <a href="/" style={{ color: '#fff', opacity: 0.7, textDecoration: 'none' }}>
+          <Link href="/" style={{ color: '#fff', opacity: 0.7, textDecoration: 'none' }}>
             <i className="fa-solid fa-house"></i> Site
-          </a>
+          </Link>
           <form action={logout}>
             <button
               type="submit"

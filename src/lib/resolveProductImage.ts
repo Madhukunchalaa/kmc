@@ -3,6 +3,20 @@
  * to the correct local product image based on category and product name.
  */
 export function resolveProductImage(image: string, category: string, name: string): string {
+  if (
+    image.includes('r2.dev') ||
+    image.includes('lh3.googleusercontent.com') ||
+    image.includes('drive.google.com') ||
+    image.includes('krissmaagiiccrystals.com')
+  ) {
+    // Break cache for R2 images because we just fixed their Content-Types on the server
+    if (image.includes('r2.dev')) {
+      const sep = image.includes('?') ? '&' : '?';
+      return image + sep + 'v=3';
+    }
+    return image;
+  }
+
   const isExternal = image.startsWith('http');
   const isOldCrystal = image.startsWith('/images/crystals/');
   if (!isExternal && !isOldCrystal) return image; // already a good local path

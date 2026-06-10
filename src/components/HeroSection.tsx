@@ -235,39 +235,39 @@ export default function HeroSection() {
             {/* Group 1 */}
             <div className="trust-strip-group">
               <div className="trust-item">
-                <i className="fa-solid fa-circle-check" style={{ color: '#2ECC71' }} />
-                <span>Handpicked Crystals</span>
-              </div>
-              <div className="trust-item">
-                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#F1C40F' }} />
-                <span>Cleansed &amp; Energised</span>
-              </div>
-              <div className="trust-item">
                 <i className="fa-solid fa-globe" style={{ color: '#3498DB' }} />
                 <span>Worldwide Delivery</span>
               </div>
               <div className="trust-item">
-                <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
-                <span>500+ Happy Clients</span>
+                <i className="fa-solid fa-certificate" style={{ color: '#F1C40F' }} />
+                <span>100% Authentic &amp; Certified</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#9B59B6' }} />
+                <span>Ritually Cleansed &amp; Energised</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-moon" style={{ color: '#F1C40F' }} />
+                <span>Intuitively Chosen For You</span>
               </div>
             </div>
             {/* Group 2 (Duplicate for infinite seamless scroll) */}
             <div className="trust-strip-group" aria-hidden="true">
               <div className="trust-item">
-                <i className="fa-solid fa-circle-check" style={{ color: '#2ECC71' }} />
-                <span>Handpicked Crystals</span>
-              </div>
-              <div className="trust-item">
-                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#F1C40F' }} />
-                <span>Cleansed &amp; Energised</span>
-              </div>
-              <div className="trust-item">
                 <i className="fa-solid fa-globe" style={{ color: '#3498DB' }} />
                 <span>Worldwide Delivery</span>
               </div>
               <div className="trust-item">
-                <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
-                <span>500+ Happy Clients</span>
+                <i className="fa-solid fa-certificate" style={{ color: '#F1C40F' }} />
+                <span>100% Authentic &amp; Certified</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#9B59B6' }} />
+                <span>Ritually Cleansed &amp; Energised</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-moon" style={{ color: '#F1C40F' }} />
+                <span>Intuitively Chosen For You</span>
               </div>
             </div>
           </div>

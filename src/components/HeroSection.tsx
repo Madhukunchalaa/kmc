@@ -35,7 +35,7 @@ export default function HeroSection() {
 
           {/* Main headline */}
           <h1 className="hero-editorial-title">
-            <i className="fa-solid fa-moon me-3" style={{ color: '#D4AF37' }} />Aligned With The Universe,
+            Aligned With The Universe,
             <span className="hero-editorial-title-accent">Chosen For You</span>
           </h1>
 

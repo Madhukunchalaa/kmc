@@ -153,7 +153,7 @@ export default function Home() {
                   { label: '1 hour', price: 4500 },
                 ],
                 slug: 'tarot',
-                featured: true,
+                featured: false,
               },
               {
                 path: 'PATH III',
@@ -208,7 +208,7 @@ export default function Home() {
               },
             ].map((svc, idx) => (
               <div className="col-md-6 col-lg-3 sessions-carousel-slide" key={svc.title}>
-                <ScrollFade delay={idx * 100}>
+                <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
                   <div className={`session-card${svc.featured ? ' featured' : ''}`}>
                     {svc.featured && <span className="session-popular-badge">Most Popular</span>}
                     <div className="session-icon-wrap">

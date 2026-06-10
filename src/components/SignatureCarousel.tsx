@@ -1,94 +1,150 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ProductCard from './ProductCard';
 
 export default function SignatureCarousel({ products }: { products: any[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    const scrollLeft = container.scrollLeft;
-    const width = container.clientWidth;
-    if (width > 0) {
-      const newIdx = Math.round(scrollLeft / width);
-      setActiveIdx(newIdx);
-    }
-  };
+  useEffect(() => {
+    if (products.length === 0) return;
+    const interval = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [products.length]);
 
-  const scrollTo = (idx: number) => {
-    const container = document.getElementById('signature-carousel');
-    if (container) {
-      container.scrollTo({
-        left: idx * container.clientWidth,
-        behavior: 'smooth'
-      });
-    }
-  };
+  if (products.length === 0) return null;
 
   return (
     <section id="signature-crystals" className="section-pad" style={{ background: '#0F0904', color: '#fff', overflow: 'hidden', position: 'relative' }}>
-      <div className="container">
-        <div className="text-center mb-5">
-          <span className="section-eyebrow" style={{ color: '#D4AF37' }}>KrissMaagiic Exclusive</span>
-          <h2 className="section-title text-white">Signature <span>Crystals</span></h2>
-          <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right" style={{ color: '#D4AF37' }}></i></div>
-          <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)' }}>
-            Our most premium, meticulously crafted bracelets. Energised specifically for profound transformations.
-          </p>
-        </div>
+      {/* Background glow effects */}
+      <div style={{
+        position: 'absolute',
+        top: '-10%',
+        right: '-10%',
+        width: '400px',
+        height: '400px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(200, 149, 108, 0.1) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
 
-        <div 
-          id="signature-carousel"
-          onScroll={handleScroll}
-          style={{ 
-            display: 'flex', 
-            overflowX: 'auto', 
-            scrollSnapType: 'x mandatory', 
-            gap: '24px', 
-            paddingBottom: '2rem',
-            scrollbarWidth: 'none',
-            WebkitOverflowScrolling: 'touch'
-          }}
-        >
-          {products.map((p, idx) => (
-            <div 
-              key={p.id} 
-              style={{ 
-                flex: '0 0 auto', 
-                width: '100%', 
-                maxWidth: '340px', 
-                scrollSnapAlign: 'start',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <div style={{ width: '100%', maxWidth: '300px' }}>
-                <ProductCard product={p} />
-              </div>
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="row align-items-center g-5">
+          
+          {/* Left Column: Description & CTAs */}
+          <div className="col-lg-5 text-center text-lg-start">
+            <span className="section-eyebrow" style={{ color: '#D4AF37' }}>
+              <i className="fa-solid fa-crown me-2"></i>KrissMaagiic Exclusive
+            </span>
+            <h2 className="section-title text-white" style={{ textAlign: 'left', margin: '0.5rem 0 1.5rem' }}>
+              Signature <span>Crystals</span>
+            </h2>
+            <div className="divider-ornament d-lg-none" style={{ margin: '0 auto 1.5rem' }}>
+              <i className="fa-solid fa-diamond-turn-right" style={{ color: '#D4AF37' }}></i>
             </div>
-          ))}
-        </div>
+            
+            <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
+              Our Signature Collection represents the absolute peak of crystal selection and intention crafting. 
+              Designed personally by Kriss, each premium bracelet pairs rare, high-resonance authentic crystals 
+              to amplify specific energies.
+            </p>
+            <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem' }}>
+              Every piece undergoes an intensive lunar cleansing ritual and energy attunement before being sent, 
+              ensuring they act as potent catalysts for alignment, success, and protection.
+            </p>
+            
+            <div>
+              <Link href="/shop?category=signature" className="btn-primary-custom">
+                <i className="fa-solid fa-gem me-2"></i>
+                <span>Explore Signature Collection</span>
+              </Link>
+            </div>
+          </div>
 
-        <div className="sessions-carousel-dots" style={{ marginTop: '1rem' }}>
-          {products.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              className={`sessions-carousel-dot ${activeIdx === idx ? 'active' : ''}`}
-              onClick={() => scrollTo(idx)}
-              aria-label={`Go to signature product ${idx + 1}`}
-              style={activeIdx === idx ? { background: '#D4AF37' } : {}}
-            />
-          ))}
-        </div>
+          {/* Right Column: Autoplay Image Carousel (Only Images) */}
+          <div className="col-lg-7">
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '1/1',
+              maxWidth: '500px',
+              margin: '0 auto',
+              borderRadius: '24px',
+              border: '1px solid rgba(200, 149, 108, 0.25)',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(200, 149, 108, 0.08)',
+              overflow: 'hidden',
+              background: 'rgba(255, 255, 255, 0.01)',
+              backdropFilter: 'blur(10px)',
+            }}>
+              {products.map((p, idx) => {
+                const active = idx === activeIdx;
+                return (
+                  <div
+                    key={p.id}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      opacity: active ? 1 : 0,
+                      transform: active ? 'scale(1)' : 'scale(1.05)',
+                      transition: 'opacity 1s ease-in-out, transform 1.2s ease-in-out',
+                      zIndex: active ? 2 : 1,
+                    }}
+                  >
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+                    {/* Dark gradient overlay at the bottom for elegance */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: '0 0 0 0',
+                      background: 'linear-gradient(180deg, transparent 60%, rgba(15, 9, 4, 0.8) 100%)',
+                      pointerEvents: 'none'
+                    }} />
+                  </div>
+                );
+              })}
+            </div>
 
-        <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-          <Link href="/shop?category=signature" className="btn-primary-custom">
-            <i className="fa-solid fa-crown me-2"></i>
-            <span>View Full Signature Collection</span>
-          </Link>
+            {/* Subtle indicators under the image */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '8px',
+              marginTop: '1.5rem',
+              position: 'relative',
+              zIndex: 3
+            }}>
+              {products.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveIdx(idx)}
+                  style={{
+                    width: activeIdx === idx ? '24px' : '8px',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: activeIdx === idx ? '#D4AF37' : 'rgba(255, 255, 255, 0.2)',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    padding: 0
+                  }}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

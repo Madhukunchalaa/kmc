@@ -55,17 +55,6 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          {/* Badges moved to left side */}
-          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-            <div className="hero-editorial-badge" style={{ padding: '0.6rem 1.25rem', fontSize: '0.8rem', position: 'static' }}>
-              <i className="fa-solid fa-star" style={{ color: '#D4AF37' }} />
-              <span>Est. by Kriss</span>
-            </div>
-            <div className="hero-editorial-badge" style={{ padding: '0.6rem 1.25rem', fontSize: '0.8rem', position: 'static' }}>
-              <i className="fa-solid fa-gem" style={{ color: '#D4AF37' }} />
-              <span>Certified Natural</span>
-            </div>
-          </div>
         </div>
 
         {/* Right Side: Image & Badges */}

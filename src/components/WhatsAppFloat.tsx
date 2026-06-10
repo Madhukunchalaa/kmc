@@ -1,14 +1,146 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
+
 export default function WhatsAppFloat() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const autoOpenTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // 1. Auto-open chat box after 10 seconds (10000ms)
+    autoOpenTimerRef.current = setTimeout(() => {
+      setIsOpen(true);
+
+      // 2. Start the auto-close timer (after 10 seconds of opening, close it)
+      autoCloseTimerRef.current = setTimeout(() => {
+        setIsOpen(false);
+      }, 10000);
+    }, 10000);
+
+    return () => {
+      if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
+      if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+    };
+  }, []);
+
+  const handleInteraction = () => {
+    // If user interacts (hovers, clicks inside, types), cancel the auto-close timer
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+  };
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Cancel all auto timers once the user manually interacts with the button
+    if (autoOpenTimerRef.current) {
+      clearTimeout(autoOpenTimerRef.current);
+      autoOpenTimerRef.current = null;
+    }
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+
+    setIsOpen(!isOpen);
+  };
+
+  const closeChat = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+    setIsOpen(false);
+  };
+
+  const handleSend = () => {
+    if (!message.trim()) return;
+    const encoded = encodeURIComponent(message);
+    const url = `https://wa.me/918096223929?text=${encoded}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    
+    // Reset state
+    setMessage('');
+    setIsOpen(false);
+  };
+
   return (
-    <a
-      href="https://wa.me/918096223929"
+    <div
       className="chat-float-wrapper"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Contact Kriss"
+      onClick={handleToggle}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setIsOpen(!isOpen);
+        }
+      }}
+      aria-label="Contact Kriss on WhatsApp"
     >
+      {/* WhatsApp chat popup box */}
+      {isOpen && (
+        <div 
+          className="chat-popup-box"
+          onClick={(e) => {
+            e.stopPropagation(); // Don't toggle chat on clicking inside the box
+            handleInteraction();
+          }}
+          onMouseEnter={handleInteraction}
+        >
+          {/* Header */}
+          <div className="chat-popup-header">
+            <div className="chat-popup-avatar-container">
+              <img src="/site-logo.png" alt="KrissMaagiic Logo" className="chat-popup-avatar" />
+              <span className="chat-popup-online-status"></span>
+            </div>
+            <div className="chat-popup-header-info">
+              <div className="chat-popup-title">KrissMaagiic Guidance</div>
+              <div className="chat-popup-status">Typically replies instantly</div>
+            </div>
+            <button type="button" className="chat-popup-close-btn" onClick={closeChat} aria-label="Close chat">
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          {/* Body */}
+          <div className="chat-popup-body">
+            <div className="chat-bubble-received">
+              Hi there! ✨ Welcome to KrissMaagiic Crystals. How can we help you today?
+            </div>
+          </div>
+
+          {/* Input Footer */}
+          <div className="chat-popup-footer">
+            <textarea
+              className="chat-popup-input"
+              placeholder="Type your message..."
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                handleInteraction();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+            />
+            <button type="button" className="chat-popup-send-btn" onClick={handleSend} disabled={!message.trim()}>
+              <i className="fa-brands fa-whatsapp me-1"></i> Send
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Astro Jathaka Chakra Background Wheel */}
       <div className="astro-chakra-container">
         <svg viewBox="0 0 100 100" className="astro-chakra-svg">
@@ -17,7 +149,7 @@ export default function WhatsAppFloat() {
           <circle cx="50" cy="50" r="41" fill="none" stroke="var(--accent, #E8C99A)" strokeWidth="0.75" opacity="0.5" strokeDasharray="3, 3"/>
           
           {/* Astrological Houses (12 Divisions) */}
-          <line x1="50" y1="4" x2="50" y2="96" stroke="var(--accent, #E8C99A)" strokeWidth="0.5" opacity="0.4"/>
+          <line x1="50" y1="4" stroke="var(--accent, #E8C99A)" x2="50" y2="96" strokeWidth="0.5" opacity="0.4"/>
           <line x1="4" y1="50" x2="96" y2="50" stroke="var(--accent, #E8C99A)" strokeWidth="0.5" opacity="0.4"/>
           <line x1="17.3" y1="17.3" x2="82.7" y2="82.7" stroke="var(--accent, #E8C99A)" strokeWidth="0.5" opacity="0.4"/>
           <line x1="82.7" y1="17.3" x2="17.3" y2="82.7" stroke="var(--accent, #E8C99A)" strokeWidth="0.5" opacity="0.4"/>
@@ -41,13 +173,12 @@ export default function WhatsAppFloat() {
       </div>
 
       {/* Main Astrology Consultation Circle Icon */}
-      <div className="chat-float-icon-btn">
-        <i className="fa-solid fa-comments"></i>
+      <div className="chat-float-icon-btn" style={{ color: '#25D366', fontSize: '1.75rem' }}>
+        <i className="fa-brands fa-whatsapp"></i>
       </div>
       
       {/* Tooltip */}
-      <span className="chat-tooltip">Need crystal guidance?</span>
-    </a>
+      {!isOpen && <span className="chat-tooltip">Need crystal guidance?</span>}
+    </div>
   );
 }
-

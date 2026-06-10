@@ -47,13 +47,10 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
             </div>
             
             <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
-              Our Signature Collection represents the absolute peak of crystal selection and intention crafting. 
-              Designed personally by Kriss, each premium bracelet pairs rare, high-resonance authentic crystals 
-              to amplify specific energies.
+              Our most premium, meticulously crafted bracelets, energized specifically for alignment, growth, and transformation.
             </p>
             <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem' }}>
-              Every piece undergoes an intensive lunar cleansing ritual and energy attunement before being sent, 
-              ensuring they act as potent catalysts for alignment, success, and protection.
+              Designed personally by Kriss, each signature piece pairs rare, high-resonance authentic crystals to amplify specific energies, ensuring they act as potent catalysts for your spiritual journey.
             </p>
             
             <div>

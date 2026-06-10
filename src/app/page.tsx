@@ -189,7 +189,7 @@ export default function Home() {
                 icon: 'fa-solid fa-infinity',
                 title: 'Numerology Services',
                 category: 'Numerology Readings',
-                desc: 'Every numerology session will be sent in a pdf format and 5-10 minutes of explanation in whatsapp voice message.',
+                desc: 'Each numerology consultation is personally prepared based on the service selected. Whether for your name, business, brand, or other numerological analysis, your reading is carefully researched and customized to your unique requirements. Each numerology analysis is thoughtfully prepared and delivered digitally via WhatsApp or email within 3–5 business days in a detailed PDF report.',
                 bullets: [
                   'Detailed PDF chart report',
                   '5-10 mins WhatsApp explanation',
@@ -228,13 +228,11 @@ export default function Home() {
                           </li>
                         ))}
                       </ul>
-                      <div className="session-tiers">
-                        {svc.tiers.map((t) => (
-                          <div key={t.label} className="session-tier">
-                            <div className="session-tier-label">{t.label}</div>
-                            <div className="session-tier-price">₹{t.price.toLocaleString('en-IN')}</div>
-                          </div>
-                        ))}
+                      <div className="session-price-range">
+                        <span className="price-range-label">Energy Exchange</span>
+                        <span className="price-range-value">
+                          ₹{Math.min(...svc.tiers.map(t => t.price)).toLocaleString('en-IN')} – ₹{Math.max(...svc.tiers.map(t => t.price)).toLocaleString('en-IN')}
+                        </span>
                       </div>
                       <button
                         type="button"
@@ -324,14 +322,14 @@ export default function Home() {
             <h2 className="section-title">Shop Sacred <span>Intention</span></h2>
             <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
             <p className="section-subtitle">
-              Crystals carry frequencies. Choose the focus your soul desires, and let the elemental stone synchronize with your energy field.
+              “Each crystal carries its own story. Trust the one that speaks to your heart.” ✨
             </p>
           </div>
           <div className="row g-4">
             {[
               {
                 title: 'Love & Harmony',
-                desc: 'Amplify relationship fidelity, self-acceptance, and heart chakra alignment.',
+                desc: 'Amplify relationship fidelity, self-love, and heart chakra alignment.',
                 icon: '/images/icons/love-harmony.png',
                 href: '/shop?intent=love',
               },
@@ -343,7 +341,7 @@ export default function Home() {
               },
               {
                 title: 'Aura Protection',
-                desc: 'Ground negative external energy fields, hex blocks, and EMF radiation.',
+                desc: 'Promotes grounding, energetic protection, and balance, supporting a centered and positive mindset. ✨',
                 icon: '/images/icons/aura-protection.png',
                 href: '/shop?intent=protection',
               },

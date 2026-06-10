@@ -572,6 +572,34 @@ h1, h2, h3, h4, h5, h6 {
   .navbar-brand-main { font-size: 1.05rem; }
 }
 
+/* ── Currency Select Dropdown ── */
+.currency-select {
+  transition: all 0.25s ease;
+}
+
+.currency-select:hover {
+  background: rgba(200, 149, 108, 0.15) !important;
+  border-color: var(--primary, #C8956C) !important;
+  color: var(--primary-dark, #8B5E3C) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(200, 149, 108, 0.2);
+}
+
+.currency-select:focus {
+  background: rgba(200, 149, 108, 0.12) !important;
+  border-color: var(--primary, #C8956C) !important;
+  box-shadow: 0 0 0 3px rgba(200, 149, 108, 0.15);
+  outline: none;
+}
+
+/* Ensure dropdown options are visible */
+.currency-select option {
+  background: #ffffff;
+  color: #2D1B0E;
+  padding: 8px;
+  font-weight: 600;
+}
+
 /* ============================================================
    HERO PRO — Full-Bleed Professional Layout
    ============================================================ */

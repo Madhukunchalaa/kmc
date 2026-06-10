@@ -91,20 +91,23 @@ export default function Header() {
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as Currency)}
                 style={{
-                  background: 'transparent',
-                  color: '#fff',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '6px',
-                  padding: '4px 8px',
-                  fontSize: '0.82rem',
+                  background: 'rgba(200, 149, 108, 0.08)',
+                  color: '#6B3F32',
+                  border: '1px solid rgba(200, 149, 108, 0.3)',
+                  borderRadius: '8px',
+                  padding: '6px 12px',
+                  fontSize: '0.72rem',
                   outline: 'none',
                   cursor: 'pointer',
-                  fontFamily: 'inherit',
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 700,
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
                 }}
                 className="currency-select"
               >
-                <option value="INR" style={{ color: '#000' }}>🇮🇳 INR (₹)</option>
-                <option value="USD" style={{ color: '#000' }}>🇺🇸 USD ($)</option>
+                <option value="INR" style={{ background: '#fff', color: '#2D1B0E' }}>🇮🇳 INR</option>
+                <option value="USD" style={{ background: '#fff', color: '#2D1B0E' }}>🇺🇸 USD</option>
               </select>
             </li>
 

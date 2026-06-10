@@ -229,6 +229,50 @@ export default function HeroSection() {
           </div>
         </div>
 
+        {/* ===== BOTTOM-MOST TRUST STRIP (FORWARD - BELOW STATS) ===== */}
+        <div className="trust-strip trust-strip-hero">
+          <div className="trust-strip-track">
+            {/* Group 1 */}
+            <div className="trust-strip-group">
+              <div className="trust-item">
+                <i className="fa-solid fa-circle-check" style={{ color: '#2ECC71' }} />
+                <span>Handpicked Crystals</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#F1C40F' }} />
+                <span>Cleansed &amp; Energised</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-globe" style={{ color: '#3498DB' }} />
+                <span>Worldwide Delivery</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
+                <span>500+ Happy Clients</span>
+              </div>
+            </div>
+            {/* Group 2 (Duplicate for infinite seamless scroll) */}
+            <div className="trust-strip-group" aria-hidden="true">
+              <div className="trust-item">
+                <i className="fa-solid fa-circle-check" style={{ color: '#2ECC71' }} />
+                <span>Handpicked Crystals</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-wand-magic-sparkles" style={{ color: '#F1C40F' }} />
+                <span>Cleansed &amp; Energised</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-globe" style={{ color: '#3498DB' }} />
+                <span>Worldwide Delivery</span>
+              </div>
+              <div className="trust-item">
+                <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
+                <span>500+ Happy Clients</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

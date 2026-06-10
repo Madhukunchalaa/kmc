@@ -123,7 +123,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
           <div className="pc-overlay-actions">
             <button className="pc-btn-cart" onClick={handleAddToCart}>
-              <i className="fa-solid fa-bag-shopping" />
               {addedToCart ? 'Added ✓' : 'Add to Cart'}
             </button>
             <Link href={`/shop/${product.id}`} className="pc-btn-view" aria-label="View product">

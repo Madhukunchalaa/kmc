@@ -241,7 +241,6 @@ export default async function ServicesPage() {
 
                       {/* Book button */}
                       <Link href={`/booking/${svc.id}`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
-                        <i className="fa-solid fa-calendar-plus"></i>
                         <span>Book Now</span>
                       </Link>
                     </div>
@@ -265,7 +264,6 @@ export default async function ServicesPage() {
           </p>
           <div className="d-flex gap-3 justify-content-center flex-wrap mt-4">
             <Link href="/contact" className="btn-primary-custom">
-              <i className="fa-solid fa-comments"></i>
               <span>Talk to Kriss</span>
             </Link>
           </div>

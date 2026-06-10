@@ -75,7 +75,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
       <section className="section-pad">
         <div className="container">
           <div className="row g-5 align-items-start">
-            <div className="col-lg-6">
+            <div className="col-lg-5">
               <ProductImageGallery
                 images={product.images}
                 mainImage={product.image}
@@ -83,7 +83,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                 name={product.name}
               />
             </div>
-            <div className="col-lg-6">
+            <div className="col-lg-7">
               <span className="product-category" style={{ fontSize: '0.85rem' }}>{product.subcategory}</span>
               <h1 className="section-title" style={{ textAlign: 'left', fontSize: '2.4rem', marginTop: 8 }}>{product.name}</h1>
               <div className="d-flex align-items-center gap-3 mt-3">
@@ -125,7 +125,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
           <div className="container">
             <div className="text-center mb-5">
               <span className="section-eyebrow">You May Also Love</span>
-              <h2 className="section-title">Similar <span>Crystals</span></h2>
+              <h2 className="section-title" style={{ color: 'var(--dark-2,#2D1B0E)' }}>Similar <span>Crystals</span></h2>
               <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
             </div>
             <div className="shop-products-grid">

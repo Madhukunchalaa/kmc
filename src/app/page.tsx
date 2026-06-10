@@ -90,7 +90,6 @@ export default function Home() {
                 <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
                   <Link href="/about" className="btn-outline-custom">
                     <span>Know More</span>
-                    <i className="fa-solid fa-arrow-right ms-2" />
                   </Link>
                 </div>
               </ScrollFade>
@@ -189,7 +188,7 @@ export default function Home() {
                 icon: 'fa-solid fa-infinity',
                 title: 'Numerology Services',
                 category: 'Numerology Readings',
-                desc: 'Each numerology consultation is personally prepared based on the service selected. Whether for your name, business, brand, or other numerological analysis, your reading is carefully researched and customized to your unique requirements. Each numerology analysis is thoughtfully prepared and delivered digitally via WhatsApp or email within 3–5 business days in a detailed PDF report.',
+                desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
                 bullets: [
                   'Detailed PDF chart report',
                   '5-10 mins WhatsApp explanation',
@@ -239,7 +238,6 @@ export default function Home() {
                         className="session-cta"
                         onClick={() => setActiveSession({ serviceSlug: svc.slug, title: svc.title, tiers: svc.tiers })}
                       >
-                        <i className="fa-solid fa-circle-arrow-right me-2"></i>
                         Select Service
                       </button>
                     </div>
@@ -305,7 +303,6 @@ export default function Home() {
 
           <div className="text-center mt-5">
             <Link href="/shop" className="btn-primary-custom">
-              <i className="fa-solid fa-gem"></i>
               <span>Explore All Products</span>
             </Link>
           </div>
@@ -504,7 +501,6 @@ export default function Home() {
 
           <div className="text-center mt-5">
             <Link href="/crystal-strength" className="btn-outline-custom">
-              <i className="fa-solid fa-book-open"></i>
               <span>Full Crystal Guide</span>
             </Link>
           </div>

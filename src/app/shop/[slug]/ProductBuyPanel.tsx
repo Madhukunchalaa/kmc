@@ -62,13 +62,11 @@ export default function ProductBuyPanel({ productId, stock }: { productId: strin
             onClick={handleAdd}
             style={{ background: added ? '#4CAF50' : undefined }}
           >
-            <i className="fa-solid fa-bag-shopping"></i>
             <span>{added ? 'Added to Cart ✓' : 'Add to Cart'}</span>
           </button>
         </>
       )}
-      <Link href="/cart" className="btn-ghost-white" style={{ color: 'var(--primary,#C8956C)', borderColor: 'var(--primary,#C8956C)' }}>
-        <i className="fa-solid fa-arrow-right"></i>
+      <Link href="/cart" className="btn-outline-custom">
         <span>Go to Cart</span>
       </Link>
     </div>

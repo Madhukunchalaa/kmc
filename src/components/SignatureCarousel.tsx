@@ -55,7 +55,6 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
             
             <div>
               <Link href="/shop?category=signature" className="btn-primary-custom">
-                <i className="fa-solid fa-gem me-2"></i>
                 <span>Explore Signature Collection</span>
               </Link>
             </div>

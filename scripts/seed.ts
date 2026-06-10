@@ -110,7 +110,7 @@ async function main() {
       slug: 'numerology',
       title: 'Numerology Services',
       tagline: 'Every session sent as PDF + WhatsApp explanation',
-      desc: 'Each numerology consultation is personally prepared based on the service selected. Whether for your name, business, brand, or other numerological analysis, your reading is carefully researched and customized to your unique requirements. Each numerology analysis is thoughtfully prepared and delivered digitally via WhatsApp or email within 3–5 business days in a detailed PDF report.',
+      desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
       image: '/contact-hero.png',
       icon: 'fa-solid fa-infinity',
       price: 1999,

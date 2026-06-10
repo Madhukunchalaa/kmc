@@ -35,11 +35,14 @@ export default function Footer() {
               <a href="https://instagram.com" className="footer-social-btn" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-instagram" />
               </a>
-              <a href="https://facebook.com" className="footer-social-btn" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/share/17dNNvnBcT/?mibextid=wwXIfr" className="footer-social-btn" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-facebook-f" />
               </a>
-              <a href="https://pinterest.com" className="footer-social-btn" aria-label="Pinterest" target="_blank" rel="noopener noreferrer">
+              <a href="https://pin.it/YqVn24vHD" className="footer-social-btn" aria-label="Pinterest" target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-pinterest-p" />
+              </a>
+              <a href="https://youtube.com/@empresstarot3355?si=lei9i1tWehE-N_0C" className="footer-social-btn" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-youtube" />
               </a>
               <a href="https://wa.me/918096223929" className="footer-social-btn" aria-label="Instant Chat" target="_blank" rel="noopener noreferrer">
                 <i className="fa-solid fa-comments" />

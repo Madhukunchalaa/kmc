@@ -18,7 +18,7 @@
 
 .hero-editorial-left {
   width: min(48%, 720px);
-  padding: 8rem 4rem 6rem 8%;
+  padding: calc(var(--navbar-height) + 4rem) 4rem 4rem 8%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -486,7 +486,7 @@
 
 @media (max-width: 1024px) {
   .hero-editorial-main { min-height: calc(100svh - 150px); }
-  .hero-editorial-left { width: 100%; max-width: 620px; padding: 6rem 5% 4rem; }
+  .hero-editorial-left { width: 100%; max-width: 620px; padding: calc(var(--navbar-height) + 3rem) 5% 3rem; }
   .hero-editorial-badges { right: 5%; bottom: 2rem; top: auto; transform: none; flex-direction: row; }
 }
 

@@ -40,7 +40,7 @@ export default function Header() {
 
   return (
     <nav className={`navbar navbar-expand-lg navbar-dark navbar-custom${solid ? ' scrolled' : ''}`}>
-      <div className="container">
+      <div className="container-fluid px-lg-5 px-3">
         <Link href="/" className="navbar-brand">
           <div className="navbar-logo-wrap">
             <img

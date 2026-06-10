@@ -167,8 +167,27 @@ export default function Home() {
                 slug: 'candle',
                 featured: false,
               },
+              {
+                path: 'PATH IV',
+                icon: 'fa-solid fa-infinity',
+                title: 'Astro-Numerology Chart',
+                category: 'Numerology Readings',
+                desc: 'Unlock the blueprint hidden in your birth date and name. Discover your life path, destiny cycles, and personal year forecast with tailored crystal recommendations.',
+                bullets: [
+                  'Detailed personality & destiny profile',
+                  'Personal year cycle forecasts',
+                  'Lucky numbers & crystal remedies',
+                  'Delivered as a PDF chart report',
+                ],
+                tiers: [
+                  { label: 'Basic Report', price: 1200 },
+                  { label: 'Full Reading', price: 2000 },
+                ],
+                slug: 'numerology',
+                featured: false,
+              },
             ].map((svc, idx) => (
-              <div className="col-md-6 col-lg-4 sessions-carousel-slide" key={svc.title}>
+              <div className="col-md-6 col-lg-3 sessions-carousel-slide" key={svc.title}>
                 <ScrollFade delay={idx * 100}>
                   <div className={`session-card${svc.featured ? ' featured' : ''}`}>
                     {svc.featured && <span className="session-popular-badge">Most Popular</span>}
@@ -213,7 +232,7 @@ export default function Home() {
           </div>
 
           <div className="sessions-carousel-dots">
-            {[0, 1, 2].map((idx) => (
+            {[0, 1, 2, 3].map((idx) => (
               <button
                 key={idx}
                 type="button"

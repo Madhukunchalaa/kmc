@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import HeroParticles from '@/components/HeroParticles';
@@ -57,11 +58,39 @@ export default function HeroSection() {
         {/* Right Side: Image & Badges */}
         <div className="hero-editorial-right">
           <img
-            src="/hero-aligned.jpg"
+            src="/hero-celestial-crystals.png"
             alt="KrissMaagiic Crystal Collection"
             className="hero-editorial-img"
             loading="eager"
           />
+          <div
+            className="hero-celestial-motion"
+            aria-hidden="true"
+            style={{
+              '--hero-mouse-x': `${mousePos.x}px`,
+              '--hero-mouse-y': `${mousePos.y}px`,
+            } as CSSProperties}
+          >
+            <HeroParticles />
+            <span className="hero-celestial-glow hero-celestial-glow--one" />
+            <span className="hero-celestial-glow hero-celestial-glow--two" />
+            <span className="hero-celestial-orb hero-celestial-orb--moon" />
+            <span className="hero-celestial-orb hero-celestial-orb--violet" />
+            <span className="hero-celestial-orb hero-celestial-orb--gold" />
+            <span className="hero-celestial-orbit" />
+            <span className="hero-planet-orbit hero-planet-orbit--one">
+              <span className="hero-planet hero-planet--earth" />
+            </span>
+            <span className="hero-planet-orbit hero-planet-orbit--two">
+              <span className="hero-planet hero-planet--mars" />
+            </span>
+            <span className="hero-planet-orbit hero-planet-orbit--three">
+              <span className="hero-planet hero-planet--jupiter" />
+            </span>
+            <span className="hero-shooting-star hero-shooting-star--one" />
+            <span className="hero-shooting-star hero-shooting-star--two" />
+            <span className="hero-shooting-star hero-shooting-star--three" />
+          </div>
           <div className="hero-editorial-fade" aria-hidden="true" />
           
           <div className="hero-editorial-badges">

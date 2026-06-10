@@ -86,6 +86,13 @@ export default function Home() {
                   &quot;The strongest magic isn&apos;t in the crystal itself—it&apos;s in the intention you awaken through it.&quot;
                   <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.5rem', fontStyle: 'normal', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: '#fff' }}>— Kriss</span>
                 </div>
+                
+                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
+                  <Link href="/about" className="btn-outline-custom">
+                    <span>Know More</span>
+                    <i className="fa-solid fa-arrow-right ms-2" />
+                  </Link>
+                </div>
               </ScrollFade>
             </div>
           </div>

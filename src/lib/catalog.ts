@@ -22,6 +22,11 @@ export interface CatalogProduct {
   stock: number;
 }
 
+export interface ServiceTier {
+  label: string;
+  price: number;
+}
+
 export interface CatalogService {
   id: string;
   slug: string;
@@ -33,6 +38,7 @@ export interface CatalogService {
   price: number;
   durationMins: number;
   bullets: string[];
+  tiers?: ServiceTier[];
 }
 
 function fromSeed(p: SeedProduct): CatalogProduct {
@@ -116,28 +122,94 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
   return seed ? fromSeed(seed) : null;
 }
 
+export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
+  tarot: [
+    { label: 'Voice Chat (30 min)', price: 1200 },
+    { label: 'Voice Chat (1 hour)', price: 2000 },
+    { label: 'Video Call (30 min)', price: 2500 },
+    { label: 'Video Call (1 hour)', price: 4500 },
+  ],
+  candle: [
+    { label: 'Travel Safety / Safe Journeys', price: 1800 },
+    { label: 'Psychic / Intuition / Spiritual', price: 2200 },
+    { label: 'Luck / Job / Career / Promotion', price: 2900 },
+    { label: 'Reconciliation / "Bring Back"', price: 3200 },
+    { label: 'Abundance / Wealth / Money / Prosperity', price: 3600 },
+    { label: 'Remove Obstacles (Financial/Relationship)', price: 3800 },
+    { label: 'Bindings (Fidelity / Loyalty)', price: 4200 },
+    { label: 'Fertility & Family Spells', price: 4200 },
+    { label: 'Success / Grand Success', price: 4500 },
+    { label: 'Love / Attraction / Soulmate', price: 4800 },
+    { label: 'Protection (Personal/Home/Business)', price: 5200 },
+    { label: 'Cleansing / Purification / House Blessing', price: 6300 },
+  ],
+  spelljar: [
+    { label: 'Mini Spell Jar', price: 2200 },
+    { label: 'Medium Spell Jar (100ml)', price: 4800 },
+    { label: 'Large Spell Jar (500ml)', price: 7300 },
+  ],
+  numerology: [
+    { label: 'Vehicle Number Numerology', price: 1999 },
+    { label: 'Date of Birth Numerology', price: 2499 },
+    { label: 'Mobile Number Numerology', price: 3999 },
+    { label: 'Name Numerology', price: 4999 },
+    { label: 'Business / Brand Numerology', price: 9999 },
+  ],
+};
+
 const SERVICE_FALLBACK: CatalogService[] = [
-  { id: 'tarot', slug: 'tarot', title: 'Tarot Reading', tagline: "Clarity for the questions you can't answer alone",
+  {
+    id: 'tarot',
+    slug: 'tarot',
+    title: 'Tarot Reading',
+    tagline: "Clarity for the questions you can't answer alone",
     desc: 'A personalised tarot session with Kriss for guidance on love, career and life path.',
     image: '/about-hero.png',
-    icon: 'fa-solid fa-star-and-crescent', price: 1100, durationMins: 30,
-    bullets: ['One major life-area focus', 'Live audio/video session', 'Written summary shared after'] },
-  { id: 'candle', slug: 'candle', title: 'Candle Spell Session', tagline: 'Fire magic, lit with intention',
-    desc: 'Ritually crafted candle spells tailored to your intention.',
+    icon: 'fa-solid fa-star-and-crescent',
+    price: 1200,
+    durationMins: 30,
+    bullets: ['One major life-area focus', 'Live audio/video session', 'Written summary shared after'],
+    tiers: SERVICE_TIERS.tarot,
+  },
+  {
+    id: 'candle',
+    slug: 'candle',
+    title: 'Candle Spell Session',
+    tagline: 'Fire magic, lit with intention',
+    desc: 'Harness the power of fire magic with ritually crafted candle spells tailored to your intention.',
     image: '/services-hero.png',
-    icon: 'fa-solid fa-fire-flame-curved', price: 1800, durationMins: 45,
-    bullets: ['Custom-dressed candle', 'Spell performed on your behalf', 'Burn photo + ritual notes sent'] },
-  { id: 'spelljar', slug: 'spelljar', title: 'Spell Jars', tagline: 'A sealed wish, alive in your home',
+    icon: 'fa-solid fa-fire-flame-curved',
+    price: 1800,
+    durationMins: 45,
+    bullets: ['Custom-dressed candle', 'Spell performed on your behalf', 'Burn photo + ritual notes sent'],
+    tiers: SERVICE_TIERS.candle,
+  },
+  {
+    id: 'spelljar',
+    slug: 'spelljar',
+    title: 'Spell Jars',
+    tagline: 'A sealed wish, alive in your home',
     desc: 'Custom spell jars created with herbs, crystals, oils and your written intention.',
     image: '/strength-hero.png',
-    icon: 'fa-solid fa-jar', price: 1400, durationMins: 60,
-    bullets: ['Tailored to your intention', 'Includes care + activation guide', 'Shipped pan-India'] },
-  { id: 'numerology', slug: 'numerology', title: 'Numerology Reading',
-    tagline: 'The blueprint hidden in your name and birth date',
-    desc: 'Unlock the patterns of your life-path number, destiny number and personal year.',
+    icon: 'fa-solid fa-jar',
+    price: 2200,
+    durationMins: 60,
+    bullets: ['Tailored to your intention', 'Includes care + activation guide', 'Mini, Medium, and Large sizes'],
+    tiers: SERVICE_TIERS.spelljar,
+  },
+  {
+    id: 'numerology',
+    slug: 'numerology',
+    title: 'Numerology Services',
+    tagline: 'Every session sent as PDF + WhatsApp explanation',
+    desc: 'Every numerology session will be sent in a pdf format and 5-10 minutes of explanation in whatsapp voice message',
     image: '/contact-hero.png',
-    icon: 'fa-solid fa-infinity', price: 1200, durationMins: 40,
-    bullets: ['Detailed numerology chart', 'Personal year forecast', 'Recommended crystals for the year'] },
+    icon: 'fa-solid fa-infinity',
+    price: 1999,
+    durationMins: 40,
+    bullets: ['Detailed PDF chart report', '5-10 mins WhatsApp explanation', 'Tailored crystal recommendations'],
+    tiers: SERVICE_TIERS.numerology,
+  },
 ];
 
 export async function getAllServices(): Promise<CatalogService[]> {
@@ -156,6 +228,7 @@ export async function getAllServices(): Promise<CatalogService[]> {
       price: d.price,
       durationMins: d.durationMins,
       bullets: d.bullets,
+      tiers: SERVICE_TIERS[d.slug] || [],
     }));
   } catch (err) {
     console.error('getAllServices fallback', err);
@@ -198,6 +271,7 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
         price: doc.price,
         durationMins: doc.durationMins,
         bullets: doc.bullets,
+        tiers: SERVICE_TIERS[doc.slug] || [],
       };
     }
   } catch (err) {

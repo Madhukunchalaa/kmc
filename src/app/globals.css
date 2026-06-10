@@ -4475,39 +4475,71 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
 .session-tiers {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.7rem;
+  gap: 0.6rem;
   margin-bottom: 1.4rem;
   margin-top: auto;
+  height: 154px;
+  overflow-y: auto;
+  padding-right: 4px;
+  align-content: start;
+}
+
+.session-tiers::-webkit-scrollbar {
+  width: 4px;
+}
+
+.session-tiers::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+.session-tiers::-webkit-scrollbar-thumb {
+  background: rgba(200, 149, 108, 0.3);
+  border-radius: 4px;
+}
+
+.session-tiers::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 149, 108, 0.5);
 }
 
 .session-tier {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
-  padding: 0.9rem 0.5rem;
-  border: 1px solid rgba(200,149,108,0.14);
+  border: 1px solid rgba(200, 149, 108, 0.14);
   transition: border-color 0.35s, background 0.35s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  padding: 0.4rem 0.3rem;
+  box-sizing: border-box;
 }
 
 .session-card:hover .session-tier {
-  border-color: rgba(200,149,108,0.26);
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(200, 149, 108, 0.26);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .session-tier-label {
-  font-size: 0.59rem;
-  letter-spacing: 0.18em;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
-  margin-bottom: 0.3rem;
+  color: rgba(255, 255, 255, 0.38);
+  margin-bottom: 0.2rem;
   font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  width: 100%;
 }
 
 .session-tier-price {
   font-family: var(--font-heading);
-  font-size: 1.32rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--accent);
-  line-height: 1;
+  line-height: 1.1;
+  text-align: center;
 }
 
 .session-card.featured .session-tier-price { color: var(--gold-light); }

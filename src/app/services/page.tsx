@@ -184,6 +184,43 @@ export default async function ServicesPage() {
                       </ul>
                     )}
 
+                    {svc.tiers && svc.tiers.length > 0 && (
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                        gap: '0.5rem 1.25rem',
+                        margin: '1.25rem 0',
+                        padding: '1rem',
+                        background: 'rgba(255,255,255,0.02)',
+                        border: '1px solid rgba(200,149,108,0.12)',
+                        borderRadius: '16px',
+                        maxHeight: svc.slug === 'candle' ? '180px' : 'none',
+                        overflowY: svc.slug === 'candle' ? 'auto' : 'visible',
+                        paddingRight: svc.slug === 'candle' ? '8px' : '1rem',
+                      }}
+                      className="custom-scrollbar"
+                      >
+                        {svc.tiers.map((t) => (
+                          <div key={t.label} style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            fontSize: '0.82rem',
+                            color: 'rgba(255,255,255,0.78)',
+                            padding: '0.35rem 0',
+                            borderBottom: '1px solid rgba(255,255,255,0.04)',
+                          }}>
+                            <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>
+                              {t.label}
+                            </span>
+                            <span style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-light,#FFEFA6)', fontWeight: 700 }}>
+                              ₹{t.price.toLocaleString('en-IN')}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="services-card-footer">
                       {/* Price */}
                       <div>

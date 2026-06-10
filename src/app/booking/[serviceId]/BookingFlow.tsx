@@ -106,11 +106,12 @@ const headingStyle: React.CSSProperties = {
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, servicePrice, serviceTitle, defaultName, defaultEmail,
+  serviceId, servicePrice, serviceTitle, tiers, defaultName, defaultEmail,
 }: {
   serviceId: string;
   servicePrice: number;
   serviceTitle: string;
+  tiers?: { label: string; price: number }[];
   defaultName: string;
   defaultEmail: string;
 }) {
@@ -120,6 +121,7 @@ export default function BookingFlow({
     [today],
   );
 
+  const [tierIdx,      setTierIdx]      = useState(0);
   const [selectedDate, setSelectedDate] = useState<string>(ymd(today));
   const [slots,        setSlots]        = useState<Slot[]>([]);
   const [loading,      setLoading]      = useState(false);
@@ -131,6 +133,9 @@ export default function BookingFlow({
   const [submitting,   setSubmitting]   = useState(false);
   const [error,        setError]        = useState<string | null>(null);
   const [done,         setDone]         = useState<{ bookingNumber: string; bookingId: string } | null>(null);
+
+  const selectedTier = tiers && tiers[tierIdx];
+  const activePrice = selectedTier ? selectedTier.price : servicePrice;
 
   useEffect(() => {
     let cancelled = false;
@@ -161,7 +166,15 @@ export default function BookingFlow({
       const res  = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ serviceId, date: selectedDate, timeSlot: selectedTime, notes, customer: { name, email, phone } }),
+        body: JSON.stringify({
+          serviceId,
+          date: selectedDate,
+          timeSlot: selectedTime,
+          notes,
+          tierLabel: selectedTier?.label,
+          tierPrice: selectedTier?.price,
+          customer: { name, email, phone }
+        }),
       });
       const data = await res.json();
       if (!data.ok) {
@@ -185,7 +198,7 @@ export default function BookingFlow({
         <div style={{ fontSize: '3.5rem', marginBottom: 12 }}>🌌</div>
         <h2 className="section-title" style={{ color: '#fff' }}>Booking <span style={{ color: 'var(--primary)' }}>received!</span></h2>
         <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)' }}>
-          {serviceTitle} on <strong style={{ color: '#fff' }}>{selectedDate} at {selectedTime}</strong><br />
+          {serviceTitle} {selectedTier ? `(${selectedTier.label})` : ''} on <strong style={{ color: '#fff' }}>{selectedDate} at {selectedTime}</strong><br />
           Booking ID: <strong style={{ color: 'var(--gold-light,#FFEFA6)' }}>{done.bookingNumber}</strong>
         </p>
         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.88rem' }}>
@@ -210,11 +223,57 @@ export default function BookingFlow({
   return (
     <form onSubmit={onSubmit} style={{ display: 'grid', gap: 24, width: '100%', boxSizing: 'border-box' }}>
 
+      {/* ── 0. Select Option (Tiers) ── */}
+      {tiers && tiers.length > 0 && (
+        <div style={cardStyle}>
+          <h3 style={headingStyle}>
+            <i className="fa-solid fa-wand-magic-sparkles" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            1. Select Option
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: 12,
+            width: '100%',
+            boxSizing: 'border-box',
+          }}>
+            {tiers.map((t, idx) => {
+              const active = idx === tierIdx;
+              return (
+                <button
+                  key={t.label}
+                  type="button"
+                  onClick={() => setTierIdx(idx)}
+                  style={{
+                    padding: '12px 14px',
+                    borderRadius: 14,
+                    border: active ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                    background: active
+                      ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                      : 'rgba(255,255,255,0.05)',
+                    color: '#fff',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    boxShadow: active ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                    transition: 'all 0.25s ease',
+                    backdropFilter: 'blur(8px)',
+                    textAlign: 'center',
+                  }}
+                >
+                  {t.label} (₹{t.price.toLocaleString('en-IN')})
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── 1. Pick a Date ── */}
       <div style={cardStyle}>
         <h3 style={headingStyle}>
           <i className="fa-regular fa-calendar-days" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          1. Pick a Date
+          {tiers && tiers.length > 0 ? '2. Pick a Date' : '1. Pick a Date'}
         </h3>
 
         <div className="custom-scrollbar" style={{
@@ -315,7 +374,7 @@ export default function BookingFlow({
       <div style={cardStyle}>
         <h3 style={headingStyle}>
           <i className="fa-regular fa-clock" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          2. Pick a Time
+          {tiers && tiers.length > 0 ? '3. Pick a Time' : '2. Pick a Time'}
         </h3>
         {loading ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.5)', padding: '10px 0', justifyContent: 'center' }}>
@@ -361,7 +420,7 @@ export default function BookingFlow({
       <div style={cardStyle}>
         <h3 style={{ ...headingStyle, justifyContent: 'flex-start' }}>
           <i className="fa-regular fa-user" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          3. Your Details
+          {tiers && tiers.length > 0 ? '4. Your Details' : '3. Your Details'}
         </h3>
         <div className="row g-3 mx-0" style={{ width: '100%', boxSizing: 'border-box' }}>
           {[
@@ -426,7 +485,7 @@ export default function BookingFlow({
       <div className="booking-summary-strip">
         <div>
           <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: 2 }}>Session fee</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>₹{servicePrice.toLocaleString('en-IN')}</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>₹{activePrice.toLocaleString('en-IN')}</div>
         </div>
         <button
           type="submit"

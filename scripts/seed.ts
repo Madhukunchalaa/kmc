@@ -84,9 +84,9 @@ async function main() {
     },
     {
       slug: 'candle',
-      title: 'Candle Spell Session',
+      title: 'Bespoke Spell Casting Ritual',
       tagline: 'Fire magic, lit with intention',
-      desc: 'Harness the power of fire magic with ritually crafted candle spells tailored to your intention.',
+      desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
       image: '/services-hero.png',
       icon: 'fa-solid fa-fire-flame-curved',
       price: 1800,

@@ -151,9 +151,9 @@ export default function Home() {
               {
                 path: 'PATH III',
                 icon: 'fa-solid fa-wand-magic-sparkles',
-                title: 'Bespoke Candle Spell casting',
+                title: 'Bespoke Spell Casting Ritual',
                 category: 'Spell Casting Services',
-                desc: 'Harness the power of fire magic with ritually crafted candle spells tailored to your intentions. Full altar ritual proof shared via WhatsApp.',
+                desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
                 bullets: [
                   'Custom-dressed & blessed candles',
                   'Full altar ritual by the founder',

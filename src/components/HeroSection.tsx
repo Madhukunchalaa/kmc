@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import HeroParticles from '@/components/HeroParticles';
 import Counter from '@/components/Counter';
+import '@/app/hero-editorial.css';
 
 export default function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -48,6 +49,10 @@ export default function HeroSection() {
           <div className="hero-editorial-ctas">
             <Link href="/shop" className="hero-editorial-btn-primary">
               Explore Collection
+            </Link>
+            <Link href="#signature-crystals" className="hero-editorial-btn-signature">
+              <i className="fa-solid fa-crown me-2" />
+              <span>Signature Collection</span>
             </Link>
             <Link href="/services" className="hero-editorial-btn-ghost">
               Book Guidance

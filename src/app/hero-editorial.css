@@ -382,19 +382,19 @@
 
 .hero-editorial-ctas {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-bottom: 3rem;
 }
 
 .hero-editorial-btn-primary {
   background: #D4AF37;
   color: #0A0604;
-  padding: 1.1rem 2.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 4px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: all 0.3s ease;
   text-decoration: none;
 }
@@ -407,12 +407,12 @@
   background: transparent;
   border: 1px solid rgba(212, 175, 55, 0.4);
   color: #D4AF37;
-  padding: 1.1rem 2.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 4px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: all 0.3s ease;
   text-decoration: none;
 }
@@ -521,5 +521,71 @@
   .hero-celestial-motion .particle {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Stunning Signature Crystals CTA Button */
+.hero-editorial-btn-signature {
+  background: rgba(200, 149, 108, 0.12);
+  border: 1.5px solid var(--primary, #C8956C);
+  color: #E8C99A !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  box-shadow: 0 4px 15px rgba(200, 149, 108, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-editorial-btn-signature i,
+.hero-editorial-btn-signature span {
+  position: relative;
+  z-index: 2;
+  text-decoration: none !important;
+}
+
+.hero-editorial-btn-signature:hover {
+  background: var(--primary, #C8956C);
+  color: #0A0604 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(200, 149, 108, 0.45);
+  text-decoration: none !important;
+}
+
+.hero-editorial-btn-signature:visited,
+.hero-editorial-btn-signature:link,
+.hero-editorial-btn-signature:active {
+  color: #E8C99A !important;
+  text-decoration: none !important;
+}
+
+@media (max-width: 1024px) {
+  .hero-editorial-ctas {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-editorial-ctas {
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+  }
+  .hero-editorial-btn-primary,
+  .hero-editorial-btn-signature,
+  .hero-editorial-btn-ghost {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 1rem;
   }
 }

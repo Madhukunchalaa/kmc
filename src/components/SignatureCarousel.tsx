@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import ProductCard from './ProductCard';
 
 export default function SignatureCarousel({ products }: { products: any[] }) {
@@ -27,7 +28,7 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
   };
 
   return (
-    <section className="section-pad" style={{ background: '#0F0904', color: '#fff', overflow: 'hidden', position: 'relative' }}>
+    <section id="signature-crystals" className="section-pad" style={{ background: '#0F0904', color: '#fff', overflow: 'hidden', position: 'relative' }}>
       <div className="container">
         <div className="text-center mb-5">
           <span className="section-eyebrow" style={{ color: '#D4AF37' }}>KrissMaagiic Exclusive</span>
@@ -81,6 +82,13 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
               style={activeIdx === idx ? { background: '#D4AF37' } : {}}
             />
           ))}
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+          <Link href="/shop?category=signature" className="btn-primary-custom">
+            <i className="fa-solid fa-crown me-2"></i>
+            <span>View Full Signature Collection</span>
+          </Link>
         </div>
       </div>
     </section>

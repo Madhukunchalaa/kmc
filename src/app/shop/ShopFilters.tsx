@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import ScrollFade from '@/components/ScrollFade';
 import type { CatalogProduct } from '@/lib/catalog';
@@ -40,10 +41,28 @@ function toLegacy(p: CatalogProduct) {
 }
 
 export default function ShopFilters({ products }: { products: CatalogProduct[] }) {
+  const searchParams = useSearchParams();
   const [activeCat, setActiveCat] = useState('all');
   const [sort, setSort] = useState('featured');
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Synchronize URL search parameters on mount
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    const search = searchParams.get('search');
+    const intent = searchParams.get('intent');
+    
+    if (cat) {
+      setActiveCat(cat);
+    }
+    if (search) {
+      setQuery(search);
+    }
+    if (intent) {
+      setQuery(intent);
+    }
+  }, [searchParams]);
 
   // Reset to page 1 whenever category, sort, or search query changes
   useEffect(() => {

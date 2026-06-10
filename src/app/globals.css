@@ -4263,7 +4263,6 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
   font-family: var(--font-heading);
   font-size: 1.05rem;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
   margin-bottom: 0.85rem;
   color: var(--text, #2D1B0E);
 }

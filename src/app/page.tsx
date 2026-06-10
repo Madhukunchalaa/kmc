@@ -355,7 +355,7 @@ export default function Home() {
               },
             ].map((item, idx) => (
               <div className="col-sm-6 col-lg-3" key={item.title}>
-                <ScrollFade delay={idx * 80}>
+                <ScrollFade delay={idx * 80} className="h-100 d-flex flex-column">
                   <Link href={item.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
                     <div className="intention-card">
                       <div className="intention-icon">

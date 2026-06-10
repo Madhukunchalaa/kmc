@@ -83,8 +83,8 @@ export default function Home() {
                   opacity: 0.95,
                   marginTop: '1.5rem'
                 }}>
-                  &quot;Guided by intuition, every crystal is chosen to align with your soul&apos;s unique calling.&quot;
-                  <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.5rem', fontStyle: 'normal', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: '#fff' }}>— Kriss, Founder</span>
+                  &quot;The strongest magic isn&apos;t in the crystal itself—it&apos;s in the intention you awaken through it.&quot;
+                  <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '0.5rem', fontStyle: 'normal', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700, color: '#fff' }}>— Kriss</span>
                 </div>
               </ScrollFade>
             </div>

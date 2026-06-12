@@ -3,9 +3,7 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';
-import { Notification } from '@/models/Notification';
 import { createBookingSchema, zodErrorMessage } from '@/lib/validators';
-import { sendEmail, bookingReceivedEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -49,20 +47,9 @@ export async function POST(req: Request) {
     notes: notes || '',
     customer,
     status: 'pending',
+    paymentStatus: 'unpaid',
   });
 
-  Notification.create({
-    user: session.user.id,
-    type: 'booking',
-    title: `Booking ${bookingNumber} received`,
-    message: `Your ${service.title} session on ${date} at ${timeSlot} is awaiting confirmation.`,
-    link: `/dashboard/bookings/${booking._id}`,
-  }).catch(() => {});
-
-  sendEmail({
-    ...bookingReceivedEmail(customer.name, service.title, date, timeSlot),
-    to: customer.email,
-  }).catch(() => {});
 
   return NextResponse.json({ ok: true, bookingNumber, bookingId: String(booking._id) });
 }

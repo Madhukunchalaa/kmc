@@ -140,11 +140,11 @@ export default function Home() {
                 icon: 'fa-solid fa-video',
                 title: 'Live Tarot Reading — Video Call',
                 category: 'Tarot Readings',
-                desc: 'Conducted face-to-face via Zoom or WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
+                desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
                 bullets: [
                   'Live face-to-face interaction',
                   'Instant card-pull explanations',
-                  'Zoom or WhatsApp video options',
+                  'WhatsApp video options',
                   'Live energetic connection',
                 ],
                 tiers: [

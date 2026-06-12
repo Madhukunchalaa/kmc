@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const STATUSES = ['pending', 'approved', 'rejected', 'completed', 'cancelled'] as const;
+const STATUSES = ['pending', 'approved', 'booked', 'rejected', 'in_progress', 'completed', 'cancelled'] as const;
 
 export default function BookingDecisionForm({ bookingId, current, note }: { bookingId: string; current: string; note: string }) {
   const router = useRouter();

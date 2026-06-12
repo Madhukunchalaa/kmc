@@ -54,7 +54,7 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
 
         {/* Quick Tabs */}
         <div className="d-flex gap-2 flex-wrap">
-          {['all', 'pending', 'approved', 'rejected', 'completed', 'cancelled'].map((s) => {
+          {['all', 'pending', 'booked', 'in_progress', 'completed', 'cancelled', 'approved', 'rejected'].map((s) => {
             const active = (s === 'all' && !status) || s === status;
             const count = s === 'all' ? totalCount : (counts[s] ?? 0);
             const href = s === 'all'

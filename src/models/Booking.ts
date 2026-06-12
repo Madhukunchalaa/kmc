@@ -1,6 +1,6 @@
 import mongoose, { Schema, models, model, Model } from 'mongoose';
 
-export type BookingStatus = 'pending' | 'approved' | 'rejected' | 'completed' | 'cancelled';
+export type BookingStatus = 'pending' | 'approved' | 'booked' | 'rejected' | 'in_progress' | 'completed' | 'cancelled';
 
 export interface BookingDoc {
   _id: mongoose.Types.ObjectId;
@@ -14,6 +14,9 @@ export interface BookingDoc {
   notes?: string;
   status: BookingStatus;
   adminNote?: string;
+  paymentStatus: 'unpaid' | 'paid' | 'refunded';
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
   customer: {
     name: string;
     email: string;
@@ -35,11 +38,19 @@ const BookingSchema = new Schema<BookingDoc>(
     notes: { type: String, default: '' },
     status: {
       type: String,
-      enum: ['pending', 'approved', 'rejected', 'completed', 'cancelled'],
+      enum: ['pending', 'approved', 'booked', 'rejected', 'in_progress', 'completed', 'cancelled'],
       default: 'pending',
       index: true,
     },
     adminNote: { type: String, default: '' },
+    paymentStatus: {
+      type: String,
+      enum: ['unpaid', 'paid', 'refunded'],
+      default: 'unpaid',
+      index: true,
+    },
+    razorpayOrderId: { type: String, index: true },
+    razorpayPaymentId: { type: String },
     customer: {
       name: { type: String, required: true },
       email: { type: String, required: true },

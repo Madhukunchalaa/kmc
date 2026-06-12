@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Spinner from '@/components/Spinner';
+import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 
 interface Slot { time: string; available: boolean }
 
@@ -185,10 +186,60 @@ export default function BookingFlow({
           if (d.ok) setSlots(d.slots);
           setSelectedTime(null);
         }
-      } else {
-        setDone({ bookingNumber: data.bookingNumber, bookingId: data.bookingId });
+        setSubmitting(false);
+        return;
       }
-    } catch { setError('Network error.'); }
+
+      // If data.ok is true, we proceed to payment
+      const payRes = await fetch('/api/bookings/razorpay/create', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ bookingId: data.bookingId }),
+      });
+      const payData = await payRes.json();
+      
+      if (!payRes.ok || !payData.ok) {
+        setError(payData.reason ?? 'Could not start payment. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      const payment = await openRazorpayCheckout({
+        keyId: payData.keyId,
+        amount: payData.amount,
+        currency: payData.currency,
+        razorpayOrderId: payData.razorpayOrderId,
+        orderNumber: payData.bookingNumber,
+        name: payData.customer.name,
+        email: payData.customer.email,
+        phone: payData.customer.phone,
+      });
+
+      const verifyRes = await fetch('/api/bookings/razorpay/verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: data.bookingId,
+          razorpay_order_id: payment.razorpay_order_id,
+          razorpay_payment_id: payment.razorpay_payment_id,
+          razorpay_signature: payment.razorpay_signature,
+        }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        setError(verifyData.reason ?? 'Payment verification failed. Contact us with your booking ID.');
+        setSubmitting(false);
+        return;
+      }
+
+      setDone({ bookingNumber: data.bookingNumber, bookingId: data.bookingId });
+    } catch (err) { 
+      if (err instanceof Error && err.message === 'payment-cancelled') {
+        setError('Payment was cancelled. You can try booking again.');
+      } else {
+        setError('Network error or payment failed.');
+      }
+    }
     setSubmitting(false);
   };
 
@@ -202,7 +253,7 @@ export default function BookingFlow({
           Booking ID: <strong style={{ color: 'var(--gold-light,#FFEFA6)' }}>{done.bookingNumber}</strong>
         </p>
         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.88rem' }}>
-          Status: <strong style={{ color: '#fff' }}>Awaiting confirmation</strong>. You&apos;ll receive an email once Kriss reviews it.
+          Status: <strong style={{ color: '#fff' }}>Paid & Confirmed</strong>. Kriss will contact you via WhatsApp to coordinate.
         </p>
         <div className="d-flex gap-3 justify-content-center flex-wrap mt-3">
           <Link href={`/dashboard/bookings/${done.bookingId}`} className="btn-primary-custom">
@@ -500,8 +551,8 @@ export default function BookingFlow({
             boxShadow: '0 8px 24px rgba(200,149,108,0.35)',
           }}
         >
-          {submitting ? <Spinner /> : <i className="fa-solid fa-calendar-check me-1"></i>}
-          <span>{submitting ? 'Requesting…' : 'Request booking'}</span>
+          {submitting ? <Spinner /> : <i className="fa-solid fa-lock me-1"></i>}
+          <span>{submitting ? 'Processing…' : 'Pay & Book'}</span>
         </button>
       </div>
     </form>

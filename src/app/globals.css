@@ -2130,8 +2130,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ---------- Section Spacing ---------- */
-.section-pad { padding: 6rem 0; }
-.section-pad-sm { padding: 4rem 0; }
+.section-pad { padding: 5rem 0; }
+.section-pad-sm { padding: 3rem 0; }
+
+@media (max-width: 768px) {
+  /* Section padding overridden above, keeping this empty just in case */
+}
 
 /* ---------- About / Brand Strip ---------- */
 .brand-strip {
@@ -6772,8 +6776,15 @@ body.theme-rose .hero-v2-orb {
 ═══════════════════════════════════════════════ */
 .shop-products-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 480px) {
+  .shop-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
 }
 
 @media (min-width: 576px) {

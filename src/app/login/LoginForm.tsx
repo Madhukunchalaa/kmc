@@ -11,11 +11,27 @@ export default function LoginForm() {
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') || '/dashboard';
   
+  const [method, setMethod] = useState<'password' | 'otp'>('password');
   const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    const res = await signIn('credentials', { email, password, redirect: false });
+    setSubmitting(false);
+    if (!res || res.error) {
+      setError('Invalid email or password.');
+      return;
+    }
+    router.push(callbackUrl);
+    router.refresh();
+  };
 
   const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +76,49 @@ export default function LoginForm() {
 
   return (
     <div style={{ display: 'grid', gap: '1rem' }}>
-      {step === 1 ? (
+      {method === 'password' ? (
+        <form onSubmit={handlePasswordLogin} style={{ display: 'grid', gap: '1rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Email Address</label>
+            <input
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="newsletter-input"
+              style={{ width: '100%' }}
+              autoComplete="email"
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Password</label>
+            <input
+              required
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="newsletter-input"
+              style={{ width: '100%' }}
+              autoComplete="current-password"
+            />
+          </div>
+          {error && (
+            <p style={{ color: '#D95F5F', fontSize: '0.9rem' }}>
+              <i className="fa-solid fa-circle-exclamation me-2"></i> {error}
+            </p>
+          )}
+          <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1 }}>
+            {submitting ? <Spinner /> : <i className="fa-solid fa-arrow-right-to-bracket"></i>}
+            <span>{submitting ? 'Logging in…' : 'Login'}</span>
+          </button>
+          
+          <div className="text-center" style={{ marginTop: '0.5rem' }}>
+            <button type="button" onClick={() => { setMethod('otp'); setError(null); }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.85rem', cursor: 'pointer', textDecoration: 'underline' }}>
+              Login with OTP instead
+            </button>
+          </div>
+        </form>
+      ) : step === 1 ? (
         <form onSubmit={handleSendOTP} style={{ display: 'grid', gap: '1rem' }}>
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Email Address</label>
@@ -83,6 +141,12 @@ export default function LoginForm() {
             {submitting ? <Spinner /> : <i className="fa-solid fa-envelope"></i>}
             <span>{submitting ? 'Sending OTP…' : 'Send OTP'}</span>
           </button>
+          
+          <div className="text-center" style={{ marginTop: '0.5rem' }}>
+            <button type="button" onClick={() => { setMethod('password'); setError(null); }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.85rem', cursor: 'pointer', textDecoration: 'underline' }}>
+              Login with Password instead
+            </button>
+          </div>
         </form>
       ) : (
         <form onSubmit={handleVerifyOTP} style={{ display: 'grid', gap: '1rem' }}>
@@ -117,7 +181,7 @@ export default function LoginForm() {
       )}
 
       {/* Admin Fallback Login */}
-      {step === 1 && (
+      {step === 1 && method === 'otp' && (
         <div className="text-center" style={{ fontSize: '0.85rem', marginTop: '1rem', borderTop: '1px solid #EBE4DB', paddingTop: '1rem' }}>
           <Link href="/admin/login" style={{ color: '#888' }}>Admin login</Link>
         </div>

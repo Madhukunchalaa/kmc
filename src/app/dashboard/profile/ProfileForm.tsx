@@ -32,15 +32,15 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country</label>
         <select value={f.country} onChange={(e) => setF((s) => ({ ...s, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
-          <option value="IN">India</option>
-          <option value="US">United States</option>
-          <option value="UK">United Kingdom</option>
-          <option value="AU">Australia</option>
-          <option value="CA">Canada</option>
-          <option value="AE">United Arab Emirates</option>
-          <option value="SG">Singapore</option>
-          <option value="MY">Malaysia</option>
-          <option value="Other">Other</option>
+          <option value="IN" style={{ color: '#000' }}>India</option>
+          <option value="US" style={{ color: '#000' }}>United States</option>
+          <option value="UK" style={{ color: '#000' }}>United Kingdom</option>
+          <option value="AU" style={{ color: '#000' }}>Australia</option>
+          <option value="CA" style={{ color: '#000' }}>Canada</option>
+          <option value="AE" style={{ color: '#000' }}>United Arab Emirates</option>
+          <option value="SG" style={{ color: '#000' }}>Singapore</option>
+          <option value="MY" style={{ color: '#000' }}>Malaysia</option>
+          <option value="Other" style={{ color: '#000' }}>Other</option>
         </select>
       </div>
       <div>

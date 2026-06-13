@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, phone, password } = parsed.data;
+  const { name, email, phone, password, country } = parsed.data;
   const normEmail = email.toLowerCase().trim();
 
   try {
@@ -40,6 +40,7 @@ export async function POST(req: Request) {
       phone: phone || '',
       passwordHash,
       role: 'user',
+      country,
     });
 
     sendEmail({ ...welcomeEmail(user.name), to: user.email }).catch(() => {});

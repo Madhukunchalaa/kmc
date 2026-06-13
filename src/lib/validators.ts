@@ -5,6 +5,7 @@ export const registerSchema = z.object({
   email: z.string().email().max(200),
   phone: z.string().min(7).max(30).optional().or(z.literal('')),
   password: z.string().min(8).max(128),
+  country: z.string().length(2, 'Please select your country'),
 });
 
 export const loginSchema = z.object({

@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 
+import { COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
+
 export default function RegisterForm() {
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') || '/dashboard';
 
-  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', country: '' });
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -67,6 +69,16 @@ export default function RegisterForm() {
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone (optional)</label>
         <input type="tel" value={form.phone} onChange={set('phone')} className="newsletter-input" style={{ width: '100%' }} autoComplete="tel" />
+      </div>
+      <div>
+        <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country</label>
+        <select required value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
+          <option value="" disabled style={{ color: '#000' }}>Select your country</option>
+          {Object.keys(COUNTRY_CURRENCY_MAP).filter(k => k !== 'Other').map(k => (
+            <option key={k} value={k} style={{ color: '#000' }}>{k === 'IN' ? 'India (IN)' : k === 'US' ? 'United States (US)' : k === 'UK' ? 'United Kingdom (UK)' : k === 'AU' ? 'Australia (AU)' : k === 'CA' ? 'Canada (CA)' : k === 'AE' ? 'UAE (AE)' : k === 'SG' ? 'Singapore (SG)' : k === 'MY' ? 'Malaysia (MY)' : k}</option>
+          ))}
+          <option value="OT" style={{ color: '#000' }}>Other Country</option>
+        </select>
       </div>
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Password (min 8 chars)</label>

@@ -50,12 +50,12 @@ export default function Home() {
               <ScrollFade delay={0}>
                 <div className="about-collage">
                   <div className="about-collage-bg-glow" />
-                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '90%', height: '420px', inset: 'auto', margin: '0 auto' }}>
-                    <div className="founder-placeholder-dashed">
-                      <i className="fa-solid fa-wand-magic-sparkles founder-placeholder-icon" />
-                      <span className="founder-placeholder-text">Founder</span>
-                      <span className="founder-placeholder-subtext">Space for Kriss&apos;s Photo</span>
-                    </div>
+                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '90%', height: '420px', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '16px' }}>
+                    <img 
+                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781374944227.webp" 
+                      alt="Kriss - Founder of KrissMaagiic" 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
                 </div>
               </ScrollFade>

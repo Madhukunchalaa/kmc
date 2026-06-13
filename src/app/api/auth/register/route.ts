@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { connectMongoose } from '@/lib/mongoose';
 import { User } from '@/models/User';
+import { RegistrationOtp } from '@/models/RegistrationOtp';
 import { registerSchema, zodErrorMessage } from '@/lib/validators';
 import { sendEmail, welcomeEmail } from '@/lib/email';
 
@@ -21,8 +22,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const { name, email, phone, password, country } = parsed.data;
+  const { name, email, phone, password, country, otp } = parsed.data;
   const normEmail = email.toLowerCase().trim();
+
+  if (!otp) {
+    return NextResponse.json({ ok: false, reason: 'otp-required' }, { status: 400 });
+  }
 
   try {
     await connectMongoose();
@@ -33,6 +38,22 @@ export async function POST(req: Request) {
         { status: 409 },
       );
     }
+
+    // Verify OTP
+    const otpRecord = await RegistrationOtp.findOne({ email: normEmail, otp });
+    if (!otpRecord) {
+      return NextResponse.json(
+        { ok: false, reason: 'invalid-otp' },
+        { status: 400 },
+      );
+    }
+    if (otpRecord.expires < new Date()) {
+      return NextResponse.json(
+        { ok: false, reason: 'expired-otp' },
+        { status: 400 },
+      );
+    }
+
     const passwordHash = await bcrypt.hash(password, 12);
     const user = await User.create({
       name,
@@ -42,6 +63,9 @@ export async function POST(req: Request) {
       role: 'user',
       country,
     });
+
+    // Delete OTP record since it's used
+    await RegistrationOtp.deleteOne({ _id: otpRecord._id });
 
     sendEmail({ ...welcomeEmail(user.name), to: user.email }).catch(() => {});
 

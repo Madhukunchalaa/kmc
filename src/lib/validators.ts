@@ -6,6 +6,7 @@ export const registerSchema = z.object({
   phone: z.string().min(7).max(30).optional().or(z.literal('')),
   password: z.string().min(8).max(128),
   country: z.string().length(2, 'Please select your country'),
+  otp: z.string().length(6, 'OTP must be 6 digits').optional(),
 });
 
 export const loginSchema = z.object({

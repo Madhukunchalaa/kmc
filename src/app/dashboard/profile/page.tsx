@@ -20,7 +20,7 @@ export default async function ProfilePage() {
         <div className="col-lg-6">
           <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Personal details</h4>
-            <ProfileForm initial={{ name: user.name, phone: user.phone || '', email: user.email }} />
+            <ProfileForm initial={{ name: user.name, phone: user.phone || '', email: user.email, country: user.country || 'IN' }} />
           </div>
         </div>
         <div className="col-lg-6">

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ScrollFade from '@/components/ScrollFade';
+import SimplePrice from '@/components/SimplePrice';
 import { getAllServices } from '@/lib/catalog';
 
 export const dynamic = 'force-dynamic';
@@ -214,7 +215,7 @@ export default async function ServicesPage() {
                               {t.label}
                             </span>
                             <span style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-light,#FFEFA6)', fontWeight: 700 }}>
-                              ₹{t.price.toLocaleString('en-IN')}
+                              <SimplePrice price={t.price} />
                             </span>
                           </div>
                         ))}
@@ -226,7 +227,7 @@ export default async function ServicesPage() {
                       <div>
                         <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>From</div>
                         <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>
-                          ₹{svc.price.toLocaleString('en-IN')}
+                          <SimplePrice price={svc.price} />
                         </div>
                       </div>
 

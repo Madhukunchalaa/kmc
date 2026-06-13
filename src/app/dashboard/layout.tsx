@@ -63,7 +63,21 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,260px) 1fr', minHeight: 'calc(100vh - 60px)' }}>
         <DashboardNav isAdmin={session.user.role === 'admin'} />
-        <main style={{ padding: 'clamp(1rem, 2.5vw, 2rem)' }}>{children}</main>
+        <main style={{ padding: 'clamp(1rem, 2.5vw, 2rem)' }}>
+          {!session.user.country && (
+            <div style={{ background: '#FFF4E5', border: '1px solid #FFE0B2', padding: '16px', borderRadius: '12px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <i className="fa-solid fa-earth-americas" style={{ color: '#E6A23C', fontSize: '1.5rem' }}></i>
+              <div>
+                <h4 style={{ margin: '0 0 4px', fontSize: '1rem', color: '#B06500' }}>Country Selection Required</h4>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#D97706' }}>
+                  Please complete your profile by selecting your country. This ensures you see the correct pricing and shipping options. 
+                  <Link href="/dashboard/profile" style={{ fontWeight: 600, color: '#B06500', marginLeft: '8px' }}>Update Profile →</Link>
+                </p>
+              </div>
+            </div>
+          )}
+          {children}
+        </main>
       </div>
     </div>
   );

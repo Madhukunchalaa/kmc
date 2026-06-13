@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Spinner from './Spinner';
 import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
+import { useCurrency } from '@/context/CurrencyContext';
 
 export interface BookingTier {
   label: string;
@@ -33,6 +34,7 @@ function addDays(d: Date, n: number) {
 export default function BookingModal({ open, onClose, serviceSlug, title, tiers }: BookingModalProps) {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { formatPrice } = useCurrency();
 
   const today = useMemo(() => new Date(), []);
   const dateOptions = useMemo(
@@ -270,7 +272,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
                       onClick={() => setTierIdx(i)}
                       className={`kmc-tier-btn${i === tierIdx ? ' active' : ''}`}
                     >
-                      {t.label.toUpperCase()} (₹{t.price.toLocaleString('en-IN')})
+                      {t.label.toUpperCase()} ({formatPrice(t.price)})
                     </button>
                   ))}
                 </div>
@@ -374,7 +376,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
                   <span>
                     {submitting
                       ? 'Submitting…'
-                      : `Confirm · ₹${selectedTier.price.toLocaleString('en-IN')}`}
+                      : `Confirm · ${formatPrice(selectedTier.price)}`}
                   </span>
                 </button>
               </div>

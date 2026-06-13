@@ -10,6 +10,8 @@ interface Initial {
   subcategory: string;
   price: number;
   originalPrice: number | null;
+  usdPrice?: number;
+  originalUsdPrice?: number | null;
   image: string;
   badge: 'Popular' | 'New' | 'Sale' | 'Bestseller' | null;
   desc: string;
@@ -20,7 +22,7 @@ interface Initial {
 }
 
 const EMPTY: Initial = {
-  slug: '', name: '', category: 'bracelets', subcategory: 'Bracelets', price: 0, originalPrice: null,
+  slug: '', name: '', category: 'bracelets', subcategory: 'Bracelets', price: 0, originalPrice: null, usdPrice: 0, originalUsdPrice: null,
   image: '', badge: null, desc: '', longDesc: '', chakras: [], stock: 99, active: true,
 };
 
@@ -163,20 +165,31 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     setUploading(true);
     setErr(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Get presigned URL
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, contentType: file.type || 'image/png' }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.ok) {
-        throw new Error(data.reason || 'Upload failed');
+        throw new Error(data.reason || 'Upload failed to initialize');
       }
 
+      // 2. Upload directly to R2
+      const uploadRes = await fetch(data.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'image/png' },
+        body: file,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error('Direct upload to R2 failed');
+      }
+
+      // 3. Set the final public URL
       set('image', data.url);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'File upload error';
@@ -350,13 +363,21 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
           )}
         </div>
 
-        <div className="col-md-4">
+        <div className="col-md-3">
           <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Price (₹) *</label>
           <input required type="number" min={0} value={f.price} onChange={(e) => set('price', Number(e.target.value))} className="newsletter-input" style={{ width: '100%' }} />
         </div>
-        <div className="col-md-4">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Original Price (₹)</label>
+        <div className="col-md-3">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Price (USD) *</label>
+          <input required type="number" min={0} value={f.usdPrice ?? ''} onChange={(e) => set('usdPrice', Number(e.target.value))} className="newsletter-input" style={{ width: '100%' }} />
+        </div>
+        <div className="col-md-3">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Original (₹)</label>
           <input type="number" min={0} value={f.originalPrice ?? ''} onChange={(e) => set('originalPrice', e.target.value ? Number(e.target.value) : null)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. 1080" />
+        </div>
+        <div className="col-md-3">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Original (USD)</label>
+          <input type="number" min={0} value={f.originalUsdPrice ?? ''} onChange={(e) => set('originalUsdPrice', e.target.value ? Number(e.target.value) : null)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. 25" />
         </div>
         <div className="col-md-4">
           <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Stock (Inventory)</label>

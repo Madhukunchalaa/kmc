@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { getServiceById } from '@/lib/catalog';
 import BookingFlow from './BookingFlow';
+import SimplePrice from '@/components/SimplePrice';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,7 +32,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             Book <span className="highlight">{service.title}</span>
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
-            ₹{service.price.toLocaleString('en-IN')} · {service.durationMins} min
+            <SimplePrice price={service.price} /> · {service.durationMins} min
           </p>
         </div>
       </section>

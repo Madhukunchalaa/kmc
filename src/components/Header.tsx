@@ -5,13 +5,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
-import { useCurrency, Currency } from '@/context/CurrencyContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import NotificationBell from '@/components/NotificationBell';
 
 export default function Header() {
   const pathname = usePathname();
   const { count } = useCart();
-  const { currency, setCurrency } = useCurrency();
+  const { countryCode, setCountryCode } = useCurrency();
   const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -88,8 +88,8 @@ export default function Header() {
 
             <li className="nav-item d-flex align-items-center me-2">
               <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value as Currency)}
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
                 style={{
                   background: 'rgba(200, 149, 108, 0.08)',
                   color: '#6B3F32',
@@ -106,8 +106,13 @@ export default function Header() {
                 }}
                 className="currency-select"
               >
-                <option value="INR" style={{ background: '#fff', color: '#2D1B0E' }}>🇮🇳 INR</option>
-                <option value="USD" style={{ background: '#fff', color: '#2D1B0E' }}>🇺🇸 USD</option>
+                <option value="IN" style={{ background: '#fff', color: '#2D1B0E' }}>🇮🇳 IN (₹)</option>
+                <option value="US" style={{ background: '#fff', color: '#2D1B0E' }}>🇺🇸 US ($)</option>
+                <option value="UK" style={{ background: '#fff', color: '#2D1B0E' }}>🇬🇧 UK (£)</option>
+                <option value="AU" style={{ background: '#fff', color: '#2D1B0E' }}>🇦🇺 AU (A$)</option>
+                <option value="CA" style={{ background: '#fff', color: '#2D1B0E' }}>🇨🇦 CA (C$)</option>
+                <option value="AE" style={{ background: '#fff', color: '#2D1B0E' }}>🇦🇪 AE (د.إ)</option>
+                <option value="SG" style={{ background: '#fff', color: '#2D1B0E' }}>🇸🇬 SG (S$)</option>
               </select>
             </li>
 

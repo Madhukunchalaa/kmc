@@ -26,13 +26,14 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { status, data: session } = useSession();
   const { hydrated, items, clear, loading } = useCart();
-  const { currency, getRawPrice } = useCurrency();
-  const [form, setForm] = useState<Form>(EMPTY);
 
-  const rawSubtotal = hydrated.reduce(
-    (sum, it) => sum + getRawPrice(it.product.price, it.product.usdPrice) * it.qty,
-    0
-  );
+  const { formatPrice, countryCode } = useCurrency();
+  const currency = countryCode === 'IN' ? 'INR' : 'USD';
+
+  const inrSubtotal = hydrated.reduce((sum, it) => sum + it.product.price * it.qty, 0);
+  const usdSubtotal = hydrated.reduce((sum, it) => sum + (it.product.usdPrice || 0) * it.qty, 0);
+
+  const [form, setForm] = useState<Form>(EMPTY);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -241,7 +242,7 @@ export default function CheckoutPage() {
 
                 <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
                   {submitting ? <Spinner /> : <i className="fa-solid fa-lock"></i>}
-                  <span>{submitting ? 'Processing…' : `Pay ${currency === 'USD' ? '$' : '₹'}${rawSubtotal.toLocaleString('en-IN')}`}</span>
+                  <span>{submitting ? 'Processing…' : `Pay ${formatPrice(inrSubtotal, usdSubtotal)}`}</span>
                 </button>
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
@@ -261,18 +262,18 @@ export default function CheckoutPage() {
                         <div style={{ fontWeight: 600 }}>{it.product.name}</div>
                         <div style={{ color: 'var(--text-light,#777)' }}>Qty {it.qty}</div>
                       </div>
-                      <div style={{ fontWeight: 700 }}>{currency === 'USD' ? '$' : '₹'}{(getRawPrice(it.product.price, it.product.usdPrice) * it.qty).toLocaleString('en-IN')}</div>
+                      <div style={{ fontWeight: 700 }}>{formatPrice(it.product.price * it.qty, (it.product.usdPrice || 0) * it.qty)}</div>
                     </div>
                   ))}
                 </div>
                 <hr style={{ margin: '1rem 0' }} />
-                <div className="d-flex justify-content-between"><span>Subtotal</span><strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong></div>
-                <div className="d-flex justify-content-between mt-2" style={{ color: 'var(--text-light,#777)', fontSize: '0.9rem' }}>
-                  <span>Shipping</span><span>Calculated after confirmation</span>
+                <div className="d-flex justify-content-between"><span>Subtotal</span><strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong></div>
+                <div className="d-flex justify-content-between" style={{ color: '#777', fontSize: '0.9rem' }}>
+                  <span>Shipping</span><span>Free</span>
                 </div>
                 <hr style={{ margin: '1rem 0' }} />
-                <div className="d-flex justify-content-between" style={{ fontSize: '1.1rem' }}>
-                  <strong>Total</strong><strong>{currency === 'USD' ? '$' : '₹'}{rawSubtotal.toLocaleString('en-IN')}</strong>
+                <div className="d-flex justify-content-between" style={{ fontSize: '1.2rem' }}>
+                  <strong>Total</strong><strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong>
                 </div>
               </div>
             </div>

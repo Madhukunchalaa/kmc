@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   await connectMongoose();
   const user = await User.findOne({ email, active: true, role: 'admin' }).lean();
-  if (!user) return NextResponse.json({ ok: false, reason: 'invalid' }, { status: 401 });
+  if (!user || !user.passwordHash) return NextResponse.json({ ok: false, reason: 'invalid' }, { status: 401 });
 
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) return NextResponse.json({ ok: false, reason: 'invalid' }, { status: 401 });

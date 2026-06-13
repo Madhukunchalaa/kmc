@@ -12,6 +12,10 @@ export async function PUT(req: Request) {
   const parsed = profileUpdateSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
   await connectMongoose();
-  await User.findByIdAndUpdate(session.user.id, { name: parsed.data.name, phone: parsed.data.phone || '' });
+  await User.findByIdAndUpdate(session.user.id, { 
+    name: parsed.data.name, 
+    phone: parsed.data.phone || '',
+    country: parsed.data.country,
+  });
   return NextResponse.json({ ok: true });
 }

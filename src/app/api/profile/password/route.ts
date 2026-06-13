@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   await connectMongoose();
   const user = await User.findById(session.user.id);
-  if (!user) return NextResponse.json({ ok: false, reason: 'not-found' }, { status: 404 });
+  if (!user || !user.passwordHash) return NextResponse.json({ ok: false, reason: 'not-found' }, { status: 404 });
   const ok = await bcrypt.compare(parsed.data.currentPassword, user.passwordHash);
   if (!ok) return NextResponse.json({ ok: false, reason: 'wrong-current-password' }, { status: 400 });
   user.passwordHash = await bcrypt.hash(parsed.data.newPassword, 12);

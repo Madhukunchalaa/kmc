@@ -11,11 +11,13 @@ declare module 'next-auth' {
       name?: string | null;
       email?: string | null;
       role: 'user' | 'admin';
+      country?: string | null;
     };
   }
   interface User {
     id: string;
     role: 'user' | 'admin';
+    country?: string | null;
   }
 }
 
@@ -23,6 +25,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     uid?: string;
     role?: 'user' | 'admin';
+    country?: string | null;
   }
 }
 
@@ -36,24 +39,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        otp: { label: 'OTP', type: 'text' },
       },
       async authorize(credentials) {
         const email = (credentials?.email as string | undefined)?.trim().toLowerCase();
         const password = credentials?.password as string | undefined;
-        if (!email || !password) return null;
+        const otp = credentials?.otp as string | undefined;
+
+        if (!email || (!password && !otp)) return null;
 
         await connectMongoose();
-        const user = await User.findOne({ email, active: true }).lean();
+        const user = await User.findOne({ email, active: true });
         if (!user) return null;
 
-        const ok = await bcrypt.compare(password, user.passwordHash);
-        if (!ok) return null;
+        // If OTP is provided, verify OTP
+        if (otp) {
+          if (!user.otp || user.otp !== otp || !user.otpExpires || user.otpExpires < new Date()) {
+            return null; // Invalid or expired OTP
+          }
+          // Clear OTP after successful use
+          user.otp = undefined;
+          user.otpExpires = undefined;
+          await user.save();
+        } else if (password) {
+          // Fallback to password (for admins who haven't transitioned)
+          if (!user.passwordHash) return null;
+          const ok = await bcrypt.compare(password, user.passwordHash);
+          if (!ok) return null;
+        }
 
         return {
           id: String(user._id),
           name: user.name,
           email: user.email,
           role: user.role,
+          country: user.country,
         };
       },
     }),
@@ -63,12 +83,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.uid = user.id;
         token.role = user.role;
+        token.country = user.country;
       }
       return token;
     },
     async session({ session, token }) {
       if (token?.uid) session.user.id = token.uid;
       if (token?.role) session.user.role = token.role;
+      if (token?.country) session.user.country = token.country;
       return session;
     },
   },

@@ -1,53 +1,77 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useSession } from 'next-auth/react';
 
-export type Currency = 'INR' | 'USD';
+export const COUNTRY_CURRENCY_MAP: Record<string, { code: string; symbol: string }> = {
+  IN: { code: 'INR', symbol: '₹' },
+  US: { code: 'USD', symbol: '$' },
+  UK: { code: 'GBP', symbol: '£' },
+  GB: { code: 'GBP', symbol: '£' },
+  AU: { code: 'AUD', symbol: 'A$' },
+  CA: { code: 'CAD', symbol: 'C$' },
+  AE: { code: 'AED', symbol: 'د.إ' },
+  SG: { code: 'SGD', symbol: 'S$' },
+  MY: { code: 'MYR', symbol: 'RM' },
+  Other: { code: 'USD', symbol: '$' },
+};
 
 interface CurrencyContextValue {
-  currency: Currency;
-  setCurrency: (c: Currency) => void;
+  countryCode: string;
+  setCountryCode: (c: string) => void;
   formatPrice: (inrVal: number, usdVal?: number | null) => string;
   getRawPrice: (inrVal: number, usdVal?: number | null) => number;
 }
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
-export function CurrencyProvider({ children, defaultCurrency }: { children: ReactNode; defaultCurrency?: Currency }) {
-  const [currency, setCurrencyState] = useState<Currency>(defaultCurrency || 'INR');
+export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children: ReactNode; defaultCountry?: string }) {
+  const [countryCode, setCountryState] = useState<string>(defaultCountry);
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const stored = localStorage.getItem('kmc_currency') as Currency;
-    if (stored === 'INR' || stored === 'USD') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrencyState(stored);
+    // If logged in, prioritize user's saved country
+    if (session?.user?.country) {
+      setCountryState(session.user.country);
+      return;
     }
-  }, []);
+    // Otherwise fallback to local storage
+    const stored = localStorage.getItem('kmc_country');
+    if (stored) {
+      setCountryState(stored);
+    }
+  }, [session?.user?.country]);
 
-  const setCurrency = (c: Currency) => {
-    setCurrencyState(c);
-    localStorage.setItem('kmc_currency', c);
+  const setCountryCode = (c: string) => {
+    setCountryState(c);
+    if (!session?.user) {
+      localStorage.setItem('kmc_country', c);
+    }
   };
 
   const getRawPrice = (inrVal: number, usdVal?: number | null): number => {
-    if (currency === 'USD') {
-      if (usdVal !== undefined && usdVal !== null && usdVal > 0) return usdVal;
-      // Fallback conversion rate: 1 USD = 50 INR (reflecting the catalog's standard pricing ratio)
-      return Math.round(inrVal / 50);
-    }
-    return inrVal;
+    const code = countryCode.toUpperCase();
+    if (code === 'IN') return inrVal;
+    
+    // For non-IN countries, use USD value
+    if (usdVal !== undefined && usdVal !== null && usdVal > 0) return usdVal;
+    return Math.round(inrVal / 50); // Fallback
   };
 
   const formatPrice = (inrVal: number, usdVal?: number | null): string => {
+    const code = countryCode.toUpperCase();
     const price = getRawPrice(inrVal, usdVal);
-    if (currency === 'USD') {
-      return `$${price}`;
+    
+    if (code === 'IN') {
+      return `₹${price.toLocaleString('en-IN')}`;
     }
-    return `₹${price.toLocaleString('en-IN')}`;
+
+    const currencyInfo = COUNTRY_CURRENCY_MAP[code] || COUNTRY_CURRENCY_MAP['Other'];
+    return `${currencyInfo.symbol}${price.toLocaleString('en-US')}`;
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice, getRawPrice }}>
+    <CurrencyContext.Provider value={{ countryCode, setCountryCode, formatPrice, getRawPrice }}>
       {children}
     </CurrencyContext.Provider>
   );

@@ -141,3 +141,19 @@ export function passwordResetEmail(name: string, resetUrl: string): EmailMessage
     ),
   };
 }
+
+export function otpEmail(name: string, otp: string): EmailMessage {
+  return {
+    to: '',
+    subject: `Your Login OTP is ${otp}`,
+    html: shell(
+      `Login to KrissMaagiic`,
+      `<p>Hi ${name || 'there'},</p>
+       <p>Your one-time password (OTP) for login is:</p>
+       <div style="margin: 24px 0; font-size: 32px; font-weight: bold; letter-spacing: 4px; color: #2D1B0E; text-align: center; padding: 16px; background: #FAF6F1; border-radius: 8px;">
+         ${otp}
+       </div>
+       <p style="color:#888;font-size:12px">This OTP is valid for 10 minutes. Do not share this code with anyone.</p>`,
+    ),
+  };
+}

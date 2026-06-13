@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-export default function ProfileForm({ initial }: { initial: { name: string; phone: string; email: string } }) {
-  const [f, setF] = useState({ name: initial.name, phone: initial.phone });
+export default function ProfileForm({ initial }: { initial: { name: string; phone: string; email: string; country: string } }) {
+  const [f, setF] = useState({ name: initial.name, phone: initial.phone, country: initial.country || 'IN' });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -28,6 +28,20 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Name</label>
         <input value={f.name} onChange={(e) => setF((s) => ({ ...s, name: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} />
+      </div>
+      <div>
+        <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country</label>
+        <select value={f.country} onChange={(e) => setF((s) => ({ ...s, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
+          <option value="IN">India</option>
+          <option value="US">United States</option>
+          <option value="UK">United Kingdom</option>
+          <option value="AU">Australia</option>
+          <option value="CA">Canada</option>
+          <option value="AE">United Arab Emirates</option>
+          <option value="SG">Singapore</option>
+          <option value="MY">Malaysia</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone</label>

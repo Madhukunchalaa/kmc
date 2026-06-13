@@ -7,6 +7,7 @@ import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
 import BookingModal, { BookingTier } from '@/components/BookingModal';
 import SignatureCarousel from '@/components/SignatureCarousel';
+import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
 
@@ -230,7 +231,7 @@ export default function Home() {
                       <div className="session-price-range">
                         <span className="price-range-label">Energy Exchange</span>
                         <span className="price-range-value">
-                          ₹{Math.min(...svc.tiers.map(t => t.price)).toLocaleString('en-IN')} – ₹{Math.max(...svc.tiers.map(t => t.price)).toLocaleString('en-IN')}
+                          <SimplePrice price={Math.min(...svc.tiers.map(t => t.price))} /> – <SimplePrice price={Math.max(...svc.tiers.map(t => t.price))} />
                         </span>
                       </div>
                       <button

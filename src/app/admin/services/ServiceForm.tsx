@@ -37,20 +37,31 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
     setUploading(true);
     setErr(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Get presigned URL
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, contentType: file.type || 'image/png' }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.ok) {
-        throw new Error(data.reason || 'Upload failed');
+        throw new Error(data.reason || 'Upload failed to initialize');
       }
 
+      // 2. Upload directly to R2
+      const uploadRes = await fetch(data.uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'image/png' },
+        body: file,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error('Direct upload to R2 failed');
+      }
+
+      // 3. Set the final public URL
       set('image', data.url);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'File upload error';

@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Spinner from '@/components/Spinner';
 import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface Slot { time: string; available: boolean }
 
@@ -117,6 +119,8 @@ export default function BookingFlow({
   defaultEmail: string;
 }) {
   const today = useMemo(() => new Date(), []);
+  const { formatPrice } = useCurrency();
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const dateOptions = useMemo(
     () => Array.from({ length: 14 }, (_, i) => addDays(today, i)),
     [today],
@@ -312,7 +316,7 @@ export default function BookingFlow({
                     textAlign: 'center',
                   }}
                 >
-                  {t.label} (₹{t.price.toLocaleString('en-IN')})
+                  {t.label} ({formatPrice(t.price)})
                 </button>
               );
             })}
@@ -536,7 +540,7 @@ export default function BookingFlow({
       <div className="booking-summary-strip">
         <div>
           <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: 2 }}>Session fee</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>₹{activePrice.toLocaleString('en-IN')}</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>{formatPrice(activePrice)}</div>
         </div>
         <button
           type="submit"

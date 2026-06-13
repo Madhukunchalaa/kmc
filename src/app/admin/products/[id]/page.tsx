@@ -25,6 +25,8 @@ export default async function EditProductPage(props: PageProps<'/admin/products/
           subcategory: p.subcategory,
           price: p.price,
           originalPrice: p.originalPrice ?? null,
+          usdPrice: p.usdPrice ?? 0,
+          originalUsdPrice: p.originalUsdPrice ?? null,
           image: p.image,
           badge: p.badge ?? null,
           desc: p.desc,

@@ -73,6 +73,8 @@ export const productInputSchema = z.object({
   subcategory: z.string().min(2).max(120),
   price: z.number().min(0),
   originalPrice: z.number().min(0).nullable().optional(),
+  usdPrice: z.number().min(0).optional(),
+  originalUsdPrice: z.number().min(0).nullable().optional(),
   image: z.string().min(1),
   badge: z.enum(['Popular', 'New', 'Sale', 'Bestseller']).nullable().optional(),
   desc: z.string().min(5).max(600),
@@ -124,6 +126,7 @@ export const orderStatusUpdateSchema = z.object({
 export const profileUpdateSchema = z.object({
   name: z.string().min(2).max(120),
   phone: z.string().max(30).optional().or(z.literal('')),
+  country: z.string().min(2).max(120),
 });
 
 export const passwordChangeSchema = z.object({

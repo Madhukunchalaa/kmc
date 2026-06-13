@@ -353,7 +353,7 @@
 
 .hero-editorial-title {
   font-family: var(--font-cinzel);
-  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-size: clamp(1.75rem, 3.5vw, 3.4rem);
   line-height: 1.15;
   margin-bottom: 1.5rem;
   font-weight: 700;
@@ -486,7 +486,7 @@
 
 @media (max-width: 1024px) {
   .hero-editorial-main { min-height: calc(100svh - 150px); }
-  .hero-editorial-left { width: 100%; max-width: 620px; padding: calc(var(--navbar-height) + 3rem) 5% 3rem; }
+  .hero-editorial-left { width: 100%; max-width: 620px; padding: calc(var(--navbar-height) + 2rem) 5% 2rem; }
   .hero-editorial-badges { right: 5%; bottom: 2rem; top: auto; transform: none; flex-direction: row; }
 }
 

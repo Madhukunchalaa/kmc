@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Spinner from './Spinner';
+import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 
 export interface BookingTier {
   label: string;
@@ -153,11 +154,63 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
         } else {
           setError(data.reason || 'Failed to place booking.');
         }
-      } else {
-        setDone({ bookingNumber: data.bookingNumber, bookingId: data.bookingId });
+        setSubmitting(false);
+        return;
       }
-    } catch { setError('Network error.'); }
-    setSubmitting(false);
+
+      // Hit the Razorpay create endpoint
+      const payRes = await fetch('/api/payments/razorpay/booking/create', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ bookingId: data.bookingId }),
+      });
+      const payData = await payRes.json();
+      if (!payRes.ok || !payData.ok) {
+        setError(payData.reason ?? 'Could not start payment. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      // Open Razorpay Modal
+      const payment = await openRazorpayCheckout({
+        keyId: payData.keyId,
+        amount: payData.amount,
+        currency: payData.currency,
+        razorpayOrderId: payData.razorpayOrderId,
+        orderNumber: payData.bookingNumber,
+        name: payData.customer.name,
+        email: payData.customer.email,
+        phone: payData.customer.phone,
+      });
+
+      // Verify the payment
+      const verifyRes = await fetch('/api/payments/razorpay/booking/verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: data.bookingId,
+          razorpay_order_id: payment.razorpay_order_id,
+          razorpay_payment_id: payment.razorpay_payment_id,
+          razorpay_signature: payment.razorpay_signature,
+        }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.ok) {
+        setError(verifyData.reason ?? 'Payment verification failed. Please contact us.');
+        setSubmitting(false);
+        return;
+      }
+
+      setDone({ bookingNumber: data.bookingNumber, bookingId: data.bookingId });
+    } catch (err) { 
+      if (err instanceof Error && err.message === 'payment-cancelled') {
+        setError('Payment was cancelled. Your slot is held temporarily, you can complete payment from your dashboard.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -183,13 +236,13 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
           {done ? (
             <div className="text-center" style={{ padding: '1rem 0' }}>
               <div style={{ fontSize: '3rem', marginTop: 10 }}>📅</div>
-              <h3 style={{ fontFamily: 'var(--font-heading)', margin: '0.5rem 0' }}>Booking received!</h3>
+              <h3 style={{ fontFamily: 'var(--font-heading)', margin: '0.5rem 0' }}>Booking Confirmed!</h3>
               <p style={{ color: 'var(--text-light,#666)', marginBottom: 8 }}>
                 {title} ({selectedTier.label}) on <strong>{selectedDate} at {selectedTime}</strong>
               </p>
               <p style={{ color: 'var(--text-light,#666)' }}>
                 Booking ID: <strong>{done.bookingNumber}</strong><br />
-                Status: <strong>Awaiting confirmation</strong>
+                Status: <strong style={{ color: '#2b8a3e' }}>Booked & Paid</strong>
               </p>
               <div className="d-flex gap-3 justify-content-center flex-wrap mt-3">
                 <Link href={`/dashboard/bookings/${done.bookingId}`} className="btn-primary-custom">
@@ -203,7 +256,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
           ) : (
             <form onSubmit={onSubmit}>
               <p className="kmc-modal-intro">
-                Please select your session duration, date, and preferred hour. Booking requires manual founder review and validation prior to payment confirmations.
+                Please select your session duration, date, and preferred hour. Secure your slot by completing the payment below.
               </p>
 
               {/* SESSION DURATION */}

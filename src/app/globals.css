@@ -48,6 +48,12 @@
   --navbar-height: 80px;
 }
 
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 65px;
+  }
+}
+
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -78,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Ornate eyebrow labels — Cinzel Decorative */
 .section-eyebrow {
   font-family: var(--font-display); /* Cinzel Decorative */
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -90,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Section titles — Cinzel (engraved, spiritual) */
 .section-title {
   font-family: var(--font-heading); /* Cinzel */
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-size: clamp(1.35rem, 4vw, 2.6rem);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--dark-2);
@@ -105,7 +111,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .section-subtitle {
   font-family: var(--font-sub);
-  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
   color: var(--text-light);
   max-width: 580px;
   margin: 0 auto 1.5rem;
@@ -228,6 +234,13 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff !important;
   transform: translateY(-2px);
   text-decoration: none !important;
+}
+
+@media (max-width: 768px) {
+  .btn-primary-custom, .btn-outline-custom, .btn-ghost-white {
+    font-size: 0.75rem;
+    padding: 0.75rem 1.5rem;
+  }
 }
 
 /* ---------- Preloader ---------- */
@@ -7750,5 +7763,45 @@ body.theme-rose .hero-v2-orb {
   .hero-celestial-motion .particle {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* =========================================================
+   CLIENT REQUESTED SIZE & PADDING REDUCTIONS FOR MOBILE
+   ========================================================= */
+@media (max-width: 768px) {
+  /* Session Cards */
+  .session-card {
+    border-radius: 60px 60px 18px 18px !important;
+  }
+  .session-body {
+    padding: 0 1rem 1rem !important;
+  }
+  .session-title {
+    font-size: 1.05rem !important;
+  }
+  
+  /* Testimonial Cards */
+  .testimonial-card {
+    padding: 1.5rem !important;
+  }
+  .testimonial-text {
+    font-size: 0.9rem !important;
+  }
+  
+  /* Shop Products Grid */
+  .shop-products-grid .pc-overlay {
+    padding: 1.5rem 0.6rem 0.6rem !important;
+  }
+  .shop-products-grid .pc-visible-title {
+    padding: 1.2rem 0.6rem 0.6rem !important;
+  }
+  .shop-products-grid .pc-visible-name,
+  .shop-products-grid .pc-overlay-name {
+    font-size: 0.75rem !important;
+  }
+  .shop-products-grid .pc-overlay-price,
+  .shop-products-grid .pc-visible-price {
+    font-size: 0.8rem !important;
   }
 }

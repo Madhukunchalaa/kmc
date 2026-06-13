@@ -67,7 +67,7 @@
 
 .hero-glass-title {
   font-family: var(--font-cinzel);
-  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-size: clamp(2.2rem, 4.5vw, 4.5rem);
   line-height: 1.1;
   margin-bottom: 1.5rem;
   font-weight: 500;
@@ -226,7 +226,7 @@
 
 @media (max-width: 1024px) {
   .hero-glass-badges { display: none; }
-  .hero-glass-panel { padding: 2.5rem; }
+  .hero-glass-panel { padding: 1.5rem 2rem; }
   .hero-immersive-bg { width: 100%; left: 0; }
 }
 @media (max-width: 768px) {

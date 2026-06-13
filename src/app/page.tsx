@@ -50,11 +50,11 @@ export default function Home() {
               <ScrollFade delay={0}>
                 <div className="about-collage">
                   <div className="about-collage-bg-glow" />
-                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '90%', height: '420px', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '16px' }}>
+                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '85%', height: '550px', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '16px' }}>
                     <img 
                       src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781374944227.webp" 
                       alt="Kriss - Founder of KrissMaagiic" 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '16px' }}
                     />
                   </div>
                 </div>
@@ -65,13 +65,10 @@ export default function Home() {
                 <span className="section-eyebrow" style={{ color: 'var(--gold-light, #FFEFA6)' }}>The beginning</span>
                 <h2 className="section-title" style={{ textAlign: 'left', color: '#fff' }}>How <span style={{ color: 'var(--gold-light, #FFEFA6)' }}>KrissMaagiic</span> was born</h2>
                 <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
-                  It started with a single piece of amethyst — bought on a quiet afternoon in Hyderabad, slipped into a pocket, forgotten and then remembered when life began to soften in unexpected ways.
-                </p>
-                <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
-                  Kriss began collecting, studying and sitting with crystals. She learned which stones worked with which chakras, which carried which intention, which felt alive. Friends asked her to source pieces. Then their friends. Then strangers. KrissMaagiic was named the day she realised this wasn&apos;t a hobby — it was a calling.
+                  Kriss Maagiic was born from my deep passion for spirituality and personal transformation. My journey began in 2022 through intuitive consultations, where I witnessed the profound impact of faith, positive intention, and self-belief. In May 2024, this calling evolved into Kriss Maagiic—a space dedicated to offering authentic crystals that inspire confidence and growth. To me, crystals are more than beautiful stones; they are powerful symbols of hope and the innate strength that exists within us all.
                 </p>
                 <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-                  Today, every crystal is hand-selected, every ritual is held with care, and every customer is a soul we genuinely hope to serve.
+                  Every creation carries a piece of my heart. &quot;Kriss&quot; comes from my name, and &quot;Maagiic&quot; represents the positive energy infused into every piece. My mission is simple: to help people reconnect with their inner light. My greatest joy is knowing each crystal reaches its new home carrying a message of hope, authenticity, and the belief that true transformation begins from within.
                 </p>
                 
                 <div style={{

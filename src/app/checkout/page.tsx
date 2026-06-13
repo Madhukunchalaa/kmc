@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
-import { useCurrency } from '@/context/CurrencyContext';
+import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 import Spinner from '@/components/Spinner';
 import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 
@@ -17,10 +17,11 @@ interface Form {
   city: string;
   state: string;
   pincode: string;
+  country: string;
   notes: string;
 }
 
-const EMPTY: Form = { name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', notes: '' };
+const EMPTY: Form = { name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', country: '', notes: '' };
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -48,6 +49,7 @@ export default function CheckoutPage() {
           ...f,
           name: f.name || session.user.name || '',
           email: f.email || session.user.email || '',
+          country: f.country || session.user.country || countryCode || '',
         }));
       });
     }
@@ -64,6 +66,14 @@ export default function CheckoutPage() {
     if (items.length === 0) return;
     setSubmitting(true);
     setError(null);
+
+    // Enforce border validation for Indian pricing
+    if (countryCode === 'IN' && form.country !== 'IN') {
+      setError('Your profile is set to India (INR pricing), so your shipping address must be in India. To ship internationally, please update your country in your Profile first.');
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
@@ -226,6 +236,16 @@ export default function CheckoutPage() {
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>State *</label>
                     <input required value={form.state} onChange={update('state')} className="newsletter-input" style={{ width: '100%' }} />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country *</label>
+                    <select required value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
+                      <option value="" disabled style={{ color: '#000' }}>Select country</option>
+                      {Object.keys(COUNTRY_CURRENCY_MAP).filter(k => k !== 'Other').map(k => (
+                        <option key={k} value={k} style={{ color: '#000' }}>{k === 'IN' ? 'India (IN)' : k === 'US' ? 'United States (US)' : k === 'UK' ? 'United Kingdom (UK)' : k === 'AU' ? 'Australia (AU)' : k === 'CA' ? 'Canada (CA)' : k === 'AE' ? 'UAE (AE)' : k === 'SG' ? 'Singapore (SG)' : k === 'MY' ? 'Malaysia (MY)' : k}</option>
+                      ))}
+                      <option value="OT" style={{ color: '#000' }}>Other Country</option>
+                    </select>
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Order Notes (optional)</label>

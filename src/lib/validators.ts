@@ -47,6 +47,7 @@ export const orderCustomerSchema = z.object({
   city: z.string().min(2).max(80),
   state: z.string().min(2).max(80),
   pincode: z.string().min(4).max(12),
+  country: z.string().min(2).max(80),
   notes: z.string().max(600).optional().or(z.literal('')),
 });
 

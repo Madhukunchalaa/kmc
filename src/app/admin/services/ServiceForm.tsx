@@ -38,30 +38,19 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
     setErr(null);
 
     try {
-      // 1. Get presigned URL
+      const formData = new FormData();
+      formData.append('file', file);
+
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType: file.type || 'image/png' }),
+        body: formData,
       });
 
       const data = await res.json();
       if (!res.ok || !data.ok) {
-        throw new Error(data.reason || 'Upload failed to initialize');
+        throw new Error(data.reason || 'Upload failed');
       }
 
-      // 2. Upload directly to R2
-      const uploadRes = await fetch(data.uploadUrl, {
-        method: 'PUT',
-        headers: { 'Content-Type': file.type || 'image/png' },
-        body: file,
-      });
-
-      if (!uploadRes.ok) {
-        throw new Error('Direct upload to R2 failed');
-      }
-
-      // 3. Set the final public URL
       set('image', data.url);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'File upload error';
@@ -118,18 +107,17 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
         </div>
 
         <div className="col-md-8">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Image URL / Local File *</label>
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>Service Image *</label>
           <div className="d-flex gap-2 mb-2">
-            <input required type="text" value={f.image} onChange={(e) => set('image', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="/images/services/..." />
             <div style={{ position: 'relative' }}>
               <input type="file" id="service-image-upload" style={{ display: 'none' }} accept="image/*" onChange={handleFileUpload} disabled={uploading} />
-              <label htmlFor="service-image-upload" className="btn-outline-custom" style={{ cursor: 'pointer', margin: 0, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', height: '100%', padding: '0 16px' }}>
+              <label htmlFor="service-image-upload" className="btn-outline-custom" style={{ cursor: 'pointer', margin: 0, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', height: '48px', padding: '0 24px' }}>
                 <i className={`fa-solid ${uploading ? 'fa-spinner fa-spin' : 'fa-upload'} me-2`}></i>
                 {uploading ? 'Uploading...' : 'Upload Image'}
               </label>
             </div>
           </div>
-          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload a local image file directly or paste an absolute image link.</p>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Select a high-quality local image file.</p>
         </div>
         <div className="col-md-4 d-flex justify-content-center align-items-center">
           {f.image ? (

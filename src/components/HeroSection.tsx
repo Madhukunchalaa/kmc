@@ -121,7 +121,7 @@ export default function HeroSection() {
               </div>
               <div className="trust-item">
                 <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
-                <span>500+ Happy Clients</span>
+                <span>10k+ Happy Clients</span>
               </div>
             </div>
             {/* Group 2 (Duplicate for infinite seamless scroll) */}
@@ -140,7 +140,7 @@ export default function HeroSection() {
               </div>
               <div className="trust-item">
                 <i className="fa-solid fa-star" style={{ color: '#F1C40F' }} />
-                <span>500+ Happy Clients</span>
+                <span>10k+ Happy Clients</span>
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function HeroSection() {
             <span className="hero-editorial-stat-lbl">Crystals Sold</span>
           </div>
           <div className="hero-editorial-stat">
-            <span className="hero-editorial-stat-num"><Counter target={200} suffix="+" /></span>
+            <span className="hero-editorial-stat-num"><Counter target={10} suffix="k+" /></span>
             <span className="hero-editorial-stat-lbl">Happy Clients</span>
           </div>
           <div className="hero-editorial-stat">

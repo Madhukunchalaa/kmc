@@ -40,7 +40,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             </Link>
           </div>
           
-          <p className="hero-eyebrow" style={{ justifyContent: 'center', display: 'inline-flex', marginBottom: '1rem' }}>
+          <p suppressHydrationWarning className="hero-eyebrow" style={{ justifyContent: 'center', display: 'inline-flex', marginBottom: '1rem' }}>
             {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
             <span style={{ margin: '0 10px' }}>•</span>
             By {blog.author}

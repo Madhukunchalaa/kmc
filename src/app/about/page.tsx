@@ -265,7 +265,7 @@ export default function AboutPage() {
           <div className="row g-4 text-center">
             {[
               { number: 500, suffix: '+', label: 'Crystals shipped' },
-              { number: 200, suffix: '+', label: 'Happy clients' },
+              { number: 10, suffix: 'k+', label: 'Happy clients' },
               { number: 4, suffix: '', label: 'Healing services' },
               { number: 100, suffix: '%', label: 'Authentic stones' },
             ].map((s) => (

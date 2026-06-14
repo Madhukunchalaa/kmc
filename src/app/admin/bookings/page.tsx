@@ -135,8 +135,14 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
                     <div style={{ color: '#888', fontSize: '0.78rem' }}>{b.customer.email} · {b.customer.phone}</div>
                   </td>
                   <td style={{ padding: 12 }}>
-                    <div>{new Date(b.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                    <strong style={{ fontSize: '0.8rem', color: 'var(--primary,#C8956C)' }}>{b.timeSlot}</strong>
+                    {b.date !== 'N/A' ? (
+                      <>
+                        <div>{new Date(b.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                        <strong style={{ fontSize: '0.8rem', color: 'var(--primary,#C8956C)' }}>{b.timeSlot}</strong>
+                      </>
+                    ) : (
+                      <strong style={{ color: '#888', fontSize: '0.85rem' }}>Async / Unscheduled</strong>
+                    )}
                   </td>
                   <td style={{ padding: 12, textAlign: 'center' }}>
                     <span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span>

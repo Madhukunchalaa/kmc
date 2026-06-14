@@ -13,6 +13,7 @@ interface Initial {
   usdPrice?: number;
   originalUsdPrice?: number | null;
   image: string;
+  images: string[];
   badge: 'Popular' | 'New' | 'Sale' | 'Bestseller' | null;
   desc: string;
   longDesc: string;
@@ -23,30 +24,19 @@ interface Initial {
 
 const EMPTY: Initial = {
   slug: '', name: '', category: 'bracelets', subcategory: 'Bracelets', price: 0, originalPrice: null, usdPrice: 0, originalUsdPrice: null,
-  image: '', badge: null, desc: '', longDesc: '', chakras: [], stock: 99, active: true,
+  image: '', images: [], badge: null, desc: '', longDesc: '', chakras: [], stock: 99, active: true,
 };
 
 const STANDARD_CATEGORIES = [
   { value: 'bracelets', label: 'Bracelets' },
-  { value: 'wands', label: 'Wands' },
-  { value: 'raw-stones', label: 'Raw Stones' },
-  { value: 'candles', label: 'Candles' },
-  { value: 'keychains', label: 'Keychains' },
-  { value: 'malas', label: 'Malas' },
-  { value: 'pendants', label: 'Pendants' },
-  { value: 'rings', label: 'Rings' },
+  { value: 'spelljars', label: 'Spell Jars' },
 ];
 
 const STANDARD_SUBCATEGORIES = [
-  'Bracelets',
   'Designer Bracelets',
-  'Healing Wands',
-  'Raw Stones',
-  'Ritual Candles',
-  'Crystal Keychains',
-  'Crystal Malas',
-  'Crystal Pendants',
-  'Crystal Rings',
+  'Signature Bracelets',
+  'Bracelets by Crystals',
+  'Spell Jars',
 ];
 
 const STANDARD_CHAKRAS = [
@@ -166,30 +156,21 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     setErr(null);
 
     try {
-      // 1. Get presigned URL
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Upload via Next.js API proxy to bypass CORS
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType: file.type || 'image/png' }),
+        body: formData,
       });
 
       const data = await res.json();
       if (!res.ok || !data.ok) {
-        throw new Error(data.reason || 'Upload failed to initialize');
+        throw new Error(data.reason || 'Upload failed');
       }
 
-      // 2. Upload directly to R2
-      const uploadRes = await fetch(data.uploadUrl, {
-        method: 'PUT',
-        headers: { 'Content-Type': file.type || 'image/png' },
-        body: file,
-      });
-
-      if (!uploadRes.ok) {
-        throw new Error('Direct upload to R2 failed');
-      }
-
-      // 3. Set the final public URL
+      // Set the final public URL
       set('image', data.url);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'File upload error';
@@ -197,6 +178,51 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     } finally {
       setUploading(false);
     }
+  };
+
+  const [galleryUploading, setGalleryUploading] = useState(false);
+
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setGalleryUploading(true);
+    setErr(null);
+
+    try {
+      const newImages = [...f.images];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch('/api/admin/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.reason || `Upload failed for ${file.name}`);
+        }
+
+        newImages.push(data.url);
+      }
+      
+      set('images', newImages);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Gallery upload error';
+      setErr(msg);
+    } finally {
+      setGalleryUploading(false);
+    }
+  };
+
+  const removeGalleryImage = (index: number) => {
+    const newImages = [...f.images];
+    newImages.splice(index, 1);
+    set('images', newImages);
   };
 
   // Structured field helpers
@@ -333,7 +359,11 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
           ) : (
             <div className="d-flex gap-2">
               <input required value={customCategory} onChange={(e) => setCustomCategory(e.target.value.toLowerCase())} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. pyramids" />
-              <button type="button" className="btn-outline-custom" style={{ padding: '0 12px' }} onClick={() => setIsCustomCategory(false)}>Select standard</button>
+              <button type="button" className="btn-outline-custom" style={{ padding: '0 12px' }} onClick={() => {
+                setIsCustomCategory(false);
+                const catExists = STANDARD_CATEGORIES.some((c) => c.value === f.category);
+                if (!catExists) set('category', STANDARD_CATEGORIES[0].value);
+              }}>Select standard</button>
             </div>
           )}
         </div>
@@ -358,7 +388,11 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
           ) : (
             <div className="d-flex gap-2">
               <input required value={customSubcategory} onChange={(e) => setCustomSubcategory(e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Crystal Trees" />
-              <button type="button" className="btn-outline-custom" style={{ padding: '0 12px' }} onClick={() => setIsCustomSubcategory(false)}>Select standard</button>
+              <button type="button" className="btn-outline-custom" style={{ padding: '0 12px' }} onClick={() => {
+                setIsCustomSubcategory(false);
+                const subcatExists = STANDARD_SUBCATEGORIES.includes(f.subcategory);
+                if (!subcatExists) set('subcategory', STANDARD_SUBCATEGORIES[0]);
+              }}>Select standard</button>
             </div>
           )}
         </div>
@@ -391,18 +425,17 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
 
       <div className="row g-3 mb-4">
         <div className="col-md-8">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Image URL / Local File *</label>
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>Product Image *</label>
           <div className="d-flex gap-2 mb-2">
-            <input required type="text" value={f.image} onChange={(e) => set('image', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="/images/products/..." />
             <div style={{ position: 'relative' }}>
               <input type="file" id="image-upload" style={{ display: 'none' }} accept="image/*" onChange={handleFileUpload} disabled={uploading} />
-              <label htmlFor="image-upload" className="btn-outline-custom" style={{ cursor: 'pointer', margin: 0, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', height: '100%', padding: '0 16px' }}>
+              <label htmlFor="image-upload" className="btn-outline-custom" style={{ cursor: 'pointer', margin: 0, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', height: '48px', padding: '0 24px' }}>
                 <i className={`fa-solid ${uploading ? 'fa-spinner fa-spin' : 'fa-upload'} me-2`}></i>
                 {uploading ? 'Uploading...' : 'Upload Image'}
               </label>
             </div>
           </div>
-          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload a local image file directly or paste an absolute image link.</p>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Select a high-quality local image file.</p>
         </div>
         <div className="col-md-4 d-flex justify-content-center align-items-center">
           {f.image ? (
@@ -418,6 +451,30 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
               No image
             </div>
           )}
+        </div>
+
+        {/* Gallery Upload */}
+        <div className="col-12 mt-3 mb-2">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>Additional Gallery Images</label>
+          <div className="d-flex flex-wrap gap-3 mb-2">
+            {f.images.map((img, i) => (
+              <div key={i} style={{ position: 'relative', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 12, padding: 4, background: '#FAF6F1' }}>
+                <img src={img} alt={`Gallery ${i}`} style={{ width: '80px', height: '80px', objectFit: 'contain', borderRadius: 8 }} />
+                <button type="button" onClick={() => removeGalleryImage(i)} style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: '#D95F5F', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer' }}>
+                  <i className="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            ))}
+            
+            <div style={{ position: 'relative' }}>
+              <input type="file" id="gallery-upload" style={{ display: 'none' }} accept="image/*" multiple onChange={handleGalleryUpload} disabled={galleryUploading} />
+              <label htmlFor="gallery-upload" style={{ width: 80, height: 80, borderRadius: 12, border: '2px dashed rgba(0,0,0,0.2)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#888', fontSize: '0.75rem', cursor: 'pointer', margin: 0, background: '#fff' }}>
+                <i className={`fa-solid ${galleryUploading ? 'fa-spinner fa-spin' : 'fa-plus'}`} style={{ fontSize: '1.2rem', marginBottom: 4 }}></i>
+                {galleryUploading ? 'Uploading' : 'Add'}
+              </label>
+            </div>
+          </div>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload multiple images to display a thumbnail gallery on the product page.</p>
         </div>
 
         <div className="col-md-6">

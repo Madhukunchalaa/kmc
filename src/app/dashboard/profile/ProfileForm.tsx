@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function ProfileForm({ initial }: { initial: { name: string; phone: string; email: string; country: string } }) {
+  const { update } = useSession();
   const [f, setF] = useState({ name: initial.name, phone: initial.phone, country: initial.country || 'IN' });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -18,7 +20,12 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
         body: JSON.stringify(f),
       });
       const data = await res.json();
-      setMsg(data.ok ? 'Saved' : (data.reason || 'Failed'));
+      if (data.ok) {
+        setMsg('Saved');
+        await update({ country: f.country });
+      } else {
+        setMsg(data.reason || 'Failed');
+      }
     } catch { setMsg('Network error'); }
     setSaving(false);
   };

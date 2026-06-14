@@ -9,8 +9,11 @@ export interface BookingDoc {
   service: mongoose.Types.ObjectId;
   serviceTitle: string;
   servicePrice: number;
-  date: string; // YYYY-MM-DD
-  timeSlot: string; // e.g. "14:00"
+  date: string; // YYYY-MM-DD or "N/A"
+  timeSlot: string; // e.g. "14:00" or "N/A"
+  question?: string;
+  intention?: string;
+  dob?: string;
   notes?: string;
   status: BookingStatus;
   adminNote?: string;
@@ -33,8 +36,11 @@ const BookingSchema = new Schema<BookingDoc>(
     service: { type: Schema.Types.ObjectId, ref: 'Service', required: true, index: true },
     serviceTitle: { type: String, required: true },
     servicePrice: { type: Number, required: true },
-    date: { type: String, required: true, index: true },
-    timeSlot: { type: String, required: true },
+    date: { type: String, default: 'N/A', index: true },
+    timeSlot: { type: String, default: 'N/A' },
+    question: { type: String, default: '' },
+    intention: { type: String, default: '' },
+    dob: { type: String, default: '' },
     notes: { type: String, default: '' },
     status: {
       type: String,

@@ -33,6 +33,7 @@ export interface OrderDoc {
     state: string;
     pincode: string;
     country: string;
+    dob?: string;
     notes?: string;
   };
   adminNote?: string;
@@ -83,6 +84,7 @@ const OrderSchema = new Schema<OrderDoc>(
       state: { type: String, required: true },
       pincode: { type: String, required: true },
       country: { type: String, required: true },
+      dob: { type: String, default: '' },
       notes: { type: String, default: '' },
     },
     adminNote: { type: String, default: '' },

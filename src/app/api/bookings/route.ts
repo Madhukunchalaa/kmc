@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   const parsed = createBookingSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
 
-  const { serviceId, date, timeSlot, notes, tierLabel, tierPrice, customer } = parsed.data;
+  const { serviceId, date = 'N/A', timeSlot = 'N/A', question, intention, dob, notes, tierLabel, tierPrice, customer } = parsed.data;
 
   await connectMongoose();
   // Accept either ObjectId or slug
@@ -24,14 +24,16 @@ export async function POST(req: Request) {
     : Service.findOne({ slug: serviceId }).lean());
   if (!service) return NextResponse.json({ ok: false, reason: 'service-not-found' }, { status: 404 });
 
-  // Conflict check (use the resolved service _id, not the slug).
-  const clash = await Booking.findOne({
-    service: service._id,
-    date,
-    timeSlot,
-    status: { $in: ['pending', 'approved'] },
-  });
-  if (clash) return NextResponse.json({ ok: false, reason: 'slot-already-taken' }, { status: 409 });
+  // Conflict check only if a specific time is requested.
+  if (date !== 'N/A' && timeSlot !== 'N/A') {
+    const clash = await Booking.findOne({
+      service: service._id,
+      date,
+      timeSlot,
+      status: { $in: ['pending', 'approved'] },
+    });
+    if (clash) return NextResponse.json({ ok: false, reason: 'slot-already-taken' }, { status: 409 });
+  }
 
   const bookingNumber = 'BKG-' + Date.now().toString(36).toUpperCase();
   const finalTitle = tierLabel ? `${service.title} (${tierLabel})` : service.title;
@@ -44,6 +46,9 @@ export async function POST(req: Request) {
     servicePrice: finalPrice,
     date,
     timeSlot,
+    question: question || '',
+    intention: intention || '',
+    dob: dob || '',
     notes: notes || '',
     customer,
     status: 'pending',

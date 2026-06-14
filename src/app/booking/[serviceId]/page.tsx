@@ -20,7 +20,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/services-hero.png")',
+        backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("${service.image}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -32,7 +32,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             Book <span className="highlight">{service.title}</span>
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
-            <SimplePrice price={service.price} /> · {service.durationMins} min
+            <SimplePrice price={service.price} /> {service.slug !== 'candle' && service.slug !== 'spelljar' ? `· ${service.durationMins} min` : ''}
           </p>
         </div>
       </section>
@@ -69,6 +69,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
         <div style={{ maxWidth: '820px', width: '100%', padding: '0 15px', marginLeft: 'auto', marginRight: 'auto', boxSizing: 'border-box', position: 'relative', zIndex: 2 }}>
           <BookingFlow
             serviceId={service.id}
+            serviceSlug={service.slug}
             servicePrice={service.price}
             serviceTitle={service.title}
             tiers={service.tiers}

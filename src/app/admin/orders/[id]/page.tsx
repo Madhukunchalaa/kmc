@@ -69,6 +69,7 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
               <br />
               {order.customer.address}<br />
               {order.customer.city}, {order.customer.state} {order.customer.pincode}
+              {order.customer.dob && (<><br /><br /><em>Date of Birth:</em> {order.customer.dob}</>)}
               {order.customer.notes && (<><br /><br /><em>Notes:</em> {order.customer.notes}</>)}
             </p>
           </div>

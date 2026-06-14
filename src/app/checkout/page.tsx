@@ -18,10 +18,11 @@ interface Form {
   state: string;
   pincode: string;
   country: string;
+  dob: string;
   notes: string;
 }
 
-const EMPTY: Form = { name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', country: '', notes: '' };
+const EMPTY: Form = { name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', country: '', dob: '', notes: '' };
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -246,6 +247,10 @@ export default function CheckoutPage() {
                       ))}
                       <option value="OT" style={{ color: '#000' }}>Other Country</option>
                     </select>
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Date of Birth (Optional)</label>
+                    <input value={form.dob} onChange={update('dob')} className="newsletter-input" style={{ width: '100%' }} placeholder="DD/MM/YYYY" />
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Order Notes (optional)</label>

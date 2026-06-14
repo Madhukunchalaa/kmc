@@ -25,7 +25,11 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Service</h4>
             <p style={{ fontSize: '0.95rem' }}>
               <strong>{b.serviceTitle}</strong> — ₹{b.servicePrice.toLocaleString('en-IN')}<br />
-              <strong>{b.date}</strong> at <strong>{b.timeSlot}</strong>
+              {b.date !== 'N/A' ? (
+                <><strong>{b.date}</strong> at <strong>{b.timeSlot}</strong></>
+              ) : (
+                <strong style={{ color: '#888' }}>Unscheduled / Async</strong>
+              )}
             </p>
             <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Payment</h5>
             <p style={{ fontSize: '0.9rem' }}>
@@ -33,9 +37,27 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
               {b.razorpayOrderId && <>Razorpay Order: {b.razorpayOrderId}<br /></>}
               {b.razorpayPaymentId && <>Razorpay Payment: {b.razorpayPaymentId}</>}
             </p>
+            {b.question && (
+              <>
+                <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Specific Question</h5>
+                <p style={{ background: '#FAF6F1', padding: 12, borderRadius: 8, fontSize: '0.9rem' }}>{b.question}</p>
+              </>
+            )}
+            {b.intention && (
+              <>
+                <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Intention</h5>
+                <p style={{ background: '#FAF6F1', padding: 12, borderRadius: 8, fontSize: '0.9rem' }}>{b.intention}</p>
+              </>
+            )}
+            {b.dob && (
+              <>
+                <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Date of Birth</h5>
+                <p style={{ background: '#FAF6F1', padding: 12, borderRadius: 8, fontSize: '0.9rem' }}>{b.dob}</p>
+              </>
+            )}
             {b.notes && (
               <>
-                <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Customer notes</h5>
+                <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Customer Notes</h5>
                 <p style={{ background: '#FAF6F1', padding: 12, borderRadius: 8, fontSize: '0.9rem' }}>{b.notes}</p>
               </>
             )}

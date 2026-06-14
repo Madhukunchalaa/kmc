@@ -49,6 +49,7 @@ export const orderCustomerSchema = z.object({
   state: z.string().min(2).max(80),
   pincode: z.string().min(4).max(12),
   country: z.string().min(2).max(80),
+  dob: z.string().max(100).optional().or(z.literal('')),
   notes: z.string().max(600).optional().or(z.literal('')),
 });
 
@@ -79,6 +80,7 @@ export const productInputSchema = z.object({
   usdPrice: z.number().min(0).optional(),
   originalUsdPrice: z.number().min(0).nullable().optional(),
   image: z.string().min(1),
+  images: z.array(z.string()).default([]),
   badge: z.enum(['Popular', 'New', 'Sale', 'Bestseller']).nullable().optional(),
   desc: z.string().min(5).max(600),
   longDesc: z.string().max(4000).optional().or(z.literal('')),
@@ -103,8 +105,11 @@ export const serviceInputSchema = z.object({
 export const createBookingSchema = z.object({
   // Accepts a Mongo ObjectId OR a service slug (e.g. "tarot")
   serviceId: z.string().min(1),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'invalid date'),
-  timeSlot: z.string().regex(/^\d{2}:\d{2}$/),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'invalid date').optional().or(z.literal('N/A')),
+  timeSlot: z.string().regex(/^\d{2}:\d{2}$/).optional().or(z.literal('N/A')),
+  question: z.string().max(1000).optional().or(z.literal('')),
+  intention: z.string().max(1000).optional().or(z.literal('')),
+  dob: z.string().max(100).optional().or(z.literal('')),
   notes: z.string().max(600).optional().or(z.literal('')),
   // Optional tier — overrides title + price when present (for tier-based session cards)
   tierLabel: z.string().max(40).optional(),

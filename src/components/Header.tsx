@@ -34,6 +34,7 @@ export default function Header() {
     { name: 'Shop', href: '/shop' },
     { name: 'Services', href: '/services' },
     { name: 'Crystal Strength', href: '/crystal-strength' },
+    { name: 'Blog', href: '/blogs' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -86,35 +87,7 @@ export default function Header() {
               </li>
             )}
 
-            <li className="nav-item d-flex align-items-center me-2">
-              <select
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
-                style={{
-                  background: 'rgba(200, 149, 108, 0.08)',
-                  color: '#6B3F32',
-                  border: '1px solid rgba(200, 149, 108, 0.3)',
-                  borderRadius: '8px',
-                  padding: '6px 12px',
-                  fontSize: '0.72rem',
-                  outline: 'none',
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 700,
-                  letterSpacing: '0.05em',
-                  textTransform: 'uppercase',
-                }}
-                className="currency-select"
-              >
-                <option value="IN" style={{ background: '#fff', color: '#2D1B0E' }}>🇮🇳 IN (₹)</option>
-                <option value="US" style={{ background: '#fff', color: '#2D1B0E' }}>🇺🇸 US ($)</option>
-                <option value="UK" style={{ background: '#fff', color: '#2D1B0E' }}>🇬🇧 UK (£)</option>
-                <option value="AU" style={{ background: '#fff', color: '#2D1B0E' }}>🇦🇺 AU (A$)</option>
-                <option value="CA" style={{ background: '#fff', color: '#2D1B0E' }}>🇨🇦 CA (C$)</option>
-                <option value="AE" style={{ background: '#fff', color: '#2D1B0E' }}>🇦🇪 AE (د.إ)</option>
-                <option value="SG" style={{ background: '#fff', color: '#2D1B0E' }}>🇸🇬 SG (S$)</option>
-              </select>
-            </li>
+
 
             <li className="nav-item">
               <Link

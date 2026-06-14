@@ -32,7 +32,7 @@ export default function Footer() {
               &ldquo;Guided by Intuition, Curated by Kriss&rdquo; — where every crystal carries a story and every stone is chosen with soul.
             </p>
             <div className="footer-social">
-              <a href="https://instagram.com" className="footer-social-btn" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/krissmaagiiccrystals/" className="footer-social-btn" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-instagram" />
               </a>
               <a href="https://www.facebook.com/share/17dNNvnBcT/?mibextid=wwXIfr" className="footer-social-btn" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
@@ -45,7 +45,7 @@ export default function Footer() {
                 <i className="fa-brands fa-youtube" />
               </a>
               <a href="https://wa.me/918096223929" className="footer-social-btn" aria-label="Instant Chat" target="_blank" rel="noopener noreferrer">
-                <i className="fa-solid fa-comments" />
+                <i className="fa-brands fa-whatsapp" />
               </a>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function Footer() {
                 <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a>
               </li>
               <li>
-                <i className="fa-solid fa-comments" />
+                <i className="fa-brands fa-whatsapp" />
                 <a href="https://wa.me/918096223929" target="_blank" rel="noopener noreferrer">Instant Chat</a>
               </li>
             </ul>
@@ -103,9 +103,10 @@ export default function Footer() {
         <div className="footer-bottom">
           <p>© 2025 KrissMaagiic Crystals. All rights reserved.</p>
           <div className="footer-bottom-links">
+            <Link href="/terms">Terms & Conditions</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/shipping-policy">Shipping Policy</Link>
-            <Link href="/returns">Returns</Link>
+            <Link href="/returns">Cancellation & Refunds</Link>
           </div>
         </div>
 

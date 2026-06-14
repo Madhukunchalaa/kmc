@@ -62,20 +62,12 @@ export default async function BlogListingPage() {
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 15px 40px rgba(0,0,0,0.08)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.04)';
                       }}>
                         <div style={{ height: '240px', overflow: 'hidden' }}>
                           <img src={blog.image} alt={blog.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} />
                         </div>
                         <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <div style={{ fontSize: '0.8rem', color: 'var(--primary,#C8956C)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, marginBottom: '0.5rem' }}>
+                          <div suppressHydrationWarning style={{ fontSize: '0.8rem', color: 'var(--primary,#C8956C)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, marginBottom: '0.5rem' }}>
                             {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </div>
                           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', marginBottom: '1rem', lineHeight: 1.3 }}>{blog.title}</h3>

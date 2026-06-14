@@ -100,7 +100,7 @@ export default async function ServicesPage() {
               <ScrollFade key={svc.id} delay={idx * 80}>
                 <div
                   id={svc.slug}
-                  className="services-galaxy-card"
+                  className={`services-galaxy-card ${idx % 2 !== 0 ? 'reverse-layout' : ''}`}
                 >
                   {/* Glow corner accent */}
                   <div style={{
@@ -232,18 +232,28 @@ export default async function ServicesPage() {
                       </div>
 
                       {/* Divider */}
-                      <div className="services-card-footer-divider" />
+                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && (
+                        <div className="services-card-footer-divider" />
+                      )}
 
                       {/* Duration */}
-                      <div>
-                        <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Duration</div>
-                        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'rgba(255,255,255,0.85)' }}>{svc.durationMins} min</div>
-                      </div>
+                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && (
+                        <div>
+                          <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Duration</div>
+                          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'rgba(255,255,255,0.85)' }}>{svc.durationMins} min</div>
+                        </div>
+                      )}
 
                       {/* Book button */}
-                      <Link href={`/booking/${svc.id}`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
-                        <span>Book Now</span>
-                      </Link>
+                      {svc.slug === 'spelljar' ? (
+                        <Link href={`/shop?category=spelljar`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
+                          <span>Shop Jars</span>
+                        </Link>
+                      ) : (
+                        <Link href={`/booking/${svc.id}`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
+                          <span>Book Now</span>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

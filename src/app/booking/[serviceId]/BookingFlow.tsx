@@ -109,9 +109,10 @@ const headingStyle: React.CSSProperties = {
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, servicePrice, serviceTitle, tiers, defaultName, defaultEmail,
+  serviceId, serviceSlug, servicePrice, serviceTitle, tiers, defaultName, defaultEmail,
 }: {
   serviceId: string;
+  serviceSlug: string;
   servicePrice: number;
   serviceTitle: string;
   tiers?: { label: string; price: number }[];
@@ -132,6 +133,9 @@ export default function BookingFlow({
   const [loading,      setLoading]      = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [notes,        setNotes]        = useState('');
+  const [question,     setQuestion]     = useState('');
+  const [intention,    setIntention]    = useState('');
+  const [dob,          setDob]          = useState('');
   const [name,         setName]         = useState(defaultName);
   const [email,        setEmail]        = useState(defaultEmail);
   const [phone,        setPhone]        = useState('');
@@ -141,6 +145,17 @@ export default function BookingFlow({
 
   const selectedTier = tiers && tiers[tierIdx];
   const activePrice = selectedTier ? selectedTier.price : servicePrice;
+
+  // Determine rules based on service
+  const isTarot = serviceSlug === 'tarot';
+  const isTarotVideo = isTarot && selectedTier?.label.includes('Video Call');
+  const isTarotVoice = isTarot && selectedTier?.label.includes('Voice Chat');
+  const isCandle = serviceSlug === 'candle';
+  const isSpellJar = serviceSlug === 'spelljar';
+  const isNumerology = serviceSlug === 'numerology';
+
+  const requiresDateAndTime = isTarotVideo; // Only Tarot Video calls need date/time
+
 
   useEffect(() => {
     let cancelled = false;
@@ -164,7 +179,8 @@ export default function BookingFlow({
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedTime) { setError('Please pick a time slot.'); return; }
+    if (requiresDateAndTime && !selectedTime) { setError('Please pick a time slot.'); return; }
+    if (isTarotVoice && !question.trim()) { setError('Please enter your specific question or focus.'); return; }
     setError(null);
     setSubmitting(true);
     try {
@@ -173,8 +189,11 @@ export default function BookingFlow({
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           serviceId,
-          date: selectedDate,
-          timeSlot: selectedTime,
+          date: requiresDateAndTime ? selectedDate : 'N/A',
+          timeSlot: requiresDateAndTime ? selectedTime : 'N/A',
+          question,
+          intention,
+          dob,
           notes,
           tierLabel: selectedTier?.label,
           tierPrice: selectedTier?.price,
@@ -324,12 +343,13 @@ export default function BookingFlow({
         </div>
       )}
 
-      {/* ── 1. Pick a Date ── */}
-      <div style={cardStyle}>
-        <h3 style={headingStyle}>
-          <i className="fa-regular fa-calendar-days" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          {tiers && tiers.length > 0 ? '2. Pick a Date' : '1. Pick a Date'}
-        </h3>
+      {/* ── 1. Pick a Date (Only if required) ── */}
+      {requiresDateAndTime && (
+        <div style={cardStyle}>
+          <h3 style={headingStyle}>
+            <i className="fa-regular fa-calendar-days" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            {tiers && tiers.length > 0 ? '2. Pick a Date' : '1. Pick a Date'}
+          </h3>
 
         <div className="custom-scrollbar" style={{
           display: 'flex', gap: 10, overflowX: 'auto',
@@ -423,14 +443,16 @@ export default function BookingFlow({
           <i className="fa-solid fa-star-and-crescent me-1" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.65rem' }}></i>
           {moon.power} {planet.tip}
         </div>
-      </div>
+        </div>
+      )}
 
-      {/* ── 2. Pick a Time ── */}
-      <div style={cardStyle}>
-        <h3 style={headingStyle}>
-          <i className="fa-regular fa-clock" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          {tiers && tiers.length > 0 ? '3. Pick a Time' : '2. Pick a Time'}
-        </h3>
+      {/* ── 2. Pick a Time (Only if required) ── */}
+      {requiresDateAndTime && (
+        <div style={cardStyle}>
+          <h3 style={headingStyle}>
+            <i className="fa-regular fa-clock" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            {tiers && tiers.length > 0 ? '3. Pick a Time' : '2. Pick a Time'}
+          </h3>
         {loading ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.5)', padding: '10px 0', justifyContent: 'center' }}>
             <Spinner /> <span>Loading available slots…</span>
@@ -470,12 +492,13 @@ export default function BookingFlow({
           </div>
         )}
       </div>
+      )}
 
       {/* ── 3. Your Details ── */}
       <div style={cardStyle}>
         <h3 style={{ ...headingStyle, justifyContent: 'flex-start' }}>
           <i className="fa-regular fa-user" style={{ color: 'var(--primary,#C8956C)' }}></i>
-          {tiers && tiers.length > 0 ? '4. Your Details' : '3. Your Details'}
+          {tiers && tiers.length > 0 ? (requiresDateAndTime ? '4. Your Details' : '2. Your Details') : '1. Your Details'}
         </h3>
         <div className="row g-3 mx-0" style={{ width: '100%', boxSizing: 'border-box' }}>
           {[
@@ -502,23 +525,115 @@ export default function BookingFlow({
               />
             </div>
           ))}
-          <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
-            <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>Notes (optional)</label>
-            <textarea
-              rows={3}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Share the focus of your session, questions, or intentions…"
-              style={{
-                width: '100%', boxSizing: 'border-box', resize: 'none',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(200,149,108,0.3)',
-                borderRadius: 12, padding: '10px 14px',
-                color: '#fff', fontSize: '0.9rem',
-                outline: 'none', fontFamily: 'inherit',
-              }}
-            />
-          </div>
+
+          {/* Conditional Custom Fields Based on Service */}
+          {isTarotVoice && (
+            <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>What is your specific question or focus? *</label>
+              <textarea
+                required
+                rows={3}
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="Share the question you want answered..."
+                style={{
+                  width: '100%', boxSizing: 'border-box', resize: 'none',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(200,149,108,0.3)',
+                  borderRadius: 12, padding: '10px 14px',
+                  color: '#fff', fontSize: '0.9rem',
+                  outline: 'none', fontFamily: 'inherit',
+                }}
+              />
+            </div>
+          )}
+
+          {isSpellJar && (
+            <>
+              <div className="col-12 col-md-6 px-2" style={{ boxSizing: 'border-box' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>Date of Birth (Optional)</label>
+                <input
+                  type="text"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                  placeholder="DD/MM/YYYY"
+                  style={{
+                    width: '100%', boxSizing: 'border-box',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(200,149,108,0.3)',
+                    borderRadius: 12, padding: '10px 14px',
+                    color: '#fff', fontSize: '0.9rem',
+                    outline: 'none', fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+              <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>Intention (Optional)</label>
+                <textarea
+                  rows={2}
+                  value={intention}
+                  onChange={(e) => setIntention(e.target.value)}
+                  placeholder="What is your intention for this spell jar?"
+                  style={{
+                    width: '100%', boxSizing: 'border-box', resize: 'none',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(200,149,108,0.3)',
+                    borderRadius: 12, padding: '10px 14px',
+                    color: '#fff', fontSize: '0.9rem',
+                    outline: 'none', fontFamily: 'inherit',
+                  }}
+                />
+              </div>
+            </>
+          )}
+
+          {isCandle && (
+            <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>Intention / Notes (Optional)</label>
+              <textarea
+                rows={2}
+                value={intention}
+                onChange={(e) => setIntention(e.target.value)}
+                placeholder="Share your specific intention or any notes for the ritual..."
+                style={{
+                  width: '100%', boxSizing: 'border-box', resize: 'none',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(200,149,108,0.3)',
+                  borderRadius: 12, padding: '10px 14px',
+                  color: '#fff', fontSize: '0.9rem',
+                  outline: 'none', fontFamily: 'inherit',
+                }}
+              />
+              <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginTop: 6, marginBottom: 0 }}>
+                <i className="fa-brands fa-whatsapp" style={{ color: '#25D366' }}></i> Date will be shared via WhatsApp once your booking is received.
+              </p>
+            </div>
+          )}
+
+          {(isNumerology || (!isTarotVoice && !isSpellJar && !isCandle)) && (
+            <div className="col-12 px-2" style={{ boxSizing: 'border-box' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>Notes (Optional)</label>
+              <textarea
+                rows={3}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Any additional details..."
+                style={{
+                  width: '100%', boxSizing: 'border-box', resize: 'none',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(200,149,108,0.3)',
+                  borderRadius: 12, padding: '10px 14px',
+                  color: '#fff', fontSize: '0.9rem',
+                  outline: 'none', fontFamily: 'inherit',
+                }}
+              />
+              {isNumerology && (
+                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginTop: 6, marginBottom: 0 }}>
+                  <i className="fa-brands fa-whatsapp" style={{ color: '#25D366' }}></i> Your personalized PDF report will be delivered directly via WhatsApp.
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

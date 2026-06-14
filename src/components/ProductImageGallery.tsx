@@ -17,8 +17,8 @@ export default function ProductImageGallery({
   category,
   name,
 }: ProductImageGalleryProps) {
-  // Use unique, non-empty image list fallback to mainImage if empty
-  const rawList = images.length > 0 ? images : [mainImage];
+  // Combine main image with gallery images, ensuring unique non-empty values
+  const rawList = [mainImage, ...images];
   const uniqueImages = Array.from(new Set(rawList.filter((img) => !!img)));
 
   const [activeIndex, setActiveIndex] = useState(0);

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminGuard';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export async function POST(req: Request) {
   // 1. Guard check
@@ -9,10 +8,11 @@ export async function POST(req: Request) {
   if (!g.ok) return g.res;
 
   try {
-    const { filename, contentType } = await req.json();
+    const formData = await req.formData();
+    const file = formData.get('file') as File | null;
 
-    if (!filename || !contentType) {
-      return NextResponse.json({ ok: false, reason: 'Filename and contentType are required' }, { status: 400 });
+    if (!file) {
+      return NextResponse.json({ ok: false, reason: 'File is required' }, { status: 400 });
     }
 
     // Ensure R2 credentials are set
@@ -30,26 +30,29 @@ export async function POST(req: Request) {
       },
     });
 
+    const buffer = Buffer.from(await file.arrayBuffer());
+
     // Standardize filename
-    const ext = filename.split('.').pop() || 'png';
-    const originalBase = filename.substring(0, filename.lastIndexOf('.')).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const ext = file.name.split('.').pop() || 'png';
+    const originalBase = file.name.substring(0, file.name.lastIndexOf('.')).replace(/[^a-zA-Z0-9_-]/g, '_');
     const safeFilename = `uploads/${Date.now()}-${originalBase}.${ext}`;
 
     // Create command
     const command = new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME,
       Key: safeFilename,
-      ContentType: contentType,
+      Body: buffer,
+      ContentType: file.type || 'application/octet-stream',
     });
 
-    // Generate presigned URL (valid for 5 minutes)
-    const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 });
+    // Upload the file directly from server to bypass CORS issues on the client
+    await s3Client.send(command);
 
-    // Return the presigned URL and the final public URL
+    // Return the final public URL
     const fileUrl = `${process.env.NEXT_PUBLIC_R2_URL}/${safeFilename}`;
-    return NextResponse.json({ ok: true, uploadUrl, url: fileUrl });
+    return NextResponse.json({ ok: true, url: fileUrl });
   } catch (err) {
-    console.error('Presigned URL generation error:', err);
+    console.error('File upload error:', err);
     const msg = err instanceof Error ? err.message : 'server-error';
     return NextResponse.json({ ok: false, reason: msg }, { status: 500 });
   }

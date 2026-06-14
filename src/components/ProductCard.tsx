@@ -101,9 +101,19 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </Link>
 
-      {/* Product Name (Always visible until hover) */}
+      {/* Product Name & Mobile Price (Always visible until hover, price shows on mobile) */}
       <div className="pc-visible-title">
         <h3 className="pc-visible-name">{product.name}</h3>
+        <div className="pc-visible-price">
+          {product.originalPrice && (
+            <s className="pc-overlay-orig" style={{ marginRight: '6px' }}>
+              {formatPrice(product.originalPrice, product.originalUsdPrice)}
+            </s>
+          )}
+          <span className="pc-overlay-sale">
+            {formatPrice(product.price, product.usdPrice)}
+          </span>
+        </div>
       </div>
 
       {/* Cinematic hover overlay */}

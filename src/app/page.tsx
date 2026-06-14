@@ -21,7 +21,7 @@ export default function Home() {
   // Bestsellers / Featured crystals (first 5 items matching the homepage feel)
   const featuredProducts = products.slice(0, 5);
   // Signature Bracelets
-  const signatureProducts = products.filter(p => p.subcategory === 'Signature Bracelets').slice(0, 8);
+  const signatureProducts = products.filter(p => p.subcategory === 'Designer Bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
 
@@ -50,11 +50,11 @@ export default function Home() {
               <ScrollFade delay={0}>
                 <div className="about-collage">
                   <div className="about-collage-bg-glow" />
-                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '85%', height: '550px', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '16px' }}>
+                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '100%', height: '600px', inset: 'auto', margin: '0 auto', overflow: 'hidden' }}>
                     <img 
                       src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781374944227.webp" 
                       alt="Kriss - Founder of KrissMaagiic" 
-                      style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '16px' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />
                   </div>
                 </div>

@@ -29,11 +29,6 @@ export default function PrivacyPolicyPage() {
         We never sell your data. We share details only with the shipping partner who delivers your order and with the payment platform we route your transaction through.
       </p>
 
-      <h2>Your rights</h2>
-      <p>
-        You can ask us at any time to access, correct or delete the information we hold about you by writing to{' '}
-        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a>.
-      </p>
 
       <h2>Cookies</h2>
       <p>

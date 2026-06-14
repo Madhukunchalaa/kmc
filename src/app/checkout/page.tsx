@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
 import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 import Spinner from '@/components/Spinner';
-import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
+import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 
 interface Form {
   name: string;
@@ -94,7 +94,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      const payRes = await fetch('/api/payments/razorpay/create', {
+      const payRes = await fetch('/api/payments/cashfree/create', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ orderId: orderData.orderId }),
@@ -106,25 +106,17 @@ export default function CheckoutPage() {
         return;
       }
 
-      const payment = await openRazorpayCheckout({
-        keyId: payData.keyId,
-        amount: payData.amount,
-        currency: payData.currency,
-        razorpayOrderId: payData.razorpayOrderId,
-        orderNumber: payData.orderNumber,
-        name: payData.customer.name,
-        email: payData.customer.email,
-        phone: payData.customer.phone,
+      await openCashfreeCheckout({
+        paymentSessionId: payData.paymentSessionId,
+        orderId: payData.orderId,
       });
 
-      const verifyRes = await fetch('/api/payments/razorpay/verify', {
+      const verifyRes = await fetch('/api/payments/cashfree/verify', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           orderId: orderData.orderId,
-          razorpay_order_id: payment.razorpay_order_id,
-          razorpay_payment_id: payment.razorpay_payment_id,
-          razorpay_signature: payment.razorpay_signature,
+          cfOrderId: payData.cfOrderId,
         }),
       });
       const verifyData = await verifyRes.json();
@@ -271,7 +263,7 @@ export default function CheckoutPage() {
                 </button>
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
-                  Secure payment via Razorpay — UPI, cards, netbanking & wallets accepted.
+                  Secure payment via Cashfree — UPI, cards, netbanking &amp; wallets accepted.
                   <br /><br />
                   <strong style={{ color: '#D95F5F' }}>Disclaimer:</strong> All products are strictly non-refundable. By proceeding with this payment, you agree to our Return Policy.
                 </p>

@@ -34,8 +34,9 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
             <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Payment</h5>
             <p style={{ fontSize: '0.9rem' }}>
               Status: <span className="crystal-tag status-tag">{b.paymentStatus || 'unpaid'}</span><br />
-              {b.razorpayOrderId && <>Razorpay Order: {b.razorpayOrderId}<br /></>}
-              {b.razorpayPaymentId && <>Razorpay Payment: {b.razorpayPaymentId}</>}
+              {b.cfOrderId && <><strong>CF Order:</strong> {b.cfOrderId}<br /></>}
+              {b.cfPaymentId && <><strong>CF Payment:</strong> {b.cfPaymentId}</>}
+              {!b.cfPaymentId && b.razorpayPaymentId && <><strong>Razorpay (legacy):</strong> {b.razorpayPaymentId}</>}
             </p>
             {b.question && (
               <>

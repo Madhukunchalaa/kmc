@@ -24,8 +24,11 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
         {order.paymentStatus && (
           <> · Payment: <strong>{order.paymentStatus}</strong></>
         )}
-        {order.razorpayPaymentId && (
-          <> · Razorpay: <code style={{ fontSize: '0.8rem' }}>{order.razorpayPaymentId}</code></>
+        {order.cfPaymentId && (
+          <> · Cashfree: <code style={{ fontSize: '0.8rem' }}>{order.cfPaymentId}</code></>
+        )}
+        {!order.cfPaymentId && order.razorpayPaymentId && (
+          <> · Razorpay (legacy): <code style={{ fontSize: '0.8rem' }}>{order.razorpayPaymentId}</code></>
         )}
       </p>
 

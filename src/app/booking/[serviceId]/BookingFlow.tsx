@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/Spinner';
-import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
+import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 import { useCurrency } from '@/context/CurrencyContext';
 
 interface Slot { time: string; available: boolean }
@@ -213,8 +213,8 @@ export default function BookingFlow({
         return;
       }
 
-      // If data.ok is true, we proceed to payment
-      const payRes = await fetch('/api/bookings/razorpay/create', {
+      // Proceed to Cashfree payment
+      const payRes = await fetch('/api/payments/cashfree/booking/create', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ bookingId: data.bookingId }),
@@ -227,25 +227,17 @@ export default function BookingFlow({
         return;
       }
 
-      const payment = await openRazorpayCheckout({
-        keyId: payData.keyId,
-        amount: payData.amount,
-        currency: payData.currency,
-        razorpayOrderId: payData.razorpayOrderId,
-        orderNumber: payData.bookingNumber,
-        name: payData.customer.name,
-        email: payData.customer.email,
-        phone: payData.customer.phone,
+      await openCashfreeCheckout({
+        paymentSessionId: payData.paymentSessionId,
+        orderId: payData.cfOrderId,
       });
 
-      const verifyRes = await fetch('/api/bookings/razorpay/verify', {
+      const verifyRes = await fetch('/api/payments/cashfree/booking/verify', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           bookingId: data.bookingId,
-          razorpay_order_id: payment.razorpay_order_id,
-          razorpay_payment_id: payment.razorpay_payment_id,
-          razorpay_signature: payment.razorpay_signature,
+          cfOrderId: payData.cfOrderId,
         }),
       });
       const verifyData = await verifyRes.json();

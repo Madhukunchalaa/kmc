@@ -22,8 +22,10 @@ export interface OrderDoc {
   currency: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
-  razorpayOrderId?: string | null;
-  razorpayPaymentId?: string | null;
+  razorpayOrderId?: string | null;   // legacy — kept for existing records
+  razorpayPaymentId?: string | null; // legacy — kept for existing records
+  cfOrderId?: string | null;
+  cfPaymentId?: string | null;
   customer: {
     name: string;
     email: string;
@@ -73,8 +75,10 @@ const OrderSchema = new Schema<OrderDoc>(
       default: 'unpaid',
       index: true,
     },
-    razorpayOrderId: { type: String, default: null, index: true },
-    razorpayPaymentId: { type: String, default: null },
+    razorpayOrderId: { type: String, default: null, index: true },  // legacy
+    razorpayPaymentId: { type: String, default: null },              // legacy
+    cfOrderId: { type: String, default: null, index: true },
+    cfPaymentId: { type: String, default: null },
     customer: {
       name: { type: String, required: true },
       email: { type: String, required: true },

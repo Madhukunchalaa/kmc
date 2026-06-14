@@ -18,8 +18,10 @@ export interface BookingDoc {
   status: BookingStatus;
   adminNote?: string;
   paymentStatus: 'unpaid' | 'paid' | 'refunded';
-  razorpayOrderId?: string;
-  razorpayPaymentId?: string;
+  razorpayOrderId?: string;   // legacy — kept for existing records
+  razorpayPaymentId?: string; // legacy — kept for existing records
+  cfOrderId?: string;
+  cfPaymentId?: string;
   customer: {
     name: string;
     email: string;
@@ -55,8 +57,10 @@ const BookingSchema = new Schema<BookingDoc>(
       default: 'unpaid',
       index: true,
     },
-    razorpayOrderId: { type: String, index: true },
-    razorpayPaymentId: { type: String },
+    razorpayOrderId: { type: String, index: true }, // legacy
+    razorpayPaymentId: { type: String },             // legacy
+    cfOrderId: { type: String, index: true },
+    cfPaymentId: { type: String },
     customer: {
       name: { type: String, required: true },
       email: { type: String, required: true },

@@ -651,6 +651,11 @@ export default function BookingFlow({
         </div>
       )}
 
+      {/* ── Disclaimer ── */}
+      <div style={{ padding: '0 10px', marginBottom: '1.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', textAlign: 'center' }}>
+        <strong style={{ color: '#FCA5A5' }}>Disclaimer:</strong> All services are strictly non-refundable. By proceeding with this payment, you agree to our Return Policy.
+      </div>
+
       {/* ── Booking Summary Strip ── */}
       <div className="booking-summary-strip">
         <div>

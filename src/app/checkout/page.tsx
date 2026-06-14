@@ -272,6 +272,8 @@ export default function CheckoutPage() {
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
                   Secure payment via Razorpay — UPI, cards, netbanking & wallets accepted.
+                  <br /><br />
+                  <strong style={{ color: '#D95F5F' }}>Disclaimer:</strong> All products are strictly non-refundable. By proceeding with this payment, you agree to our Return Policy.
                 </p>
               </form>
             </div>

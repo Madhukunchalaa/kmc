@@ -173,7 +173,7 @@ export default function WhatsAppFloat() {
       </div>
 
       {/* Main Astrology Consultation Circle Icon */}
-      <div className="chat-float-icon-btn d-flex align-items-center gap-3" style={{ fontSize: '1.75rem' }}>
+      <div className="chat-float-icon-btn d-flex align-items-center gap-3" style={{ fontSize: '1.75rem', width: 'auto', padding: '0 25px', borderRadius: '40px' }}>
         <i className="fa-brands fa-whatsapp" style={{ color: '#25D366' }}></i>
         <i 
           className="fa-brands fa-instagram" 

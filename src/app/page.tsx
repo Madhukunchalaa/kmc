@@ -152,7 +152,7 @@ export default function Home() {
               icon: 'fa-solid fa-headphones',
               title: 'Tarot Reading — Voice Chat',
               category: 'Tarot Readings',
-              desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your burning questions within 24–48 hours of your booked date.',
+              desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your questions within 24–48 hours of your session booking.',
               bullets: [
                 'No live timer pressure',
                 'Submit questions 24–48 hours before',

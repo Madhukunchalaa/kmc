@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { connectMongoose } from '@/lib/mongoose';
@@ -91,9 +92,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token?.uid) session.user.id = token.uid;
-      if (token?.role) session.user.role = token.role;
-      if (token?.country) session.user.country = token.country;
+      if (token?.uid) session.user.id = token.uid as string;
+      if (token?.role) session.user.role = token.role as 'user' | 'admin';
+      if (token?.country) session.user.country = token.country as string;
       return session;
     },
   },

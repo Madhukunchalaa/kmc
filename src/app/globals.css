@@ -2983,6 +2983,29 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.55);
 }
 
+.testimonial-carousel-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 149, 108, 0.25);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.testimonial-carousel-btn:hover {
+  background: var(--primary, #C8956C);
+  border-color: var(--primary, #C8956C);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08) !important;
+}
+
 
 .testimonials-section::after {
   content: '"';
@@ -7872,6 +7895,33 @@ body.theme-rose .hero-v2-orb {
   .shop-products-grid .pc-visible-price {
     display: block !important;
     margin-top: 4px;
+  }
+
+  /* Crystal Strength Guide Cards on Mobile */
+  .crystal-card {
+    padding: 1.5rem 1.25rem !important;
+  }
+  .crystal-gem-image-wrapper {
+    width: 90px !important;
+    height: 90px !important;
+    margin-bottom: 1rem !important;
+    border-radius: 12px !important;
+  }
+  .crystal-name {
+    font-size: 1.15rem !important;
+  }
+  .crystal-keyword {
+    font-size: 0.65rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  .crystal-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+  }
+  .crystal-tag {
+    font-size: 0.62rem !important;
+    padding: 3px 10px !important;
   }
 }
 

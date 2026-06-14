@@ -357,40 +357,24 @@ function CheckoutSuccessContent() {
           Thank you! Your order <strong>{orderNumber}</strong> is confirmed.
         </p>
         
-        {/* Simulated Test Payment Notice */}
-        <div style={{
-          background: '#FAF6F1',
-          border: '1px dashed var(--primary,#C8956C)',
-          borderRadius: '16px',
-          padding: '24px',
-          margin: '24px auto 32px',
-          maxWidth: '600px',
-          textAlign: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
-        }}>
-          <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--primary,#C8956C)', fontSize: '1.1rem', marginBottom: '10px', fontWeight: 700 }}>
-            ✨ Simulated Test Payment Confirmation ✨
+        {/* Beautiful Simulated Test Payment Notice */}
+        <div className="test-success-card">
+          <h4 className="test-success-card-title">
+            🔮 Crystal Portal & Sandbox Phase 🔮
           </h4>
-          <p style={{ fontSize: '0.88rem', color: '#555', margin: 0, lineHeight: '1.6' }}>
-            This checkout was completed in <strong>Testing Mode</strong>. No real currency has been exchanged. To complete your authentic crystal purchase, please connect with Kriss directly on WhatsApp to verify your order details:
+          <p className="test-success-card-text">
+            KrissMaagiic is undergoing its final spiritual digital alignment. This order was completed in <strong>Testing Mode</strong> (no real money was charged).
+            <br /><br />
+            To manifest these crystals into your life and complete the actual purchase, please connect with Kriss directly on WhatsApp:
           </p>
           <a 
             href="https://wa.me/918096223929?text=Hi%20Kriss,%20I%20just%20placed%20a%20test%20order%20and%20would%20like%20to%20confirm%20it."
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary-custom"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginTop: '16px',
-              padding: '10px 20px',
-              fontSize: '0.85rem',
-              textDecoration: 'none'
-            }}
+            className="whatsapp-cta-button"
           >
-            <i className="fa-brands fa-whatsapp" style={{ fontSize: '1.15rem' }}></i>
-            <span>Connect on WhatsApp (+91 80962 23929)</span>
+            <i className="fa-brands fa-whatsapp"></i>
+            <span>Activate Order via WhatsApp (+91 80962 23929)</span>
           </a>
         </div>
 

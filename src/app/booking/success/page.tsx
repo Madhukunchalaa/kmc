@@ -84,40 +84,24 @@ function BookingSuccessContent() {
           Thank you! Your booking <strong>{bookingNumber}</strong> is confirmed.
         </p>
 
-        {/* Simulated Test Booking Notice */}
-        <div style={{
-          background: '#FAF6F1',
-          border: '1px dashed var(--primary,#C8956C)',
-          borderRadius: '16px',
-          padding: '24px',
-          margin: '24px auto 32px',
-          maxWidth: '600px',
-          textAlign: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
-        }}>
-          <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--primary,#C8956C)', fontSize: '1.1rem', marginBottom: '10px', fontWeight: 700 }}>
-            ✨ Simulated Test Booking Confirmation ✨
+        {/* Beautiful Simulated Test Booking Notice */}
+        <div className="test-success-card">
+          <h4 className="test-success-card-title">
+            🔮 Healing Portal & Sandbox Phase 🔮
           </h4>
-          <p style={{ fontSize: '0.88rem', color: '#555', margin: 0, lineHeight: '1.6' }}>
-            This session booking was completed in <strong>Testing Mode</strong>. No real currency has been exchanged. To coordinate and schedule your actual healing session, please connect with Kriss directly on WhatsApp to confirm your slot:
+          <p className="test-success-card-text">
+            KrissMaagiic is undergoing its final spiritual digital alignment. This session booking was completed in <strong>Testing Mode</strong> (no real money was charged).
+            <br /><br />
+            To coordinate, schedule, and finalize your actual healing session, please connect with Kriss directly on WhatsApp:
           </p>
           <a 
             href="https://wa.me/918096223929?text=Hi%20Kriss,%20I%20just%20placed%20a%20test%20booking%20and%20would%20like%20to%20confirm%20my%20slot."
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary-custom"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginTop: '16px',
-              padding: '10px 20px',
-              fontSize: '0.85rem',
-              textDecoration: 'none'
-            }}
+            className="whatsapp-cta-button"
           >
-            <i className="fa-brands fa-whatsapp" style={{ fontSize: '1.15rem' }}></i>
-            <span>Connect on WhatsApp (+91 80962 23929)</span>
+            <i className="fa-brands fa-whatsapp"></i>
+            <span>Confirm Healing Slot via WhatsApp (+91 80962 23929)</span>
           </a>
         </div>
 

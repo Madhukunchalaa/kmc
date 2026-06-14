@@ -32,22 +32,66 @@ export async function POST(req: Request) {
   }
 
   const { bookingId, cfOrderId, merchantOrderId } = parsed.data;
-  const targetCfOrderId = cfOrderId || merchantOrderId;
 
-  if (!targetCfOrderId) {
-    return NextResponse.json({ ok: false, reason: 'missing-order-id' }, { status: 400 });
+  await connectMongoose();
+  let booking = null;
+
+  if (bookingId) {
+    booking = await Booking.findOne({
+      _id: bookingId,
+      user: session.user.id,
+    });
   }
 
-  // Verify with Cashfree
+  if (!booking && merchantOrderId) {
+    let bookingNumber = merchantOrderId;
+    if (bookingNumber.startsWith('KMCB-')) {
+      bookingNumber = bookingNumber.substring(5);
+    }
+    if (bookingNumber.startsWith('KMCB-')) {
+      bookingNumber = bookingNumber.substring(5);
+    }
+    booking = await Booking.findOne({
+      bookingNumber: `KMCB-${bookingNumber}`,
+      user: session.user.id,
+    });
+  }
+
+  if (!booking && cfOrderId) {
+    let bookingNumber = cfOrderId;
+    if (bookingNumber.startsWith('KMCB-')) {
+      bookingNumber = bookingNumber.substring(5);
+    }
+    if (bookingNumber.startsWith('KMCB-')) {
+      bookingNumber = bookingNumber.substring(5);
+    }
+    booking = await Booking.findOne({
+      $or: [
+        { cfOrderId: cfOrderId },
+        { bookingNumber: `KMCB-${bookingNumber}` },
+      ],
+      user: session.user.id,
+    });
+  }
+
+  if (!booking) {
+    return NextResponse.json({ ok: false, reason: 'booking-not-found' }, { status: 404 });
+  }
+
+  // Construct the correct merchant order ID reference sent to Cashfree for booking
+  const merchantOrderRef = `KMCB-${booking.bookingNumber}`;
+
+  // Verify payment status with Cashfree using correct reference
   let orderStatus: string;
   let cfPaymentId: string | undefined;
   try {
-    const result = await getCashfreeOrderStatus(targetCfOrderId);
+    const result = await getCashfreeOrderStatus(merchantOrderRef);
     orderStatus = result.orderStatus;
-    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(targetCfOrderId);
+    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(merchantOrderRef);
   } catch (err) {
     console.error('[cashfree] booking status check failed', err);
-    return NextResponse.json({ ok: false, reason: 'cashfree-status-error' }, { status: 502 });
+    const errMsg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ ok: false, reason: `cashfree-status-error: ${errMsg}` }, { status: 502 });
   }
 
   if (orderStatus !== 'PAID') {
@@ -55,28 +99,6 @@ export async function POST(req: Request) {
       { ok: false, reason: `payment-not-confirmed (status: ${orderStatus})` },
       { status: 400 },
     );
-  }
-
-  await connectMongoose();
-  let booking;
-  if (bookingId) {
-    booking = await Booking.findOne({
-      _id: bookingId,
-      user: session.user.id,
-    });
-  } else if (merchantOrderId) {
-    let bookingNumber = merchantOrderId;
-    if (bookingNumber.startsWith('KMCB-')) {
-      bookingNumber = bookingNumber.substring(5);
-    }
-    booking = await Booking.findOne({
-      bookingNumber,
-      user: session.user.id,
-    });
-  }
-
-  if (!booking) {
-    return NextResponse.json({ ok: false, reason: 'booking-not-found' }, { status: 404 });
   }
 
   if (booking.paymentStatus === 'paid') {

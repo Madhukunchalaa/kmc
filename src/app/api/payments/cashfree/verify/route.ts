@@ -33,22 +33,66 @@ export async function POST(req: Request) {
   }
 
   const { orderId, cfOrderId, merchantOrderId } = parsed.data;
-  const targetCfOrderId = cfOrderId || merchantOrderId;
 
-  if (!targetCfOrderId) {
-    return NextResponse.json({ ok: false, reason: 'missing-order-id' }, { status: 400 });
+  await connectMongoose();
+  let order = null;
+
+  if (orderId) {
+    order = await Order.findOne({
+      _id: orderId,
+      user: session.user.id,
+    });
   }
 
-  // Verify payment status with Cashfree
+  if (!order && merchantOrderId) {
+    let orderNumber = merchantOrderId;
+    if (orderNumber.startsWith('KMC-')) {
+      orderNumber = orderNumber.substring(4);
+    }
+    if (orderNumber.startsWith('KMC-')) {
+      orderNumber = orderNumber.substring(4);
+    }
+    order = await Order.findOne({
+      orderNumber: `KMC-${orderNumber}`,
+      user: session.user.id,
+    });
+  }
+
+  if (!order && cfOrderId) {
+    let orderNumber = cfOrderId;
+    if (orderNumber.startsWith('KMC-')) {
+      orderNumber = orderNumber.substring(4);
+    }
+    if (orderNumber.startsWith('KMC-')) {
+      orderNumber = orderNumber.substring(4);
+    }
+    order = await Order.findOne({
+      $or: [
+        { cfOrderId: cfOrderId },
+        { orderNumber: `KMC-${orderNumber}` },
+      ],
+      user: session.user.id,
+    });
+  }
+
+  if (!order) {
+    return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
+  }
+
+  // Construct the correct merchant order ID reference sent to Cashfree
+  const merchantOrderRef = `KMC-${order.orderNumber}`;
+
+  // Verify payment status with Cashfree using correct reference
   let orderStatus: string;
   let cfPaymentId: string | undefined;
   try {
-    const result = await getCashfreeOrderStatus(targetCfOrderId);
+    const result = await getCashfreeOrderStatus(merchantOrderRef);
     orderStatus = result.orderStatus;
-    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(targetCfOrderId);
+    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(merchantOrderRef);
   } catch (err) {
     console.error('[cashfree] status check failed', err);
-    return NextResponse.json({ ok: false, reason: 'cashfree-status-error' }, { status: 502 });
+    const errMsg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ ok: false, reason: `cashfree-status-error: ${errMsg}` }, { status: 502 });
   }
 
   if (orderStatus !== 'PAID') {
@@ -56,28 +100,6 @@ export async function POST(req: Request) {
       { ok: false, reason: `payment-not-confirmed (status: ${orderStatus})` },
       { status: 400 },
     );
-  }
-
-  await connectMongoose();
-  let order;
-  if (orderId) {
-    order = await Order.findOne({
-      _id: orderId,
-      user: session.user.id,
-    });
-  } else if (merchantOrderId) {
-    let orderNumber = merchantOrderId;
-    if (orderNumber.startsWith('KMC-')) {
-      orderNumber = orderNumber.substring(4);
-    }
-    order = await Order.findOne({
-      orderNumber,
-      user: session.user.id,
-    });
-  }
-
-  if (!order) {
-    return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
   }
 
   if (order.paymentStatus === 'paid') {

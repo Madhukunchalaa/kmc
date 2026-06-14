@@ -112,7 +112,36 @@ export default function Home() {
             </p>
           </div>
 
-          <div id="sessions-carousel" onScroll={handleCarouselScroll} className="row g-4 justify-content-center sessions-carousel-container">
+          <style>{`
+            @media (max-width: 767px) {
+              .sessions-carousel-container {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory !important;
+                scroll-behavior: smooth !important;
+                padding-bottom: 12px !important;
+                gap: 0 !important;
+                margin: 0 !important;
+              }
+              .sessions-carousel-container::-webkit-scrollbar { display: none !important; }
+              .sessions-carousel-slide {
+                flex: 0 0 100% !important;
+                width: 100% !important;
+                min-width: 100% !important;
+                max-width: 100% !important;
+                scroll-snap-align: center !important;
+                padding: 0 15px !important;
+                box-sizing: border-box !important;
+              }
+              .session-card:hover, .session-card.featured:hover {
+                transform: none !important;
+                box-shadow: none !important;
+                border-color: transparent !important;
+              }
+            }
+          `}</style>
+          <div id="sessions-carousel" onScroll={handleCarouselScroll} className="row g-4 justify-content-center sessions-carousel-container" style={{ margin: 0 }}>
             {[
               {
                 path: 'PATH I',

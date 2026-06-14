@@ -45,7 +45,16 @@ export async function POST(req: Request) {
     let paymentSessionId: string | undefined;
 
     if (!cfOrderId) {
-      const baseUrl = process.env.NEXTAUTH_URL ?? 'https://krissmaagiic.com';
+      let baseUrl = process.env.NEXTAUTH_URL ?? 'https://krissmaagiic.com';
+      try {
+        const requestUrl = new URL(req.url);
+        const host = req.headers.get('x-forwarded-host') || req.headers.get('host') || requestUrl.host;
+        if (host && !host.includes('localhost') && !host.includes('127.0.0.1')) {
+          baseUrl = `https://${host}`;
+        }
+      } catch (e) {
+        // fallback to NEXTAUTH_URL
+      }
       const result = await createCashfreeOrder({
         orderId: `KMC-${order.orderNumber}`,
         amount: order.subtotal,

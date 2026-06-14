@@ -81,6 +81,18 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error('[cashfree] order create failed', err);
+    
+    const appId = process.env.CASHFREE_APP_ID || '';
+    const secret = process.env.CASHFREE_SECRET_KEY || '';
+    const envType = process.env.CASHFREE_ENV || '';
+    
+    console.log(`[CASHFREE DEBUG] AppId: Length ${appId.length}, Starts with: "${appId.substring(0, 4)}..."`);
+    console.log(`[CASHFREE DEBUG] Secret: Length ${secret.length}, Starts with: "${secret.substring(0, 12)}..."`);
+    console.log(`[CASHFREE DEBUG] Env: "${envType}"`);
+    if (err instanceof Error) {
+      console.log(`[CASHFREE DEBUG] Error message: "${err.message}"`);
+    }
+    
     return NextResponse.json({ ok: false, reason: 'cashfree-error' }, { status: 502 });
   }
 }

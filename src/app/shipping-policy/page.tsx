@@ -15,7 +15,7 @@ export default function ShippingPolicyPage() {
 
       <h2>Delivery time</h2>
       <ul>
-        <li>Metros (Hyderabad, Bangalore, Mumbai, Delhi, Chennai): <strong>3–5 business days</strong></li>
+        <li>Metros (Hyderabad, Bangalore, Mumbai, Delhi, Chennai): <strong>3–7 business days</strong></li>
         <li>Rest of India: <strong>5–8 business days</strong></li>
         <li>Remote pincodes may take an extra 2–3 days.</li>
       </ul>

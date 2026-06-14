@@ -6,6 +6,7 @@ import LoginForm from './LoginForm';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 
+export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Login · KrissMaagiic Crystals' };
 
 interface PageProps {

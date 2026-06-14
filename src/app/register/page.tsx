@@ -6,6 +6,7 @@ import RegisterForm from './RegisterForm';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 
+export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Create Account · KrissMaagiic Crystals' };
 
 interface PageProps {

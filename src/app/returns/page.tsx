@@ -34,7 +34,7 @@ export default function ReturnsPage() {
 
       <h2>Refunds</h2>
       <p>
-        Once we receive and inspect the returned item, refunds are processed within <strong>5–7 business days</strong> to the original payment method. Original shipping is non-refundable unless the return is due to our error.
+        Please note that <strong>all products and services are strictly non-refundable</strong>. Due to the energetic and personalized nature of our offerings, we do not issue refunds under any circumstances. If an item arrives damaged and is verified, we may offer a replacement or exchange at our discretion.
       </p>
 
       <h2>Exchanges</h2>

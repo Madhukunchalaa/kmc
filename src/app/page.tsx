@@ -52,7 +52,7 @@ export default function Home() {
                   <div className="about-collage-bg-glow" />
                   <div className="about-collage-img-founder" style={{ position: 'relative', width: '100%', height: 'clamp(400px, 45vw, 600px)', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '24px' }}>
                     <img 
-                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781374944227.webp" 
+                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" 
                       alt="Kriss - Founder of KrissMaagiic" 
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
                     />

@@ -8,7 +8,7 @@ dotenv.config({ path: '.env.local' });
 
 async function run() {
   try {
-    const inputPath = path.resolve('public', 'images', 'admin.jpeg');
+    const inputPath = path.resolve('public', 'images', 'founder-new.jpeg');
     console.log(`Processing: ${inputPath}`);
 
     // Compress & convert to WebP

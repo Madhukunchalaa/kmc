@@ -112,36 +112,24 @@ export default function Home() {
             </p>
           </div>
 
-          <style>{`
-            @media (max-width: 767px) {
-              .sessions-carousel-container {
-                display: flex !important;
-                flex-wrap: nowrap !important;
-                overflow-x: auto !important;
-                scroll-snap-type: x mandatory !important;
-                scroll-behavior: smooth !important;
-                padding-bottom: 12px !important;
-                gap: 0 !important;
-                margin: 0 !important;
-              }
-              .sessions-carousel-container::-webkit-scrollbar { display: none !important; }
-              .sessions-carousel-slide {
-                flex: 0 0 100vw !important;
-                width: 100vw !important;
-                min-width: 100vw !important;
-                max-width: 100vw !important;
-                scroll-snap-align: center !important;
-                padding: 0 15px !important;
-                box-sizing: border-box !important;
-              }
-              .session-card:hover, .session-card.featured:hover {
-                transform: none !important;
-                box-shadow: none !important;
-                border-color: transparent !important;
-              }
-            }
-          `}</style>
-          <div id="sessions-carousel" onScroll={handleCarouselScroll} className="row g-4 justify-content-center sessions-carousel-container" style={{ margin: 0 }}>
+          {/* ===== CUSTOM SESSIONS CAROUSEL ===== */}
+          {/* Desktop: 4-column grid | Mobile: 1 card per slide */}
+          <div
+            id="sessions-carousel"
+            onScroll={handleCarouselScroll}
+            style={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollBehavior: 'smooth',
+              WebkitOverflowScrolling: 'touch',
+              gap: 0,
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+              padding: '0 0 16px 0',
+            }}
+          >
             {[
               {
                 path: 'PATH I',
@@ -233,7 +221,19 @@ export default function Home() {
                 featured: false,
               },
             ].map((svc, idx) => (
-              <div className="col-md-6 col-lg-3 sessions-carousel-slide" key={svc.title}>
+              <div
+                key={svc.title}
+                className="sessions-carousel-slide"
+                style={{
+                  flex: '0 0 calc(25% - 12px)',
+                  width: 'calc(25% - 12px)',
+                  minWidth: 'calc(25% - 12px)',
+                  maxWidth: 'calc(25% - 12px)',
+                  scrollSnapAlign: 'start',
+                  padding: '0 8px',
+                  boxSizing: 'border-box',
+                }}
+              >
                 <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
                   <div className={`session-card${svc.featured ? ' featured' : ''}`}>
                     {svc.featured && <span className="session-popular-badge">Most Popular</span>}

@@ -72,8 +72,7 @@ export default function RegisterForm() {
         password: form.password,
         redirect: false,
       });
-      router.push(callbackUrl);
-      router.refresh();
+      window.location.href = callbackUrl;
     } catch {
       setError('Network error. Please try again.');
       setSubmitting(false);

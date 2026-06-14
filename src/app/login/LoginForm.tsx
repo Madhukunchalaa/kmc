@@ -29,8 +29,7 @@ export default function LoginForm() {
       setError('Invalid email or password.');
       return;
     }
-    router.push(callbackUrl);
-    router.refresh();
+    window.location.href = callbackUrl;
   };
 
   const handleSendOTP = async (e: React.FormEvent) => {
@@ -70,8 +69,7 @@ export default function LoginForm() {
       return;
     }
     
-    router.push(callbackUrl);
-    router.refresh();
+    window.location.href = callbackUrl;
   };
 
   return (

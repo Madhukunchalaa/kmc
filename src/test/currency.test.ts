@@ -1,6 +1,11 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+
+vi.mock('next-auth/react', () => ({
+  useSession: () => ({ data: null, status: 'unauthenticated' }),
+}));
+
 import { CurrencyProvider, useCurrency } from '../context/CurrencyContext';
 
 // Mock localStorage for node environment
@@ -63,10 +68,10 @@ describe('CurrencyContext & Formatting logic', () => {
   });
 
   it('resolves raw USD price using explicit usdPrice', () => {
-    localStorageMock.setItem('kmc_currency', 'USD');
+    localStorageMock.setItem('kmc_country', 'US');
 
     const html = renderToString(
-      React.createElement(CurrencyProvider, { defaultCurrency: 'USD' },
+      React.createElement(CurrencyProvider, { defaultCountry: 'US' },
         React.createElement(RawPriceText, { inr: 1450, usd: 28 })
       )
     );
@@ -74,11 +79,11 @@ describe('CurrencyContext & Formatting logic', () => {
   });
 
   it('resolves raw USD price using direct conversion fallback (INR / 50)', () => {
-    localStorageMock.setItem('kmc_currency', 'USD');
+    localStorageMock.setItem('kmc_country', 'US');
 
     // ₹1100 / 50 = $22
     const html1 = renderToString(
-      React.createElement(CurrencyProvider, { defaultCurrency: 'USD' },
+      React.createElement(CurrencyProvider, { defaultCountry: 'US' },
         React.createElement(RawPriceText, { inr: 1100 })
       )
     );
@@ -86,7 +91,7 @@ describe('CurrencyContext & Formatting logic', () => {
 
     // ₹1450 / 50 = $29
     const html2 = renderToString(
-      React.createElement(CurrencyProvider, { defaultCurrency: 'USD' },
+      React.createElement(CurrencyProvider, { defaultCountry: 'US' },
         React.createElement(RawPriceText, { inr: 1450, usd: null })
       )
     );
@@ -94,10 +99,10 @@ describe('CurrencyContext & Formatting logic', () => {
   });
 
   it('formats USD prices correctly', () => {
-    localStorageMock.setItem('kmc_currency', 'USD');
+    localStorageMock.setItem('kmc_country', 'US');
 
     const html = renderToString(
-      React.createElement(CurrencyProvider, { defaultCurrency: 'USD' },
+      React.createElement(CurrencyProvider, { defaultCountry: 'US' },
         React.createElement(PriceText, { inr: 1450, usd: 28 })
       )
     );
@@ -105,10 +110,10 @@ describe('CurrencyContext & Formatting logic', () => {
   });
 
   it('formats USD prices using fallback ratio', () => {
-    localStorageMock.setItem('kmc_currency', 'USD');
+    localStorageMock.setItem('kmc_country', 'US');
 
     const html = renderToString(
-      React.createElement(CurrencyProvider, { defaultCurrency: 'USD' },
+      React.createElement(CurrencyProvider, { defaultCountry: 'US' },
         React.createElement(PriceText, { inr: 900 })
       )
     );

@@ -67,7 +67,9 @@ export async function POST(req: Request) {
     // Delete OTP record since it's used
     await RegistrationOtp.deleteOne({ _id: otpRecord._id });
 
-    sendEmail({ ...welcomeEmail(user.name), to: user.email }).catch(() => {});
+    await sendEmail({ ...welcomeEmail(user.name), to: user.email }).catch((err) => {
+      console.error('[welcome-email-error]', err);
+    });
 
     return NextResponse.json({ ok: true, userId: String(user._id) });
   } catch (err) {

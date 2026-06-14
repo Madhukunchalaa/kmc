@@ -41,16 +41,25 @@ export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
     }).catch(() => {});
   }
 
-  // Send email to customer
-  sendEmail({
-    ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal),
-    to: order.customer.email,
-  }).catch(() => {});
-
-  // Send email to admin
+  // Send email to customer and admin, awaiting both
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'krissmaagiicrystals@gmail.com';
-  sendEmail({
-    ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal),
-    to: adminEmail,
-  }).catch((err) => console.error('[email:adminOrderError]', err));
+  await Promise.allSettled([
+    sendEmail({
+      ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal),
+      to: order.customer.email,
+    }),
+    sendEmail({
+      ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal),
+      to: adminEmail,
+    }),
+  ]).then((results) => {
+    results.forEach((r, idx) => {
+      const type = idx === 0 ? 'customer' : 'admin';
+      if (r.status === 'rejected') {
+        console.error(`[email:fulfillment:${type}:error]`, r.reason);
+      } else if (r.value && !r.value.sent) {
+        console.warn(`[email:fulfillment:${type}:warn]`, r.value.reason);
+      }
+    });
+  });
 }

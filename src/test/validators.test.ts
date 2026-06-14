@@ -15,6 +15,7 @@ describe('Validators Unit Tests', () => {
         email: 'vijay@example.com',
         phone: '9876543210',
         password: 'securePassword123',
+        country: 'IN',
       };
       const result = registerSchema.safeParse(payload);
       expect(result.success).toBe(true);
@@ -26,6 +27,7 @@ describe('Validators Unit Tests', () => {
         email: 'invalid-email',
         phone: '',
         password: 'securePassword123',
+        country: 'IN',
       };
       const result = registerSchema.safeParse(payload);
       expect(result.success).toBe(false);
@@ -37,6 +39,7 @@ describe('Validators Unit Tests', () => {
         email: 'vijay@example.com',
         phone: '1234567',
         password: 'short',
+        country: 'IN',
       };
       const result = registerSchema.safeParse(payload);
       expect(result.success).toBe(false);

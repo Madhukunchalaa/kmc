@@ -36,10 +36,12 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/orders/[
 
     const emailStatuses = ['confirmed', 'shipped', 'delivered', 'cancelled'];
     if (emailStatuses.includes(parsed.data.status) && doc.customer?.email) {
-      sendEmail({
+      await sendEmail({
         ...orderStatusEmail(doc.customer.name, doc.orderNumber, parsed.data.status),
         to: doc.customer.email,
-      }).catch(() => {});
+      }).catch((err) => {
+        console.error('[admin-order-status-email-error]', err);
+      });
     }
 
     return NextResponse.json({ ok: true });

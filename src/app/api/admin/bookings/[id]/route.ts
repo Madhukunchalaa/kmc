@@ -31,10 +31,12 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/bookings
         message: `Your booking for ${doc.serviceTitle} on ${doc.date} at ${doc.timeSlot} was ${parsed.data.status}.`,
         link: `/dashboard/bookings/${doc._id}`,
       }).catch(() => {});
-      sendEmail({
+      await sendEmail({
         ...bookingStatusEmail(doc.customer.name, doc.serviceTitle, parsed.data.status, parsed.data.adminNote),
         to: doc.customer.email,
-      }).catch(() => {});
+      }).catch((err) => {
+        console.error('[admin-booking-status-email-error]', err);
+      });
     }
     return NextResponse.json({ ok: true });
   } catch (err) {

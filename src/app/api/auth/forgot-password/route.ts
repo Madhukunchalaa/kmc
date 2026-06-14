@@ -32,7 +32,9 @@ export async function POST(req: Request) {
 
     const base = process.env.NEXTAUTH_URL || '';
     const resetUrl = `${base}/reset-password?token=${token}`;
-    sendEmail({ ...passwordResetEmail(user.name, resetUrl), to: user.email }).catch(() => {});
+    await sendEmail({ ...passwordResetEmail(user.name, resetUrl), to: user.email }).catch((err) => {
+      console.error('[forgot-password-email-error]', err);
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

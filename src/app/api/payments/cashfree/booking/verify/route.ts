@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { isCashfreeConfigured, getCashfreeOrderStatus, getCashfreePaymentId } from '@/lib/cashfree';
+import { fulfillPaidBooking } from '@/lib/bookingFulfillment';
 import { z } from 'zod';
 import { zodErrorMessage } from '@/lib/validators';
 
@@ -118,6 +119,8 @@ export async function POST(req: Request) {
     booking.cfOrderId = cfOrderId;
   }
   await booking.save();
+
+  await fulfillPaidBooking(booking);
 
   return NextResponse.json({
     ok: true,

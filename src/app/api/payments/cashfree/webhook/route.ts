@@ -3,6 +3,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { Booking } from '@/models/Booking';
 import { fulfillPaidOrder } from '@/lib/orderFulfillment';
+import { fulfillPaidBooking } from '@/lib/bookingFulfillment';
 import { verifyCashfreeWebhook } from '@/lib/cashfree';
 
 export async function POST(req: Request) {
@@ -59,6 +60,7 @@ export async function POST(req: Request) {
     booking.status = 'booked';
     booking.cfPaymentId = cfPaymentId;
     await booking.save();
+    await fulfillPaidBooking(booking);
     console.log('[cashfree webhook] booking fulfilled', cashfreeOrderId);
     return NextResponse.json({ ok: true });
   }

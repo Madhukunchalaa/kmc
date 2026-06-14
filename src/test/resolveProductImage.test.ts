@@ -44,15 +44,15 @@ describe('resolveProductImage Utility', () => {
     expect(result).toBe('/images/products/tower.png');
   });
 
-  it('should append ?v=2 cache buster to R2 URLs', () => {
+  it('should append ?v=3 cache buster to R2 URLs', () => {
     const url = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Tiger%20eye';
     const result = resolveProductImage(url, 'bracelets', 'Tiger Eye Bracelet');
-    expect(result).toBe(url + '?v=2');
+    expect(result).toBe(url + '?v=3');
   });
 
-  it('should append &v=2 cache buster if R2 URL already has query params', () => {
+  it('should append &v=3 cache buster if R2 URL already has query params', () => {
     const url = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/image.jpg?foo=bar';
     const result = resolveProductImage(url, 'bracelets', 'Test');
-    expect(result).toBe(url + '&v=2');
+    expect(result).toBe(url + '&v=3');
   });
 });

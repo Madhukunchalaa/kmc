@@ -3,8 +3,7 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { isRazorpayConfigured, verifyPaymentSignature } from '@/lib/razorpay';
-import { Notification } from '@/models/Notification';
-import { sendEmail, bookingReceivedEmail } from '@/lib/email';
+import { fulfillPaidBooking } from '@/lib/bookingFulfillment';
 import { z } from 'zod';
 
 const verifySchema = z.object({
@@ -67,41 +66,7 @@ export async function POST(req: Request) {
   booking.razorpayPaymentId = razorpay_payment_id;
   await booking.save();
 
-  // Send customer notifications
-  Notification.create({
-    user: session.user.id,
-    type: 'booking',
-    title: `Booking ${booking.bookingNumber} confirmed`,
-    message: `Your payment was successful. Your ${booking.serviceTitle} session on ${booking.date} at ${booking.timeSlot} is booked. Kriss will reach out to you via WhatsApp.`,
-    link: `/dashboard/bookings/${booking._id}`,
-  }).catch(() => {});
-
-  sendEmail({
-    ...bookingReceivedEmail(booking.customer.name, booking.serviceTitle, booking.date, booking.timeSlot),
-    to: booking.customer.email,
-  }).catch(() => {});
-
-  // Notify admin
-  // Assuming admin reads notifications via some admin notification model or email
-  // Let's send an email to the admin.
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@krissmaagiic.com';
-  sendEmail({
-    to: adminEmail,
-    subject: `New Paid Booking: ${booking.bookingNumber}`,
-    html: `
-      <h2>New Booking Received!</h2>
-      <p>A customer has successfully booked and paid for a service.</p>
-      <ul>
-        <li><strong>Service:</strong> ${booking.serviceTitle}</li>
-        <li><strong>Date:</strong> ${booking.date}</li>
-        <li><strong>Time:</strong> ${booking.timeSlot}</li>
-        <li><strong>Customer Name:</strong> ${booking.customer.name}</li>
-        <li><strong>Customer Phone:</strong> ${booking.customer.phone}</li>
-        <li><strong>Customer Email:</strong> ${booking.customer.email}</li>
-      </ul>
-      <p>Please reach out to the customer via WhatsApp to coordinate.</p>
-    `
-  }).catch(() => {});
+  await fulfillPaidBooking(booking);
 
   return NextResponse.json({
     ok: true,

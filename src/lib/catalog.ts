@@ -124,8 +124,8 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
 
 export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
   tarot: [
-    { label: 'Voice Chat (30 min)', price: 1200 },
-    { label: 'Voice Chat (1 hour)', price: 2000 },
+    { label: 'Voice Chat (Mini)', price: 1200 },
+    { label: 'Voice Chat (Full)', price: 2000 },
     { label: 'Video Call (30 min)', price: 2500 },
     { label: 'Video Call (1 hour)', price: 4500 },
   ],

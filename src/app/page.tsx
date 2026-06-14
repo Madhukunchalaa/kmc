@@ -127,8 +127,8 @@ export default function Home() {
                   'Lifetime re-listen access',
                 ],
                 tiers: [
-                  { label: '30 minutes', price: 1200 },
-                  { label: '1 hour', price: 2000 },
+                  { label: 'Voice Chat (Mini)', price: 1200 },
+                  { label: 'Voice Chat (Full)', price: 2000 },
                 ],
                 slug: 'tarot',
                 featured: false,

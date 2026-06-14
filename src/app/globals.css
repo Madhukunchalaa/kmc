@@ -2714,7 +2714,6 @@ h1, h2, h3, h4, h5, h6 {
 .services-section {
   background: var(--light-2);
   position: relative;
-  overflow: hidden;
   border-top: 1px solid rgba(200, 149, 108, 0.15);
   border-bottom: 1px solid rgba(200, 149, 108, 0.15);
 }
@@ -6732,9 +6731,10 @@ body.theme-rose .hero-v2-orb {
 /* Homepage Sessions Carousel on Mobile */
 @media (max-width: 767px) {
   #sessions-carousel {
-    margin-left: calc(-50vw + 50%) !important;
     width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
     padding: 0 0 16px 0 !important;
+    overscroll-behavior-x: contain;
   }
 
   #sessions-carousel::-webkit-scrollbar {

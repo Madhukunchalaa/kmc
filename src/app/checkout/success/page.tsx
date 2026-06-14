@@ -97,13 +97,13 @@ function CheckoutSuccessContent() {
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at center, #1C0A02 0%, #07030A 100%);
+            background: radial-gradient(circle at center, #FCFBF9 0%, #F5EFE6 100%);
             z-index: 99999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: #2D1B0E;
             transition: opacity 0.5s ease;
           }
           .delivery-overlay.fade-out {
@@ -115,9 +115,9 @@ function CheckoutSuccessContent() {
             width: 500px;
             height: 300px;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+            background: #fff;
+            border: 1px solid #EBE4DB;
+            box-shadow: 0 15px 40px rgba(45, 27, 14, 0.06), inset 0 0 30px rgba(0, 0, 0, 0.01);
             overflow: hidden;
             margin-bottom: 2rem;
           }
@@ -127,8 +127,7 @@ function CheckoutSuccessContent() {
             left: 0;
             width: 100%;
             height: 4px;
-            background: #fff;
-            opacity: 0.1;
+            background: #EBE4DB;
           }
           .road-dashes {
             position: absolute;
@@ -136,8 +135,8 @@ function CheckoutSuccessContent() {
             left: 0;
             width: 100%;
             height: 2px;
-            background: repeating-linear-gradient(90deg, transparent, transparent 15px, #E8C99A 15px, #E8C99A 30px);
-            opacity: 0.25;
+            background: repeating-linear-gradient(90deg, transparent, transparent 15px, #C8956C 15px, #C8956C 30px);
+            opacity: 0.4;
           }
           .road-dashes.moving {
             animation: roadMoving 0.4s linear infinite;
@@ -148,14 +147,15 @@ function CheckoutSuccessContent() {
             right: 60px;
             width: 90px;
             height: 75px;
-            background: rgba(200, 149, 108, 0.08);
+            background: #FCFBF9;
             border: 2px solid #C8956C;
             border-bottom: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            border-radius: 6px 6px 0 0;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
           }
           .shop-roof {
             position: absolute;
@@ -164,14 +164,14 @@ function CheckoutSuccessContent() {
             height: 15px;
             background: #C8956C;
             clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-            border-radius: 3px;
+            border-radius: 4px;
           }
           .kc-sign {
             font-family: var(--nf-heading, serif);
             font-weight: 800;
             font-size: 1.1rem;
-            color: #E8C99A;
-            text-shadow: 0 0 8px rgba(232, 201, 154, 0.6);
+            color: #C8956C;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
             margin-bottom: 12px;
           }
           .floating-crystals {
@@ -217,7 +217,7 @@ function CheckoutSuccessContent() {
             background: #FAF6F1;
             border-radius: 4px 12px 0 0;
             position: relative;
-            border: 1px solid rgba(0,0,0,0.15);
+            border: 1px solid #EBE4DB;
             border-left: none;
           }
           .truck-cabin::after {
@@ -227,7 +227,7 @@ function CheckoutSuccessContent() {
             right: 6px;
             width: 14px;
             height: 12px;
-            background: #07030A;
+            background: #2D1B0E;
             border-radius: 2px 4px 0 0;
           }
           .truck-bed {
@@ -239,25 +239,24 @@ function CheckoutSuccessContent() {
             align-items: center;
             justify-content: center;
             position: relative;
-            border: 1px solid rgba(0,0,0,0.15);
+            border: 1px solid #B8855C;
           }
           .truck-logo {
             font-family: var(--nf-heading, serif);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: #fff;
             border: 2px solid #fff;
             padding: 0px 4px;
             border-radius: 4px;
             letter-spacing: 1px;
-            text-shadow: 0 0 4px rgba(0,0,0,0.2);
           }
           .truck-wheel {
             position: absolute;
             width: 22px;
             height: 22px;
-            background: #07030A;
-            border: 3px solid #E8C99A;
+            background: #2D1B0E;
+            border: 3px solid #EBE4DB;
             border-radius: 50%;
             bottom: -11px;
           }
@@ -310,7 +309,7 @@ function CheckoutSuccessContent() {
           
           <div className={`delivery-truck ${animationPhase}`}>
             <div className="truck-bed">
-              <div className="truck-logo">KC</div>
+              <div className="truck-logo">KMC</div>
             </div>
             <div className="truck-cabin" />
             <div className={`truck-wheel wheel-front ${animationPhase === 'arriving' || animationPhase === 'driving' ? 'spinning' : ''}`} />
@@ -318,7 +317,7 @@ function CheckoutSuccessContent() {
           </div>
         </div>
         
-        <h2 style={{ fontFamily: 'var(--nf-heading, serif)', color: '#E8C99A', marginBottom: '0.5rem', textShadow: '0 0 10px rgba(232, 201, 154, 0.2)' }}>
+        <h2 style={{ fontFamily: 'var(--nf-heading, serif)', color: '#C8956C', marginBottom: '0.5rem', textShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
           {animationPhase === 'arriving' && 'Arriving at KrissMaagiic Crystals...'}
           {animationPhase === 'collecting' && 'Collecting & Energising Crystals...'}
           {animationPhase === 'driving' && 'Dispatching your Crystals...'}
@@ -411,9 +410,9 @@ function CheckoutSuccessContent() {
             <i className="fa-solid fa-box me-2"></i>
             <span>View My Orders</span>
           </Link>
-          <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', color: 'var(--primary,#C8956C)', border: '2px solid var(--primary,#C8956C)' }}>
-            <i className="fa-solid fa-gem me-2"></i>
-            <span>Keep Shopping</span>
+          <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', border: '2px solid var(--primary,#C8956C)', color: 'var(--primary,#C8956C)' }}>
+            <i className="fa-solid fa-gem me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            <span style={{ color: 'var(--primary,#C8956C)' }}>Keep Shopping</span>
           </Link>
         </div>
       </div>

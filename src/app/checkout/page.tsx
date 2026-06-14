@@ -245,9 +245,9 @@ export default function CheckoutPage() {
               <i className="fa-solid fa-box"></i>
               <span>View My Orders</span>
             </Link>
-            <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', color: 'var(--primary,#C8956C)', border: '2px solid var(--primary,#C8956C)' }}>
-              <i className="fa-solid fa-gem"></i>
-              <span>Keep Shopping</span>
+            <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', border: '2px solid var(--primary,#C8956C)', color: 'var(--primary,#C8956C)' }}>
+              <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)' }}></i>
+              <span style={{ color: 'var(--primary,#C8956C)' }}>Keep Shopping</span>
             </Link>
           </div>
         </div>
@@ -280,13 +280,13 @@ export default function CheckoutPage() {
               left: 0;
               width: 100vw;
               height: 100vh;
-              background: radial-gradient(circle at center, #1C0A02 0%, #07030A 100%);
+              background: radial-gradient(circle at center, #FCFBF9 0%, #F5EFE6 100%);
               z-index: 99999;
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              color: #fff;
+              color: #2D1B0E;
               transition: opacity 0.5s ease;
             }
             .delivery-overlay.fade-out {
@@ -298,9 +298,9 @@ export default function CheckoutPage() {
               width: 500px;
               height: 300px;
               border-radius: 24px;
-              background: rgba(255, 255, 255, 0.03);
-              border: 1px solid rgba(255, 255, 255, 0.06);
-              box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+              background: #fff;
+              border: 1px solid #EBE4DB;
+              box-shadow: 0 15px 40px rgba(45, 27, 14, 0.06), inset 0 0 30px rgba(0, 0, 0, 0.01);
               overflow: hidden;
               margin-bottom: 2rem;
             }
@@ -310,8 +310,7 @@ export default function CheckoutPage() {
               left: 0;
               width: 100%;
               height: 4px;
-              background: #fff;
-              opacity: 0.1;
+              background: #EBE4DB;
             }
             .road-dashes {
               position: absolute;
@@ -319,8 +318,8 @@ export default function CheckoutPage() {
               left: 0;
               width: 100%;
               height: 2px;
-              background: repeating-linear-gradient(90deg, transparent, transparent 15px, #E8C99A 15px, #E8C99A 30px);
-              opacity: 0.25;
+              background: repeating-linear-gradient(90deg, transparent, transparent 15px, #C8956C 15px, #C8956C 30px);
+              opacity: 0.4;
             }
             .road-dashes.moving {
               animation: roadMoving 0.4s linear infinite;
@@ -331,14 +330,15 @@ export default function CheckoutPage() {
               right: 60px;
               width: 90px;
               height: 75px;
-              background: rgba(200, 149, 108, 0.08);
+              background: #FCFBF9;
               border: 2px solid #C8956C;
               border-bottom: none;
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: flex-end;
-              border-radius: 6px 6px 0 0;
+              border-radius: 8px 8px 0 0;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.02);
             }
             .shop-roof {
               position: absolute;
@@ -347,14 +347,14 @@ export default function CheckoutPage() {
               height: 15px;
               background: #C8956C;
               clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-              border-radius: 3px;
+              border-radius: 4px;
             }
             .kc-sign {
               font-family: var(--nf-heading, serif);
               font-weight: 800;
               font-size: 1.1rem;
-              color: #E8C99A;
-              text-shadow: 0 0 8px rgba(232, 201, 154, 0.6);
+              color: #C8956C;
+              text-shadow: 0 1px 2px rgba(0,0,0,0.05);
               margin-bottom: 12px;
             }
             .floating-crystals {
@@ -400,7 +400,7 @@ export default function CheckoutPage() {
               background: #FAF6F1;
               border-radius: 4px 12px 0 0;
               position: relative;
-              border: 1px solid rgba(0,0,0,0.15);
+              border: 1px solid #EBE4DB;
               border-left: none;
             }
             .truck-cabin::after {
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
               right: 6px;
               width: 14px;
               height: 12px;
-              background: #07030A;
+              background: #2D1B0E;
               border-radius: 2px 4px 0 0;
             }
             .truck-bed {
@@ -422,25 +422,24 @@ export default function CheckoutPage() {
               align-items: center;
               justify-content: center;
               position: relative;
-              border: 1px solid rgba(0,0,0,0.15);
+              border: 1px solid #B8855C;
             }
             .truck-logo {
               font-family: var(--nf-heading, serif);
-              font-size: 1.1rem;
+              font-size: 1.05rem;
               font-weight: 800;
               color: #fff;
               border: 2px solid #fff;
               padding: 0px 4px;
               border-radius: 4px;
               letter-spacing: 1px;
-              text-shadow: 0 0 4px rgba(0,0,0,0.2);
             }
             .truck-wheel {
               position: absolute;
               width: 22px;
               height: 22px;
-              background: #07030A;
-              border: 3px solid #E8C99A;
+              background: #2D1B0E;
+              border: 3px solid #EBE4DB;
               border-radius: 50%;
               bottom: -11px;
             }
@@ -493,7 +492,7 @@ export default function CheckoutPage() {
             
             <div className={`delivery-truck ${animationPhase}`}>
               <div className="truck-bed">
-                <div className="truck-logo">KC</div>
+                <div className="truck-logo">KMC</div>
               </div>
               <div className="truck-cabin" />
               <div className={`truck-wheel wheel-front ${animationPhase === 'arriving' || animationPhase === 'driving' ? 'spinning' : ''}`} />
@@ -501,7 +500,7 @@ export default function CheckoutPage() {
             </div>
           </div>
           
-          <h2 style={{ fontFamily: 'var(--nf-heading, serif)', color: '#E8C99A', marginBottom: '0.5rem', textShadow: '0 0 10px rgba(232, 201, 154, 0.2)' }}>
+          <h2 style={{ fontFamily: 'var(--nf-heading, serif)', color: '#C8956C', marginBottom: '0.5rem', textShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
             {animationPhase === 'arriving' && 'Arriving at KrissMaagiic Crystals...'}
             {animationPhase === 'collecting' && 'Collecting & Energising Crystals...'}
             {animationPhase === 'driving' && 'Dispatching your Crystals...'}
@@ -510,6 +509,45 @@ export default function CheckoutPage() {
           <p style={{ color: '#888', fontSize: '0.9rem' }}>Please do not close this window or press back</p>
         </div>
       )}
+
+      {/* Permanent custom style block for checkout form inputs */}
+      <style>{`
+        .checkout-form-input {
+          width: 100%;
+          padding: 13px 18px;
+          background: #FCFBF9;
+          border: 1px dashed #C8956C;
+          border-radius: 12px;
+          color: #2D1B0E;
+          font-family: var(--nf-body, sans-serif);
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .checkout-form-input:focus {
+          outline: none;
+          border: 1.5px solid #C8956C;
+          background: #fff;
+          box-shadow: 0 0 0 4px rgba(200, 149, 108, 0.15), 0 4px 12px rgba(45, 27, 14, 0.05);
+        }
+        .checkout-form-input::placeholder {
+          color: #A09084;
+          opacity: 0.6;
+        }
+        textarea.checkout-form-input {
+          resize: vertical;
+          min-height: 100px;
+        }
+        select.checkout-form-input {
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C8956C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 16px center;
+          background-size: 16px;
+          padding-right: 40px;
+          cursor: pointer;
+        }
+      `}</style>
 
       <section style={{ paddingTop: '140px', paddingBottom: '40px', background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)', color: '#fff' }}>
         <div className="container text-center">
@@ -533,35 +571,35 @@ export default function CheckoutPage() {
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Full Name *</label>
-                    <input required value={form.name} onChange={update('name')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required value={form.name} onChange={update('name')} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Email *</label>
-                    <input required type="email" value={form.email} onChange={update('email')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required type="email" value={form.email} onChange={update('email')} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone *</label>
-                    <input required type="tel" value={form.phone} onChange={update('phone')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required type="tel" value={form.phone} onChange={update('phone')} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Pincode *</label>
-                    <input required value={form.pincode} onChange={update('pincode')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required value={form.pincode} onChange={update('pincode')} className="checkout-form-input" />
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Address *</label>
-                    <textarea required value={form.address} onChange={update('address')} rows={3} className="newsletter-input" style={{ width: '100%' }} />
+                    <textarea required value={form.address} onChange={update('address')} rows={3} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>City *</label>
-                    <input required value={form.city} onChange={update('city')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required value={form.city} onChange={update('city')} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>State *</label>
-                    <input required value={form.state} onChange={update('state')} className="newsletter-input" style={{ width: '100%' }} />
+                    <input required value={form.state} onChange={update('state')} className="checkout-form-input" />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country *</label>
-                    <select required value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
+                    <select required value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} className="checkout-form-input">
                       <option value="" disabled style={{ color: '#000' }}>Select country</option>
                       {Object.keys(COUNTRY_CURRENCY_MAP).filter(k => k !== 'Other').map(k => (
                         <option key={k} value={k} style={{ color: '#000' }}>{k === 'IN' ? 'India (IN)' : k === 'US' ? 'United States (US)' : k === 'UK' ? 'United Kingdom (UK)' : k === 'AU' ? 'Australia (AU)' : k === 'CA' ? 'Canada (CA)' : k === 'AE' ? 'UAE (AE)' : k === 'SG' ? 'Singapore (SG)' : k === 'MY' ? 'Malaysia (MY)' : k}</option>
@@ -571,11 +609,11 @@ export default function CheckoutPage() {
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Date of Birth (Optional)</label>
-                    <input value={form.dob} onChange={update('dob')} className="newsletter-input" style={{ width: '100%' }} placeholder="DD/MM/YYYY" />
+                    <input value={form.dob} onChange={update('dob')} className="checkout-form-input" placeholder="DD/MM/YYYY" />
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Order Notes (optional)</label>
-                    <textarea value={form.notes} onChange={update('notes')} rows={3} className="newsletter-input" style={{ width: '100%' }} placeholder="Any special instructions or intentions for your order…" />
+                    <textarea value={form.notes} onChange={update('notes')} rows={3} className="checkout-form-input" placeholder="Any special instructions or intentions for your order…" />
                   </div>
                 </div>
 

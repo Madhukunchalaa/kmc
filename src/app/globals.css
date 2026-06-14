@@ -7881,3 +7881,9 @@ body.theme-rose .hero-v2-orb {
   transform: translateY(-5px) !important;
   box-shadow: 0 15px 40px rgba(0,0,0,0.08) !important;
 }
+
+@keyframes pulse {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.6; transform: scale(0.98); }
+}

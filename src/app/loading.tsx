@@ -35,13 +35,6 @@ export default function Loading() {
         Loading...
       </p>
 
-      <style>{`
-        @keyframes pulse {
-          0% { opacity: 0.6; transform: scale(0.98); }
-          50% { opacity: 1; transform: scale(1.02); }
-          100% { opacity: 0.6; transform: scale(0.98); }
-        }
-      `}</style>
     </div>
   );
 }

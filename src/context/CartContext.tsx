@@ -63,6 +63,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [catalog, setCatalog] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products) {
+          setCatalog(data.products);
+        }
+      })
+      .catch((err) => console.error('Failed to load products for cart hydration', err));
+  }, []);
 
   const userId = session?.user?.id ?? '';
 
@@ -183,7 +195,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const hydrated: CartItemHydrated[] = items
     .map((it) => {
-      const product = products.find((p) => p.id === it.productId);
+      const activeProducts = catalog.length > 0 ? catalog : products;
+      const product = activeProducts.find((p) => p.id === it.productId || p.slug === it.productId);
       if (!product) return null;
       return { ...it, product, lineTotal: product.price * it.qty };
     })

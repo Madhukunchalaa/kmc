@@ -8,8 +8,9 @@ import { z } from 'zod';
 import { zodErrorMessage } from '@/lib/validators';
 
 const schema = z.object({
-  orderId: z.string().min(1, 'Order ID required'),
-  cfOrderId: z.string().min(1, 'CF Order ID required'),
+  orderId: z.string().optional(),
+  cfOrderId: z.string().optional(),
+  merchantOrderId: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -31,15 +32,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
   }
 
-  const { orderId, cfOrderId } = parsed.data;
+  const { orderId, cfOrderId, merchantOrderId } = parsed.data;
+  const targetCfOrderId = cfOrderId || merchantOrderId;
+
+  if (!targetCfOrderId) {
+    return NextResponse.json({ ok: false, reason: 'missing-order-id' }, { status: 400 });
+  }
 
   // Verify payment status with Cashfree
   let orderStatus: string;
   let cfPaymentId: string | undefined;
   try {
-    const result = await getCashfreeOrderStatus(cfOrderId);
+    const result = await getCashfreeOrderStatus(targetCfOrderId);
     orderStatus = result.orderStatus;
-    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(cfOrderId);
+    cfPaymentId = result.cfPaymentId ?? await getCashfreePaymentId(targetCfOrderId);
   } catch (err) {
     console.error('[cashfree] status check failed', err);
     return NextResponse.json({ ok: false, reason: 'cashfree-status-error' }, { status: 502 });
@@ -53,11 +59,22 @@ export async function POST(req: Request) {
   }
 
   await connectMongoose();
-  const order = await Order.findOne({
-    _id: orderId,
-    user: session.user.id,
-    cfOrderId,
-  });
+  let order;
+  if (orderId) {
+    order = await Order.findOne({
+      _id: orderId,
+      user: session.user.id,
+    });
+  } else if (merchantOrderId) {
+    let orderNumber = merchantOrderId;
+    if (orderNumber.startsWith('KMC-')) {
+      orderNumber = orderNumber.substring(4);
+    }
+    order = await Order.findOne({
+      orderNumber,
+      user: session.user.id,
+    });
+  }
 
   if (!order) {
     return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
@@ -75,6 +92,10 @@ export async function POST(req: Request) {
   order.paymentStatus = 'paid';
   order.status = 'confirmed';
   order.cfPaymentId = cfPaymentId ?? null;
+  // Make sure to preserve Cashfree numeric ID in order record if not set
+  if (!order.cfOrderId && cfOrderId) {
+    order.cfOrderId = cfOrderId;
+  }
   await order.save();
 
   await fulfillPaidOrder(order);

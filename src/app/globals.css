@@ -7747,6 +7747,12 @@ body.theme-rose .hero-v2-orb {
 
 @media (max-width: 768px) {
   .hero-editorial-main { min-height: 100svh; }
+  .hero-editorial-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.8px;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
   .hero-editorial-left {
     justify-content: flex-end;
     padding: calc(var(--navbar-height) + 14rem) 5% 3rem;

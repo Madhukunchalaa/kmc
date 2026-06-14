@@ -146,13 +146,7 @@ export default function CartPage() {
                     <strong>Total</strong>
                     <strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong>
                   </div>
-                  {status === 'unauthenticated' && (
-                    <div style={{ background: '#FAF6F1', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 10, padding: 12, marginTop: 16, fontSize: '0.85rem' }}>
-                      <i className="fa-solid fa-circle-info me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
-                      <Link href="/login?callbackUrl=/checkout" style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Sign in</Link>{' '}or{' '}
-                      <Link href="/register?callbackUrl=/checkout" style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>create an account</Link>{' '}to checkout.
-                    </div>
-                  )}
+
                   <Link href={status === 'authenticated' ? '/checkout' : '/login?callbackUrl=/checkout'} className="btn-primary-custom mt-4" style={{ width: '100%', justifyContent: 'center' }}>
                     <i className="fa-solid fa-lock"></i>
                     <span>Proceed to Checkout</span>

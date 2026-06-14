@@ -166,17 +166,7 @@ export default function Header() {
                   </div>
                 )}
               </li>
-            ) : (
-              <li className="nav-item">
-                <Link
-                  href="/login"
-                  className="nav-link navbar-cta"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <i className="fa-solid fa-arrow-right-to-bracket me-1"></i>Sign in
-                </Link>
-              </li>
-            )}
+            ) : null}
           </ul>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 import { verifyAdminToken, ADMIN_COOKIE } from '@/lib/adminSession';
+import { auth } from '@/auth';
 
 const ADMIN_PREFIX = '/admin';
 const USER_PREFIX = '/dashboard';
@@ -37,14 +37,10 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
-  // Dashboard routes — check user session (NextAuth)
-  const token = await getToken({
-    req,
-    secret: process.env.AUTH_SECRET,
-    secureCookie: process.env.NODE_ENV === 'production',
-  });
+  // Dashboard routes — check user session (NextAuth) using the official auth helper
+  const session = await auth();
 
-  if (!token) {
+  if (!session?.user) {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
     url.searchParams.set('callbackUrl', pathname + search);

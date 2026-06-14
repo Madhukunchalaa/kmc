@@ -104,7 +104,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const local = readLocal(); // empty when just cleared, existing items when same user
     Promise.resolve().then(() => {
-      if (!cancelled) setItems(local);
+      if (!cancelled) {
+        setItems(local);
+        setLoading(false); // Render local cart instantly
+      }
     });
     getOrCreateClientSessionId();
 
@@ -196,7 +199,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const hydrated: CartItemHydrated[] = items
     .map((it) => {
       const activeProducts = catalog.length > 0 ? catalog : products;
-      const product = activeProducts.find((p) => p.id === it.productId || p.slug === it.productId);
+      const product = activeProducts.find((p) => {
+        const pId = String(p.id || '').toLowerCase();
+        const pSlug = String(p.slug || '').toLowerCase();
+        const p_id = String((p as any)._id || '').toLowerCase();
+        const targetId = String(it.productId || '').toLowerCase();
+        return pId === targetId || pSlug === targetId || p_id === targetId;
+      });
       if (!product) return null;
       return { ...it, product, lineTotal: product.price * it.qty };
     })

@@ -5,7 +5,14 @@ import LoginForm from './LoginForm';
 
 export const metadata = { title: 'Login · KrissMaagiic Crystals' };
 
-export default function LoginPage() {
+interface PageProps {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}
+
+export default async function LoginPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const callbackUrl = searchParams.callbackUrl;
+  const registerUrl = callbackUrl ? `/register?callbackUrl=${encodeURIComponent(callbackUrl)}` : '/register';
   return (
     <AuthShell
       eyebrow="Welcome Back"
@@ -15,7 +22,7 @@ export default function LoginPage() {
       footer={
         <>
           New here?{' '}
-          <Link href="/register" style={{ color: 'var(--gold-light,#E8C99A)' }}>
+          <Link href={registerUrl} style={{ color: 'var(--gold-light,#E8C99A)' }}>
             Create an account
           </Link>
         </>

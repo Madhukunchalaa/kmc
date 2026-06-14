@@ -166,7 +166,15 @@ export default function Header() {
                   </div>
                 )}
               </li>
-            ) : null}
+            ) : (
+              status !== 'loading' && (
+                <li className="nav-item">
+                  <Link href="/login" className="nav-link" onClick={() => setMobileOpen(false)}>
+                    <i className="fa-solid fa-right-to-bracket me-1"></i> Sign In
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </div>

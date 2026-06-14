@@ -158,7 +158,7 @@ export default function Header() {
                     <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', margin: '6px 0' }} />
                     <button
                       type="button"
-                      onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: '/' }); }}
+                      onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: window.location.origin }); }}
                       style={{ ...menuItem, background: 'transparent', border: 0, color: '#D95F5F', cursor: 'pointer', width: '100%', textAlign: 'left' }}
                     >
                       <i className="fa-solid fa-right-from-bracket"></i> Sign out

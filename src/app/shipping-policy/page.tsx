@@ -22,7 +22,7 @@ export default function ShippingPolicyPage() {
 
       <h2>Shipping charges</h2>
       <p>
-        Shipping is calculated based on weight and destination, and confirmed before payment. Orders above ₹3,500 usually ship free within India.
+        Shipping is calculated based on weight and destination, and confirmed before payment. Orders above ₹3,000 usually ship free within India.
       </p>
 
       <h2>Tracking</h2>

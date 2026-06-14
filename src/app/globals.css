@@ -6751,9 +6751,11 @@ body.theme-rose .hero-v2-orb {
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
     padding-bottom: 12px !important;
-    gap: 0 !important; /* Managed by card paddings */
+    gap: 0 !important;
     margin-left: -15px !important;
     margin-right: -15px !important;
+    padding-left: 5vw !important;
+    padding-right: 5vw !important;
   }
 
   .sessions-carousel-container::-webkit-scrollbar {
@@ -6761,10 +6763,10 @@ body.theme-rose .hero-v2-orb {
   }
 
   .sessions-carousel-slide {
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
+    flex: 0 0 90% !important;
+    max-width: 90% !important;
     scroll-snap-align: center !important;
-    padding: 0 15px !important;
+    padding: 0 10px !important;
     box-sizing: border-box !important;
   }
   

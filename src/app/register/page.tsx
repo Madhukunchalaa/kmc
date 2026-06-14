@@ -3,6 +3,9 @@ import Link from 'next/link';
 import AuthShell from '@/components/AuthShell';
 import RegisterForm from './RegisterForm';
 
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+
 export const metadata = { title: 'Create Account · KrissMaagiic Crystals' };
 
 interface PageProps {
@@ -10,9 +13,15 @@ interface PageProps {
 }
 
 export default async function RegisterPage(props: PageProps) {
+  const session = await auth();
   const searchParams = await props.searchParams;
-  const callbackUrl = searchParams.callbackUrl;
-  const loginUrl = callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : '/login';
+  const callbackUrl = searchParams.callbackUrl || '/dashboard';
+  
+  if (session?.user) {
+    redirect(callbackUrl);
+  }
+
+  const loginUrl = searchParams.callbackUrl ? `/login?callbackUrl=${encodeURIComponent(searchParams.callbackUrl)}` : '/login';
   return (
     <AuthShell
       eyebrow="Join the Community"

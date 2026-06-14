@@ -3,6 +3,9 @@ import Link from 'next/link';
 import AuthShell from '@/components/AuthShell';
 import LoginForm from './LoginForm';
 
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+
 export const metadata = { title: 'Login · KrissMaagiic Crystals' };
 
 interface PageProps {
@@ -10,9 +13,15 @@ interface PageProps {
 }
 
 export default async function LoginPage(props: PageProps) {
+  const session = await auth();
   const searchParams = await props.searchParams;
-  const callbackUrl = searchParams.callbackUrl;
-  const registerUrl = callbackUrl ? `/register?callbackUrl=${encodeURIComponent(callbackUrl)}` : '/register';
+  const callbackUrl = searchParams.callbackUrl || '/dashboard';
+  
+  if (session?.user) {
+    redirect(callbackUrl);
+  }
+
+  const registerUrl = searchParams.callbackUrl ? `/register?callbackUrl=${encodeURIComponent(searchParams.callbackUrl)}` : '/register';
   return (
     <AuthShell
       eyebrow="Welcome Back"

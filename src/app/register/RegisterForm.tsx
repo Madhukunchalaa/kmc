@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 
 import { COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
@@ -11,6 +11,15 @@ export default function RegisterForm() {
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') || '/dashboard';
+
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace(callbackUrl);
+    }
+  }, [status, callbackUrl, router]);
+
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', country: '', otp: '' });
   const [error, setError] = useState<string | null>(null);

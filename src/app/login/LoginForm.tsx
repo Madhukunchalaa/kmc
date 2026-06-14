@@ -1,15 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 
 export default function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') || '/dashboard';
+  
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace(callbackUrl);
+    }
+  }, [status, callbackUrl, router]);
   
   const [method, setMethod] = useState<'password' | 'otp'>('password');
   const [step, setStep] = useState<1 | 2>(1);
@@ -18,6 +26,7 @@ export default function LoginForm() {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();

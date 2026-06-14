@@ -42,27 +42,10 @@ function toLegacy(p: CatalogProduct) {
 
 export default function ShopFilters({ products }: { products: CatalogProduct[] }) {
   const searchParams = useSearchParams();
-  const [activeCat, setActiveCat] = useState('all');
+  const [activeCat, setActiveCat] = useState(searchParams.get('category') || 'all');
   const [sort, setSort] = useState('featured');
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Synchronize URL search parameters on mount
-  useEffect(() => {
-    const cat = searchParams.get('category');
-    const search = searchParams.get('search');
-    const intent = searchParams.get('intent');
-    
-    if (cat) {
-      setActiveCat(cat);
-    }
-    if (search) {
-      setQuery(search);
-    }
-    if (intent) {
-      setQuery(intent);
-    }
-  }, [searchParams]);
 
   // Reset to page 1 whenever category, sort, or search query changes
   useEffect(() => {

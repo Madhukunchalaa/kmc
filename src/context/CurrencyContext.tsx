@@ -32,13 +32,14 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
   useEffect(() => {
     // If logged in, prioritize user's saved country
     if (session?.user?.country) {
-      setCountryState(session.user.country);
+      const country = session.user.country;
+      setTimeout(() => setCountryState(country), 0);
       return;
     }
     // Otherwise fallback to local storage
     const stored = localStorage.getItem('kmc_country');
     if (stored) {
-      setCountryState(stored);
+      setTimeout(() => setCountryState(stored), 0);
     }
   }, [session?.user?.country]);
 

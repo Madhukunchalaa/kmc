@@ -497,7 +497,7 @@
     padding: calc(var(--navbar-height) + 14rem) 5% 3rem;
   }
   .hero-editorial-img {
-    object-position: center top;
+    object-position: right center;
   }
   .hero-editorial-fade {
     background:

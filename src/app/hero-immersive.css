@@ -234,4 +234,5 @@
   .hero-glass-panel { margin-top: 6rem; background: rgba(15, 9, 4, 0.7); }
   .hero-glass-ctas { flex-direction: column; }
   .hero-immersive-stats { display: none; }
+  .hero-immersive-img { object-position: top right; }
 }

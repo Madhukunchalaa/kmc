@@ -112,168 +112,169 @@ export default function Home() {
             </p>
           </div>
 
-          {/* ===== CUSTOM SESSIONS CAROUSEL ===== */}
-          {/* Desktop: 4-column grid | Mobile: 1 card per slide */}
-          <div
-            id="sessions-carousel"
-            onScroll={handleCarouselScroll}
-            style={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch',
-              overscrollBehaviorX: 'contain',
-              gap: 0,
-              msOverflowStyle: 'none',
-              scrollbarWidth: 'none',
-              padding: '0 0 16px 0',
-            }}
-          >
-            {[
-              {
-                path: 'PATH I',
-                icon: 'fa-solid fa-headphones',
-                title: 'Tarot Reading — Voice Chat',
-                category: 'Tarot Readings',
-                desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your burning questions within 24–48 hours of your booked date.',
-                bullets: [
-                  'No live timer pressure',
-                  'Submit questions 24–48 hours before',
-                  'Audio recorded directly by the founder',
-                  'Lifetime re-listen access',
-                ],
-                tiers: [
-                  { label: 'Voice Chat (Mini)', price: 1200 },
-                  { label: 'Voice Chat (Full)', price: 2000 },
-                ],
-                slug: 'tarot',
-                featured: false,
-              },
-              {
-                path: 'PATH II',
-                icon: 'fa-solid fa-video',
-                title: 'Live Tarot Reading — Video Call',
-                category: 'Tarot Readings',
-                desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
-                bullets: [
-                  'Live face-to-face interaction',
-                  'Instant card-pull explanations',
-                  'WhatsApp video options',
-                  'Live energetic connection',
-                ],
-                tiers: [
-                  { label: '30 minutes', price: 2500 },
-                  { label: '1 hour', price: 4500 },
-                ],
-                slug: 'tarot',
-                featured: false,
-              },
-              {
-                path: 'PATH III',
-                icon: 'fa-solid fa-wand-magic-sparkles',
-                title: 'Bespoke Spell Casting Ritual',
-                category: 'Spell Casting Services',
-                desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
-                bullets: [
-                  'Custom-dressed & blessed candles',
-                  'Full altar ritual by the founder',
-                  'Photo & video proof of the ritual',
-                  'Burn notes & energy readings sent',
-                ],
-                tiers: [
-                  { label: 'Travel Safety', price: 1800 },
-                  { label: 'Psychic / Intuition', price: 2200 },
-                  { label: 'Luck & Career', price: 2900 },
-                  { label: 'Reconciliation', price: 3200 },
-                  { label: 'Abundance / Wealth', price: 3600 },
-                  { label: 'Remove Obstacles', price: 3800 },
-                  { label: 'Bindings / Fidelity', price: 4200 },
-                  { label: 'Fertility & Family', price: 4200 },
-                  { label: 'Success & Growth', price: 4500 },
-                  { label: 'Love & Soulmate', price: 4800 },
-                  { label: 'Protection Spell', price: 5200 },
-                  { label: 'Cleansing / Blessing', price: 6300 },
-                ],
-                slug: 'candle',
-                featured: false,
-              },
-              {
-                path: 'PATH IV',
-                icon: 'fa-solid fa-infinity',
-                title: 'Numerology Services',
-                category: 'Numerology Readings',
-                desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
-                bullets: [
-                  'Detailed PDF chart report',
-                  '5-10 mins WhatsApp explanation',
-                  'Lucky numbers & crystal remedies',
-                  'Life path & destiny cycles',
-                ],
-                tiers: [
-                  { label: 'Vehicle Number', price: 1999 },
-                  { label: 'Date of Birth', price: 2499 },
-                  { label: 'Mobile Number', price: 3999 },
-                  { label: 'Name Numerology', price: 4999 },
-                  { label: 'Business / Brand', price: 9999 },
-                ],
-                slug: 'numerology',
-                featured: false,
-              },
-            ].map((svc, idx) => (
-              <div
-                key={svc.title}
-                className="sessions-carousel-slide"
-                style={{
-                  flex: '0 0 calc(25% - 12px)',
-                  width: 'calc(25% - 12px)',
-                  minWidth: 'calc(25% - 12px)',
-                  maxWidth: 'calc(25% - 12px)',
-                  scrollSnapAlign: 'start',
-                  padding: '0 8px',
-                  boxSizing: 'border-box',
-                }}
-              >
-                <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
-                  <div className={`session-card${svc.featured ? ' featured' : ''}`}>
-                    {svc.featured && <span className="session-popular-badge">Most Popular</span>}
-                    <div className="session-icon-wrap">
-                      <div className="session-icon">
-                        <i className={svc.icon}></i>
-                      </div>
-                    </div>
-                    <div className="session-body">
-                      <span className="session-path">✦ {svc.path} ✦</span>
-                      <h3 className="session-title">{svc.title}</h3>
-                      <p className="session-category">{svc.category}</p>
-                      <p className="session-desc">{svc.desc}</p>
-                      <ul className="session-bullets">
-                        {svc.bullets.map((b) => (
-                          <li key={b}>
-                            <span className="session-bullet-mark">✦</span> {b}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="session-price-range">
-                        <span className="price-range-label">Energy Exchange</span>
-                        <span className="price-range-value">
-                          <SimplePrice price={Math.min(...svc.tiers.map(t => t.price))} /> – <SimplePrice price={Math.max(...svc.tiers.map(t => t.price))} />
-                        </span>
-                      </div>
-                      <Link
-                        href={`/booking/${svc.slug}`}
-                        className="session-cta"
-                        style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
-                      >
-                        Book Now
-                      </Link>
+        {/* ===== CUSTOM SESSIONS CAROUSEL - outside container for full-width on mobile ===== */}
+        <div
+          id="sessions-carousel"
+          onScroll={handleCarouselScroll}
+          style={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehaviorX: 'contain',
+            gap: 0,
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+            padding: '0 0 16px 0',
+            background: 'var(--light-2)',
+          }}
+        >
+          {[
+            {
+              path: 'PATH I',
+              icon: 'fa-solid fa-headphones',
+              title: 'Tarot Reading — Voice Chat',
+              category: 'Tarot Readings',
+              desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your burning questions within 24–48 hours of your booked date.',
+              bullets: [
+                'No live timer pressure',
+                'Submit questions 24–48 hours before',
+                'Audio recorded directly by the founder',
+                'Lifetime re-listen access',
+              ],
+              tiers: [
+                { label: 'Voice Chat (Mini)', price: 1200 },
+                { label: 'Voice Chat (Full)', price: 2000 },
+              ],
+              slug: 'tarot',
+              featured: false,
+            },
+            {
+              path: 'PATH II',
+              icon: 'fa-solid fa-video',
+              title: 'Live Tarot Reading — Video Call',
+              category: 'Tarot Readings',
+              desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
+              bullets: [
+                'Live face-to-face interaction',
+                'Instant card-pull explanations',
+                'WhatsApp video options',
+                'Live energetic connection',
+              ],
+              tiers: [
+                { label: '30 minutes', price: 2500 },
+                { label: '1 hour', price: 4500 },
+              ],
+              slug: 'tarot',
+              featured: false,
+            },
+            {
+              path: 'PATH III',
+              icon: 'fa-solid fa-wand-magic-sparkles',
+              title: 'Bespoke Spell Casting Ritual',
+              category: 'Spell Casting Services',
+              desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
+              bullets: [
+                'Custom-dressed & blessed candles',
+                'Full altar ritual by the founder',
+                'Photo & video proof of the ritual',
+                'Burn notes & energy readings sent',
+              ],
+              tiers: [
+                { label: 'Travel Safety', price: 1800 },
+                { label: 'Psychic / Intuition', price: 2200 },
+                { label: 'Luck & Career', price: 2900 },
+                { label: 'Reconciliation', price: 3200 },
+                { label: 'Abundance / Wealth', price: 3600 },
+                { label: 'Remove Obstacles', price: 3800 },
+                { label: 'Bindings / Fidelity', price: 4200 },
+                { label: 'Fertility & Family', price: 4200 },
+                { label: 'Success & Growth', price: 4500 },
+                { label: 'Love & Soulmate', price: 4800 },
+                { label: 'Protection Spell', price: 5200 },
+                { label: 'Cleansing / Blessing', price: 6300 },
+              ],
+              slug: 'candle',
+              featured: false,
+            },
+            {
+              path: 'PATH IV',
+              icon: 'fa-solid fa-infinity',
+              title: 'Numerology Services',
+              category: 'Numerology Readings',
+              desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
+              bullets: [
+                'Detailed PDF chart report',
+                '5-10 mins WhatsApp explanation',
+                'Lucky numbers & crystal remedies',
+                'Life path & destiny cycles',
+              ],
+              tiers: [
+                { label: 'Vehicle Number', price: 1999 },
+                { label: 'Date of Birth', price: 2499 },
+                { label: 'Mobile Number', price: 3999 },
+                { label: 'Name Numerology', price: 4999 },
+                { label: 'Business / Brand', price: 9999 },
+              ],
+              slug: 'numerology',
+              featured: false,
+            },
+          ].map((svc, idx) => (
+            <div
+              key={svc.title}
+              className="sessions-carousel-slide"
+              style={{
+                flex: '0 0 25%',
+                width: '25%',
+                minWidth: '25%',
+                maxWidth: '25%',
+                scrollSnapAlign: 'start',
+                padding: '0 12px',
+                boxSizing: 'border-box',
+              }}
+            >
+              <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
+                <div className={`session-card${svc.featured ? ' featured' : ''}`}>
+                  {svc.featured && <span className="session-popular-badge">Most Popular</span>}
+                  <div className="session-icon-wrap">
+                    <div className="session-icon">
+                      <i className={svc.icon}></i>
                     </div>
                   </div>
-                </ScrollFade>
-              </div>
-            ))}
-          </div>
+                  <div className="session-body">
+                    <span className="session-path">✦ {svc.path} ✦</span>
+                    <h3 className="session-title">{svc.title}</h3>
+                    <p className="session-category">{svc.category}</p>
+                    <p className="session-desc">{svc.desc}</p>
+                    <ul className="session-bullets">
+                      {svc.bullets.map((b) => (
+                        <li key={b}>
+                          <span className="session-bullet-mark">✦</span> {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="session-price-range">
+                      <span className="price-range-label">Energy Exchange</span>
+                      <span className="price-range-value">
+                        <SimplePrice price={Math.min(...svc.tiers.map(t => t.price))} /> – <SimplePrice price={Math.max(...svc.tiers.map(t => t.price))} />
+                      </span>
+                    </div>
+                    <Link
+                      href={`/booking/${svc.slug}`}
+                      className="session-cta"
+                      style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
+                    >
+                      Book Now
+                    </Link>
+                  </div>
+                </div>
+              </ScrollFade>
+            </div>
+          ))}
+        </div>
 
+        <div className="container">
           <div className="sessions-carousel-dots">
             {[0, 1, 2, 3].map((idx) => (
               <button

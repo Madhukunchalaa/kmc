@@ -84,7 +84,7 @@ export default function CheckoutPage() {
       const orderData = await orderRes.json();
       if (!orderRes.ok || !orderData.ok) {
         const msg =
-          orderData.reason === 'razorpay-not-configured'
+          orderData.reason === 'razorpay-not-configured' || orderData.reason === 'cashfree-not-configured'
             ? 'Online payments are not configured yet. Please contact us to complete your order.'
             : orderData.reason === 'login-required'
               ? 'Please sign in to checkout.'

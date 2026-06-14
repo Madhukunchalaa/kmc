@@ -5,7 +5,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { CART_COOKIE } from '@/lib/cartSession';
 import { resolveOrderLines } from '@/lib/orderLines';
-import { isRazorpayConfigured } from '@/lib/razorpay';
+import { isCashfreeConfigured } from '@/lib/cashfree';
 import { createOrderSchema, zodErrorMessage } from '@/lib/validators';
 
 export async function POST(req: Request) {
@@ -29,8 +29,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'login-required' }, { status: 401 });
   }
 
-  if (!isRazorpayConfigured()) {
-    return NextResponse.json({ ok: false, reason: 'razorpay-not-configured' }, { status: 503 });
+  if (!isCashfreeConfigured()) {
+    return NextResponse.json({ ok: false, reason: 'cashfree-not-configured' }, { status: 503 });
   }
 
   await connectMongoose();

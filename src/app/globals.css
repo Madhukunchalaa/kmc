@@ -4436,6 +4436,12 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
 .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+/* Carousel cards on mobile: no vertical movement, only fade — prevents bounce when swiping */
+@media (max-width: 767px) {
+  #sessions-carousel .fade-up { transform: none; }
+  #sessions-carousel .fade-up.visible { transform: none; }
+}
+
 /* ---------- Utility ---------- */
 .text-primary-custom { color: var(--primary) !important; }
 .text-secondary-custom { color: var(--secondary) !important; }
@@ -4527,7 +4533,7 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(232,201,154,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(232,201,154,0.08);
   border: 1px solid rgba(200,149,108,0.18);
   text-align: center;
   position: relative;

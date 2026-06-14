@@ -126,10 +126,10 @@ export default function Home() {
               }
               .sessions-carousel-container::-webkit-scrollbar { display: none !important; }
               .sessions-carousel-slide {
-                flex: 0 0 100% !important;
-                width: 100% !important;
-                min-width: 100% !important;
-                max-width: 100% !important;
+                flex: 0 0 100vw !important;
+                width: 100vw !important;
+                min-width: 100vw !important;
+                max-width: 100vw !important;
                 scroll-snap-align: center !important;
                 padding: 0 15px !important;
                 box-sizing: border-box !important;

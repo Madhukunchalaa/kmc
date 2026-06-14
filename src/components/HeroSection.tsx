@@ -60,7 +60,7 @@ export default function HeroSection() {
         {/* Right Side: Image & Badges */}
         <div className="hero-editorial-right">
           <picture>
-            <source media="(max-width: 768px)" srcSet="/mobile-home.jpeg" />
+            <source media="(max-width: 768px)" srcSet="/mobile-banner.PNG" />
             <img
               src="/hero-celestial-crystals.png"
               alt="KrissMaagiic Crystal Collection"

@@ -34,6 +34,42 @@ export interface CashfreeOrderResult {
   paymentSessionId: string;
 }
 
+export function sanitizePhoneForCashfree(phone: string): string {
+  if (!phone) return '9999999999';
+  
+  // Keep only digits and '+'
+  let cleaned = phone.replace(/[^0-9+]/g, '');
+  
+  // If it starts with +, ensure it has a reasonable length
+  if (cleaned.startsWith('+')) {
+    if (cleaned.length >= 8) return cleaned;
+    cleaned = cleaned.substring(1); // remove +
+  }
+  
+  // If it's less than 10 digits, pad it with 0s (e.g. 987654321 -> 9876543210)
+  if (cleaned.length < 10) {
+    cleaned = cleaned.padEnd(10, '0');
+  }
+  
+  // If it's a standard 10 digit number
+  if (cleaned.length === 10) {
+    return cleaned;
+  }
+  
+  // If it's 11 digits starting with 0, strip leading 0
+  if (cleaned.length === 11 && cleaned.startsWith('0')) {
+    return cleaned.substring(1);
+  }
+  
+  // If it's 12 digits starting with 91, convert to +91...
+  if (cleaned.length === 12 && cleaned.startsWith('91')) {
+    return '+' + cleaned;
+  }
+  
+  // Default fallback (truncate if too long)
+  return cleaned.substring(0, 15);
+}
+
 /** Creates a Cashfree order and returns the payment_session_id for the JS SDK. */
 export async function createCashfreeOrder(
   params: CashfreeOrderParams,
@@ -46,7 +82,7 @@ export async function createCashfreeOrder(
       customer_id: params.customerId,
       customer_name: params.customerName,
       customer_email: params.customerEmail,
-      customer_phone: params.customerPhone,
+      customer_phone: sanitizePhoneForCashfree(params.customerPhone),
     },
     order_meta: {
       return_url: params.returnUrl,

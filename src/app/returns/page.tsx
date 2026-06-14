@@ -11,9 +11,12 @@ export default function ReturnsPage() {
       </p>
 
       <h2>What you can return</h2>
+      <p>
+        Returns and refunds are <strong>only accepted if the product arrives damaged</strong>, and only after the damage is verified by our team.
+      </p>
       <ul>
-        <li>Items that arrive <strong>damaged or broken</strong> in transit (report within 48 hours with unboxing photos).</li>
-        <li>Items you received that are <strong>different from what you ordered</strong>.</li>
+        <li>You must report the damage within 48 hours of delivery and provide an unboxing video/photos for verification.</li>
+        <li>Items you received that are completely different from what you ordered.</li>
       </ul>
 
       <h2>What we can&apos;t accept back</h2>

@@ -4,7 +4,7 @@ import { Notification } from '@/models/Notification';
 import type { OrderDoc } from '@/models/Order';
 import { CART_COOKIE } from '@/lib/cartSession';
 import { getDb } from '@/lib/mongodb';
-import { sendEmail, orderPaidEmail } from '@/lib/email';
+import { sendEmail, orderPaidEmail, adminOrderReceivedEmail } from '@/lib/email';
 
 export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
   const stockUpdates = order.items
@@ -41,8 +41,16 @@ export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
     }).catch(() => {});
   }
 
+  // Send email to customer
   sendEmail({
     ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal),
     to: order.customer.email,
   }).catch(() => {});
+
+  // Send email to admin
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'krissmaagiicrystals@gmail.com';
+  sendEmail({
+    ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal),
+    to: adminEmail,
+  }).catch((err) => console.error('[email:adminOrderError]', err));
 }

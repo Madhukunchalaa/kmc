@@ -157,3 +157,28 @@ export function otpEmail(name: string, otp: string): EmailMessage {
     ),
   };
 }
+
+export function adminOrderReceivedEmail(
+  orderNumber: string,
+  customerName: string,
+  customerEmail: string,
+  customerPhone: string,
+  subtotal: number
+): EmailMessage {
+  return {
+    to: '',
+    subject: `🚨 New Order Received · ${orderNumber}`,
+    html: shell(
+      `New Order Placed!`,
+      `<p>A new order <strong>${orderNumber}</strong> has been successfully paid and placed.</p>
+       <p><strong>Order Details:</strong></p>
+       <ul>
+         <li>Customer Name: <strong>${customerName}</strong></li>
+         <li>Customer Email: <strong>${customerEmail}</strong></li>
+         <li>Customer Phone: <strong>${customerPhone}</strong></li>
+         <li>Amount Paid: <strong>₹${subtotal.toLocaleString('en-IN')}</strong></li>
+       </ul>
+       <p><a href="${process.env.NEXTAUTH_URL || ''}/admin/orders" style="display:inline-block;background:#C8956C;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Go to Admin Panel</a></p>`,
+    ),
+  };
+}

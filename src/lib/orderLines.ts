@@ -21,7 +21,7 @@ export async function resolveOrderLines(items: CartLineInput[], currency: 'INR' 
   subtotal: number;
   stockError: string | null;
 }> {
-  const dbProducts = await Product.find({ slug: { $in: items.map((i) => i.productId) }, active: true }).lean();
+  const dbProducts = await Product.find({ slug: { $in: items.map((i) => i.productId) }, active: true, isDeleted: { $ne: true } }).lean();
   const productMap = new Map<string, { _id: string; slug: string; name: string; price: number; stock: number | null }>();
   for (const p of dbProducts) {
     const pPrice = currency === 'USD' ? (p.usdPrice && p.usdPrice > 0 ? p.usdPrice : Math.round(p.price / 50)) : p.price;

@@ -22,6 +22,11 @@ export default async function AdminServices(props: PageProps<'/admin/services'>)
   const filter: Record<string, unknown> = {};
   if (status === 'live') filter.active = true;
   if (status === 'hidden') filter.active = false;
+  if (status === 'deleted') {
+    filter.isDeleted = true;
+  } else {
+    filter.isDeleted = { $ne: true };
+  }
   if (q) {
     filter.$or = [
       { title: { $regex: q, $options: 'i' } },
@@ -63,6 +68,7 @@ export default async function AdminServices(props: PageProps<'/admin/services'>)
               <option value="">— All Status —</option>
               <option value="live">Live</option>
               <option value="hidden">Hidden</option>
+              <option value="deleted">Trash (Deleted)</option>
             </select>
           </div>
 
@@ -119,9 +125,15 @@ export default async function AdminServices(props: PageProps<'/admin/services'>)
                       {s.active ? 'live' : 'hidden'}
                     </span>
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right' }}>
-                    <Link href={`/admin/services/${s._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem', marginRight: 12, textDecoration: 'none', fontWeight: 600 }}>Edit</Link>
-                    <ServiceRowActions id={String(s._id)} />
+                  <td style={{ padding: '12px 16px' }}>
+                    <div className="d-flex align-items-center gap-2 justify-content-end">
+                      {!s.isDeleted && (
+                        <Link href={`/admin/services/${s._id}`} style={{ color: 'var(--primary,#C8956C)', textDecoration: 'none', fontSize: '0.85rem' }}>
+                          Edit
+                        </Link>
+                      )}
+                      <ServiceRowActions id={String(s._id)} isDeleted={s.isDeleted} />
+                    </div>
                   </td>
                 </tr>
               ))}

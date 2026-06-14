@@ -18,6 +18,7 @@ export interface ProductDoc {
   chakras: string[];
   stock: number;
   active: boolean;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -40,6 +41,7 @@ const ProductSchema = new Schema<ProductDoc>(
     chakras: { type: [String], default: [] },
     stock: { type: Number, default: 99, min: 0 },
     active: { type: Boolean, default: true, index: true },
+    isDeleted: { type: Boolean, default: false, index: true },
   },
   { timestamps: true },
 );

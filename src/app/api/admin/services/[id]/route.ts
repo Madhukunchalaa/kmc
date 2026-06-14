@@ -29,7 +29,7 @@ export async function DELETE(_req: Request, ctx: RouteContext<'/api/admin/servic
   const { id } = await ctx.params;
   try {
     await connectMongoose();
-    await Service.findByIdAndDelete(id);
+    await Service.findByIdAndUpdate(id, { isDeleted: true });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);

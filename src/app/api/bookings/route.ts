@@ -20,8 +20,8 @@ export async function POST(req: Request) {
   // Accept either ObjectId or slug
   const isObjectId = /^[a-f0-9]{24}$/i.test(serviceId);
   const service = await (isObjectId
-    ? Service.findById(serviceId).lean()
-    : Service.findOne({ slug: serviceId }).lean());
+    ? Service.findOne({ _id: serviceId, isDeleted: { $ne: true } }).lean()
+    : Service.findOne({ slug: serviceId, isDeleted: { $ne: true } }).lean());
   if (!service) return NextResponse.json({ ok: false, reason: 'service-not-found' }, { status: 404 });
 
   // Conflict check only if a specific time is requested.

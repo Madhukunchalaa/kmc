@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   const isObjectId = /^[a-f0-9]{24}$/i.test(serviceId);
   let resolvedId = serviceId;
   if (!isObjectId) {
-    const svc = await Service.findOne({ slug: serviceId }, { _id: 1 }).lean();
+    const svc = await Service.findOne({ slug: serviceId, isDeleted: { $ne: true } }, { _id: 1 }).lean();
     if (!svc) {
       // Service doesn't exist yet — return all slots as available rather than 404
       return NextResponse.json({

@@ -12,6 +12,7 @@ export interface ServiceDoc {
   durationMins: number;
   bullets: string[];
   active: boolean;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,6 +29,7 @@ const ServiceSchema = new Schema<ServiceDoc>(
     durationMins: { type: Number, default: 30 },
     bullets: { type: [String], default: [] },
     active: { type: Boolean, default: true, index: true },
+    isDeleted: { type: Boolean, default: false, index: true },
   },
   { timestamps: true },
 );

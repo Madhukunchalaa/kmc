@@ -25,6 +25,11 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   if (category) filter.category = category;
   if (status === 'live') filter.active = true;
   if (status === 'hidden') filter.active = false;
+  if (status === 'deleted') {
+    filter.isDeleted = true;
+  } else {
+    filter.isDeleted = { $ne: true };
+  }
   if (q) {
     filter.$or = [
       { name: { $regex: q, $options: 'i' } },
@@ -79,6 +84,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
               <option value="">— All Status —</option>
               <option value="live">Live</option>
               <option value="hidden">Hidden</option>
+              <option value="deleted">Trash (Deleted)</option>
             </select>
           </div>
 
@@ -137,9 +143,15 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                       {p.active ? 'live' : 'hidden'}
                     </span>
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right' }}>
-                    <Link href={`/admin/products/${p._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem', marginRight: 12, textDecoration: 'none', fontWeight: 600 }}>Edit</Link>
-                    <ProductRowActions id={String(p._id)} />
+                  <td style={{ padding: '12px 16px' }}>
+                    <div className="d-flex align-items-center gap-2">
+                      {!p.isDeleted && (
+                        <Link href={`/admin/products/${p._id}`} style={{ color: 'var(--primary,#C8956C)', textDecoration: 'none', fontSize: '0.85rem' }}>
+                          Edit
+                        </Link>
+                      )}
+                      <ProductRowActions id={String(p._id)} isDeleted={p.isDeleted} />
+                    </div>
                   </td>
                 </tr>
               ))}

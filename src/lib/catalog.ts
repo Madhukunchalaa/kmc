@@ -65,7 +65,7 @@ function fromSeed(p: SeedProduct): CatalogProduct {
 export async function getAllProducts(): Promise<CatalogProduct[]> {
   try {
     await connectMongoose();
-    const docs = await Product.find({ active: true }).sort({ createdAt: -1 }).lean();
+    const docs = await Product.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
     if (docs.length === 0) return productSeed.map(fromSeed);
     return docs.map((d) => ({
       id: String(d._id),
@@ -94,7 +94,7 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
 export async function getProductBySlug(slug: string): Promise<CatalogProduct | null> {
   try {
     await connectMongoose();
-    const d = await Product.findOne({ slug, active: true }).lean();
+    const d = await Product.findOne({ slug, active: true, isDeleted: { $ne: true } }).lean();
     if (d) {
       return {
         id: String(d._id),
@@ -215,7 +215,7 @@ const SERVICE_FALLBACK: CatalogService[] = [
 export async function getAllServices(): Promise<CatalogService[]> {
   try {
     await connectMongoose();
-    const docs = await Service.find({ active: true }).sort({ createdAt: 1 }).lean();
+    const docs = await Service.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: 1 }).lean();
     if (docs.length === 0) return SERVICE_FALLBACK;
     return docs.map((d) => ({
       id: String(d._id),
@@ -254,10 +254,10 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
     };
     let doc: ServiceLeanDoc | null = null;
     if (/^[a-f0-9]{24}$/i.test(id)) {
-      doc = (await Service.findById(id).lean()) as ServiceLeanDoc | null;
+      doc = (await Service.findOne({ _id: id, isDeleted: { $ne: true } }).lean()) as ServiceLeanDoc | null;
     }
     if (!doc) {
-      doc = (await Service.findOne({ slug: id }).lean()) as ServiceLeanDoc | null;
+      doc = (await Service.findOne({ slug: id, isDeleted: { $ne: true } }).lean()) as ServiceLeanDoc | null;
     }
     if (doc) {
       return {

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
+import ExportOrdersButton from '@/components/ExportOrdersButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Orders · Admin' };
@@ -99,6 +100,8 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
               Reset
             </Link>
           )}
+
+          <ExportOrdersButton orders={orders} />
         </form>
       </div>
 

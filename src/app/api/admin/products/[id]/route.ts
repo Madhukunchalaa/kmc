@@ -29,7 +29,7 @@ export async function DELETE(_req: Request, ctx: RouteContext<'/api/admin/produc
   const { id } = await ctx.params;
   try {
     await connectMongoose();
-    await Product.findByIdAndDelete(id);
+    await Product.findByIdAndUpdate(id, { isDeleted: true });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);

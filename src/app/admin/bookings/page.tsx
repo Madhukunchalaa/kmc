@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
+import ExportBookingsButton from '@/components/ExportBookingsButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Bookings · Admin' };
@@ -98,6 +99,8 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
               Reset
             </Link>
           )}
+
+          <ExportBookingsButton bookings={bookings} />
         </form>
       </div>
 

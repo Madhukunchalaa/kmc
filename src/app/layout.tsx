@@ -62,7 +62,7 @@ export default function RootLayout({
         {/* Font Awesome 6 Icons */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       </head>
-      <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`}>
+      <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`} suppressHydrationWarning>
         <Shell>{children}</Shell>
       </body>
     </html>

@@ -180,7 +180,6 @@ export default function Home() {
                 'Custom-dressed & blessed candles',
                 'Full altar ritual by the founder',
                 'Photo & video proof of the ritual',
-                'Burn notes & energy readings sent',
               ],
               tiers: [
                 { label: 'Travel Safety', price: 1800 },

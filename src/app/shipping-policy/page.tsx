@@ -27,7 +27,7 @@ export default function ShippingPolicyPage() {
 
       <h2>Tracking</h2>
       <p>
-        Once your order is dispatched, you&apos;ll receive a tracking link by WhatsApp or email. Most shipments are sent via reputable couriers like Delhivery, BlueDart or India Post.
+        Once your order is dispatched, you&apos;ll receive a tracking link by WhatsApp or email. Most shipments are sent via reputable couriers like Delhivery, BlueDart, DTDC, or India Post.
       </p>
 
       <h2>If your package is delayed or damaged</h2>

@@ -298,7 +298,7 @@ function CheckoutSuccessContent() {
           
           <div className="kc-shop">
             <div className="shop-roof" />
-            <div className="kc-sign">KC</div>
+            <div className="kc-sign">KMC</div>
           </div>
           
           <div className="floating-crystals">
@@ -352,7 +352,7 @@ function CheckoutSuccessContent() {
     <section className="section-pad" style={{ paddingTop: '160px' }}>
       <div className="container text-center" style={{ maxWidth: 720 }}>
         <div style={{ fontSize: '4.5rem', marginBottom: '1rem' }}>✨</div>
-        <h1 className="section-title">Payment <span>Confirmed!</span></h1>
+        <h1 className="section-title">Payment <span style={{ color: '#2B7A5C' }}>Confirmed!</span></h1>
         <p className="section-subtitle">
           Thank you! Your order <strong>{orderNumber}</strong> is confirmed.
         </p>

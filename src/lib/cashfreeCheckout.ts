@@ -60,7 +60,7 @@ export async function openCashfreeCheckout(
 ): Promise<CashfreeCheckoutResult> {
   await loadCashfreeScript();
 
-  const mode = process.env.NEXT_PUBLIC_CASHFREE_ENV === 'sandbox' ? 'sandbox' : 'production';
+  const mode = 'sandbox'; // Force sandbox mode during testing phase
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cashfree = (window as any).Cashfree({ mode });

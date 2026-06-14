@@ -34,12 +34,7 @@ export default function ReturnsPage() {
 
       <h2>Refunds</h2>
       <p>
-        Please note that <strong>all products and services are strictly non-refundable</strong>. Due to the energetic and personalized nature of our offerings, we do not issue refunds under any circumstances. If an item arrives damaged and is verified, we may offer a replacement or exchange at our discretion.
-      </p>
-
-      <h2>Exchanges</h2>
-      <p>
-        Prefer a different crystal? Let us know — we&apos;re happy to arrange an exchange whenever possible, subject to availability.
+        Please note that <strong>all products and services are strictly non-refundable</strong>. Due to the energetic and personalized nature of our offerings, we do not issue refunds under any circumstances. If an item arrives damaged and is verified, we may offer a replacement.
       </p>
     </PolicyPage>
   );

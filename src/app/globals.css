@@ -4560,9 +4560,6 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
 }
 
 .session-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 36px 90px rgba(0,0,0,0.65), 0 0 50px rgba(200,149,108,0.12), inset 0 1px 0 rgba(232,201,154,0.14);
-  border-color: rgba(200,149,108,0.45);
 }
 
 /* Featured (middle) card */
@@ -4578,8 +4575,6 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
 }
 
 .session-card.featured:hover {
-  border-color: rgba(201,168,76,0.65);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 80px rgba(201,168,76,0.18), inset 0 1px 0 rgba(232,201,154,0.18);
 }
 
 /* "Most Popular" ribbon on featured card */
@@ -6755,7 +6750,7 @@ body.theme-rose .hero-v2-orb {
   }
 
   .sessions-carousel-slide {
-    flex: 0 0 100vw !important; max-width: 100vw !important; scroll-snap-align: start !important; padding: 0 15px !important;
+    flex: 0 0 100% !important; max-width: 100% !important; scroll-snap-align: start !important; padding: 0 15px !important;
     box-sizing: border-box !important;
   }
   

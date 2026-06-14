@@ -86,8 +86,8 @@ export async function POST(req: Request) {
     const secret = process.env.CASHFREE_SECRET_KEY || '';
     const envType = process.env.CASHFREE_ENV || '';
     
-    console.log(`[CASHFREE DEBUG] AppId: Length ${appId.length}, Starts with: "${appId.substring(0, 4)}..."`);
-    console.log(`[CASHFREE DEBUG] Secret: Length ${secret.length}, Starts with: "${secret.substring(0, 12)}..."`);
+    console.log(`[CASHFREE DEBUG] AppId: Length ${appId.length}, Starts with: "${appId.substring(0, 8)}...", Ends with: "...${appId.substring(appId.length - 4)}"`);
+    console.log(`[CASHFREE DEBUG] Secret: Length ${secret.length}, Starts with: "${secret.substring(0, 25)}...", Ends with: "...${secret.substring(secret.length - 8)}"`);
     console.log(`[CASHFREE DEBUG] Env: "${envType}"`);
     if (err instanceof Error) {
       console.log(`[CASHFREE DEBUG] Error message: "${err.message}"`);

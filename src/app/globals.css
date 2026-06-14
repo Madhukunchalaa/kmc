@@ -7935,3 +7935,51 @@ body.theme-rose .hero-v2-orb {
   50% { opacity: 1; transform: scale(1.02); }
   100% { opacity: 0.6; transform: scale(0.98); }
 }
+
+/* Test Announcement Banner */
+.test-banner {
+  background: linear-gradient(135deg, #1C0A02, #2D1B0E);
+  border-bottom: 1px solid rgba(200, 149, 108, 0.25);
+  color: #FAF6F1;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+body.has-test-banner {
+  padding-top: 44px !important;
+}
+
+body.has-test-banner .navbar.navbar-custom {
+  top: 44px !important;
+}
+
+@media (max-width: 768px) {
+  .test-banner {
+    font-size: 0.65rem !important;
+    padding: 6px 12px !important;
+    height: 52px !important;
+    line-height: 1.4 !important;
+  }
+  body.has-test-banner {
+    padding-top: 52px !important;
+  }
+  body.has-test-banner .navbar.navbar-custom {
+    top: 52px !important;
+  }
+}
+

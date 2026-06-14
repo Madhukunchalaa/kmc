@@ -50,7 +50,7 @@ export default function TermsPage() {
         <br />
         <strong>Phone:</strong> +91 80962 23929
         <br />
-        <strong>Address:</strong> [YOUR EXACT PHYSICAL ADDRESS HERE]
+        <strong>Address:</strong> Hyderabad, Telangana, India
       </p>
     </PolicyPage>
   );

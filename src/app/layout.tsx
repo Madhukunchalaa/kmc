@@ -33,8 +33,20 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "KrissMaagiic Crystals",
-  description: "Authentic, energised & intuitively selected crystals — bracelets, malas, pendants, towers and healing services curated by Kriss in Hyderabad.",
+  title: {
+    default: "KrissMaagiic Crystals | Authentic Healing Crystals & Spiritual Services",
+    template: "%s | KrissMaagiic Crystals"
+  },
+  description: "Authentic, energised & intuitively selected premium crystals. Book personalised tarot readings, custom spells, and numerology charts with Kriss in Hyderabad.",
+  keywords: ["KrissMaagiic Crystals", "Healing Crystals", "Tarot Reading", "Spell Casting", "Numerology", "Crystal Bracelets", "Hyderabad Crystals"],
+  openGraph: {
+    title: "KrissMaagiic Crystals | Authentic Healing Crystals & Spiritual Services",
+    description: "Authentic, energised & intuitively selected premium crystals and spiritual services.",
+    url: "https://krissmaagiiccrystals.com",
+    siteName: "KrissMaagiic Crystals",
+    locale: "en_IN",
+    type: "website",
+  }
 };
 
 export default function RootLayout({

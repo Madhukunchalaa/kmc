@@ -111,6 +111,7 @@ export default function Home() {
               Directly book highly personalized tarot readings, custom spells, and astro-numerology charts. All sessions require manual founder approval to guarantee aligned schedules.
             </p>
           </div>
+        </div>
 
         {/* ===== CUSTOM SESSIONS CAROUSEL - outside container for full-width on mobile ===== */}
         <div

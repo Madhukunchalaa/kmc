@@ -54,7 +54,7 @@ export default function Home() {
                     <img 
                       src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" 
                       alt="Kriss - Founder of KrissMaagiic" 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
                     />
                   </div>
                 </div>

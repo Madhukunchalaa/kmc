@@ -231,13 +231,13 @@ export default function Home() {
                           <SimplePrice price={Math.min(...svc.tiers.map(t => t.price))} /> – <SimplePrice price={Math.max(...svc.tiers.map(t => t.price))} />
                         </span>
                       </div>
-                      <button
-                        type="button"
+                      <Link
+                        href={`/booking/${svc.slug}`}
                         className="session-cta"
-                        onClick={() => setActiveSession({ serviceSlug: svc.slug, title: svc.title, tiers: svc.tiers })}
+                        style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
                       >
-                        Select Service
-                      </button>
+                        Book Now
+                      </Link>
                     </div>
                   </div>
                 </ScrollFade>

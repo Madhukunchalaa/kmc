@@ -68,40 +68,79 @@ export function welcomeEmail(name: string): EmailMessage {
   };
 }
 
-export function orderPaidEmail(name: string, orderNumber: string, subtotal: number): EmailMessage {
+export function orderPaidEmail(name: string, orderNumber: string, subtotal: number, items: any[] = []): EmailMessage {
+  const itemsHtml = items.map(i => `
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.05)">
+      <td style="padding:10px 0;display:flex;align-items:center;gap:12px">
+        ${i.image ? `<img src="${i.image}" width="40" height="40" style="border-radius:6px;object-fit:cover" />` : ''}
+        <div>
+          <div style="font-weight:bold;color:#2D1B0E">${i.name}</div>
+          <div style="font-size:11px;color:#666">Qty: ${i.qty}</div>
+        </div>
+      </td>
+      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">₹${i.lineTotal.toLocaleString('en-IN')}</td>
+    </tr>
+  `).join('');
+
   return {
     to: '',
     subject: `Payment confirmed · ${orderNumber}`,
     html: shell(
       `Thank you, ${name}!`,
       `<p>Your payment for order <strong>${orderNumber}</strong> was successful.</p>
-       <p>Amount paid: <strong>₹${subtotal.toLocaleString('en-IN')}</strong></p>
-       <p>We're preparing your crystals and will update you when your order ships.</p>`,
+       <p>We're preparing your crystals and will update you when your order ships.</p>
+       <h4 style="margin:20px 0 10px;border-bottom:1px solid rgba(0,0,0,0.1);padding-bottom:6px;color:#2D1B0E">Order Summary</h4>
+       <table style="width:100%;border-collapse:collapse;font-size:14px">
+         <tbody>
+           ${itemsHtml}
+           <tr>
+             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total</td>
+             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">₹${subtotal.toLocaleString('en-IN')}</td>
+           </tr>
+         </tbody>
+       </table>`,
     ),
   };
 }
 
-export function bookingReceivedEmail(name: string, serviceTitle: string, date: string, timeSlot: string): EmailMessage {
+export function bookingReceivedEmail(name: string, serviceTitle: string, date: string, timeSlot: string, serviceImage?: string): EmailMessage {
   return {
     to: '',
     subject: `Booking received · ${serviceTitle}`,
     html: shell(
       `Booking received, ${name}!`,
-      `<p>Your booking for <strong>${serviceTitle}</strong> on <strong>${date} at ${timeSlot}</strong> is in.</p>
+      `<div style="display:flex;align-items:center;gap:16px;margin:20px 0;background:#FAF6F1;padding:16px;border-radius:12px;border:1px solid rgba(200,149,108,0.15)">
+         ${serviceImage ? `<img src="${serviceImage}" width="70" height="70" style="border-radius:8px;object-fit:cover" />` : ''}
+         <div>
+           <div style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2D1B0E">${serviceTitle}</div>
+           <div style="font-size:13px;color:#666;margin-top:4px">
+             Date: <strong>${date}</strong><br/>
+             Time: <strong>${timeSlot}</strong>
+           </div>
+         </div>
+       </div>
        <p>Status: <strong>Awaiting confirmation</strong></p>
        <p>We'll email you again once Kriss confirms the session.</p>`,
     ),
   };
 }
 
-export function bookingStatusEmail(name: string, serviceTitle: string, status: 'approved' | 'rejected', adminNote?: string): EmailMessage {
+export function bookingStatusEmail(name: string, serviceTitle: string, status: 'approved' | 'rejected', adminNote?: string, serviceImage?: string): EmailMessage {
   const isApproved = status === 'approved';
   return {
     to: '',
     subject: `Booking ${isApproved ? 'confirmed' : 'declined'} · ${serviceTitle}`,
     html: shell(
       isApproved ? `Your booking is confirmed, ${name}!` : `Your booking was declined`,
-      `<p>Your booking for <strong>${serviceTitle}</strong> has been <strong>${status.toUpperCase()}</strong>.</p>
+      `<div style="display:flex;align-items:center;gap:16px;margin:20px 0;background:#FAF6F1;padding:16px;border-radius:12px;border:1px solid rgba(200,149,108,0.15)">
+         ${serviceImage ? `<img src="${serviceImage}" width="70" height="70" style="border-radius:8px;object-fit:cover" />` : ''}
+         <div>
+           <div style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2D1B0E">${serviceTitle}</div>
+           <div style="font-size:13px;color:#666;margin-top:4px">
+             Status: <strong style="color:${isApproved ? '#4CAF50' : '#D95F5F'}">${status.toUpperCase()}</strong>
+           </div>
+         </div>
+       </div>
        ${adminNote ? `<p>Note from Kriss: <em>${adminNote}</em></p>` : ''}`,
     ),
   };
@@ -163,22 +202,82 @@ export function adminOrderReceivedEmail(
   customerName: string,
   customerEmail: string,
   customerPhone: string,
-  subtotal: number
+  subtotal: number,
+  items: any[] = []
 ): EmailMessage {
+  const itemsHtml = items.map(i => `
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.05)">
+      <td style="padding:10px 0;display:flex;align-items:center;gap:12px">
+        ${i.image ? `<img src="${i.image}" width="40" height="40" style="border-radius:6px;object-fit:cover" />` : ''}
+        <div>
+          <div style="font-weight:bold;color:#2D1B0E">${i.name}</div>
+          <div style="font-size:11px;color:#666">Qty: ${i.qty}</div>
+        </div>
+      </td>
+      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">₹${i.lineTotal.toLocaleString('en-IN')}</td>
+    </tr>
+  `).join('');
+
   return {
     to: '',
     subject: `🚨 New Order Received · ${orderNumber}`,
     html: shell(
       `New Order Placed!`,
       `<p>A new order <strong>${orderNumber}</strong> has been successfully paid and placed.</p>
-       <p><strong>Order Details:</strong></p>
-       <ul>
-         <li>Customer Name: <strong>${customerName}</strong></li>
-         <li>Customer Email: <strong>${customerEmail}</strong></li>
-         <li>Customer Phone: <strong>${customerPhone}</strong></li>
-         <li>Amount Paid: <strong>₹${subtotal.toLocaleString('en-IN')}</strong></li>
+       <p><strong>Customer Details:</strong></p>
+       <ul style="padding-left:20px;margin-bottom:20px">
+         <li>Name: <strong>${customerName}</strong></li>
+         <li>Email: <strong>${customerEmail}</strong></li>
+         <li>Phone: <strong>${customerPhone}</strong></li>
        </ul>
-       <p><a href="${process.env.NEXTAUTH_URL || ''}/admin/orders" style="display:inline-block;background:#C8956C;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Go to Admin Panel</a></p>`,
+       <h4 style="margin:20px 0 10px;border-bottom:1px solid rgba(0,0,0,0.1);padding-bottom:6px;color:#2D1B0E">Order Summary</h4>
+       <table style="width:100%;border-collapse:collapse;font-size:14px">
+         <tbody>
+           ${itemsHtml}
+           <tr>
+             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total Paid</td>
+             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">₹${subtotal.toLocaleString('en-IN')}</td>
+           </tr>
+         </tbody>
+       </table>
+       <p style="margin-top:20px"><a href="${process.env.NEXTAUTH_URL || ''}/admin/orders" style="display:inline-block;background:#C8956C;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Go to Admin Panel</a></p>`,
+    ),
+  };
+}
+
+export function adminBookingReceivedEmail(
+  bookingNumber: string,
+  customerName: string,
+  customerEmail: string,
+  customerPhone: string,
+  serviceTitle: string,
+  date: string,
+  timeSlot: string,
+  serviceImage?: string
+): EmailMessage {
+  return {
+    to: '',
+    subject: `🚨 New Booking Received · ${bookingNumber}`,
+    html: shell(
+      `New Booking Placed!`,
+      `<p>A new booking <strong>${bookingNumber}</strong> has been successfully booked and paid.</p>
+       <div style="display:flex;align-items:center;gap:16px;margin:20px 0;background:#FAF6F1;padding:16px;border-radius:12px;border:1px solid rgba(200,149,108,0.15)">
+         ${serviceImage ? `<img src="${serviceImage}" width="70" height="70" style="border-radius:8px;object-fit:cover" />` : ''}
+         <div>
+           <div style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2D1B0E">${serviceTitle}</div>
+           <div style="font-size:13px;color:#666;margin-top:4px">
+             Date: <strong>${date}</strong><br/>
+             Time: <strong>${timeSlot}</strong>
+           </div>
+         </div>
+       </div>
+       <p><strong>Customer Details:</strong></p>
+       <ul style="padding-left:20px;margin-bottom:20px">
+         <li>Name: <strong>${customerName}</strong></li>
+         <li>Email: <strong>${customerEmail}</strong></li>
+         <li>Phone: <strong>${customerPhone}</strong></li>
+       </ul>
+       <p style="margin-top:20px"><a href="${process.env.NEXTAUTH_URL || ''}/admin/bookings" style="display:inline-block;background:#C8956C;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Go to Admin Panel</a></p>`,
     ),
   };
 }

@@ -31,8 +31,23 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/bookings
         message: `Your booking for ${doc.serviceTitle} on ${doc.date} at ${doc.timeSlot} was ${parsed.data.status}.`,
         link: `/dashboard/bookings/${doc._id}`,
       }).catch(() => {});
+      let serviceImageUrl = '';
+      try {
+        const { Service } = await import('@/models/Service');
+        const service = await Service.findById(doc.service).lean();
+        if (service?.image) {
+          if (service.image.startsWith('http')) {
+            serviceImageUrl = service.image;
+          } else {
+            serviceImageUrl = `${process.env.NEXTAUTH_URL || ''}${service.image}`;
+          }
+        }
+      } catch (err) {
+        console.error('[admin-booking-status-email:prepare-service-error]', err);
+      }
+
       await sendEmail({
-        ...bookingStatusEmail(doc.customer.name, doc.serviceTitle, parsed.data.status, parsed.data.adminNote),
+        ...bookingStatusEmail(doc.customer.name, doc.serviceTitle, parsed.data.status, parsed.data.adminNote, serviceImageUrl),
         to: doc.customer.email,
       }).catch((err) => {
         console.error('[admin-booking-status-email-error]', err);

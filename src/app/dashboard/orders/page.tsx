@@ -32,7 +32,12 @@ export default async function MyOrders() {
               {orders.map((o) => (
                 <tr key={String(o._id)} style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}>
                   <td style={{ padding: 12, fontWeight: 600 }}>{o.orderNumber}</td>
-                  <td style={{ padding: 12 }}>{o.items.length}</td>
+                  <td style={{ padding: 12 }}>
+                    <div style={{ fontWeight: 500 }}>{o.items.length} item{o.items.length === 1 ? '' : 's'}</div>
+                    <div style={{ fontSize: '0.78rem', color: '#999', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '240px' }}>
+                      {o.items.map(i => `${i.name} (${i.qty})`).join(', ')}
+                    </div>
+                  </td>
                   <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{o.subtotal.toLocaleString('en-IN')}</td>
                   <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
                   <td style={{ padding: 12, textAlign: 'right', color: '#888', fontSize: '0.82rem' }}>{new Date(o.createdAt).toLocaleDateString('en-IN')}</td>

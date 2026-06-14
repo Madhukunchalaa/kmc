@@ -1,6 +1,7 @@
 import { Notification } from '@/models/Notification';
 import type { BookingDoc } from '@/models/Booking';
-import { sendEmail, bookingReceivedEmail } from '@/lib/email';
+import { sendEmail, bookingReceivedEmail, adminBookingReceivedEmail } from '@/lib/email';
+import { Service } from '@/models/Service';
 
 export async function fulfillPaidBooking(booking: BookingDoc): Promise<void> {
   // 1. Create user notification
@@ -14,29 +15,40 @@ export async function fulfillPaidBooking(booking: BookingDoc): Promise<void> {
     }).catch(() => {});
   }
 
+  // Fetch service image URL
+  let serviceImageUrl = '';
+  try {
+    const service = await Service.findById(booking.service).lean();
+    if (service?.image) {
+      if (service.image.startsWith('http')) {
+        serviceImageUrl = service.image;
+      } else {
+        serviceImageUrl = `${process.env.NEXTAUTH_URL || ''}${service.image}`;
+      }
+    }
+  } catch (err) {
+    console.error('[email:booking-fulfillment:prepare-service-error]', err);
+  }
+
   // 2. Send emails to customer and admin, awaiting both
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@krissmaagiic.com';
   await Promise.allSettled([
     sendEmail({
-      ...bookingReceivedEmail(booking.customer.name, booking.serviceTitle, booking.date, booking.timeSlot),
+      ...bookingReceivedEmail(booking.customer.name, booking.serviceTitle, booking.date, booking.timeSlot, serviceImageUrl),
       to: booking.customer.email,
     }),
     sendEmail({
+      ...adminBookingReceivedEmail(
+        booking.bookingNumber,
+        booking.customer.name,
+        booking.customer.email,
+        booking.customer.phone,
+        booking.serviceTitle,
+        booking.date,
+        booking.timeSlot,
+        serviceImageUrl
+      ),
       to: adminEmail,
-      subject: `New Paid Booking: ${booking.bookingNumber}`,
-      html: `
-        <h2>New Booking Received!</h2>
-        <p>A customer has successfully booked and paid for a service.</p>
-        <ul>
-          <li><strong>Service:</strong> ${booking.serviceTitle}</li>
-          <li><strong>Date:</strong> ${booking.date}</li>
-          <li><strong>Time:</strong> ${booking.timeSlot}</li>
-          <li><strong>Customer Name:</strong> ${booking.customer.name}</li>
-          <li><strong>Customer Phone:</strong> ${booking.customer.phone}</li>
-          <li><strong>Customer Email:</strong> ${booking.customer.email}</li>
-        </ul>
-        <p>Please reach out to the customer via WhatsApp to coordinate.</p>
-      `
     }),
   ]).then((results) => {
     results.forEach((r, idx) => {

@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
+import { Product } from '@/models/Product';
+import { resolveProductImage } from '@/lib/resolveProductImage';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail' };
@@ -13,6 +15,11 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
   await connectMongoose();
   const o = await Order.findOne({ _id: id, user: session.user.id }).lean();
   if (!o) notFound();
+
+  // Query products to get images and details
+  const slugs = o.items.map(i => i.productSlug);
+  const products = await Product.find({ slug: { $in: slugs } }).select('slug category image name').lean();
+  const productMap = new Map(products.map(p => [p.slug, p]));
   return (
     <div>
       <Link href="/dashboard/orders" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>← My orders</Link>
@@ -363,13 +370,29 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Items</h4>
             <table style={{ width: '100%', fontSize: '0.9rem' }}>
               <tbody>
-                {o.items.map((i, idx) => (
-                  <tr key={idx} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                    <td style={{ padding: 8 }}>{i.name}</td>
-                    <td style={{ padding: 8, textAlign: 'right', color: '#888' }}>x{i.qty}</td>
-                    <td style={{ padding: 8, textAlign: 'right', fontWeight: 600 }}>₹{i.lineTotal.toLocaleString('en-IN')}</td>
-                  </tr>
-                ))}
+                {o.items.map((i, idx) => {
+                  const p = productMap.get(i.productSlug);
+                  const imageSrc = p ? resolveProductImage(p.image, p.category, p.name) : '/images/products/bracelet.png';
+                  return (
+                    <tr key={idx} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                      <td style={{ padding: '8px 4px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <img
+                          src={imageSrc}
+                          alt={i.name}
+                          width="44"
+                          height="44"
+                          style={{ borderRadius: 8, objectFit: 'cover', border: '1px solid rgba(0,0,0,0.05)', background: '#FAF6F1' }}
+                        />
+                        <div>
+                          <div style={{ fontWeight: 600 }}>{i.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#888' }}>{i.productSlug}</div>
+                        </div>
+                      </td>
+                      <td style={{ padding: 8, textAlign: 'right', color: '#888', verticalAlign: 'middle' }}>x{i.qty}</td>
+                      <td style={{ padding: 8, textAlign: 'right', fontWeight: 600, verticalAlign: 'middle' }}>₹{i.lineTotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                  );
+                })}
                 <tr><td colSpan={2} style={{ padding: 8, textAlign: 'right' }}>Total</td>
                   <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{o.subtotal.toLocaleString('en-IN')}</td></tr>
               </tbody>

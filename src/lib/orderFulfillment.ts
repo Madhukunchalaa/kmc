@@ -5,6 +5,7 @@ import type { OrderDoc } from '@/models/Order';
 import { CART_COOKIE } from '@/lib/cartSession';
 import { getDb } from '@/lib/mongodb';
 import { sendEmail, orderPaidEmail, adminOrderReceivedEmail } from '@/lib/email';
+import { resolveProductImage } from '@/lib/resolveProductImage';
 
 export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
   const stockUpdates = order.items
@@ -41,15 +42,45 @@ export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
     }).catch(() => {});
   }
 
+  // Fetch product images and details to pass to emails
+  let itemsWithImages: any[] = [];
+  try {
+    const slugs = order.items.map(i => i.productSlug);
+    const dbProducts = await Product.find({ slug: { $in: slugs } }).select('slug image category name').lean();
+    const productMap = new Map(dbProducts.map(p => [p.slug, p]));
+    
+    itemsWithImages = order.items.map(i => {
+      const p = productMap.get(i.productSlug);
+      let imgUrl = '';
+      if (p) {
+        const resolved = resolveProductImage(p.image, p.category, p.name);
+        if (resolved.startsWith('http')) {
+          imgUrl = resolved;
+        } else {
+          imgUrl = `${process.env.NEXTAUTH_URL || ''}${resolved}`;
+        }
+      }
+      return {
+        name: i.name,
+        qty: i.qty,
+        price: i.price,
+        lineTotal: i.lineTotal,
+        image: imgUrl
+      };
+    });
+  } catch (err) {
+    console.error('[email:fulfillment:prepare-items-error]', err);
+  }
+
   // Send email to customer and admin, awaiting both
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'krissmaagiicrystals@gmail.com';
   await Promise.allSettled([
     sendEmail({
-      ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal),
+      ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal, itemsWithImages),
       to: order.customer.email,
     }),
     sendEmail({
-      ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal),
+      ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal, itemsWithImages),
       to: adminEmail,
     }),
   ]).then((results) => {

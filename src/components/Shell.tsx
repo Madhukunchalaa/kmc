@@ -9,7 +9,6 @@ import Preloader from './Preloader';
 import Header from './Header';
 import Footer from './Footer';
 import WhatsAppFloat from './WhatsAppFloat';
-import InstagramFloat from './InstagramFloat';
 import BackToTop from './BackToTop';
 
 export default function Shell({ children }: { children: ReactNode }) {
@@ -32,7 +31,6 @@ export default function Shell({ children }: { children: ReactNode }) {
           {children}
           {chrome && <Footer />}
           {chrome && !isAuth && <WhatsAppFloat />}
-          {chrome && !isAuth && <InstagramFloat />}
           {chrome && !isAuth && <BackToTop />}
         </CartProvider>
       </CurrencyProvider>

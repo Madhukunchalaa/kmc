@@ -2,12 +2,12 @@
 
 import * as XLSX from 'xlsx';
 
-export default function ExportOrdersButton({ orders }: { orders: any[] }) {
+export default function ExportOrdersButton({ orders }: { orders: unknown[] }) {
   const handleExport = () => {
     // 1. Format the data for Excel
-    const data = orders.map((o) => {
+    const data = orders.map((o: any) => {
       // Flatten the order items
-      const itemsStr = o.items.map((i: any) => `${i.quantity}x ${i.name}`).join(', ');
+      const itemsStr = o.items.map((i: Record<string, unknown>) => `${i.quantity}x ${i.name}`).join(', ');
       
       return {
         'Order Number': o.orderNumber,

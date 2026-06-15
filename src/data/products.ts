@@ -3164,5 +3164,53 @@ export const products: Product[] = [
     "desc": "Ritually sealed to bring positive energy, joy, and good fortune into your space.",
     "longDesc": "{\"description\":\"Ritually sealed to bring positive energy, joy, and good fortune into your space.\",\"whoShouldWear\":[\"People seeking to balance their Solar Plexus Chakras.\"],\"benefits\":[\"Ritually sealed to bring positive energy, joy, and good fortune into your space.\",\"Premium quality ritually prepared spell jar\"],\"howToWear\":[\"Place in your clean pocket, purse, or room\"],\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
     "chakras": ["Solar Plexus"]
+  },
+  {
+    "id": "mini-spell-jar",
+    "name": "Mini Spell Jar",
+    "category": "others",
+    "subcategory": "Spell Jars",
+    "price": 2200,
+    "originalPrice": 2640,
+    "image": "/images/products/spelljar-mini.png",
+    "images": ["/images/products/spelljar-mini.png"],
+    "usdPrice": 45,
+    "originalUsdPrice": 55,
+    "badge": "New",
+    "desc": "Miniature ritually prepared spell jar designed for close personal containment and intention setting.",
+    "longDesc": "{\"description\":\"Our Mini Spell Jar is a pocket-sized spiritual tool, meticulously layered with intention-specific crystals, sacred dried herbs, and sealed with custom ritual wax.\",\"whoShouldWear\":[\"People seeking a portable grounding and intention tool.\",\"Anyone needing a compact protective charm for daily carry.\"],\"benefits\":[\"Perfect pocket size for daily travel and carry\",\"Hand-layered with authentic high-resonance crystals\",\"Individually sealed and ritually cleansed\"],\"howToWear\":[\"Carry in your pocket, bag, purse, or place on a personal altar.\"],\"careInstructions\":[\"Keep in a dry, safe space.\",\"Recharge under the full moonlight or smudge with incense smoke.\"],\"disclaimer\":\"Spell jars are spiritual tools and not a substitute for professional medical or mental health treatment.\"}",
+    "chakras": ["All chakras"]
+  },
+  {
+    "id": "medium-spell-jar",
+    "name": "Medium Spell Jar (100ml)",
+    "category": "others",
+    "subcategory": "Spell Jars",
+    "price": 4800,
+    "originalPrice": 5760,
+    "image": "/images/products/spelljar-medium.png",
+    "images": ["/images/products/spelljar-medium.png"],
+    "usdPrice": 95,
+    "originalUsdPrice": 115,
+    "badge": "Popular",
+    "desc": "Medium-sized apothecary spell jar layered with potent crystals and herbs, sealed for room/office alignment.",
+    "longDesc": "{\"description\":\"The Medium Spell Jar is a 100ml apothecary glass container, beautifully layered with premium crystals, flowers, and resin, designed to radiate positive energy across your bedroom or office space.\",\"whoShouldWear\":[\"People looking to clear blockages and align their workspace.\",\"Anyone seeking to attract harmony, focus, and abundance into a room.\"],\"benefits\":[\"100ml size ideal for rooms, desks, and nightstands\",\"Includes wire-wrapped copper neck accents for conductive energy flow\",\"Layered with custom-crafted protective salts and dried botanicals\"],\"howToWear\":[\"Place on your desk, nightstand, or home entrance.\"],\"careInstructions\":[\"Avoid contact with water and direct sunlight to protect herbal color.\",\"Periodically clean the exterior glass and smudge with sage or incense.\"],\"disclaimer\":\"Spell jars are spiritual tools and not a substitute for professional medical or mental health treatment.\"}",
+    "chakras": ["All chakras"]
+  },
+  {
+    "id": "large-spell-jar",
+    "name": "Large Spell Jar (500ml)",
+    "category": "others",
+    "subcategory": "Spell Jars",
+    "price": 7300,
+    "originalPrice": 8760,
+    "image": "/images/products/spelljar-large.png",
+    "images": ["/images/products/spelljar-large.png"],
+    "usdPrice": 145,
+    "originalUsdPrice": 175,
+    "badge": "Bestseller",
+    "desc": "Grand 500ml ritual spell jar designed for business, home blessing, and strong positive aura building.",
+    "longDesc": "{\"description\":\"The Large Spell Jar is a grand 500ml heavy-duty ritual glass container, hand-prepared for comprehensive business protection, property blessing, and deep spiritual abundance.\",\"whoShouldWear\":[\"Business owners seeking energetic expansion and shielding.\",\"Homeowners wanting a strong protective blessing for their household.\"],\"benefits\":[\"500ml high-capacity jar for strong, long-lasting space alignment\",\"Intuitively curated with rare high-vibrational crystal clusters\",\"Features detailed dual-wax sealing and decorative velvet ribbons\"],\"howToWear\":[\"Place in a central common room, business entrance, or safe box.\"],\"careInstructions\":[\"Keep in a dry, clean place away from moisture.\",\"Cleanse the space around it periodically by smudging or sound healing.\"],\"disclaimer\":\"Spell jars are spiritual tools and not a substitute for professional medical or mental health treatment.\"}",
+    "chakras": ["All chakras"]
   }
 ];

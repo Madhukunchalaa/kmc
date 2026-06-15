@@ -57,6 +57,7 @@ export async function POST(req: Request) {
       const result = await createCashfreeOrder({
         orderId: `KMCB-${booking.bookingNumber}`,
         amount: booking.servicePrice,
+        currency: booking.currency || 'INR',
         customerId: session.user.id,
         customerName: booking.customer.name,
         customerEmail: booking.customer.email,
@@ -78,7 +79,7 @@ export async function POST(req: Request) {
       cfOrderId,
       paymentSessionId,
       amount: booking.servicePrice,
-      currency: 'INR',
+      currency: booking.currency || 'INR',
       bookingNumber: booking.bookingNumber,
       customer: {
         name: booking.customer.name,

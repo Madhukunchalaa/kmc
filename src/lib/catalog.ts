@@ -25,6 +25,7 @@ export interface CatalogProduct {
 export interface ServiceTier {
   label: string;
   price: number;
+  usdPrice?: number;
 }
 
 export interface CatalogService {
@@ -36,6 +37,7 @@ export interface CatalogService {
   image: string;
   icon: string;
   price: number;
+  usdPrice?: number;
   durationMins: number;
   bullets: string[];
   tiers?: ServiceTier[];
@@ -124,10 +126,10 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
 
 export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
   tarot: [
-    { label: 'Voice Chat (Mini)', price: 1200 },
-    { label: 'Voice Chat (Full)', price: 2000 },
-    { label: 'Video Call (30 min)', price: 2500 },
-    { label: 'Video Call (1 hour)', price: 4500 },
+    { label: 'Voice Chat (Mini)', price: 199, usdPrice: 8 },
+    { label: 'Voice Chat (Full)', price: 1299, usdPrice: 100 },
+    { label: 'Video Call (30 min)', price: 2500, usdPrice: 50 },
+    { label: 'Video Call (1 hour)', price: 4500, usdPrice: 90 },
   ],
   candle: [
     { label: 'Travel Safety / Safe Journeys', price: 1800 },
@@ -166,7 +168,8 @@ const SERVICE_FALLBACK: CatalogService[] = [
     desc: 'A personalised tarot session with Kriss for guidance on love, career and life path.',
     image: '/service-tarot.png',
     icon: 'fa-solid fa-star-and-crescent',
-    price: 1200,
+    price: 199,
+    usdPrice: 8,
     durationMins: 30,
     bullets: ['One major life-area focus', 'Live audio/video session', 'Written summary shared after'],
     tiers: SERVICE_TIERS.tarot,
@@ -217,19 +220,27 @@ export async function getAllServices(): Promise<CatalogService[]> {
     await connectMongoose();
     const docs = await Service.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: 1 }).lean();
     if (docs.length === 0) return SERVICE_FALLBACK;
-    return docs.map((d) => ({
-      id: String(d._id),
-      slug: d.slug,
-      title: d.title,
-      tagline: d.tagline,
-      desc: d.desc,
-      image: d.image,
-      icon: d.icon,
-      price: d.price,
-      durationMins: d.durationMins,
-      bullets: d.bullets,
-      tiers: SERVICE_TIERS[d.slug] || [],
-    }));
+    return docs.map((d) => {
+      const tiers = SERVICE_TIERS[d.slug] || [];
+      const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : d.price;
+      const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
+      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : Math.round(basePrice / 50);
+
+      return {
+        id: String(d._id),
+        slug: d.slug,
+        title: d.title,
+        tagline: d.tagline,
+        desc: d.desc,
+        image: d.image,
+        icon: d.icon,
+        price: basePrice,
+        usdPrice: baseUsdPrice,
+        durationMins: d.durationMins,
+        bullets: d.bullets,
+        tiers,
+      };
+    });
   } catch (err) {
     console.error('getAllServices fallback', err);
     return SERVICE_FALLBACK;
@@ -260,6 +271,11 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
       doc = (await Service.findOne({ slug: id, isDeleted: { $ne: true } }).lean()) as ServiceLeanDoc | null;
     }
     if (doc) {
+      const tiers = SERVICE_TIERS[doc.slug] || [];
+      const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : doc.price;
+      const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
+      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : Math.round(basePrice / 50);
+
       return {
         id: String(doc._id),
         slug: doc.slug,
@@ -268,10 +284,11 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
         desc: doc.desc,
         image: doc.image,
         icon: doc.icon,
-        price: doc.price,
+        price: basePrice,
+        usdPrice: baseUsdPrice,
         durationMins: doc.durationMins,
         bullets: doc.bullets,
-        tiers: SERVICE_TIERS[doc.slug] || [],
+        tiers,
       };
     }
   } catch (err) {

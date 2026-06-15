@@ -157,11 +157,11 @@ export default function Home() {
                 'No live timer pressure',
                 'Submit questions 24–48 hours before',
                 'Audio recorded directly by the founder',
-                'Lifetime re-listen access',
+                'Gain clarity on love, career, finances, and life decisions',
               ],
               tiers: [
-                { label: 'Voice Chat (Mini)', price: 1200 },
-                { label: 'Voice Chat (Full)', price: 2000 },
+                { label: 'Voice Chat (Mini)', price: 199, usdPrice: 8 },
+                { label: 'Voice Chat (Full)', price: 1299, usdPrice: 100 },
               ],
               slug: 'tarot',
               featured: false,
@@ -272,7 +272,17 @@ export default function Home() {
                     <div className="session-price-range">
                       <span className="price-range-label">Energy Exchange</span>
                       <span className="price-range-value">
-                        <SimplePrice price={Math.min(...svc.tiers.map(t => t.price))} /> – <SimplePrice price={Math.max(...svc.tiers.map(t => t.price))} />
+                        {(() => {
+                          const minTier = svc.tiers.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
+                          const maxTier = svc.tiers.reduce((prev, curr) => prev.price > curr.price ? prev : curr);
+                          return (
+                            <>
+                              <SimplePrice price={minTier.price} usdPrice={(minTier as any).usdPrice} />
+                              {' – '}
+                              <SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} />
+                            </>
+                          );
+                        })()}
                       </span>
                     </div>
                     <Link

@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   const parsed = createBookingSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
 
-  const { serviceId, date = 'N/A', timeSlot = 'N/A', question, intention, dob, notes, tierLabel, tierPrice, customer } = parsed.data;
+  const { serviceId, date = 'N/A', timeSlot = 'N/A', question, intention, dob, notes, tierLabel, tierPrice, tierUsdPrice, currency, customer } = parsed.data;
 
   await connectMongoose();
   // Accept either ObjectId or slug
@@ -37,13 +37,21 @@ export async function POST(req: Request) {
 
   const bookingNumber = 'BKG-' + Date.now().toString(36).toUpperCase();
   const finalTitle = tierLabel ? `${service.title} (${tierLabel})` : service.title;
-  const finalPrice = typeof tierPrice === 'number' ? tierPrice : service.price;
+  
+  // Resolve base usdPrice fallback if not in MongoDB
+  const serviceUsdPrice = Math.round(service.price / 50);
+
+  const finalPrice = currency === 'INR'
+    ? (typeof tierPrice === 'number' ? tierPrice : service.price)
+    : (typeof tierUsdPrice === 'number' ? tierUsdPrice : serviceUsdPrice);
+
   const booking = await Booking.create({
     bookingNumber,
     user: session.user.id,
     service: service._id,
     serviceTitle: finalTitle,
     servicePrice: finalPrice,
+    currency: currency || 'INR',
     date,
     timeSlot,
     question: question || '',

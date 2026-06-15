@@ -19,7 +19,7 @@ export function isCashfreeConfigured(): boolean {
 
 export interface CashfreeOrderParams {
   orderId: string;       // our internal order/booking number used as CF order_id
-  amount: number;        // INR
+  amount: number;        // INR or USD
   customerId: string;
   customerName: string;
   customerEmail: string;
@@ -27,6 +27,7 @@ export interface CashfreeOrderParams {
   returnUrl: string;
   notifyUrl?: string;
   meta?: Record<string, string>;
+  currency?: string;
 }
 
 export interface CashfreeOrderResult {
@@ -77,7 +78,7 @@ export async function createCashfreeOrder(
   const body = {
     order_id: params.orderId,
     order_amount: params.amount,
-    order_currency: 'INR',
+    order_currency: params.currency || 'INR',
     customer_details: {
       customer_id: params.customerId,
       customer_name: params.customerName,

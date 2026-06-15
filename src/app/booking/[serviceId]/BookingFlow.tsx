@@ -109,18 +109,20 @@ const headingStyle: React.CSSProperties = {
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, serviceSlug, servicePrice, serviceTitle, tiers, defaultName, defaultEmail,
+  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, defaultName, defaultEmail,
 }: {
   serviceId: string;
   serviceSlug: string;
   servicePrice: number;
+  serviceUsdPrice?: number;
   serviceTitle: string;
-  tiers?: { label: string; price: number }[];
+  tiers?: { label: string; price: number; usdPrice?: number }[];
   defaultName: string;
   defaultEmail: string;
 }) {
   const today = useMemo(() => new Date(), []);
-  const { formatPrice } = useCurrency();
+  const { formatPrice, countryCode } = useCurrency();
+  const currency = countryCode === 'IN' ? 'INR' : 'USD';
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const dateOptions = useMemo(
     () => Array.from({ length: 14 }, (_, i) => addDays(today, i)),
@@ -145,6 +147,7 @@ export default function BookingFlow({
 
   const selectedTier = tiers && tiers[tierIdx];
   const activePrice = selectedTier ? selectedTier.price : servicePrice;
+  const activeUsdPrice = selectedTier ? selectedTier.usdPrice : serviceUsdPrice;
 
   // Determine rules based on service
   const isTarot = serviceSlug === 'tarot';
@@ -197,6 +200,8 @@ export default function BookingFlow({
           notes,
           tierLabel: selectedTier?.label,
           tierPrice: selectedTier?.price,
+          tierUsdPrice: selectedTier?.usdPrice,
+          currency,
           customer: { name, email, phone }
         }),
       });
@@ -327,7 +332,7 @@ export default function BookingFlow({
                     textAlign: 'center',
                   }}
                 >
-                  {t.label} ({formatPrice(t.price)})
+                  {t.label} ({formatPrice(t.price, t.usdPrice)})
                 </button>
               );
             })}
@@ -652,7 +657,7 @@ export default function BookingFlow({
       <div className="booking-summary-strip">
         <div>
           <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 700, marginBottom: 2 }}>Session fee</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>{formatPrice(activePrice)}</div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>{formatPrice(activePrice, activeUsdPrice)}</div>
         </div>
         <button
           type="submit"

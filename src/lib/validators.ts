@@ -114,6 +114,8 @@ export const createBookingSchema = z.object({
   // Optional tier — overrides title + price when present (for tier-based session cards)
   tierLabel: z.string().max(40).optional(),
   tierPrice: z.number().min(0).optional(),
+  tierUsdPrice: z.number().min(0).optional(),
+  currency: z.string().length(3).optional().default('INR'),
   customer: z.object({
     name: z.string().min(2).max(120),
     email: z.string().email(),

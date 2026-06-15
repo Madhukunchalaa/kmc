@@ -32,7 +32,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             Book <span className="highlight">{service.title}</span>
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
-            <SimplePrice price={service.price} /> {service.slug !== 'candle' && service.slug !== 'spelljar' ? `· ${service.durationMins} min` : ''}
+            <SimplePrice price={service.price} usdPrice={service.usdPrice} /> {service.slug !== 'candle' && service.slug !== 'spelljar' ? ` · ${service.durationMins} min` : ''}
           </p>
         </div>
       </section>
@@ -71,6 +71,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             serviceId={service.id}
             serviceSlug={service.slug}
             servicePrice={service.price}
+            serviceUsdPrice={service.usdPrice}
             serviceTitle={service.title}
             tiers={service.tiers}
             defaultName={session.user.name || ''}

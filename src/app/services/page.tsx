@@ -215,7 +215,7 @@ export default async function ServicesPage() {
                               {t.label}
                             </span>
                             <span style={{ fontFamily: 'var(--font-heading)', color: 'var(--gold-light,#FFEFA6)', fontWeight: 700 }}>
-                              <SimplePrice price={t.price} />
+                              <SimplePrice price={t.price} usdPrice={t.usdPrice} />
                             </span>
                           </div>
                         ))}
@@ -227,7 +227,7 @@ export default async function ServicesPage() {
                       <div>
                         <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>From</div>
                         <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--gold-light,#FFEFA6)' }}>
-                          <SimplePrice price={svc.price} />
+                          <SimplePrice price={svc.price} usdPrice={svc.usdPrice} />
                         </div>
                       </div>
 

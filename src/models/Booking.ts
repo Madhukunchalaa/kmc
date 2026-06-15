@@ -22,6 +22,7 @@ export interface BookingDoc {
   razorpayPaymentId?: string; // legacy — kept for existing records
   cfOrderId?: string;
   cfPaymentId?: string;
+  currency?: string;
   customer: {
     name: string;
     email: string;
@@ -38,6 +39,7 @@ const BookingSchema = new Schema<BookingDoc>(
     service: { type: Schema.Types.ObjectId, ref: 'Service', required: true, index: true },
     serviceTitle: { type: String, required: true },
     servicePrice: { type: Number, required: true },
+    currency: { type: String, default: 'INR', index: true },
     date: { type: String, default: 'N/A', index: true },
     timeSlot: { type: String, default: 'N/A' },
     question: { type: String, default: '' },

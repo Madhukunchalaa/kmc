@@ -50,6 +50,107 @@ export default function Home() {
     }
   };
 
+  const homepageServices = [
+    {
+      path: 'PATH I',
+      icon: 'fa-solid fa-headphones',
+      title: 'Tarot Reading — Voice & Audio Call',
+      category: 'Tarot Readings',
+      desc: 'Select custom voice note readings delivered to your WhatsApp, or book a live audio call session to connect directly with the founder for real-time guidance.',
+      bullets: [
+        'Voice chat reading (from ₹199 / $8)',
+        'Live audio call (from ₹1499 / $30)',
+        'Submit questions or connect live',
+        'Gain clarity on love, career, finances, and life decisions',
+      ],
+      tiers: [
+        { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
+        { label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
+        { label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
+        { label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
+        { label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
+        { label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
+        { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
+        { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
+        { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+        { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
+        { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
+        { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
+      ],
+      slug: 'tarot',
+      featured: false,
+    },
+    {
+      path: 'PATH II',
+      icon: 'fa-solid fa-wand-magic-sparkles',
+      title: 'Bespoke Spell Casting Ritual',
+      category: 'Spell Casting Services',
+      desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
+      bullets: [
+        'Custom-dressed & blessed candles',
+        'Full altar ritual by the founder',
+        'Photo & video proof of the ritual',
+      ],
+      tiers: [
+        { label: 'Travel Safety', price: 1800, usdPrice: 35 },
+        { label: 'Psychic / Intuition', price: 2200, usdPrice: 45 },
+        { label: 'Luck & Career', price: 2900, usdPrice: 60 },
+        { label: 'Reconciliation', price: 3200, usdPrice: 65 },
+        { label: 'Abundance / Wealth', price: 3600, usdPrice: 75 },
+        { label: 'Remove Obstacles', price: 3800, usdPrice: 80 },
+        { label: 'Bindings / Fidelity', price: 4200, usdPrice: 85 },
+        { label: 'Fertility & Family', price: 4200, usdPrice: 85 },
+        { label: 'Success & Growth', price: 4500, usdPrice: 90 },
+        { label: 'Love & Soulmate', price: 4800, usdPrice: 95 },
+        { label: 'Protection Spell', price: 5200, usdPrice: 105 },
+        { label: 'Cleansing / Blessing', price: 6300, usdPrice: 125 },
+      ],
+      slug: 'candle',
+      featured: false,
+    },
+    {
+      path: 'PATH III',
+      icon: 'fa-solid fa-jar',
+      title: 'Spell Jars',
+      category: 'Cosmic Jars',
+      desc: 'Custom spell jars created with herbs, crystals, oils and your written intention to manifest specific energies in your life.',
+      bullets: [
+        'Tailored to your intention',
+        'Includes care & activation guide',
+        'Mini, Medium, and Large sizes',
+      ],
+      tiers: [
+        { label: 'Mini Spell Jar', price: 2200, usdPrice: 45 },
+        { label: 'Medium Spell Jar (100ml)', price: 4800, usdPrice: 95 },
+        { label: 'Large Spell Jar (500ml)', price: 7300, usdPrice: 145 },
+      ],
+      slug: 'spelljar',
+      featured: false,
+    },
+    {
+      path: 'PATH IV',
+      icon: 'fa-solid fa-infinity',
+      title: 'Numerology Services',
+      category: 'Numerology Readings',
+      desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
+      bullets: [
+        'Detailed PDF chart report',
+        '5-10 mins WhatsApp explanation',
+        'Lucky numbers & crystal remedies',
+        'Life path & destiny cycles',
+      ],
+      tiers: [
+        { label: 'Vehicle Number', price: 1999, usdPrice: 40 },
+        { label: 'Date of Birth', price: 2499, usdPrice: 50 },
+        { label: 'Mobile Number', price: 3999, usdPrice: 80 },
+        { label: 'Name Numerology', price: 4999, usdPrice: 100 },
+        { label: 'Business / Brand', price: 9999, usdPrice: 200 },
+      ],
+      slug: 'numerology',
+      featured: false,
+    },
+  ];
+
   return (
     <>
       {/* ===== HERO ===== */}
@@ -146,95 +247,15 @@ export default function Home() {
             background: 'var(--light-2)',
           }}
         >
-          {[
-            {
-              path: 'PATH I',
-              icon: 'fa-solid fa-headphones',
-              title: 'Tarot Reading — Voice & Audio Call',
-              category: 'Tarot Readings',
-              desc: 'Select custom voice note readings delivered to your WhatsApp, or book a live audio call session to connect directly with the founder for real-time guidance.',
-              bullets: [
-                'Voice chat reading (from ₹199 / $8)',
-                'Live audio call (from ₹1499 / $30)',
-                'Submit questions or connect live',
-                'Gain clarity on love, career, finances, and life decisions',
-              ],
-              tiers: [
-                { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
-                { label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
-                { label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
-                { label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
-                { label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
-                { label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
-                { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
-                { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
-                { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
-                { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
-                { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
-                { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
-              ],
-              slug: 'tarot',
-              featured: false,
-            },
-            {
-              path: 'PATH II',
-              icon: 'fa-solid fa-wand-magic-sparkles',
-              title: 'Bespoke Spell Casting Ritual',
-              category: 'Spell Casting Services',
-              desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and documentation shared upon completion.',
-              bullets: [
-                'Custom-dressed & blessed candles',
-                'Full altar ritual by the founder',
-                'Photo & video proof of the ritual',
-              ],
-              tiers: [
-                { label: 'Travel Safety', price: 1800 },
-                { label: 'Psychic / Intuition', price: 2200 },
-                { label: 'Luck & Career', price: 2900 },
-                { label: 'Reconciliation', price: 3200 },
-                { label: 'Abundance / Wealth', price: 3600 },
-                { label: 'Remove Obstacles', price: 3800 },
-                { label: 'Bindings / Fidelity', price: 4200 },
-                { label: 'Fertility & Family', price: 4200 },
-                { label: 'Success & Growth', price: 4500 },
-                { label: 'Love & Soulmate', price: 4800 },
-                { label: 'Protection Spell', price: 5200 },
-                { label: 'Cleansing / Blessing', price: 6300 },
-              ],
-              slug: 'candle',
-              featured: false,
-            },
-            {
-              path: 'PATH III',
-              icon: 'fa-solid fa-infinity',
-              title: 'Numerology Services',
-              category: 'Numerology Readings',
-              desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
-              bullets: [
-                'Detailed PDF chart report',
-                '5-10 mins WhatsApp explanation',
-                'Lucky numbers & crystal remedies',
-                'Life path & destiny cycles',
-              ],
-              tiers: [
-                { label: 'Vehicle Number', price: 1999 },
-                { label: 'Date of Birth', price: 2499 },
-                { label: 'Mobile Number', price: 3999 },
-                { label: 'Name Numerology', price: 4999 },
-                { label: 'Business / Brand', price: 9999 },
-              ],
-              slug: 'numerology',
-              featured: false,
-            },
-          ].map((svc, idx) => (
+          {homepageServices.map((svc, idx) => (
             <div
               key={svc.title}
               className="sessions-carousel-slide"
               style={{
-                flex: '0 0 33.333%',
-                width: '33.333%',
-                minWidth: '33.333%',
-                maxWidth: '33.333%',
+                flex: '0 0 25%',
+                width: '25%',
+                minWidth: '25%',
+                maxWidth: '25%',
                 scrollSnapAlign: 'start',
                 padding: '0 12px',
                 boxSizing: 'border-box',
@@ -277,11 +298,11 @@ export default function Home() {
                       </span>
                     </div>
                     <Link
-                      href={`/booking/${svc.slug}`}
+                      href={svc.slug === 'spelljar' ? `/shop?category=spelljar` : `/booking/${svc.slug}`}
                       className="session-cta"
                       style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
                     >
-                      Book Now
+                      {svc.slug === 'spelljar' ? 'Shop Jars' : 'Book Now'}
                     </Link>
                   </div>
                 </div>
@@ -292,7 +313,7 @@ export default function Home() {
 
         <div className="container">
           <div className="sessions-carousel-dots">
-            {[0, 1, 2].map((idx) => (
+            {homepageServices.map((_, idx) => (
               <button
                 key={idx}
                 type="button"

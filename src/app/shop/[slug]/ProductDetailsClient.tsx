@@ -1,0 +1,84 @@
+'use client';
+import { useState } from 'react';
+import ProductImageGallery from '@/components/ProductImageGallery';
+import ProductPriceDisplay from '@/components/ProductPriceDisplay';
+import ProductBuyPanel from './ProductBuyPanel';
+
+export default function ProductDetailsClient({ product, children }: { product: any; children: React.ReactNode }) {
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState<number>(0);
+
+  const hasVariants = Array.isArray(product.variants) && product.variants.length > 0;
+  const currentVariant = hasVariants ? product.variants[selectedVariantIdx] : null;
+
+  const displayImage = currentVariant ? currentVariant.image : product.image;
+  const displayPrice = currentVariant ? currentVariant.price : product.price;
+  const displayOriginalPrice = currentVariant ? currentVariant.originalPrice : product.originalPrice;
+  const displayUsdPrice = currentVariant ? currentVariant.usdPrice : product.usdPrice;
+  const displayOriginalUsdPrice = currentVariant ? currentVariant.originalUsdPrice : product.originalUsdPrice;
+
+  return (
+    <div className="row g-5 align-items-start">
+      <div className="col-lg-5">
+        <ProductImageGallery
+          images={product.images}
+          mainImage={displayImage}
+          category={product.category}
+          name={product.name}
+        />
+      </div>
+      <div className="col-lg-7">
+        <span className="product-category" style={{ fontSize: '0.85rem' }}>{product.subcategory}</span>
+        <h1 className="section-title" style={{ textAlign: 'left', fontSize: '2.4rem', marginTop: 8 }}>{product.name}</h1>
+        <div className="d-flex align-items-center gap-3 mt-3">
+          <ProductPriceDisplay
+            price={displayPrice}
+            originalPrice={displayOriginalPrice}
+            usdPrice={displayUsdPrice}
+            originalUsdPrice={displayOriginalUsdPrice}
+          />
+          {product.badge && <span className={`product-badge ${product.badge.toLowerCase()}`} style={{ position: 'static' }}>{product.badge}</span>}
+        </div>
+
+        {hasVariants && (
+          <div className="mt-4 mb-3">
+            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>Select Size:</h6>
+            <div className="d-flex flex-wrap gap-2">
+              {product.variants.map((v: any, i: number) => (
+                <button
+                  key={v.name}
+                  onClick={() => setSelectedVariantIdx(i)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: selectedVariantIdx === i ? '2px solid var(--primary,#C8956C)' : '1px solid rgba(0,0,0,0.1)',
+                    background: selectedVariantIdx === i ? 'rgba(200, 149, 108, 0.1)' : 'transparent',
+                    color: selectedVariantIdx === i ? 'var(--primary-dark,#A7744D)' : '#555',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {v.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {children}
+
+        <ProductBuyPanel 
+          productId={product.slug} 
+          stock={product.stock} 
+          variant={currentVariant ? currentVariant.name : undefined}
+        />
+
+        <ul style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'grid', gap: 10, color: 'var(--text-light,#666)', fontSize: '0.9rem' }}>
+          <li><i className="fa-solid fa-shield-halved me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> 100% authentic, ritually energised</li>
+          <li><i className="fa-solid fa-truck-fast me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> Pan-India shipping in 4–7 business days</li>
+          <li><i className="fa-solid fa-hand-sparkles me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> Each piece intuitively selected by Kriss</li>
+        </ul>
+      </div>
+    </div>
+  );
+}

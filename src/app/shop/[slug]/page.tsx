@@ -2,10 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug } from '@/lib/catalog';
 import ProductCard from '@/components/ProductCard';
-import ProductBuyPanel from './ProductBuyPanel';
 import ProductDescription from './ProductDescription';
-import ProductPriceDisplay from '@/components/ProductPriceDisplay';
-import ProductImageGallery from '@/components/ProductImageGallery';
+import ProductDetailsClient from './ProductDetailsClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -74,63 +72,33 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
 
       <section className="section-pad">
         <div className="container">
-          <div className="row g-5 align-items-start">
-            <div className="col-lg-5">
-              <ProductImageGallery
-                images={product.images}
-                mainImage={product.image}
-                category={product.category}
-                name={product.name}
-              />
-            </div>
-            <div className="col-lg-7">
-              <span className="product-category" style={{ fontSize: '0.85rem' }}>{product.subcategory}</span>
-              <h1 className="section-title" style={{ textAlign: 'left', fontSize: '2.4rem', marginTop: 8 }}>{product.name}</h1>
-              <div className="d-flex align-items-center gap-3 mt-3">
-                <ProductPriceDisplay
-                  price={product.price}
-                  originalPrice={product.originalPrice}
-                  usdPrice={product.usdPrice}
-                  originalUsdPrice={product.originalUsdPrice}
-                />
-                {product.badge && <span className={`product-badge ${product.badge.toLowerCase()}`} style={{ position: 'static' }}>{product.badge}</span>}
-              </div>
-              
-              {/* Product description / JSON layout rendering */}
-              <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} />
+          <ProductDetailsClient product={product}>
+            {/* Product description / JSON layout rendering */}
+            <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} />
 
-              {product.chakras && product.chakras.filter((ch) => ch && ch.trim()).length > 0 && (
-                <div className="mt-4">
-                  <h6 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Aligned Chakras</h6>
-                  <div className="crystal-tags" style={{ justifyContent: 'flex-start' }}>
-                    {product.chakras
-                      .filter((ch) => ch && ch.trim())
-                      .map((ch) => (
-                        <span 
-                          className="crystal-tag" 
-                          key={ch}
-                          style={{
-                            background: 'rgba(200, 149, 108, 0.12)',
-                            color: '#8A4F27',
-                            borderColor: 'rgba(200, 149, 108, 0.35)'
-                          }}
-                        >
-                          {ch}
-                        </span>
-                      ))}
-                  </div>
+            {product.chakras && product.chakras.filter((ch: string) => ch && ch.trim()).length > 0 && (
+              <div className="mt-4">
+                <h6 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Aligned Chakras</h6>
+                <div className="crystal-tags" style={{ justifyContent: 'flex-start' }}>
+                  {product.chakras
+                    .filter((ch: string) => ch && ch.trim())
+                    .map((ch: string) => (
+                      <span
+                        className="crystal-tag"
+                        key={ch}
+                        style={{
+                          background: 'rgba(200, 149, 108, 0.12)',
+                          color: '#8A4F27',
+                          borderColor: 'rgba(200, 149, 108, 0.35)'
+                        }}
+                      >
+                        {ch}
+                      </span>
+                    ))}
                 </div>
-              )}
-
-              <ProductBuyPanel productId={product.slug} stock={product.stock} />
-
-              <ul style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'grid', gap: 10, color: 'var(--text-light,#666)', fontSize: '0.9rem' }}>
-                <li><i className="fa-solid fa-shield-halved me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> 100% authentic, ritually energised</li>
-                <li><i className="fa-solid fa-truck-fast me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> Pan-India shipping in 4–7 business days</li>
-                <li><i className="fa-solid fa-hand-sparkles me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> Each piece intuitively selected by Kriss</li>
-              </ul>
-            </div>
-          </div>
+              </div>
+            )}
+          </ProductDetailsClient>
         </div>
       </section>
 

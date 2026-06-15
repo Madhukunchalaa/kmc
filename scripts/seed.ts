@@ -59,6 +59,7 @@ async function main() {
       desc: p.desc,
       longDesc: p.longDesc ?? '',
       chakras: p.chakras,
+      variants: p.variants,
       stock: 99,
       active: true,
     };
@@ -74,14 +75,14 @@ async function main() {
   const services = [
     {
       slug: 'tarot',
-      title: 'Tarot Reading',
+      title: 'Tarot Reading — Voice Chat & Audio Call',
       tagline: "Clarity for the questions you can't answer alone",
-      desc: 'A personalised tarot session with Kriss to receive guidance on love, career, relationships and life path.',
+      desc: 'Delivered via WhatsApp voice notes or live audio calls. Receive detailed, highly personalized responses to your questions and immediate spiritual guidance.',
       image: '/service-tarot.png',
-      icon: 'fa-solid fa-star-and-crescent',
-      price: 1200,
+      icon: 'fa-solid fa-headphones',
+      price: 199,
       durationMins: 30,
-      bullets: ['One major life-area focus', 'Live audio/video session', 'Written summary shared after'],
+      bullets: ['Voice notes or live 1-on-1 audio', 'Audio recorded directly by the founder', 'Ask unlimited questions during live sessions'],
       active: true,
     },
     {

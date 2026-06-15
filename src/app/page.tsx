@@ -66,13 +66,13 @@ export default function Home() {
     {
       path: 'PATH I',
       icon: 'fa-solid fa-headphones',
-      title: 'Tarot Reading — Voice Chat',
+      title: 'Tarot Reading — Voice Chat & Audio Call',
       category: 'Tarot Readings',
-      desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your questions within 24–48 hours of your session booking.',
+      desc: 'Delivered via WhatsApp voice notes or live audio calls. Receive detailed, highly personalized responses to your questions and immediate spiritual guidance.',
       bullets: [
-        'No live timer pressure',
-        'Submit questions 24–48 hours before',
+        'Voice notes or live 1-on-1 audio',
         'Audio recorded directly by the founder',
+        'Ask unlimited questions during live sessions',
       ],
       tiers: [
         { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
@@ -84,9 +84,12 @@ export default function Home() {
         { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
         { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
         { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+        { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
+        { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
+        { label: 'Audio Call (2 hours - only one slot)', price: 5999, usdPrice: 120 },
       ],
       slug: 'tarot',
-      bookingUrl: '/booking/tarot?type=voice',
+      bookingUrl: '/booking/tarot',
       featured: false,
     },
     {
@@ -102,8 +105,8 @@ export default function Home() {
         'Ask unlimited questions during your session',
       ],
       tiers: [
-        { label: 'Audio Call (30 min)', price: 2499, usdPrice: 50 },
-        { label: 'Audio Call (1 hour)', price: 4999, usdPrice: 100 },
+        { label: 'Video Call (30 min)', price: 3499, usdPrice: 70 },
+        { label: 'Video Call (1 hour)', price: 6999, usdPrice: 140 },
       ],
       slug: 'tarot',
       bookingUrl: '/booking/tarot?type=video',

@@ -43,7 +43,7 @@ export default function AboutPage() {
             Guided by Intuition, <span className="highlight">Curated by Kriss</span>
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 720, margin: '1rem auto 0' }}>
-            What began as one woman&apos;s love affair with stones has grown into a studio of crystals, candle spells, tarot and ritual — all rooted in the same intention: to help you remember who you are.
+            What began as one woman&apos;s love for stones has grown into a studio of crystals, candle spells, tarot and ritual — all rooted in the same intention: to help you remember who you are.
           </p>
         </div>
       </section>

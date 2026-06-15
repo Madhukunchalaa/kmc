@@ -39,6 +39,10 @@ export const metadata: Metadata = {
   },
   description: "Authentic, energised & intuitively selected premium crystals. Book personalised tarot readings, custom spells, and numerology charts with Kriss in Hyderabad.",
   keywords: ["KrissMaagiic Crystals", "Healing Crystals", "Tarot Reading", "Spell Casting", "Numerology", "Crystal Bracelets", "Hyderabad Crystals"],
+  icons: {
+    icon: "/site-logo.png",
+    apple: "/site-logo.png",
+  },
   openGraph: {
     title: "KrissMaagiic Crystals | Authentic Healing Crystals & Spiritual Services",
     description: "Authentic, energised & intuitively selected premium crystals and spiritual services.",

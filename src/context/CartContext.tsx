@@ -199,15 +199,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const hydrated: CartItemHydrated[] = items
     .map((it) => {
       const activeProducts = catalog.length > 0 ? catalog : products;
+
+      // Support variant-encoded keys like "custom-spell-jar::Mini"
+      const [baseId, variantName] = it.productId.includes('::')
+        ? it.productId.split('::')
+        : [it.productId, undefined];
+
       const product = activeProducts.find((p) => {
         const pId = String(p.id || '').toLowerCase();
         const pSlug = String(p.slug || '').toLowerCase();
         const p_id = String((p as any)._id || '').toLowerCase();
-        const targetId = String(it.productId || '').toLowerCase();
+        const targetId = baseId.toLowerCase();
         return pId === targetId || pSlug === targetId || p_id === targetId;
       });
       if (!product) return null;
-      return { ...it, product, lineTotal: product.price * it.qty };
+
+      // If a variant is selected, use the variant's price
+      let unitPrice = product.price;
+      if (variantName && product.variants) {
+        const v = product.variants.find((vr: any) => vr.name === variantName);
+        if (v) unitPrice = v.price;
+      }
+
+      const displayName = variantName ? `${product.name} – ${variantName}` : product.name;
+      const displayProduct = { ...product, price: unitPrice, name: displayName };
+
+      return { ...it, product: displayProduct, lineTotal: unitPrice * it.qty };
     })
     .filter((x): x is CartItemHydrated => x !== null);
 

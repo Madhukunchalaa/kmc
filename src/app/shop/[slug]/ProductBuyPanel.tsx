@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 
-export default function ProductBuyPanel({ productId, stock }: { productId: string; stock: number }) {
+export default function ProductBuyPanel({ productId, stock, variant }: { productId: string; stock: number; variant?: string }) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -12,9 +12,12 @@ export default function ProductBuyPanel({ productId, stock }: { productId: strin
   const outOfStock = stock === 0;
   const maxQty = Math.max(1, stock);
 
+  // If a variant is selected, encode it into the cart key so different sizes are tracked separately
+  const cartKey = variant ? `${productId}::${variant}` : productId;
+
   const handleAdd = async () => {
     if (outOfStock) return;
-    await addItem(productId, qty);
+    await addItem(cartKey, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

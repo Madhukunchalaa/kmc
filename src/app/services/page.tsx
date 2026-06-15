@@ -192,8 +192,8 @@ export default async function ServicesPage() {
                         gap: '0.5rem 1.25rem',
                         margin: '1.25rem 0',
                         padding: '1rem',
-                        background: 'rgba(255,255,255,0.02)',
-                        border: '1px solid rgba(200,149,108,0.12)',
+                        background: 'rgba(28,10,2,0.6)',
+                        border: '1px solid rgba(200,149,108,0.18)',
                         borderRadius: '16px',
                         maxHeight: svc.slug === 'candle' ? '180px' : 'none',
                         overflowY: svc.slug === 'candle' ? 'auto' : 'visible',
@@ -232,12 +232,12 @@ export default async function ServicesPage() {
                       </div>
 
                       {/* Divider */}
-                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && (
+                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && svc.slug !== 'numerology' && (
                         <div className="services-card-footer-divider" />
                       )}
 
                       {/* Duration */}
-                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && (
+                      {svc.slug !== 'candle' && svc.slug !== 'spelljar' && svc.slug !== 'numerology' && (
                         <div>
                           <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Duration</div>
                           <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'rgba(255,255,255,0.85)' }}>{svc.durationMins} min</div>

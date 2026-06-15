@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/Spinner';
+import AnimatedTimePicker from '@/components/AnimatedTimePicker';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 import { useCurrency } from '@/context/CurrencyContext';
 
@@ -197,25 +198,7 @@ export default function BookingFlow({
     : (selectedTier ? selectedTier.usdPrice : serviceUsdPrice);
 
 
-  useEffect(() => {
-    let cancelled = false;
-    Promise.resolve().then(() => {
-      if (!cancelled) {
-        setLoading(true);
-        setSelectedTime(null);
-      }
-    });
-    (async () => {
-      try {
-        const res  = await fetch(`/api/slots?serviceId=${serviceId}&date=${selectedDate}`);
-        const data = await res.json();
-        if (!cancelled && data.ok) setSlots(data.slots);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [serviceId, selectedDate]);
+  // Slot fetching removed, user manually picks time.
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -251,10 +234,7 @@ export default function BookingFlow({
       if (!data.ok) {
         setError(data.reason === 'slot-already-taken' ? 'That slot was just taken. Please pick another.' : (data.reason || 'Failed'));
         if (data.reason === 'slot-already-taken') {
-          const r = await fetch(`/api/slots?serviceId=${serviceId}&date=${selectedDate}`);
-          const d = await r.json();
-          if (d.ok) setSlots(d.slots);
-          setSelectedTime(null);
+          setError('That specific time was just taken. Please pick another.');
         }
         setSubmitting(false);
         return;
@@ -425,7 +405,7 @@ export default function BookingFlow({
                   textAlign: 'center',
                 }}
               >
-                🎙️ Voice Chat
+                💬 Voice Chat
               </button>
               <button
                 type="button"
@@ -682,44 +662,12 @@ export default function BookingFlow({
             <i className="fa-regular fa-clock" style={{ color: 'var(--primary,#C8956C)' }}></i>
             {tiers && tiers.length > 0 ? '3. Pick a Time' : '2. Pick a Time'}
           </h3>
-        {loading ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'rgba(255,255,255,0.5)', padding: '10px 0', justifyContent: 'center' }}>
-            <Spinner /> <span>Loading available slots…</span>
+          <div style={{ marginTop: 24 }}>
+            <AnimatedTimePicker 
+              value={selectedTime || '10:00 AM'} 
+              onChange={setSelectedTime} 
+            />
           </div>
-        ) : (
-          <div className="booking-time-picker-grid">
-            {slots.map((s) => {
-              const active = selectedTime === s.time;
-              return (
-                <button
-                  key={s.time}
-                  type="button"
-                  disabled={!s.available}
-                  onClick={() => setSelectedTime(s.time)}
-                  style={{
-                    padding: '12px 14px',
-                    borderRadius: 14,
-                    border: active ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
-                    background: active
-                      ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
-                      : (s.available ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)'),
-                    color: active ? '#fff' : (s.available ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)'),
-                    cursor: s.available ? 'pointer' : 'not-allowed',
-                    fontWeight: 600,
-                    fontSize: '0.9rem',
-                    textDecoration: s.available ? 'none' : 'line-through',
-                    boxShadow: active ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
-                    transition: 'all 0.25s ease',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                  className="time-picker-btn"
-                >
-                  {s.time}
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
       )}
 

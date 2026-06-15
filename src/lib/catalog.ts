@@ -20,6 +20,14 @@ export interface CatalogProduct {
   longDesc?: string;
   chakras: string[];
   stock: number;
+  variants?: {
+    name: string;
+    price: number;
+    usdPrice: number;
+    originalPrice?: number | null;
+    originalUsdPrice?: number | null;
+    image: string;
+  }[];
 }
 
 export interface ServiceTier {
@@ -60,6 +68,7 @@ function fromSeed(p: SeedProduct): CatalogProduct {
     desc: p.desc,
     longDesc: p.longDesc ?? '',
     chakras: p.chakras,
+    variants: p.variants,
     stock: 99,
   };
 }
@@ -85,6 +94,14 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
       desc: d.desc,
       longDesc: d.longDesc ?? '',
       chakras: d.chakras,
+      variants: (d.variants ?? []).map((v: any) => ({
+        name: v.name,
+        price: v.price,
+        usdPrice: v.usdPrice,
+        originalPrice: v.originalPrice ?? null,
+        originalUsdPrice: v.originalUsdPrice ?? null,
+        image: v.image,
+      })),
       stock: d.stock,
     }));
   } catch (err) {
@@ -114,6 +131,14 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
         desc: d.desc,
         longDesc: d.longDesc ?? '',
         chakras: d.chakras,
+        variants: (d.variants ?? []).map((v: any) => ({
+          name: v.name,
+          price: v.price,
+          usdPrice: v.usdPrice,
+          originalPrice: v.originalPrice ?? null,
+          originalUsdPrice: v.originalUsdPrice ?? null,
+          image: v.image,
+        })),
         stock: d.stock,
       };
     }
@@ -135,8 +160,9 @@ export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
     { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
     { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
     { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
-    { label: 'Audio Call (30 min)', price: 2499, usdPrice: 50 },
-    { label: 'Audio Call (1 hour)', price: 4999, usdPrice: 100 },
+    { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
+    { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
+    { label: 'Audio Call (2 hours - only one slot)', price: 5999, usdPrice: 120 },
   ],
   candle: [
     { label: 'Travel Safety / Safe Journeys', price: 1800, usdPrice: 35 },
@@ -162,6 +188,7 @@ export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
     { label: 'Date of Birth Numerology', price: 2499, usdPrice: 45 },
     { label: 'Mobile Number Numerology', price: 3999, usdPrice: 55 },
     { label: 'Name Numerology', price: 4999, usdPrice: 75 },
+    { label: 'Any Other Specific Numerology', price: 4999, usdPrice: 85 },
     { label: 'Business / Brand Numerology', price: 9999, usdPrice: 150 },
   ],
 };
@@ -170,15 +197,15 @@ const SERVICE_FALLBACK: CatalogService[] = [
   {
     id: 'tarot',
     slug: 'tarot',
-    title: 'Tarot Reading',
+    title: 'Tarot Reading — Voice Chat & Audio Call',
     tagline: "Clarity for the questions you can't answer alone",
-    desc: 'A personalised tarot session with Kriss for guidance on love, career and life path.',
+    desc: 'Delivered via WhatsApp voice notes or live audio calls. Receive detailed, highly personalized responses to your questions and immediate spiritual guidance.',
     image: '/service-tarot.png',
-    icon: 'fa-solid fa-star-and-crescent',
+    icon: 'fa-solid fa-headphones',
     price: 199,
     usdPrice: 8,
     durationMins: 30,
-    bullets: ['One major life-area focus', 'Live audio/video session', 'Written summary shared after'],
+    bullets: ['Voice notes or live 1-on-1 audio', 'Audio recorded directly by the founder', 'Ask unlimited questions during live sessions'],
     tiers: SERVICE_TIERS.tarot,
   },
   {

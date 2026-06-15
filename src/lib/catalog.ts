@@ -158,11 +158,11 @@ export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
     { label: 'Large Spell Jar (500ml)', price: 7300, usdPrice: 145 },
   ],
   numerology: [
-    { label: 'Vehicle Number Numerology', price: 1999, usdPrice: 40 },
-    { label: 'Date of Birth Numerology', price: 2499, usdPrice: 50 },
-    { label: 'Mobile Number Numerology', price: 3999, usdPrice: 80 },
-    { label: 'Name Numerology', price: 4999, usdPrice: 100 },
-    { label: 'Business / Brand Numerology', price: 9999, usdPrice: 200 },
+    { label: 'Vehicle Number Numerology', price: 1999, usdPrice: 30 },
+    { label: 'Date of Birth Numerology', price: 2499, usdPrice: 45 },
+    { label: 'Mobile Number Numerology', price: 3999, usdPrice: 55 },
+    { label: 'Name Numerology', price: 4999, usdPrice: 75 },
+    { label: 'Business / Brand Numerology', price: 9999, usdPrice: 150 },
   ],
 };
 

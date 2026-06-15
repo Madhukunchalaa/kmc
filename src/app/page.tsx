@@ -7,6 +7,7 @@ import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
 import BookingModal, { BookingTier } from '@/components/BookingModal';
 import SignatureCarousel from '@/components/SignatureCarousel';
+import MobileSearchBar from '@/components/MobileSearchBar';
 import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
@@ -18,8 +19,10 @@ interface SelectedSession {
 }
 
 export default function Home() {
-  // Bestsellers / Featured crystals (first 6 items matching the homepage feel)
-  const featuredProducts = products.slice(0, 6);
+  // Bestsellers: Rose Quartz first, then remaining top picks — one row of 5
+  const roseQuartz = products.find(p => p.id === 'rose-quartz-bracelet');
+  const otherFeatured = products.slice(0, 5).filter(p => p.id !== 'rose-quartz-bracelet');
+  const featuredProducts = roseQuartz ? [roseQuartz, ...otherFeatured] : products.slice(0, 5);
   // Signature Bracelets
   const signatureProducts = products.filter(p => p.subcategory === 'Designer Bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
@@ -180,33 +183,32 @@ export default function Home() {
               <ScrollFade delay={0}>
                 <div className="about-collage">
                   <div className="about-collage-bg-glow" />
-                  <div className="about-collage-img-founder" style={{ 
-                    position: 'relative', 
-                    width: '100%', 
-                    maxWidth: '360px', 
+                  <div className="about-collage-img-founder" style={{
+                    position: 'relative',
+                    width: '100%',
+                    maxWidth: '440px',
                     height: 'auto',
-                    aspectRatio: '360 / 520',
-                    inset: 'auto', 
-                    margin: '0 auto', 
-                    overflow: 'hidden', 
+                    aspectRatio: '3 / 4',
+                    inset: 'auto',
+                    margin: '0 auto',
+                    overflow: 'hidden',
                     borderRadius: '24px',
                     background: '#000000',
                     border: '1px solid rgba(232, 201, 154, 0.45)',
                     outline: '1px solid rgba(232, 201, 154, 0.2)',
                     outlineOffset: '-8px',
-                    padding: '12px',
+                    padding: '10px',
                     boxShadow: '0 24px 50px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0, 0, 0, 0.9)'
                   }}>
-                    <img 
-                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" 
-                      alt="Kriss - Founder of KrissMaagiic" 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover', 
-                        objectPosition: 'center',
+                    <img
+                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp"
+                      alt="Kriss - Founder of KrissMaagiic"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center top',
                         borderRadius: '16px',
-                        transform: 'scale(1.32)',
                         transition: 'transform 0.4s ease'
                       }}
                     />
@@ -250,6 +252,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== MOBILE SEARCH BAR ===== */}
+      <MobileSearchBar />
+
       {/* ===== SACRED INTUITIVE SESSIONS ===== */}
       <section className="services-section section-pad">
         <div className="container">
@@ -268,85 +273,143 @@ export default function Home() {
         </div>
 
         {/* ===== CUSTOM SESSIONS CAROUSEL - outside container for full-width on mobile ===== */}
-        <div
-          id="sessions-carousel"
-          onScroll={handleCarouselScroll}
-          style={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            overflowX: 'auto',
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch',
-            overscrollBehaviorX: 'contain',
-            gap: 0,
-            msOverflowStyle: 'none',
-            scrollbarWidth: 'none',
-            padding: '0 0 16px 0',
-            background: 'var(--light-2)',
-          }}
-        >
-          {homepageServices.map((svc, idx) => (
-            <div
-              key={svc.title}
-              className="sessions-carousel-slide"
-              style={{
-                flex: '0 0 25%',
-                width: '25%',
-                minWidth: '25%',
-                maxWidth: '25%',
-                scrollSnapAlign: 'start',
-                padding: '0 12px',
-                boxSizing: 'border-box',
-              }}
-            >
-              <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
-                <div className={`session-card${svc.featured ? ' featured' : ''}`}>
-                  {svc.featured && <span className="session-popular-badge">Most Popular</span>}
-                  <div className="session-icon-wrap">
-                    <div className="session-icon">
-                      <i className={svc.icon}></i>
+        <div style={{ position: 'relative' }}>
+          {/* Mobile-only prev arrow */}
+          <button
+            type="button"
+            aria-label="Previous service"
+            className="d-lg-none"
+            onClick={() => {
+              const container = document.getElementById('sessions-carousel');
+              if (container) {
+                const newIdx = Math.max(0, activeSessionIdx - 1);
+                container.scrollTo({ left: newIdx * container.clientWidth, behavior: 'smooth' });
+              }
+            }}
+            style={{
+              position: 'absolute', left: 8, top: '50%', transform: 'translateY(-60%)',
+              zIndex: 10, width: 38, height: 38, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #2D1B0E, #1C0A02)',
+              border: '1.5px solid rgba(200,149,108,0.55)',
+              color: '#C8956C', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+              opacity: activeSessionIdx === 0 ? 0.3 : 1,
+              pointerEvents: activeSessionIdx === 0 ? 'none' : 'auto',
+              transition: 'opacity 0.2s',
+            }}
+          >
+            <i className="fa-solid fa-chevron-left" style={{ fontSize: '0.8rem' }}></i>
+          </button>
+
+          {/* Mobile-only next arrow */}
+          <button
+            type="button"
+            aria-label="Next service"
+            className="d-lg-none"
+            onClick={() => {
+              const container = document.getElementById('sessions-carousel');
+              if (container) {
+                const newIdx = Math.min(homepageServices.length - 1, activeSessionIdx + 1);
+                container.scrollTo({ left: newIdx * container.clientWidth, behavior: 'smooth' });
+              }
+            }}
+            style={{
+              position: 'absolute', right: 8, top: '50%', transform: 'translateY(-60%)',
+              zIndex: 10, width: 38, height: 38, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #2D1B0E, #1C0A02)',
+              border: '1.5px solid rgba(200,149,108,0.55)',
+              color: '#C8956C', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+              opacity: activeSessionIdx === homepageServices.length - 1 ? 0.3 : 1,
+              pointerEvents: activeSessionIdx === homepageServices.length - 1 ? 'none' : 'auto',
+              transition: 'opacity 0.2s',
+            }}
+          >
+            <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.8rem' }}></i>
+          </button>
+
+          <div
+            id="sessions-carousel"
+            onScroll={handleCarouselScroll}
+            style={{
+              display: 'flex',
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehaviorX: 'contain',
+              gap: 0,
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+              padding: '0 0 16px 0',
+              background: 'var(--light-2)',
+            }}
+          >
+            {homepageServices.map((svc, idx) => (
+              <div
+                key={svc.title}
+                className="sessions-carousel-slide"
+                style={{
+                  flex: '0 0 25%',
+                  width: '25%',
+                  minWidth: '25%',
+                  maxWidth: '25%',
+                  scrollSnapAlign: 'start',
+                  padding: '0 12px',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <ScrollFade delay={idx * 100} className="h-100 d-flex flex-column">
+                  <div className={`session-card${svc.featured ? ' featured' : ''}`}>
+                    {svc.featured && <span className="session-popular-badge">Most Popular</span>}
+                    <div className="session-icon-wrap">
+                      <div className="session-icon">
+                        <i className={svc.icon}></i>
+                      </div>
+                    </div>
+                    <div className="session-body">
+                      <span className="session-path">✦ {svc.path} ✦</span>
+                      <h3 className="session-title">{svc.title}</h3>
+                      <p className="session-category">{svc.category}</p>
+                      <p className="session-desc">{svc.desc}</p>
+                      <ul className="session-bullets">
+                        {svc.bullets.map((b) => (
+                          <li key={b}>
+                            <span className="session-bullet-mark">✦</span> {b}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="session-price-range">
+                        <span className="price-range-label">Energy Exchange</span>
+                        <span className="price-range-value">
+                          {(() => {
+                            const minTier = svc.tiers.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
+                            const maxTier = svc.tiers.reduce((prev, curr) => prev.price > curr.price ? prev : curr);
+                            return (
+                              <>
+                                <SimplePrice price={minTier.price} usdPrice={(minTier as any).usdPrice} />
+                                {' – '}
+                                <SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} />
+                              </>
+                            );
+                          })()}
+                        </span>
+                      </div>
+                      <Link
+                        href={svc.bookingUrl || `/booking/${svc.slug}`}
+                        className="session-cta"
+                        style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
+                      >
+                        Book Now
+                      </Link>
                     </div>
                   </div>
-                  <div className="session-body">
-                    <span className="session-path">✦ {svc.path} ✦</span>
-                    <h3 className="session-title">{svc.title}</h3>
-                    <p className="session-category">{svc.category}</p>
-                    <p className="session-desc">{svc.desc}</p>
-                    <ul className="session-bullets">
-                      {svc.bullets.map((b) => (
-                        <li key={b}>
-                          <span className="session-bullet-mark">✦</span> {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="session-price-range">
-                      <span className="price-range-label">Energy Exchange</span>
-                      <span className="price-range-value">
-                        {(() => {
-                          const minTier = svc.tiers.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
-                          const maxTier = svc.tiers.reduce((prev, curr) => prev.price > curr.price ? prev : curr);
-                          return (
-                            <>
-                              <SimplePrice price={minTier.price} usdPrice={(minTier as any).usdPrice} />
-                              {' – '}
-                              <SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} />
-                            </>
-                          );
-                        })()}
-                      </span>
-                    </div>
-                    <Link
-                      href={svc.bookingUrl || `/booking/${svc.slug}`}
-                      className="session-cta"
-                      style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
-                    >
-                      Book Now
-                    </Link>
-                  </div>
-                </div>
-              </ScrollFade>
-            </div>
-          ))}
+                </ScrollFade>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="container">

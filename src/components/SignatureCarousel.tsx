@@ -67,7 +67,7 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
               position: 'relative',
               width: '100%',
               aspectRatio: '1/1',
-              maxWidth: '500px',
+              maxWidth: '360px',
               margin: '0 auto',
               borderRadius: '24px',
               border: '1px solid rgba(200, 149, 108, 0.25)',

@@ -20,7 +20,10 @@ export default async function EditServicePage(props: PageProps<'/admin/services/
         id={String(s._id)}
         initial={{
           slug: s.slug, title: s.title, tagline: s.tagline, desc: s.desc, image: s.image,
-          icon: s.icon, price: s.price, durationMins: s.durationMins, bullets: s.bullets, active: s.active,
+          icon: s.icon, price: s.price, usdPrice: (s as any).usdPrice ?? 0,
+          durationMins: s.durationMins, bullets: s.bullets,
+          tiers: ((s as any).tiers ?? []).map((t: any) => ({ label: t.label, price: t.price, usdPrice: t.usdPrice ?? 0 })),
+          active: s.active,
         }}
       />
     </div>

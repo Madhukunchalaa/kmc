@@ -26,20 +26,20 @@ export default async function DashboardHome() {
       </h1>
       <p style={{ color: 'var(--text-light,#666)' }}>Here&apos;s a quick snapshot of your activity.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
+      <div className="dash-stat-grid">
         {[
           { label: 'Orders', value: orders, icon: 'fa-solid fa-bag-shopping', color: '#C9A84C', href: '/dashboard/orders' },
           { label: 'Bookings', value: bookings, icon: 'fa-solid fa-calendar-check', color: '#4CAF50', href: '/dashboard/bookings' },
-          { label: 'Unread Notifications', value: unread, icon: 'fa-solid fa-bell', color: '#C8956C', href: '/dashboard/notifications' },
+          { label: 'Alerts', value: unread, icon: 'fa-solid fa-bell', color: '#C8956C', href: '/dashboard/notifications' },
         ].map((c) => (
           <Link key={c.label} href={c.href} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div style={{ background: '#fff', padding: '1.25rem', borderRadius: 14, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ width: 48, height: 48, borderRadius: 12, background: c.color + '22', color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="dash-stat-card" style={{ background: '#fff', padding: '1.1rem', borderRadius: 14, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', display: 'flex', alignItems: 'center', gap: '0.85rem', height: '100%' }}>
+              <div className="dash-stat-icon" style={{ width: 46, height: 46, borderRadius: 12, background: c.color + '22', color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <i className={c.icon}></i>
               </div>
-              <div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-light,#999)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{c.label}</div>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 700 }}>{c.value}</div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-light,#999)', textTransform: 'uppercase', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>{c.label}</div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.55rem', fontWeight: 700, lineHeight: 1.1 }}>{c.value}</div>
               </div>
             </div>
           </Link>

@@ -97,8 +97,14 @@ export const serviceInputSchema = z.object({
   image: z.string().min(1),
   icon: z.string().max(120).default('fa-solid fa-sparkles'),
   price: z.number().min(0),
+  usdPrice: z.number().min(0).default(0),
   durationMins: z.number().int().min(5).max(600),
   bullets: z.array(z.string()).default([]),
+  tiers: z.array(z.object({
+    label: z.string().min(1).max(200),
+    price: z.number().min(0),
+    usdPrice: z.number().min(0).default(0),
+  })).default([]),
   active: z.boolean().default(true),
 });
 

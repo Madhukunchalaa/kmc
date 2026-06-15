@@ -50,8 +50,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="col-6 col-lg-2">
+          {/* Quick Links — desktop only */}
+          <div className="col-6 col-lg-2 d-none d-lg-block">
             <h6 className="footer-heading">Navigate</h6>
             <ul className="footer-links">
               <li><Link href="/">Home</Link></li>
@@ -63,8 +63,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
-          <div className="col-6 col-lg-2">
+          {/* Services — desktop only */}
+          <div className="col-6 col-lg-2 d-none d-lg-block">
             <h6 className="footer-heading">Services</h6>
             <ul className="footer-links">
               <li><Link href="/services#tarot">Tarot Readings</Link></li>
@@ -72,6 +72,65 @@ export default function Footer() {
               <li><Link href="/services#spelljar">Spell Jars</Link></li>
               <li><Link href="/services#numerology">Numerology</Link></li>
             </ul>
+          </div>
+
+          {/* ── Mobile-only: all links in one centered strip ── */}
+          <div className="col-12 d-lg-none">
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '8px 6px',
+              padding: '4px 0 8px',
+            }}>
+              {[
+                { label: 'Home',          href: '/' },
+                { label: 'Shop',          href: '/shop' },
+                { label: 'Services',      href: '/services' },
+                { label: 'Crystal Guide', href: '/crystal-strength' },
+                { label: 'About',         href: '/about' },
+                { label: 'Contact',       href: '/contact' },
+                { label: 'Tarot',         href: '/services#tarot' },
+                { label: 'Candle Spells', href: '/services#candle' },
+                { label: 'Spell Jars',    href: '/services#spelljar' },
+                { label: 'Numerology',    href: '/services#numerology' },
+              ].map((item, i, arr) => (
+                <span key={item.href} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Link
+                    href={item.href}
+                    style={{
+                      display: 'inline-block',
+                      padding: '5px 13px',
+                      borderRadius: 30,
+                      border: '1px solid rgba(160,98,42,0.35)',
+                      background: 'rgba(200,149,108,0.1)',
+                      color: '#5C3D2E',
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                      transition: 'background 0.18s, color 0.18s, border-color 0.18s',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(200,149,108,0.22)';
+                      (e.currentTarget as HTMLElement).style.color = '#A0622A';
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(160,98,42,0.65)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(200,149,108,0.1)';
+                      (e.currentTarget as HTMLElement).style.color = '#5C3D2E';
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(160,98,42,0.35)';
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                  {i < arr.length - 1 && (
+                    <i className="fa-solid fa-diamond" style={{ fontSize: '0.3rem', color: 'rgba(160,98,42,0.55)', flexShrink: 0 }}></i>
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Contact */}

@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { connectMongoose } from '@/lib/mongoose';
 import { User } from '@/models/User';
-import { resetPasswordSchema, zodErrorMessage } from '@/lib/validators';
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -11,22 +10,26 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ ok: false, reason: 'bad-json' }, { status: 400 });
   }
-  const parsed = resetPasswordSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
-  }
 
-  const { token, password } = parsed.data;
+  const { email, otp, password } = body as { email?: string; otp?: string; password?: string };
+
+  if (!email || !otp || !password) {
+    return NextResponse.json({ ok: false, reason: 'email, otp and password are required' }, { status: 400 });
+  }
+  if (password.length < 8) {
+    return NextResponse.json({ ok: false, reason: 'password-too-short' }, { status: 400 });
+  }
 
   try {
     await connectMongoose();
     const user = await User.findOne({
-      resetToken: token,
+      email: email.toLowerCase().trim(),
+      resetToken: otp.trim(),
       resetTokenExpires: { $gt: new Date() },
       active: true,
     });
     if (!user) {
-      return NextResponse.json({ ok: false, reason: 'invalid-or-expired-token' }, { status: 400 });
+      return NextResponse.json({ ok: false, reason: 'invalid-or-expired-otp' }, { status: 400 });
     }
     user.passwordHash = await bcrypt.hash(password, 12);
     user.resetToken = null;

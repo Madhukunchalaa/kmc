@@ -1,5 +1,11 @@
 import mongoose, { Schema, models, model, Model } from 'mongoose';
 
+export interface ServiceTier {
+  label: string;
+  price: number;
+  usdPrice?: number;
+}
+
 export interface ServiceDoc {
   _id: mongoose.Types.ObjectId;
   slug: string;
@@ -9,8 +15,10 @@ export interface ServiceDoc {
   image: string;
   icon: string;
   price: number;
+  usdPrice?: number;
   durationMins: number;
   bullets: string[];
+  tiers: ServiceTier[];
   active: boolean;
   isDeleted: boolean;
   createdAt: Date;
@@ -26,8 +34,13 @@ const ServiceSchema = new Schema<ServiceDoc>(
     image: { type: String, required: true },
     icon: { type: String, default: 'fa-solid fa-sparkles' },
     price: { type: Number, required: true, min: 0 },
+    usdPrice: { type: Number, default: 0 },
     durationMins: { type: Number, default: 30 },
     bullets: { type: [String], default: [] },
+    tiers: {
+      type: [{ label: String, price: Number, usdPrice: Number }],
+      default: [],
+    },
     active: { type: Boolean, default: true, index: true },
     isDeleted: { type: Boolean, default: false, index: true },
   },

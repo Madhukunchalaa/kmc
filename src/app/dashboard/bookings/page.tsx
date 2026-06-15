@@ -21,9 +21,9 @@ export default async function MyBookings() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', margin: 0 }}>My Bookings</h1>
-        <Link href="/services" className="btn-primary-custom">
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '1rem' }}>
+        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', margin: 0 }}>My Bookings</h1>
+        <Link href="/services" className="btn-primary-custom" style={{ flexShrink: 0 }}>
           <i className="fa-solid fa-wand-magic-sparkles"></i><span>Book a session</span>
         </Link>
       </div>

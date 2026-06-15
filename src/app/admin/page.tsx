@@ -5,6 +5,7 @@ import { Booking } from '@/models/Booking';
 import { Product } from '@/models/Product';
 import { User } from '@/models/User';
 import DashboardCharts from './DashboardCharts';
+import MonthlyExport from './MonthlyExport';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Dashboard · Admin' };
@@ -229,6 +230,9 @@ export default async function AdminHome() {
           );
         })}
       </div>
+
+      {/* Monthly Export */}
+      <MonthlyExport />
 
       {/* Analytics Charts Redirection */}
       <DashboardCharts dailyMetrics={stats.dailyMetrics} categorySummary={stats.categorySummary} />

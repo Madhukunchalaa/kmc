@@ -450,12 +450,12 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Nav links ── */
 .navbar-custom .nav-link {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--dark-2) !important;
-  padding: 0.5rem 0.9rem !important;
+  padding: 0.5rem 0.55rem !important;
   position: relative;
   transition: color 0.25s ease, background 0.25s ease;
   border-radius: 8px;
@@ -490,7 +490,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 992px) {
   .navbar-custom .navbar-nav {
-    gap: 24px !important;
+    gap: 2px !important;
   }
 }
 
@@ -2863,7 +2863,6 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition);
 }
 
-/*
 .crystal-card:hover {
   transform: translateY(-8px);
   background: rgba(255, 255, 255, 0.1);
@@ -2871,7 +2870,6 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 20px 50px rgba(200, 149, 108, 0.2), 0 0 30px rgba(162, 59, 236, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .crystal-card:hover::before { transform: scale(2); }
-*/
 
 .crystal-gem {
   width: 80px;
@@ -3533,10 +3531,10 @@ h1, h2, h3, h4, h5, h6 {
 /* ---------- Chat Float ---------- */
 .chat-float-wrapper {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  width: 150px;
-  height: 150px;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3591,8 +3589,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Jathaka Chakra Astrology Background Container */
 .astro-chakra-container {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   z-index: 991;
   display: flex;
   align-items: center;
@@ -8084,6 +8082,193 @@ body.has-test-banner .navbar.navbar-custom {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   THEMED SCROLLBAR — Services Tiers Grid
+═══════════════════════════════════════════ */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200,149,108,0.55) rgba(28,10,2,0.7);
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(28,10,2,0.7);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(200,149,108,0.55);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(200,149,108,0.85);
+}
+
+/* ═══════════════════════════════════════════
+   USER DASHBOARD — Mobile Responsive
+═══════════════════════════════════════════ */
+
+.dashboard-body {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) 1fr;
+  min-height: calc(100vh - 60px);
+}
+
+.dashboard-main {
+  padding: clamp(1rem, 2.5vw, 2rem);
+  min-width: 0;
+}
+
+.dashboard-sidebar {
+  background: #fff;
+  border-right: 1px solid rgba(0,0,0,0.06);
+  padding: 1.5rem 0.75rem;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.dashboard-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--text, #2D1B0E);
+  transition: background 0.15s, color 0.15s;
+}
+
+.dashboard-nav-link.active {
+  background: var(--primary, #C8956C);
+  color: #fff;
+  font-weight: 600;
+}
+
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-header-actions { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
+.dashboard-header-name { color: #888; }
+.dashboard-header-site { color: #888; text-decoration: none; }
+.dashboard-header-logout {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.1);
+  color: #666;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* Stat cards grid */
+.dash-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Orders table scroll wrapper */
+.dash-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+
+/* ── Mobile (< 992px) ── */
+@media (max-width: 991.98px) {
+
+  .dashboard-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    position: static !important;
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+    padding: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    scrollbar-width: none;
+  }
+  .dashboard-sidebar::-webkit-scrollbar { display: none; }
+
+  .dashboard-sidebar nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    padding: 6px 10px;
+    align-items: center;
+  }
+
+  .dashboard-nav-link {
+    flex-shrink: 0 !important;
+    padding: 7px 13px !important;
+    font-size: 0.78rem !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+    gap: 6px !important;
+  }
+
+  .dashboard-main {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    padding: 11px 16px;
+  }
+
+  .dashboard-header-name { display: none; }
+
+  .dashboard-header-site span { display: none; }
+
+  .dashboard-header-logout span { display: none; }
+  .dashboard-header-logout { padding: 6px 10px; }
+
+  .dash-stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+  }
+}
+
+/* ── Small phones (< 480px) ── */
+@media (max-width: 479.98px) {
+
+  .dash-stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .dash-stat-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    padding: 12px !important;
+  }
+
+  .dash-stat-icon {
+    width: 38px !important;
+    height: 38px !important;
   }
 }
 

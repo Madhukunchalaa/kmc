@@ -212,13 +212,13 @@ const SERVICE_FALLBACK: CatalogService[] = [
     id: 'candle',
     slug: 'candle',
     title: 'Bespoke Spell Casting Ritual',
-    tagline: 'Fire magic, lit with intention',
+    tagline: 'Spell Casting Services',
     desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and photo or video shared upon completion.',
     image: '/service-candle.png',
     icon: 'fa-solid fa-fire-flame-curved',
     price: 1800,
     durationMins: 45,
-    bullets: ['Custom-dressed candle', 'Spell performed on your behalf', 'Burn photo + ritual notes sent'],
+    bullets: ['Custom-dressed & blessed candles', 'Full altar ritual by the founder', 'Photo & video proof of the ritual'],
     tiers: SERVICE_TIERS.candle,
   },
   {
@@ -255,10 +255,13 @@ export async function getAllServices(): Promise<CatalogService[]> {
     const docs = await Service.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: 1 }).lean();
     if (docs.length === 0) return SERVICE_FALLBACK;
     return docs.map((d) => {
-      const tiers = SERVICE_TIERS[d.slug] || [];
+      // Use tiers stored in DB if present, otherwise fall back to hardcoded
+      const tiers: ServiceTier[] = (d.tiers && d.tiers.length > 0)
+        ? (d.tiers as ServiceTier[])
+        : (SERVICE_TIERS[d.slug] || []);
       const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : d.price;
       const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
-      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : Math.round(basePrice / 50);
+      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : ((d as any).usdPrice || Math.round(basePrice / 50));
 
       return {
         id: String(d._id),

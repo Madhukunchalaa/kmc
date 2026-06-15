@@ -18,6 +18,7 @@
     "@cashfreepayments/cashfree-js": "^1.0.7",
     "bcryptjs": "^3.0.3",
     "cashfree-pg": "^6.0.4",
+    "exceljs": "^4.4.0",
     "mongodb": "^7.2.0",
     "mongoose": "^9.6.2",
     "next": "16.2.6",

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
 import { connectMongoose } from '@/lib/mongoose';
 import { User } from '@/models/User';
 import { forgotPasswordSchema, zodErrorMessage } from '@/lib/validators';
-import { sendEmail, passwordResetEmail } from '@/lib/email';
+import { sendEmail, passwordResetOtpEmail } from '@/lib/email';
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -25,15 +28,15 @@ export async function POST(req: Request) {
     // Always respond OK to avoid leaking which emails are registered.
     if (!user) return NextResponse.json({ ok: true });
 
-    const token = crypto.randomBytes(32).toString('hex');
-    user.resetToken = token;
-    user.resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const otp = generateOTP();
+    user.resetToken = otp;
+    user.resetTokenExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
     await user.save();
 
-    const base = process.env.NEXTAUTH_URL || '';
-    const resetUrl = `${base}/reset-password?token=${token}`;
-    await sendEmail({ ...passwordResetEmail(user.name, resetUrl), to: user.email }).catch((err) => {
-      console.error('[forgot-password-email-error]', err);
+    const msg = passwordResetOtpEmail(user.name, otp);
+    msg.to = user.email;
+    await sendEmail(msg).catch((err) => {
+      console.error('[forgot-password-otp-email-error]', err);
     });
 
     return NextResponse.json({ ok: true });

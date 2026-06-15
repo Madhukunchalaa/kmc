@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+interface Tier {
+  label: string;
+  price: number;
+  usdPrice: number;
+}
+
 interface Initial {
   slug: string;
   title: string;
@@ -11,13 +17,17 @@ interface Initial {
   image: string;
   icon: string;
   price: number;
+  usdPrice: number;
   durationMins: number;
   bullets: string[];
+  tiers: Tier[];
   active: boolean;
 }
 
 const EMPTY: Initial = {
-  slug: '', title: '', tagline: '', desc: '', image: '', icon: 'fa-solid fa-sparkles', price: 0, durationMins: 30, bullets: [], active: true
+  slug: '', title: '', tagline: '', desc: '', image: '',
+  icon: 'fa-solid fa-sparkles', price: 0, usdPrice: 0,
+  durationMins: 30, bullets: [], tiers: [], active: true,
 };
 
 export default function ServiceForm({ id, initial }: { id?: string; initial?: Initial }) {
@@ -29,36 +39,37 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
 
   const set = <K extends keyof Initial>(k: K, v: Initial[K]) => setF((s) => ({ ...s, [k]: v }));
 
-  // File upload handler
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     setUploading(true);
     setErr(null);
-
     try {
       const formData = new FormData();
       formData.append('file', file);
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.reason || 'Upload failed');
-      }
-
+      if (!res.ok || !data.ok) throw new Error(data.reason || 'Upload failed');
       set('image', data.url);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'File upload error';
-      setErr(msg);
+      setErr(err instanceof Error ? err.message : 'File upload error');
     } finally {
       setUploading(false);
     }
   };
+
+  const addTier = () =>
+    setF((s) => ({ ...s, tiers: [...s.tiers, { label: '', price: 0, usdPrice: 0 }] }));
+
+  const updateTier = (idx: number, field: keyof Tier, value: string | number) =>
+    setF((s) => {
+      const tiers = [...s.tiers];
+      tiers[idx] = { ...tiers[idx], [field]: value };
+      return { ...s, tiers };
+    });
+
+  const removeTier = (idx: number) =>
+    setF((s) => ({ ...s, tiers: s.tiers.filter((_, i) => i !== idx) }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,11 +84,7 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
         body: JSON.stringify(f),
       });
       const data = await res.json();
-      if (!data.ok) {
-        setErr(data.reason || 'Failed');
-        setSaving(false);
-        return;
-      }
+      if (!data.ok) { setErr(data.reason || 'Failed'); setSaving(false); return; }
       router.push('/admin/services');
       router.refresh();
     } catch {
@@ -86,28 +93,37 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
     }
   };
 
+  const labelStyle: React.CSSProperties = { fontSize: '0.85rem', fontWeight: 600 };
+  const inputStyle: React.CSSProperties = { width: '100%' };
+
   return (
-    <form onSubmit={submit} style={{ background: '#fff', padding: 24, borderRadius: 14, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', maxWidth: 820, marginTop: 16 }}>
+    <form onSubmit={submit} style={{ background: '#fff', padding: 24, borderRadius: 14, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', maxWidth: 860, marginTop: 16 }}>
       <div className="row g-3">
+        {/* Title + Slug */}
         <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Title *</label>
-          <input required value={f.title} onChange={(e) => set('title', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Tarot Reading Session" />
+          <label style={labelStyle}>Title *</label>
+          <input required value={f.title} onChange={(e) => set('title', e.target.value)} className="newsletter-input" style={inputStyle} placeholder="e.g. Tarot Reading Session" />
         </div>
         <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Slug *</label>
-          <input required value={f.slug} onChange={(e) => set('slug', e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. tarot-reading" />
-        </div>
-        <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Tagline</label>
-          <input value={f.tagline} onChange={(e) => set('tagline', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Connect with your guides and find clarity." />
-        </div>
-        <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Description *</label>
-          <textarea required rows={4} value={f.desc} onChange={(e) => set('desc', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="Describe what this service entails..." />
+          <label style={labelStyle}>Slug *</label>
+          <input required value={f.slug} onChange={(e) => set('slug', e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))} className="newsletter-input" style={inputStyle} placeholder="e.g. tarot-reading" />
         </div>
 
+        {/* Tagline */}
+        <div className="col-12">
+          <label style={labelStyle}>Tagline</label>
+          <input value={f.tagline} onChange={(e) => set('tagline', e.target.value)} className="newsletter-input" style={inputStyle} placeholder="e.g. Connect with your guides and find clarity." />
+        </div>
+
+        {/* Description */}
+        <div className="col-12">
+          <label style={labelStyle}>Description *</label>
+          <textarea required rows={4} value={f.desc} onChange={(e) => set('desc', e.target.value)} className="newsletter-input" style={inputStyle} placeholder="Describe what this service entails..." />
+        </div>
+
+        {/* Image */}
         <div className="col-md-8">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>Service Image *</label>
+          <label style={{ ...labelStyle, display: 'block', marginBottom: '0.5rem' }}>Service Image *</label>
           <div className="d-flex gap-2 mb-2">
             <div style={{ position: 'relative' }}>
               <input type="file" id="service-image-upload" style={{ display: 'none' }} accept="image/*" onChange={handleFileUpload} disabled={uploading} />
@@ -135,22 +151,78 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
           )}
         </div>
 
-        <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Icon (FontAwesome class name)</label>
-          <input value={f.icon} onChange={(e) => set('icon', e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. fa-solid fa-wand-magic-sparkles" />
+        {/* Icon + Base Price + USD Price + Duration */}
+        <div className="col-md-4">
+          <label style={labelStyle}>Icon (FontAwesome class)</label>
+          <input value={f.icon} onChange={(e) => set('icon', e.target.value)} className="newsletter-input" style={inputStyle} placeholder="e.g. fa-solid fa-wand-magic-sparkles" />
         </div>
-        <div className="col-md-3">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Price (₹) *</label>
-          <input required type="number" min={0} value={f.price} onChange={(e) => set('price', Number(e.target.value))} className="newsletter-input" style={{ width: '100%' }} />
+        <div className="col-md-2">
+          <label style={labelStyle}>Base Price ₹ *</label>
+          <input required type="number" min={0} value={f.price} onChange={(e) => set('price', Number(e.target.value))} className="newsletter-input" style={inputStyle} />
         </div>
-        <div className="col-md-3">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Duration (min) *</label>
-          <input required type="number" min={5} value={f.durationMins} onChange={(e) => set('durationMins', Number(e.target.value))} className="newsletter-input" style={{ width: '100%' }} />
+        <div className="col-md-2">
+          <label style={labelStyle}>Base Price $ </label>
+          <input type="number" min={0} value={f.usdPrice} onChange={(e) => set('usdPrice', Number(e.target.value))} className="newsletter-input" style={inputStyle} />
         </div>
+        <div className="col-md-2">
+          <label style={labelStyle}>Duration (min)</label>
+          <input type="number" min={5} value={f.durationMins} onChange={(e) => set('durationMins', Number(e.target.value))} className="newsletter-input" style={inputStyle} />
+        </div>
+
+        {/* Bullets */}
         <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>What&apos;s included (one bullet per line)</label>
-          <textarea rows={4} value={f.bullets.join('\n')} onChange={(e) => set('bullets', e.target.value.split('\n').map((s) => s.trim()).filter(Boolean))} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. 30 Minutes Live Session&#10;Q&A session included&#10;Audio recording of reading" />
+          <label style={labelStyle}>What&apos;s included (one bullet per line)</label>
+          <textarea rows={4} value={f.bullets.join('\n')} onChange={(e) => set('bullets', e.target.value.split('\n').map((s) => s.trim()).filter(Boolean))} className="newsletter-input" style={inputStyle} placeholder="e.g. 30 Minutes Live Session&#10;Q&A session included&#10;Audio recording of reading" />
         </div>
+
+        {/* Pricing Tiers */}
+        <div className="col-12">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <label style={labelStyle}>Pricing Tiers</label>
+            <button type="button" onClick={addTier} className="btn-outline-custom" style={{ padding: '6px 16px', fontSize: '0.8rem' }}>
+              <i className="fa-solid fa-plus me-1"></i> Add Tier
+            </button>
+          </div>
+          {f.tiers.length === 0 && (
+            <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0 }}>No tiers yet — click "Add Tier" to create multiple pricing options.</p>
+          )}
+          <div style={{ display: 'grid', gap: 8 }}>
+            {f.tiers.map((tier, idx) => (
+              <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1fr 120px 100px 36px', gap: 8, alignItems: 'center', padding: '8px 12px', background: '#FAF6F1', borderRadius: 8, border: '1px solid rgba(0,0,0,0.07)' }}>
+                <input
+                  value={tier.label}
+                  onChange={(e) => updateTier(idx, 'label', e.target.value)}
+                  className="newsletter-input"
+                  style={{ margin: 0 }}
+                  placeholder="e.g. Single Reading (Yes/No)"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  value={tier.price}
+                  onChange={(e) => updateTier(idx, 'price', Number(e.target.value))}
+                  className="newsletter-input"
+                  style={{ margin: 0 }}
+                  placeholder="₹ Price"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  value={tier.usdPrice}
+                  onChange={(e) => updateTier(idx, 'usdPrice', Number(e.target.value))}
+                  className="newsletter-input"
+                  style={{ margin: 0 }}
+                  placeholder="$ Price"
+                />
+                <button type="button" onClick={() => removeTier(idx)} style={{ width: 32, height: 32, borderRadius: 6, background: '#D95F5F', color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fa-solid fa-trash" style={{ fontSize: '0.7rem' }}></i>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Active toggle */}
         <div className="col-12">
           <label style={{ fontSize: '0.9rem', display: 'inline-flex', gap: 8, alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}>
             <input type="checkbox" checked={f.active} onChange={(e) => set('active', e.target.checked)} style={{ width: 16, height: 16 }} />
@@ -158,7 +230,9 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
           </label>
         </div>
       </div>
+
       {err && <p style={{ color: '#D95F5F', marginTop: 12 }}><i className="fa-solid fa-circle-exclamation me-2"></i>{err}</p>}
+
       <div className="d-flex gap-3 mt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1.25rem' }}>
         <button type="submit" disabled={saving || uploading} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>
           <i className="fa-solid fa-save me-2"></i>

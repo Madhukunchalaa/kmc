@@ -181,6 +181,22 @@ export function passwordResetEmail(name: string, resetUrl: string): EmailMessage
   };
 }
 
+export function passwordResetOtpEmail(name: string, otp: string): EmailMessage {
+  return {
+    to: '',
+    subject: `Your password reset OTP is ${otp}`,
+    html: shell(
+      `Hi ${name},`,
+      `<p>We received a request to reset your KrissMaagiic Crystals password.</p>
+       <p>Your OTP to reset your password is:</p>
+       <div style="margin:24px 0;font-size:36px;font-weight:bold;letter-spacing:6px;color:#2D1B0E;text-align:center;padding:20px;background:#FAF6F1;border-radius:12px;border:1px solid rgba(200,149,108,0.2)">
+         ${otp}
+       </div>
+       <p style="color:#888;font-size:12px">This OTP is valid for 15 minutes. If you didn't request this, you can safely ignore the email.</p>`,
+    ),
+  };
+}
+
 export function otpEmail(name: string, otp: string): EmailMessage {
   return {
     to: '',

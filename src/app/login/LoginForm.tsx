@@ -119,10 +119,13 @@ export default function LoginForm() {
             <span>{submitting ? 'Logging in…' : 'Login'}</span>
           </button>
           
-          <div className="text-center" style={{ marginTop: '0.5rem' }}>
+          <div className="text-center" style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: 6 }}>
             <button type="button" onClick={() => { setMethod('otp'); setError(null); }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.85rem', cursor: 'pointer', textDecoration: 'underline' }}>
               Login with OTP instead
             </button>
+            <Link href="/forgot-password" style={{ color: '#888', fontSize: '0.85rem' }}>
+              Forgot password?
+            </Link>
           </div>
         </form>
       ) : step === 1 ? (

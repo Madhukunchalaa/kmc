@@ -132,7 +132,10 @@ export default function AdminLoginForm() {
         {submitting ? 'Verifying…' : 'Sign in to Admin'}
       </button>
 
-      <div style={{ textAlign: 'center', marginTop: 4 }}>
+      <div style={{ textAlign: 'center', marginTop: 4, display: 'flex', justifyContent: 'space-between' }}>
+        <Link href="/forgot-password" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem', textDecoration: 'none' }}>
+          Forgot password?
+        </Link>
         <Link href="/" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem', textDecoration: 'none' }}>
           ← Back to site
         </Link>

@@ -174,11 +174,11 @@ export default async function ServicesPage() {
                       <ul style={{ padding: 0, margin: '0 0 1.25rem', listStyle: 'none' }}>
                         {svc.bullets.map((b) => (
                           <li key={b} style={{
-                            display: 'flex', alignItems: 'flex-start', gap: '0.6rem',
-                            color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem',
-                            margin: '0.4rem 0',
+                            display: 'flex', alignItems: 'flex-start', gap: '0.65rem',
+                            color: 'rgba(255,255,255,0.75)', fontSize: '0.9rem',
+                            margin: '0.45rem 0',
                           }}>
-                            <i className="fa-solid fa-star-and-crescent" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.65rem', marginTop: 5, flexShrink: 0 }}></i>
+                            <span style={{ color: 'var(--primary,#C8956C)', fontSize: '0.9rem', lineHeight: 1.4, flexShrink: 0 }}>✦</span>
                             {b}
                           </li>
                         ))}

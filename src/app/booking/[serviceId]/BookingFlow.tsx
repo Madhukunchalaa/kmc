@@ -120,9 +120,8 @@ const VOICE_OPTIONS = [
 ];
 
 const AUDIO_TIERS = [
-  { label: '30 minutes (30min)', price: 1499, usdPrice: 30 },
-  { label: '1 hour (1hr)', price: 2999, usdPrice: 60 },
-  { label: '2 hours (2hr - only one slot, unlimited questions)', price: 5999, usdPrice: 120 },
+  { label: '30 minutes (30min)', price: 2499, usdPrice: 50 },
+  { label: '1 hour (1hr)', price: 4999, usdPrice: 100 },
 ];
 
 /* ─────────────────────────────────────────────── */
@@ -182,13 +181,13 @@ export default function BookingFlow({
   const activePrice = isTarot
     ? (tarotType === 'voice'
         ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.price, 0)
-        : (AUDIO_TIERS[tierIdx]?.price || 1499))
+        : (AUDIO_TIERS[tierIdx]?.price || 2499))
     : (selectedTier ? selectedTier.price : servicePrice);
 
   const activeUsdPrice = isTarot
     ? (tarotType === 'voice'
         ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.usdPrice, 0)
-        : (AUDIO_TIERS[tierIdx]?.usdPrice || 30))
+        : (AUDIO_TIERS[tierIdx]?.usdPrice || 50))
     : (selectedTier ? selectedTier.usdPrice : serviceUsdPrice);
 
 

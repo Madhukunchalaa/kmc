@@ -135,9 +135,8 @@ export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
     { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
     { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
     { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
-    { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
-    { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
-    { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
+    { label: 'Audio Call (30 min)', price: 2499, usdPrice: 50 },
+    { label: 'Audio Call (1 hour)', price: 4999, usdPrice: 100 },
   ],
   candle: [
     { label: 'Travel Safety / Safe Journeys', price: 1800, usdPrice: 35 },

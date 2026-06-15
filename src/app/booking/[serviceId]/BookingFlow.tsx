@@ -127,7 +127,7 @@ const AUDIO_TIERS = [
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, defaultName, defaultEmail,
+  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, defaultName, defaultEmail, initialType,
 }: {
   serviceId: string;
   serviceSlug: string;
@@ -137,6 +137,7 @@ export default function BookingFlow({
   tiers?: { label: string; price: number; usdPrice?: number }[];
   defaultName: string;
   defaultEmail: string;
+  initialType?: string;
 }) {
   const today = useMemo(() => new Date(), []);
   const { formatPrice, countryCode } = useCurrency();
@@ -164,7 +165,12 @@ export default function BookingFlow({
   const [done,         setDone]         = useState<{ bookingNumber: string; bookingId: string } | null>(null);
 
   // Tarot Specific States
-  const [tarotType, setTarotType] = useState<'voice' | 'audio'>('voice');
+  const [tarotType, setTarotType] = useState<'voice' | 'audio'>(() => {
+    if (initialType === 'video' || initialType === 'audio' || initialType === 'call') {
+      return 'audio';
+    }
+    return 'voice';
+  });
   const [selectedVoiceOptions, setSelectedVoiceOptions] = useState<string[]>(['yes_no']);
 
   // Determine rules based on service
@@ -381,70 +387,74 @@ export default function BookingFlow({
         <div style={cardStyle}>
           <h3 style={headingStyle}>
             <i className="fa-solid fa-wand-magic-sparkles" style={{ color: 'var(--primary,#C8956C)' }}></i>
-            1. Select Reading Type
+            {initialType
+              ? (tarotType === 'voice' ? '1. Select Options' : '1. Select Option')
+              : '1. Select Reading Type'}
           </h3>
           
           {/* Reading Type Selector Buttons */}
-          <div style={{
-            display: 'flex',
-            gap: 16,
-            marginBottom: 24,
-            width: '100%',
-            boxSizing: 'border-box'
-          }}>
-            <button
-              type="button"
-              onClick={() => {
-                setTarotType('voice');
-                setTierIdx(0);
-              }}
-              style={{
-                flex: 1,
-                padding: '16px 20px',
-                borderRadius: 16,
-                border: tarotType === 'voice' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
-                background: tarotType === 'voice'
-                  ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
-                  : 'rgba(255,255,255,0.05)',
-                color: '#fff',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: '1rem',
-                boxShadow: tarotType === 'voice' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
-                transition: 'all 0.25s ease',
-                backdropFilter: 'blur(8px)',
-                textAlign: 'center',
-              }}
-            >
-              🎙️ Voice Chat
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setTarotType('audio');
-                setTierIdx(0);
-              }}
-              style={{
-                flex: 1,
-                padding: '16px 20px',
-                borderRadius: 16,
-                border: tarotType === 'audio' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
-                background: tarotType === 'audio'
-                  ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
-                  : 'rgba(255,255,255,0.05)',
-                color: '#fff',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: '1rem',
-                boxShadow: tarotType === 'audio' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
-                transition: 'all 0.25s ease',
-                backdropFilter: 'blur(8px)',
-                textAlign: 'center',
-              }}
-            >
-              📞 Audio Call
-            </button>
-          </div>
+          {!initialType && (
+            <div style={{
+              display: 'flex',
+              gap: 16,
+              marginBottom: 24,
+              width: '100%',
+              boxSizing: 'border-box'
+            }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setTarotType('voice');
+                  setTierIdx(0);
+                }}
+                style={{
+                  flex: 1,
+                  padding: '16px 20px',
+                  borderRadius: 16,
+                  border: tarotType === 'voice' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                  background: tarotType === 'voice'
+                    ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                    : 'rgba(255,255,255,0.05)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  boxShadow: tarotType === 'voice' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                  transition: 'all 0.25s ease',
+                  backdropFilter: 'blur(8px)',
+                  textAlign: 'center',
+                }}
+              >
+                🎙️ Voice Chat
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTarotType('audio');
+                  setTierIdx(0);
+                }}
+                style={{
+                  flex: 1,
+                  padding: '16px 20px',
+                  borderRadius: 16,
+                  border: tarotType === 'audio' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                  background: tarotType === 'audio'
+                    ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                    : 'rgba(255,255,255,0.05)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  boxShadow: tarotType === 'audio' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                  transition: 'all 0.25s ease',
+                  backdropFilter: 'blur(8px)',
+                  textAlign: 'center',
+                }}
+              >
+                📞 Audio Call
+              </button>
+            </div>
+          )}
 
           {/* Render Options based on active type */}
           {tarotType === 'voice' ? (

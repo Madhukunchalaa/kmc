@@ -9,6 +9,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function BookingPage(props: PageProps<'/booking/[serviceId]'>) {
   const { serviceId } = await props.params;
+  const searchParams = await props.searchParams;
+  const initialType = (searchParams as any)?.type || '';
   const session = await auth();
   if (!session?.user) redirect(`/login?callbackUrl=/booking/${serviceId}`);
 
@@ -29,10 +31,25 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
         <div className="container">
           <Link href="/services" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>← All services</Link>
           <h1 className="hero-title" style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)', marginTop: 10 }}>
-            Book <span className="highlight">{service.title}</span>
+            Book <span className="highlight">
+              {service.slug === 'tarot' && (initialType === 'video' || initialType === 'audio' || initialType === 'call')
+                ? 'Live Tarot Reading — Video Call'
+                : service.slug === 'tarot' && initialType === 'voice'
+                ? 'Tarot Reading — Voice Chat'
+                : service.title}
+            </span>
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
-            <SimplePrice price={service.price} usdPrice={service.usdPrice} /> {service.slug !== 'candle' && service.slug !== 'spelljar' ? ` · ${service.durationMins} min` : ''}
+            {service.slug === 'tarot' && (initialType === 'video' || initialType === 'audio' || initialType === 'call') ? (
+              <>₹2,499 – ₹4,999 ($50 – $100) · 30–60 min</>
+            ) : service.slug === 'tarot' && initialType === 'voice' ? (
+              <>₹199 – ₹1,299 ($8 – $100) · Voice Notes</>
+            ) : (
+              <>
+                <SimplePrice price={service.price} usdPrice={service.usdPrice} /> 
+                {service.slug !== 'candle' && service.slug !== 'spelljar' ? ` · ${service.durationMins} min` : ''}
+              </>
+            )}
           </p>
         </div>
       </section>
@@ -76,6 +93,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             tiers={service.tiers}
             defaultName={session.user.name || ''}
             defaultEmail={session.user.email || ''}
+            initialType={initialType}
           />
         </div>
       </section>

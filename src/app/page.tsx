@@ -74,6 +74,7 @@ export default function Home() {
         { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
       ],
       slug: 'tarot',
+      bookingUrl: '/booking/tarot?type=voice',
       featured: false,
     },
     {
@@ -93,6 +94,7 @@ export default function Home() {
         { label: 'Audio Call (1 hour)', price: 4999, usdPrice: 100 },
       ],
       slug: 'tarot',
+      bookingUrl: '/booking/tarot?type=video',
       featured: false,
     },
     {
@@ -121,6 +123,7 @@ export default function Home() {
         { label: 'Cleansing / Blessing', price: 6300, usdPrice: 125 },
       ],
       slug: 'candle',
+      bookingUrl: '/booking/candle',
       featured: false,
     },
     {
@@ -143,6 +146,7 @@ export default function Home() {
         { label: 'Business / Brand', price: 9999, usdPrice: 200 },
       ],
       slug: 'numerology',
+      bookingUrl: '/booking/numerology',
       featured: false,
     },
   ];
@@ -294,11 +298,11 @@ export default function Home() {
                       </span>
                     </div>
                     <Link
-                      href={svc.slug === 'spelljar' ? `/shop?category=spelljar` : `/booking/${svc.slug}`}
+                      href={svc.bookingUrl || `/booking/${svc.slug}`}
                       className="session-cta"
                       style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
                     >
-                      {svc.slug === 'spelljar' ? 'Shop Jars' : 'Book Now'}
+                      Book Now
                     </Link>
                   </div>
                 </div>

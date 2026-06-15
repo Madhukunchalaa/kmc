@@ -189,7 +189,9 @@ export default function Home() {
                         height: '100%', 
                         objectFit: 'cover', 
                         objectPosition: 'center',
-                        borderRadius: '16px'
+                        borderRadius: '16px',
+                        transform: 'scale(1.32)',
+                        transition: 'transform 0.4s ease'
                       }}
                     />
                   </div>

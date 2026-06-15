@@ -105,7 +105,19 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                   <div className="crystal-tags" style={{ justifyContent: 'flex-start' }}>
                     {product.chakras
                       .filter((ch) => ch && ch.trim())
-                      .map((ch) => <span className="crystal-tag" key={ch}>{ch}</span>)}
+                      .map((ch) => (
+                        <span 
+                          className="crystal-tag" 
+                          key={ch}
+                          style={{
+                            background: 'rgba(200, 149, 108, 0.12)',
+                            color: '#8A4F27',
+                            borderColor: 'rgba(200, 149, 108, 0.35)'
+                          }}
+                        >
+                          {ch}
+                        </span>
+                      ))}
                   </div>
                 </div>
               )}

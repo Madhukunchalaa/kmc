@@ -37,24 +37,24 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
           
           {/* Left Column: Description & CTAs */}
           <div className="col-lg-5 text-center text-lg-start">
-            <span className="section-eyebrow" style={{ color: '#D4AF37' }}>
+            <span className="section-eyebrow text-center text-lg-start d-block" style={{ color: '#D4AF37' }}>
               <i className="fa-solid fa-crown me-2"></i>KrissMaagiic Exclusive
             </span>
-            <h2 className="section-title text-white" style={{ textAlign: 'left', margin: '0.5rem 0 1.5rem' }}>
+            <h2 className="section-title text-white text-center text-lg-start" style={{ margin: '0.5rem 0 1.5rem' }}>
               Signature <span>Crystals</span>
             </h2>
             <div className="divider-ornament d-lg-none" style={{ margin: '0 auto 1.5rem' }}>
               <i className="fa-solid fa-diamond-turn-right" style={{ color: '#D4AF37' }}></i>
             </div>
             
-            <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
+            <p className="text-center text-lg-start" style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
               Our most premium, meticulously crafted bracelets, energized specifically for alignment, growth, and transformation.
             </p>
-            <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem' }}>
+            <p className="text-center text-lg-start" style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, fontSize: '0.95rem', marginBottom: '2rem' }}>
               Designed personally by Kriss, each signature piece pairs rare, high-resonance authentic crystals to amplify specific energies, ensuring they act as potent catalysts for your spiritual journey.
             </p>
             
-            <div>
+            <div className="text-center text-lg-start">
               <Link href="/shop?category=signature" className="btn-primary-custom">
                 <span>Explore Signature Collection</span>
               </Link>

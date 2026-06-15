@@ -7786,11 +7786,20 @@ body.theme-rose .hero-v2-orb {
     padding: calc(var(--navbar-height) + 14rem) 5% 3rem;
   }
   .hero-editorial-stats {
-    flex-wrap: wrap;
-    gap: 2rem 0;
+    flex-wrap: nowrap;
+    gap: 0 0.5rem;
+    padding: 1.5rem 2%;
   }
   .hero-editorial-stat {
-    width: 50%;
+    width: 25%;
+    text-align: center;
+  }
+  .hero-editorial-stat-num {
+    font-size: 1.35rem;
+  }
+  .hero-editorial-stat-lbl {
+    font-size: 0.58rem;
+    letter-spacing: 0.5px;
   }
   .hero-editorial-img {
     object-fit: contain;

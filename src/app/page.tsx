@@ -54,14 +54,13 @@ export default function Home() {
     {
       path: 'PATH I',
       icon: 'fa-solid fa-headphones',
-      title: 'Tarot Reading — Voice & Audio Call',
+      title: 'Tarot Reading — Voice Chat',
       category: 'Tarot Readings',
-      desc: 'Select custom voice note readings delivered to your WhatsApp, or book a live audio call session to connect directly with the founder for real-time guidance.',
+      desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your questions within 24–48 hours of your session booking.',
       bullets: [
-        'Voice chat reading (from ₹199 / $8)',
-        'Live audio call (from ₹1499 / $30)',
-        'Submit questions or connect live',
-        'Gain clarity on love, career, finances, and life decisions',
+        'No live timer pressure',
+        'Submit questions 24–48 hours before',
+        'Audio recorded directly by the founder',
       ],
       tiers: [
         { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
@@ -73,6 +72,23 @@ export default function Home() {
         { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
         { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
         { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+      ],
+      slug: 'tarot',
+      featured: false,
+    },
+    {
+      path: 'PATH II',
+      icon: 'fa-solid fa-video',
+      title: 'Live Tarot Reading — Video Call',
+      category: 'Tarot Readings',
+      desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
+      bullets: [
+        'Live face-to-face interaction',
+        'Instant card-pull explanations',
+        'WhatsApp video options',
+        'Live energetic connection',
+      ],
+      tiers: [
         { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
         { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
         { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
@@ -81,7 +97,7 @@ export default function Home() {
       featured: false,
     },
     {
-      path: 'PATH II',
+      path: 'PATH III',
       icon: 'fa-solid fa-wand-magic-sparkles',
       title: 'Bespoke Spell Casting Ritual',
       category: 'Spell Casting Services',
@@ -106,25 +122,6 @@ export default function Home() {
         { label: 'Cleansing / Blessing', price: 6300, usdPrice: 125 },
       ],
       slug: 'candle',
-      featured: false,
-    },
-    {
-      path: 'PATH III',
-      icon: 'fa-solid fa-jar',
-      title: 'Spell Jars',
-      category: 'Cosmic Jars',
-      desc: 'Custom spell jars created with herbs, crystals, oils and your written intention to manifest specific energies in your life.',
-      bullets: [
-        'Tailored to your intention',
-        'Includes care & activation guide',
-        'Mini, Medium, and Large sizes',
-      ],
-      tiers: [
-        { label: 'Mini Spell Jar', price: 2200, usdPrice: 45 },
-        { label: 'Medium Spell Jar (100ml)', price: 4800, usdPrice: 95 },
-        { label: 'Large Spell Jar (500ml)', price: 7300, usdPrice: 145 },
-      ],
-      slug: 'spelljar',
       featured: false,
     },
     {

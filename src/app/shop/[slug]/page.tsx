@@ -99,11 +99,13 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
               {/* Product description / JSON layout rendering */}
               <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} />
 
-              {product.chakras.length > 0 && (
+              {product.chakras && product.chakras.filter((ch) => ch && ch.trim()).length > 0 && (
                 <div className="mt-4">
                   <h6 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Aligned Chakras</h6>
                   <div className="crystal-tags" style={{ justifyContent: 'flex-start' }}>
-                    {product.chakras.map((ch) => <span className="crystal-tag" key={ch}>{ch}</span>)}
+                    {product.chakras
+                      .filter((ch) => ch && ch.trim())
+                      .map((ch) => <span className="crystal-tag" key={ch}>{ch}</span>)}
                   </div>
                 </div>
               )}

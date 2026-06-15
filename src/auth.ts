@@ -1,3 +1,12 @@
+if (process.env.NODE_ENV === 'production') {
+  if (!process.env.AUTH_URL) {
+    process.env.AUTH_URL = 'https://krissmaagiiccrystals.com';
+  }
+  if (!process.env.NEXTAUTH_URL) {
+    process.env.NEXTAUTH_URL = 'https://krissmaagiiccrystals.com';
+  }
+}
+
 import NextAuth from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';

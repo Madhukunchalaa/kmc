@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/Spinner';
 import AnimatedTimePicker from '@/components/AnimatedTimePicker';
+import BookingSuccessAnimation from '@/components/BookingSuccessAnimation';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 import { useCurrency } from '@/context/CurrencyContext';
 
@@ -176,6 +177,9 @@ export default function BookingFlow({
   const [submitting,   setSubmitting]   = useState(false);
   const [error,        setError]        = useState<string | null>(null);
   const [done,         setDone]         = useState<{ bookingNumber: string; bookingId: string } | null>(null);
+  const [showAnim,     setShowAnim]     = useState(false);
+  const confirmRef = useRef<HTMLDivElement>(null);
+  const pendingDoneRef = useRef<{ bookingNumber: string; bookingId: string } | null>(null);
 
   // Tarot Specific States
   const [tarotType, setTarotType] = useState<'voice' | 'audio'>(() => {
@@ -291,7 +295,11 @@ export default function BookingFlow({
         return;
       }
 
-      setDone({ bookingNumber: data.bookingNumber, bookingId: data.bookingId });
+      // Show cosmic animation first, then reveal confirmation
+      setShowAnim(true);
+      // setDone is called by animation's onComplete callback (after ~3.8s)
+      // Store payload so callback can use it
+      pendingDoneRef.current = { bookingNumber: data.bookingNumber, bookingId: data.bookingId };
     } catch (err) { 
       if (err instanceof Error && err.message === 'payment-cancelled') {
         setError('Payment was cancelled. You can try booking again.');
@@ -302,9 +310,30 @@ export default function BookingFlow({
     setSubmitting(false);
   };
 
+  // Scroll confirmation into view when it appears
+  useEffect(() => {
+    if (done && confirmRef.current) {
+      setTimeout(() => {
+        confirmRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [done]);
+
+  if (showAnim && !done) {
+    return (
+      <BookingSuccessAnimation onComplete={() => {
+        if (pendingDoneRef.current) {
+          setDone(pendingDoneRef.current);
+          pendingDoneRef.current = null;
+        }
+        setShowAnim(false);
+      }} />
+    );
+  }
+
   if (done) {
     return (
-      <div className="text-center" style={{ ...cardStyle, padding: 40 }}>
+      <div ref={confirmRef} className="text-center" style={{ ...cardStyle, padding: 40 }}>
         <div style={{ fontSize: '3.5rem', marginBottom: 12 }}>🌌</div>
         <h2 className="section-title" style={{ color: '#fff' }}>Booking <span style={{ color: 'var(--primary)' }}>received!</span></h2>
         <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)' }}>

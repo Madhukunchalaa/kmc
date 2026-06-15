@@ -65,6 +65,8 @@ body {
   background-color: var(--light);
   line-height: 1.7;
   overflow-x: hidden;
+  /* GPU compositing layer — prevents scroll jank */
+  -webkit-overflow-scrolling: touch;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -8082,6 +8084,85 @@ body.has-test-banner .navbar.navbar-custom {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE PERFORMANCE — Smooth scroll & GPU
+   Disables heavy animations on phones/tablets
+   so scrolling stays buttery smooth
+═══════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+
+  /* ── Force GPU compositing on the whole scroll container ── */
+  html, body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+
+  /* ── Kill expensive galaxy/cosmic animations ── */
+  .galaxy-nebula,
+  .space-stars, .stars-small, .stars-medium, .stars-large,
+  .celestial-orbit-1, .celestial-orbit-2,
+  .svc-orbit-xl,
+  .svc-glow-star,
+  .svc-meteor, .svc-meteor::before, .svc-meteor::after,
+  .hero-logo-ring,
+  .hero-split-float {
+    animation: none !important;
+    transition: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ── Remove backdrop-filter (huge GPU cost on mobile) ── */
+  .services-galaxy-card,
+  .booking-summary-strip,
+  .chat-float-icon-btn,
+  .navbar-custom,
+  .shop-catalog-section .col-lg-3 > div {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Replace backdrop-blur on service cards with solid bg */
+  .services-galaxy-card {
+    background: rgba(14, 6, 28, 0.92) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  }
+
+  /* Navbar: replace blur with solid so it doesn't repaint on every scroll frame */
+  .navbar-custom {
+    background: rgba(255,255,255,0.97) !important;
+  }
+  .navbar-custom.scrolled {
+    background: #ffffff !important;
+  }
+
+  /* Reduce slow transitions on cards to avoid repaints */
+  .crystal-card,
+  .service-card,
+  .services-galaxy-card,
+  .product-card {
+    transition: box-shadow 0.2s ease !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+  .services-galaxy-card:hover {
+    transform: none !important;
+  }
+
+  /* Keep rotating chakra widget light on mobile */
+  .astro-chakra-svg {
+    animation-duration: 40s !important;
+  }
+
+  /* Smooth scroll in horizontal carousels */
+  [style*="overflow-x: auto"],
+  [style*="overflowX: auto"] {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 }
 

@@ -32,7 +32,7 @@ const RECIPIENTS = [
     key: 'family',
     label: 'Family',
     subtitle: 'Parents & loved ones',
-    icon: 'fa-solid fa-house-heart',
+    icon: 'fa-solid fa-people-roof',
     tagline: 'Protective, healing stones for the home',
     keywords: ['protection', 'black', 'obsidian', 'tourmaline', 'family', 'healing'],
     fallback: 'bracelets',

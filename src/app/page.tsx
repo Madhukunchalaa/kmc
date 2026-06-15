@@ -168,8 +168,8 @@ export default function Home() {
                   <div className="about-collage-img-founder" style={{ 
                     position: 'relative', 
                     width: '100%', 
-                    maxWidth: '460px', 
-                    height: 'clamp(450px, 48vw, 620px)', 
+                    maxWidth: '360px', 
+                    height: 'clamp(400px, 42vw, 520px)', 
                     inset: 'auto', 
                     margin: '0 auto', 
                     overflow: 'hidden', 
@@ -190,7 +190,7 @@ export default function Home() {
                         objectFit: 'cover', 
                         objectPosition: 'center',
                         borderRadius: '16px',
-                        transform: 'scale(1.35)',
+                        transform: 'scale(1.32)',
                         transition: 'transform 0.4s ease'
                       }}
                     />

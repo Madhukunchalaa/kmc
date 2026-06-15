@@ -173,21 +173,24 @@ export default function WhatsAppFloat() {
       </div>
 
       {/* Main Astrology Consultation Circle Icon */}
-      <div className="chat-float-icon-btn d-flex align-items-center gap-3" style={{ fontSize: '1.75rem', width: 'auto', padding: '0 25px', borderRadius: '40px' }}>
+      <div className="chat-float-icon-btn d-flex align-items-center gap-3" style={{ fontSize: '1.35rem', width: 'auto', padding: '0 18px', height: '42px', borderRadius: '30px' }}>
         <i className="fa-brands fa-whatsapp" style={{ color: '#25D366' }}></i>
-        <i 
-          className="fa-brands fa-instagram" 
-          style={{ 
-            background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
-            WebkitBackgroundClip: 'text', 
-            WebkitTextFillColor: 'transparent', 
-            cursor: 'pointer' 
-          }} 
-          onClick={(e) => { 
-            e.stopPropagation(); 
-            window.open('https://www.instagram.com/krissmaagiiccrystals/', '_blank'); 
-          }}
-        ></i>
+        <a 
+          href="https://www.instagram.com/krissmaagiiccrystals/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          onClick={(e) => e.stopPropagation()}
+          style={{ display: 'inline-flex', alignItems: 'center' }}
+        >
+          <i 
+            className="fa-brands fa-instagram" 
+            style={{ 
+              background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
+              WebkitBackgroundClip: 'text', 
+              WebkitTextFillColor: 'transparent'
+            }} 
+          ></i>
+        </a>
       </div>
       
       {/* Tooltip */}

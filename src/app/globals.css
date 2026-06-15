@@ -3535,8 +3535,8 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  width: 96px;
-  height: 96px;
+  width: 150px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3581,7 +3581,7 @@ h1, h2, h3, h4, h5, h6 {
   content: '';
   position: absolute;
   inset: -4px;
-  border-radius: 50%;
+  border-radius: inherit;
   border: 2px solid var(--accent);
   animation: chatRing 2.2s linear infinite;
   z-index: 991;
@@ -3590,8 +3590,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Jathaka Chakra Astrology Background Container */
 .astro-chakra-container {
   position: absolute;
-  width: 96px;
-  height: 96px;
+  width: 150px;
+  height: 150px;
   z-index: 991;
   display: flex;
   align-items: center;
@@ -3631,7 +3631,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Tooltip */
 .chat-tooltip {
   position: absolute;
-  right: 92px;
+  right: 125px;
   background: rgba(28, 10, 2, 0.96);
   color: var(--accent);
   border: 1px solid rgba(200, 149, 108, 0.45);
@@ -3673,7 +3673,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ---------- WhatsApp Chat Popup ---------- */
 .chat-popup-box {
   position: absolute;
-  bottom: 88px;
+  bottom: 115px;
   right: 12px;
   width: 310px;
   background: linear-gradient(155deg, rgba(28, 10, 2, 0.98) 0%, rgba(18, 7, 0, 0.99) 100%);

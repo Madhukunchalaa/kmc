@@ -165,11 +165,32 @@ export default function Home() {
               <ScrollFade delay={0}>
                 <div className="about-collage">
                   <div className="about-collage-bg-glow" />
-                  <div className="about-collage-img-founder" style={{ position: 'relative', width: '100%', height: 'clamp(400px, 45vw, 600px)', inset: 'auto', margin: '0 auto', overflow: 'hidden', borderRadius: '24px' }}>
+                  <div className="about-collage-img-founder" style={{ 
+                    position: 'relative', 
+                    width: '100%', 
+                    maxWidth: '420px', 
+                    height: 'clamp(400px, 45vw, 600px)', 
+                    inset: 'auto', 
+                    margin: '0 auto', 
+                    overflow: 'hidden', 
+                    borderRadius: '24px',
+                    background: '#000000',
+                    border: '1px solid rgba(232, 201, 154, 0.45)',
+                    outline: '1px solid rgba(232, 201, 154, 0.2)',
+                    outlineOffset: '-8px',
+                    padding: '12px',
+                    boxShadow: '0 24px 50px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0, 0, 0, 0.9)'
+                  }}>
                     <img 
                       src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" 
                       alt="Kriss - Founder of KrissMaagiic" 
-                      style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'contain', 
+                        objectPosition: 'center',
+                        borderRadius: '16px'
+                      }}
                     />
                   </div>
                 </div>

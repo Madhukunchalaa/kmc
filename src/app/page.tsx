@@ -150,43 +150,34 @@ export default function Home() {
             {
               path: 'PATH I',
               icon: 'fa-solid fa-headphones',
-              title: 'Tarot Reading — Voice Chat',
+              title: 'Tarot Reading — Voice & Audio Call',
               category: 'Tarot Readings',
-              desc: 'Delivered via WhatsApp voice notes. Receive detailed, highly personalized audio responses to your questions within 24–48 hours of your session booking.',
+              desc: 'Select custom voice note readings delivered to your WhatsApp, or book a live audio call session to connect directly with the founder for real-time guidance.',
               bullets: [
-                'No live timer pressure',
-                'Submit questions 24–48 hours before',
-                'Audio recorded directly by the founder',
+                'Voice chat reading (from ₹199 / $8)',
+                'Live audio call (from ₹1499 / $30)',
+                'Submit questions or connect live',
                 'Gain clarity on love, career, finances, and life decisions',
               ],
               tiers: [
-                { label: 'Voice Chat (Mini)', price: 199, usdPrice: 8 },
-                { label: 'Voice Chat (Full)', price: 1299, usdPrice: 100 },
+                { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
+                { label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
+                { label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
+                { label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
+                { label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
+                { label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
+                { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
+                { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
+                { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+                { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
+                { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
+                { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
               ],
               slug: 'tarot',
               featured: false,
             },
             {
               path: 'PATH II',
-              icon: 'fa-solid fa-video',
-              title: 'Live Tarot Reading — Video Call',
-              category: 'Tarot Readings',
-              desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
-              bullets: [
-                'Live face-to-face interaction',
-                'Instant card-pull explanations',
-                'WhatsApp video options',
-                'Live energetic connection',
-              ],
-              tiers: [
-                { label: '30 minutes', price: 2500 },
-                { label: '1 hour', price: 4500 },
-              ],
-              slug: 'tarot',
-              featured: false,
-            },
-            {
-              path: 'PATH III',
               icon: 'fa-solid fa-wand-magic-sparkles',
               title: 'Bespoke Spell Casting Ritual',
               category: 'Spell Casting Services',
@@ -214,7 +205,7 @@ export default function Home() {
               featured: false,
             },
             {
-              path: 'PATH IV',
+              path: 'PATH III',
               icon: 'fa-solid fa-infinity',
               title: 'Numerology Services',
               category: 'Numerology Readings',
@@ -240,10 +231,10 @@ export default function Home() {
               key={svc.title}
               className="sessions-carousel-slide"
               style={{
-                flex: '0 0 25%',
-                width: '25%',
-                minWidth: '25%',
-                maxWidth: '25%',
+                flex: '0 0 33.333%',
+                width: '33.333%',
+                minWidth: '33.333%',
+                maxWidth: '33.333%',
                 scrollSnapAlign: 'start',
                 padding: '0 12px',
                 boxSizing: 'border-box',
@@ -301,7 +292,7 @@ export default function Home() {
 
         <div className="container">
           <div className="sessions-carousel-dots">
-            {[0, 1, 2, 3].map((idx) => (
+            {[0, 1, 2].map((idx) => (
               <button
                 key={idx}
                 type="button"

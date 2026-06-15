@@ -126,10 +126,18 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
 
 export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
   tarot: [
-    { label: 'Voice Chat (Mini)', price: 199, usdPrice: 8 },
-    { label: 'Voice Chat (Full)', price: 1299, usdPrice: 100 },
-    { label: 'Video Call (30 min)', price: 2500, usdPrice: 50 },
-    { label: 'Video Call (1 hour)', price: 4500, usdPrice: 90 },
+    { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
+    { label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
+    { label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
+    { label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
+    { label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
+    { label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
+    { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
+    { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
+    { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+    { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
+    { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
+    { label: 'Audio Call (2 hours - unlimited questions)', price: 5999, usdPrice: 120 },
   ],
   candle: [
     { label: 'Travel Safety / Safe Journeys', price: 1800 },

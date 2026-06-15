@@ -106,6 +106,25 @@ const headingStyle: React.CSSProperties = {
   gap: 8,
 };
 
+/* ── Reading Options and Tiers for Tarot ─────────────────── */
+const VOICE_OPTIONS = [
+  { id: 'yes_no', label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
+  { id: 'detailed', label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
+  { id: 'situational', label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
+  { id: 'marriage', label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
+  { id: 'relationship', label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
+  { id: '3_questions', label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
+  { id: '5_questions', label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
+  { id: 'spouse', label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
+  { id: 'annual', label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
+];
+
+const AUDIO_TIERS = [
+  { label: '30 minutes (30min)', price: 1499, usdPrice: 30 },
+  { label: '1 hour (1hr)', price: 2999, usdPrice: 60 },
+  { label: '2 hours (2hr - only one slot, unlimited questions)', price: 5999, usdPrice: 120 },
+];
+
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
@@ -145,19 +164,32 @@ export default function BookingFlow({
   const [error,        setError]        = useState<string | null>(null);
   const [done,         setDone]         = useState<{ bookingNumber: string; bookingId: string } | null>(null);
 
-  const selectedTier = tiers && tiers[tierIdx];
-  const activePrice = selectedTier ? selectedTier.price : servicePrice;
-  const activeUsdPrice = selectedTier ? selectedTier.usdPrice : serviceUsdPrice;
+  // Tarot Specific States
+  const [tarotType, setTarotType] = useState<'voice' | 'audio'>('voice');
+  const [selectedVoiceOptions, setSelectedVoiceOptions] = useState<string[]>(['yes_no']);
 
   // Determine rules based on service
   const isTarot = serviceSlug === 'tarot';
-  const isTarotVideo = isTarot && selectedTier?.label.includes('Video Call');
-  const isTarotVoice = isTarot && selectedTier?.label.includes('Voice Chat');
   const isCandle = serviceSlug === 'candle';
   const isSpellJar = serviceSlug === 'spelljar';
   const isNumerology = serviceSlug === 'numerology';
 
-  const requiresDateAndTime = isTarotVideo; // Only Tarot Video calls need date/time
+  const requiresDateAndTime = isTarot ? (tarotType === 'audio') : false;
+  const isTarotVoice = isTarot && tarotType === 'voice';
+
+  const selectedTier = tiers && tiers[tierIdx];
+  
+  const activePrice = isTarot
+    ? (tarotType === 'voice'
+        ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.price, 0)
+        : (AUDIO_TIERS[tierIdx]?.price || 1499))
+    : (selectedTier ? selectedTier.price : servicePrice);
+
+  const activeUsdPrice = isTarot
+    ? (tarotType === 'voice'
+        ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.usdPrice, 0)
+        : (AUDIO_TIERS[tierIdx]?.usdPrice || 30))
+    : (selectedTier ? selectedTier.usdPrice : serviceUsdPrice);
 
 
   useEffect(() => {
@@ -182,6 +214,7 @@ export default function BookingFlow({
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isTarot && tarotType === 'voice' && selectedVoiceOptions.length === 0) { setError('Please select at least one reading option.'); return; }
     if (requiresDateAndTime && !selectedTime) { setError('Please pick a time slot.'); return; }
     if (isTarotVoice && !question.trim()) { setError('Please enter your specific question or focus.'); return; }
     setError(null);
@@ -198,9 +231,13 @@ export default function BookingFlow({
           intention,
           dob,
           notes,
-          tierLabel: selectedTier?.label,
-          tierPrice: selectedTier?.price,
-          tierUsdPrice: selectedTier?.usdPrice,
+          tierLabel: isTarot
+            ? (tarotType === 'voice'
+                ? `Voice Chat (${selectedVoiceOptions.map(id => VOICE_OPTIONS.find(o => o.id === id)?.label).join(', ')})`
+                : `Audio Call (${AUDIO_TIERS[tierIdx]?.label})`)
+            : selectedTier?.label,
+          tierPrice: activePrice,
+          tierUsdPrice: activeUsdPrice,
           currency,
           customer: { name, email, phone }
         }),
@@ -294,8 +331,8 @@ export default function BookingFlow({
   return (
     <form onSubmit={onSubmit} style={{ display: 'grid', gap: 24, width: '100%', boxSizing: 'border-box' }}>
 
-      {/* ── 0. Select Option (Tiers) ── */}
-      {tiers && tiers.length > 0 && (
+      {/* ── 0. Select Option (Tiers for Non-Tarot Services) ── */}
+      {!isTarot && tiers && tiers.length > 0 && (
         <div style={cardStyle}>
           <h3 style={headingStyle}>
             <i className="fa-solid fa-wand-magic-sparkles" style={{ color: 'var(--primary,#C8956C)' }}></i>
@@ -337,6 +374,192 @@ export default function BookingFlow({
               );
             })}
           </div>
+        </div>
+      )}
+
+      {/* ── 0. Select Option (Tiers for Tarot Service) ── */}
+      {isTarot && (
+        <div style={cardStyle}>
+          <h3 style={headingStyle}>
+            <i className="fa-solid fa-wand-magic-sparkles" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            1. Select Reading Type
+          </h3>
+          
+          {/* Reading Type Selector Buttons */}
+          <div style={{
+            display: 'flex',
+            gap: 16,
+            marginBottom: 24,
+            width: '100%',
+            boxSizing: 'border-box'
+          }}>
+            <button
+              type="button"
+              onClick={() => {
+                setTarotType('voice');
+                setTierIdx(0);
+              }}
+              style={{
+                flex: 1,
+                padding: '16px 20px',
+                borderRadius: 16,
+                border: tarotType === 'voice' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                background: tarotType === 'voice'
+                  ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                  : 'rgba(255,255,255,0.05)',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '1rem',
+                boxShadow: tarotType === 'voice' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                transition: 'all 0.25s ease',
+                backdropFilter: 'blur(8px)',
+                textAlign: 'center',
+              }}
+            >
+              🎙️ Voice Chat
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTarotType('audio');
+                setTierIdx(0);
+              }}
+              style={{
+                flex: 1,
+                padding: '16px 20px',
+                borderRadius: 16,
+                border: tarotType === 'audio' ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                background: tarotType === 'audio'
+                  ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                  : 'rgba(255,255,255,0.05)',
+                color: '#fff',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '1rem',
+                boxShadow: tarotType === 'audio' ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                transition: 'all 0.25s ease',
+                backdropFilter: 'blur(8px)',
+                textAlign: 'center',
+              }}
+            >
+              📞 Audio Call
+            </button>
+          </div>
+
+          {/* Render Options based on active type */}
+          {tarotType === 'voice' ? (
+            <div>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>
+                Select one or more reading options. The total price adjusts automatically based on your selections:
+              </p>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: 12,
+                width: '100%',
+                boxSizing: 'border-box'
+              }}>
+                {VOICE_OPTIONS.map((opt) => {
+                  const selected = selectedVoiceOptions.includes(opt.id);
+                  return (
+                    <div
+                      key={opt.id}
+                      onClick={() => {
+                        if (selected) {
+                          setSelectedVoiceOptions(selectedVoiceOptions.filter(id => id !== opt.id));
+                        } else {
+                          setSelectedVoiceOptions([...selectedVoiceOptions, opt.id]);
+                        }
+                      }}
+                      style={{
+                        padding: '14px 18px',
+                        borderRadius: 14,
+                        border: selected ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.08)',
+                        background: selected ? 'rgba(200,149,108,0.15)' : 'rgba(255,255,255,0.02)',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 12,
+                        transition: 'all 0.25s ease',
+                        backdropFilter: 'blur(4px)',
+                        userSelect: 'none'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          onChange={() => {}} // handled by parent onClick
+                          style={{
+                            accentColor: 'var(--primary,#C8956C)',
+                            cursor: 'pointer',
+                            width: 16,
+                            height: 16
+                          }}
+                        />
+                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: selected ? '#fff' : 'rgba(255,255,255,0.85)' }}>
+                          {opt.label}
+                        </span>
+                      </div>
+                      <span style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
+                        color: selected ? 'var(--gold-light,#FFEFA6)' : 'rgba(255,255,255,0.6)'
+                      }}>
+                        {formatPrice(opt.price, opt.usdPrice)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>
+                Select the duration for your live audio session (conducted via WhatsApp Audio):
+              </p>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: 12,
+                width: '100%',
+                boxSizing: 'border-box'
+              }}>
+                {AUDIO_TIERS.map((t, idx) => {
+                  const active = idx === tierIdx;
+                  return (
+                    <button
+                      key={t.label}
+                      type="button"
+                      onClick={() => setTierIdx(idx)}
+                      style={{
+                        padding: '16px 14px',
+                        borderRadius: 14,
+                        border: active ? '1.5px solid rgba(200,149,108,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                        background: active
+                          ? 'linear-gradient(135deg, var(--primary,#C8956C) 0%, var(--primary-dark,#A7744D) 100%)'
+                          : 'rgba(255,255,255,0.05)',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        boxShadow: active ? '0 8px 18px rgba(200,149,108,0.3)' : 'none',
+                        transition: 'all 0.25s ease',
+                        backdropFilter: 'blur(8px)',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {t.label} ({formatPrice(t.price, t.usdPrice)})
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

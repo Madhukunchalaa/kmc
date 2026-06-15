@@ -25,20 +25,32 @@ export default function Home() {
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [list, setList] = useState(testimonials);
+
+  useEffect(() => {
+    fetch('/api/testimonials')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok && Array.isArray(data.testimonials) && data.testimonials.length > 0) {
+          setList(data.testimonials);
+        }
+      })
+      .catch((err) => console.error('Error fetching testimonials:', err));
+  }, []);
 
   const handlePrevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setActiveTestimonial((prev) => (prev - 1 + list.length) % list.length);
   };
   const handleNextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    setActiveTestimonial((prev) => (prev + 1) % list.length);
   };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+      setActiveTestimonial((prev) => (prev + 1) % list.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [list.length]);
 
   const handleCarouselScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -598,7 +610,7 @@ export default function Home() {
           <div style={{ position: 'relative', width: '100%', maxWidth: '720px', margin: '0 auto', padding: '0 50px' }}>
             <div style={{ overflow: 'hidden', width: '100%', borderRadius: 16 }}>
               <div style={{ display: 'flex', transform: `translateX(-${activeTestimonial * 100}%)`, transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                {testimonials.map((t) => (
+                {list.map((t) => (
                   <div key={t.name} style={{ flex: '0 0 100%', width: '100%', boxSizing: 'border-box' }}>
                     <div className="testimonial-card" style={{ margin: 0, height: '100%' }}>
                       <div className="testimonial-stars">{'★'.repeat(t.rating)}</div>
@@ -637,7 +649,7 @@ export default function Home() {
 
           {/* Dots Indicator */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-            {testimonials.map((_, idx) => (
+            {list.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveTestimonial(idx)}

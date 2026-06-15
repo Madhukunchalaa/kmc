@@ -7,7 +7,9 @@ import mongoose from 'mongoose';
 import { User } from '../src/models/User';
 import { Product } from '../src/models/Product';
 import { Service } from '../src/models/Service';
+import Testimonial from '../src/models/Testimonial';
 import { products as productSeed } from '../src/data/products';
+import { testimonials as testimonialSeed } from '../src/data/testimonials';
 
 async function main() {
   const uri = process.env.MONGODB_URI;
@@ -128,6 +130,17 @@ async function main() {
     }
   }
   console.log(`✓ services seeded (${services.length})`);
+
+  // --- Testimonials ---
+  const tCount = await Testimonial.countDocuments();
+  if (tCount === 0) {
+    for (const t of testimonialSeed) {
+      await Testimonial.create(t);
+    }
+    console.log(`✓ testimonials seeded (${testimonialSeed.length})`);
+  } else {
+    console.log(`• testimonials collection already populated (${tCount} items)`);
+  }
 
   await mongoose.disconnect();
   console.log('✓ done');

@@ -157,3 +157,11 @@ export const blogInputSchema = z.object({
   author: z.string().min(2).max(100),
   published: z.boolean().default(false),
 });
+
+export const testimonialInputSchema = z.object({
+  name: z.string().min(2).max(100),
+  role: z.string().min(2).max(150),
+  rating: z.number().int().min(1).max(5),
+  text: z.string().min(5).max(1000),
+  avatar: z.string().min(1).max(10),
+});

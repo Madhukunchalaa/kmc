@@ -14,6 +14,18 @@ function ymd(d: Date) {
   return d.toISOString().slice(0, 10);
 }
 
+/** Convert "10:30 AM" / "2:00 PM" → "10:30" / "14:00" so the validator accepts it */
+function to24h(time: string): string {
+  const m = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!m) return time; // already HH:MM or N/A
+  let h = parseInt(m[1], 10);
+  const min = m[2];
+  const ampm = m[3].toUpperCase();
+  if (ampm === 'PM' && h !== 12) h += 12;
+  if (ampm === 'AM' && h === 12) h = 0;
+  return `${String(h).padStart(2, '0')}:${min}`;
+}
+
 function addDays(d: Date, n: number) {
   const c = new Date(d); c.setDate(c.getDate() + n); return c;
 }
@@ -203,18 +215,19 @@ export default function BookingFlow({
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isTarot && tarotType === 'voice' && selectedVoiceOptions.length === 0) { setError('Please select at least one reading option.'); return; }
-    if (requiresDateAndTime && !selectedTime) { setError('Please pick a time slot.'); return; }
-    if (isTarotVoice && !question.trim()) { setError('Please enter your specific question or focus.'); return; }
+    if (requiresDateAndTime && !selectedTime) { setError('Please scroll the time picker to select your preferred session time.'); return; }
+    if (isTarotVoice && !question.trim()) { setError('Please enter your specific question or focus area before booking.'); return; }
     setError(null);
     setSubmitting(true);
     try {
+      const timeSlotValue = requiresDateAndTime && selectedTime ? to24h(selectedTime) : 'N/A';
       const res  = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           serviceId,
           date: requiresDateAndTime ? selectedDate : 'N/A',
-          timeSlot: requiresDateAndTime ? selectedTime : 'N/A',
+          timeSlot: timeSlotValue,
           question,
           intention,
           dob,
@@ -232,10 +245,14 @@ export default function BookingFlow({
       });
       const data = await res.json();
       if (!data.ok) {
-        setError(data.reason === 'slot-already-taken' ? 'That slot was just taken. Please pick another.' : (data.reason || 'Failed'));
-        if (data.reason === 'slot-already-taken') {
-          setError('That specific time was just taken. Please pick another.');
-        }
+        const reason = data.reason || '';
+        let msg = 'Something went wrong. Please try again.';
+        if (reason === 'slot-already-taken')  msg = 'That time slot was just taken — please choose another time.';
+        else if (reason === 'unauthorized')   msg = 'Please log in to complete your booking.';
+        else if (reason === 'service-not-found') msg = 'Service not found. Please go back and try again.';
+        else if (reason.toLowerCase().includes('time')) msg = 'Please select a valid time slot and try again.';
+        else if (reason.length > 0 && reason.length < 200) msg = reason;
+        setError(msg);
         setSubmitting(false);
         return;
       }

@@ -112,7 +112,11 @@ export const createBookingSchema = z.object({
   // Accepts a Mongo ObjectId OR a service slug (e.g. "tarot")
   serviceId: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'invalid date').optional().or(z.literal('N/A')),
-  timeSlot: z.string().regex(/^\d{2}:\d{2}$/).optional().or(z.literal('N/A')),
+  timeSlot: z
+    .string()
+    .regex(/^\d{1,2}:\d{2}(\s*(AM|PM))?$/i, 'Please select a valid time slot (e.g. 10:30 AM)')
+    .optional()
+    .or(z.literal('N/A')),
   question: z.string().max(1000).optional().or(z.literal('')),
   intention: z.string().max(1000).optional().or(z.literal('')),
   dob: z.string().max(100).optional().or(z.literal('')),
@@ -150,8 +154,24 @@ export const passwordChangeSchema = z.object({
   newPassword: z.string().min(8).max(128),
 });
 
+const FRIENDLY_FIELD: Record<string, string> = {
+  timeSlot:        'Please select a valid time slot before booking.',
+  date:            'Please select a valid booking date.',
+  'customer.name':  'Please enter your full name.',
+  'customer.email': 'Please enter a valid email address.',
+  'customer.phone': 'Please enter a valid phone number.',
+  serviceId:       'Something went wrong — please refresh and try again.',
+  question:        'Your question is too long (max 1000 characters).',
+  notes:           'Notes are too long (max 600 characters).',
+};
+
 export function zodErrorMessage(err: z.ZodError): string {
-  return err.issues.map((i) => `${i.path.join('.') || 'field'}: ${i.message}`).join('; ');
+  return err.issues
+    .map((i) => {
+      const path = i.path.join('.');
+      return FRIENDLY_FIELD[path] ?? i.message;
+    })
+    .join(' ');
 }
 
 export const blogInputSchema = z.object({

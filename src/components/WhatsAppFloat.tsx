@@ -174,13 +174,13 @@ export default function WhatsAppFloat() {
 
       {/* Main Astrology Consultation Circle Icon */}
       <div className="chat-float-icon-btn d-flex align-items-center gap-3" style={{ fontSize: '1.35rem', width: 'auto', padding: '0 18px', height: '42px', borderRadius: '30px' }}>
-        <i className="fa-brands fa-whatsapp" style={{ color: '#25D366' }}></i>
+        <i className="fa-brands fa-whatsapp" style={{ color: '#25D366', position: 'relative', zIndex: 10, cursor: 'pointer' }}></i>
         <a 
           href="https://www.instagram.com/krissmaagiiccrystals/" 
           target="_blank" 
           rel="noopener noreferrer" 
           onClick={(e) => e.stopPropagation()}
-          style={{ display: 'inline-flex', alignItems: 'center' }}
+          style={{ display: 'inline-flex', alignItems: 'center', position: 'relative', zIndex: 10, cursor: 'pointer' }}
         >
           <i 
             className="fa-brands fa-instagram" 

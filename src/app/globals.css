@@ -3585,6 +3585,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid var(--accent);
   animation: chatRing 2.2s linear infinite;
   z-index: 991;
+  pointer-events: none;
 }
 
 /* Jathaka Chakra Astrology Background Container */

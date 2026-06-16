@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function BlogListingPage() {
   await connectMongoose();
-  const blogs = await Blog.find({ published: true }).sort({ publishedAt: -1, createdAt: -1 }).lean();
+  const blogs = await Blog.find({ published: true, isDeleted: { $ne: true } }).sort({ publishedAt: -1, createdAt: -1 }).lean();
 
   return (
     <>

@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   await connectMongoose();
-  const blog = await Blog.findOne({ slug: params.slug, published: true }).lean();
+  const blog = await Blog.findOne({ slug: params.slug, published: true, isDeleted: { $ne: true } }).lean();
   if (!blog) return { title: 'Not Found' };
   
   return {
@@ -21,7 +21,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   await connectMongoose();
-  const blog = await Blog.findOne({ slug: params.slug, published: true }).lean();
+  const blog = await Blog.findOne({ slug: params.slug, published: true, isDeleted: { $ne: true } }).lean();
   if (!blog) return notFound();
 
   return (

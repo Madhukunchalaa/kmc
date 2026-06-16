@@ -43,7 +43,8 @@ export async function DELETE(req: Request, props: { params: Promise<{ id: string
   
   try {
     await connectMongoose();
-    const doc = await Blog.findByIdAndDelete(params.id);
+    // Soft-delete: mark isDeleted and unpublish so it can be restored
+    const doc = await Blog.findByIdAndUpdate(params.id, { isDeleted: true, published: false }, { new: true });
     if (!doc) return NextResponse.json({ ok: false, reason: 'not-found' }, { status: 404 });
     return NextResponse.json({ ok: true });
   } catch (err) {

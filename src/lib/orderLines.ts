@@ -16,20 +16,22 @@ export interface ResolvedOrderLine {
   stock: number | null;
 }
 
-export async function resolveOrderLines(items: CartLineInput[], currency: 'INR' | 'USD' = 'INR'): Promise<{
+export async function resolveOrderLines(items: CartLineInput[], currency: string = 'INR'): Promise<{
   lines: ResolvedOrderLine[];
   subtotal: number;
   stockError: string | null;
 }> {
+  // Any currency other than INR uses the usdPrice value (same number, different symbol)
+  const useIntlPrice = currency !== 'INR';
   const dbProducts = await Product.find({ slug: { $in: items.map((i) => i.productId) }, active: true, isDeleted: { $ne: true } }).lean();
   const productMap = new Map<string, { _id: string; slug: string; name: string; price: number; stock: number | null }>();
   for (const p of dbProducts) {
-    const pPrice = currency === 'USD' ? (p.usdPrice && p.usdPrice > 0 ? p.usdPrice : Math.round(p.price / 50)) : p.price;
+    const pPrice = useIntlPrice ? (p.usdPrice && p.usdPrice > 0 ? p.usdPrice : Math.round(p.price / 50)) : p.price;
     productMap.set(p.slug, { _id: String(p._id), slug: p.slug, name: p.name, price: pPrice, stock: p.stock ?? null });
   }
   for (const sp of seedProducts) {
     if (!productMap.has(sp.id)) {
-      const spPrice = currency === 'USD' ? (sp.usdPrice && sp.usdPrice > 0 ? sp.usdPrice : Math.round(sp.price / 50)) : sp.price;
+      const spPrice = useIntlPrice ? (sp.usdPrice && sp.usdPrice > 0 ? sp.usdPrice : Math.round(sp.price / 50)) : sp.price;
       productMap.set(sp.id, { _id: sp.id, slug: sp.id, name: sp.name, price: spPrice, stock: null });
     }
   }

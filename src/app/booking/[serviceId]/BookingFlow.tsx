@@ -7,7 +7,7 @@ import Spinner from '@/components/Spinner';
 import AnimatedTimePicker from '@/components/AnimatedTimePicker';
 import BookingSuccessAnimation from '@/components/BookingSuccessAnimation';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
-import { useCurrency } from '@/context/CurrencyContext';
+import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 
 interface Slot { time: string; available: boolean }
 
@@ -155,7 +155,7 @@ export default function BookingFlow({
 }) {
   const today = useMemo(() => new Date(), []);
   const { formatPrice, countryCode } = useCurrency();
-  const currency = countryCode === 'IN' ? 'INR' : 'USD';
+  const currency = (COUNTRY_CURRENCY_MAP[countryCode.toUpperCase()] || COUNTRY_CURRENCY_MAP['Other']).code;
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const dateOptions = useMemo(
     () => Array.from({ length: 14 }, (_, i) => addDays(today, i)),

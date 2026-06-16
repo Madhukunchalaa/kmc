@@ -30,7 +30,7 @@ export default function CheckoutPage() {
   const { hydrated, items, clear, loading } = useCart();
 
   const { formatPrice, countryCode } = useCurrency();
-  const currency = countryCode === 'IN' ? 'INR' : 'USD';
+  const currency = (COUNTRY_CURRENCY_MAP[countryCode.toUpperCase()] || COUNTRY_CURRENCY_MAP['Other']).code;
 
   const inrSubtotal = hydrated.reduce((sum, it) => sum + it.product.price * it.qty, 0);
   const usdSubtotal = hydrated.reduce((sum, it) => sum + (it.product.usdPrice || 0) * it.qty, 0);
@@ -232,32 +232,45 @@ export default function CheckoutPage() {
                 Order Summary
               </h3>
               <div style={{ display: 'grid', gap: '1.25rem' }}>
-                {confirmedOrder.items.map((it: any, index: number) => (
+                {confirmedOrder.items.map((it: any, index: number) => {
+                  const isInr = (confirmedOrder.currency || 'INR') === 'INR';
+                  return (
                   <div key={index} className="d-flex justify-content-between align-items-center" style={{ fontSize: '0.95rem' }}>
                     <div>
                       <strong style={{ color: '#2D1B0E' }}>{it.name}</strong>
-                      <div style={{ color: '#666', fontSize: '0.85rem', marginTop: '2px' }}>Qty: {it.qty} × {formatPrice(it.price, 0)}</div>
+                      <div style={{ color: '#666', fontSize: '0.85rem', marginTop: '2px' }}>
+                        Qty: {it.qty} × {formatPrice(isInr ? it.price : 0, isInr ? null : it.price)}
+                      </div>
                     </div>
                     <strong style={{ color: '#2D1B0E' }}>
-                      {formatPrice(it.price * it.qty, 0)}
+                      {formatPrice(isInr ? it.price * it.qty : 0, isInr ? null : it.price * it.qty)}
                     </strong>
                   </div>
-                ))}
-                
+                  );
+                })}
+
                 <hr style={{ margin: '1rem 0', borderColor: 'rgba(0,0,0,0.08)' }} />
-                
-                <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666' }}>
-                  <span>Subtotal</span>
-                  <span>{formatPrice(confirmedOrder.subtotal, 0)}</span>
-                </div>
-                <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666', marginTop: '-0.5rem' }}>
-                  <span>Shipping</span>
-                  <span style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Free</span>
-                </div>
-                <div className="d-flex justify-content-between" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#2D1B0E', marginTop: '0.5rem' }}>
-                  <span>Total Paid</span>
-                  <span>{formatPrice(confirmedOrder.subtotal, 0)}</span>
-                </div>
+
+                {(() => {
+                  const isInr = (confirmedOrder.currency || 'INR') === 'INR';
+                  const subtotalFmt = formatPrice(isInr ? confirmedOrder.subtotal : 0, isInr ? null : confirmedOrder.subtotal);
+                  return (
+                    <>
+                      <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666' }}>
+                        <span>Subtotal</span>
+                        <span>{subtotalFmt}</span>
+                      </div>
+                      <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666', marginTop: '-0.5rem' }}>
+                        <span>Shipping</span>
+                        <span style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Free</span>
+                      </div>
+                      <div className="d-flex justify-content-between" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#2D1B0E', marginTop: '0.5rem' }}>
+                        <span>Total Paid</span>
+                        <span>{subtotalFmt}</span>
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           )}

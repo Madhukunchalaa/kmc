@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+/* Load rich text editor only on client (it uses browser APIs) */
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), { ssr: false, loading: () => <div style={{ height: 340, border: '1.5px solid rgba(200,149,108,0.35)', borderRadius: 10, background: '#FAF6F1', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: '0.85rem' }}>Loading editor…</div> });
 
 interface Initial {
   slug: string;
@@ -145,8 +149,28 @@ export default function BlogForm({ id, initial }: { id?: string; initial?: Initi
         </div>
 
         <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Full Content (HTML allowed) *</label>
-          <textarea required rows={12} value={f.content} onChange={(e) => set('content', e.target.value)} className="newsletter-input" style={{ width: '100%', fontFamily: 'monospace' }} placeholder="Write your blog content here..." />
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>
+            Full Content *
+            <span style={{ fontWeight: 400, color: '#888', fontSize: '0.78rem', marginLeft: 8 }}>
+              Use the toolbar to add headings, bold text, lists, and more
+            </span>
+          </label>
+          <RichTextEditor
+            value={f.content}
+            onChange={(html) => set('content', html)}
+            placeholder="Start writing your blog post here… Use H2/H3 for section headings, bullet lists for tips, and quotes for highlights."
+            minHeight={340}
+          />
+          {/* Hidden required field to block form submit when content is empty */}
+          <input
+            type="text"
+            required
+            value={f.content && f.content !== '<p></p>' ? 'ok' : ''}
+            onChange={() => {}}
+            tabIndex={-1}
+            aria-hidden="true"
+            style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 1, height: 1 }}
+          />
         </div>
 
         <div className="col-12">

@@ -9,6 +9,7 @@ export interface IBlog extends Document {
   author: string;
   published: boolean;
   publishedAt?: Date;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +24,7 @@ const BlogSchema: Schema = new Schema(
     author: { type: String, default: 'Kriss' },
     published: { type: Boolean, default: false },
     publishedAt: { type: Date },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

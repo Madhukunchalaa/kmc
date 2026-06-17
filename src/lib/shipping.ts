@@ -40,11 +40,16 @@ export function getShippingCharge(p: ShippableProduct): number {
   return 150;
 }
 
-/** True when the shipping destination is India (by country; falls back to INR currency). */
+/**
+ * True when the shipping destination is India. A foreign currency (anything other
+ * than INR) always counts as international, even if the country field says India —
+ * paying in USD means the customer is abroad. INR + India/empty country = domestic.
+ */
 export function isIndiaDestination(country?: string | null, currency?: string | null): boolean {
+  if ((currency || 'INR').toUpperCase() !== 'INR') return false;
   const c = (country || '').trim().toLowerCase();
-  if (c) return c === 'in' || c === 'india';
-  return (currency || 'INR').toUpperCase() === 'INR';
+  if (!c) return true;
+  return c === 'in' || c === 'india';
 }
 
 export interface OrderShippingResult {

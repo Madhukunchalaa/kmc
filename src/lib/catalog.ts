@@ -199,6 +199,10 @@ export const SERVICE_TIERS: Record<string, ServiceTier[]> = {
     { label: 'Any Other Specific Numerology', price: 4999, usdPrice: 85 },
     { label: 'Business / Brand Numerology', price: 9999, usdPrice: 150 },
   ],
+  'tarot-video': [
+    { label: 'Video Call (30 min)', price: 3499, usdPrice: 70 },
+    { label: 'Video Call (1 hour)', price: 6999, usdPrice: 140 },
+  ],
 };
 
 const SERVICE_FALLBACK: CatalogService[] = [
@@ -254,6 +258,20 @@ const SERVICE_FALLBACK: CatalogService[] = [
     durationMins: 40,
     bullets: ['Detailed PDF chart report', '5-10 mins WhatsApp explanation', 'Tailored crystal recommendations'],
     tiers: SERVICE_TIERS.numerology,
+  },
+  {
+    id: 'tarot-video',
+    slug: 'tarot-video',
+    title: 'Live Tarot Reading — Video Call',
+    tagline: "See every card as it's drawn — face to face",
+    desc: 'A live, face-to-face tarot session via WhatsApp Video Call. Witness every card reveal in real time and dive deep into the messages the cards hold for you.',
+    image: '/service-tarot.png',
+    icon: 'fa-solid fa-video',
+    price: 3499,
+    usdPrice: 70,
+    durationMins: 30,
+    bullets: ['Live WhatsApp Video Call', 'See every card drawn in real time', '30 min or 60 min sessions available'],
+    tiers: SERVICE_TIERS['tarot-video'],
   },
 ];
 

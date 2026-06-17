@@ -17,6 +17,9 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
   const service = await getServiceById(serviceId);
   if (!service) notFound();
 
+  // tarot-video is a view alias — serve through the unified tarot booking with ?type=video
+  if (service.slug === 'tarot-video') redirect('/booking/tarot?type=video');
+
   return (
     <>
       <section style={{

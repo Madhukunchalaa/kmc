@@ -249,6 +249,10 @@ export default async function ServicesPage() {
                         <Link href={`/shop?category=spell-jars`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
                           <span>Shop Jars</span>
                         </Link>
+                      ) : svc.slug === 'tarot-video' ? (
+                        <Link href="/booking/tarot?type=video" className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
+                          <span>Book Now</span>
+                        </Link>
                       ) : (
                         <Link href={`/booking/${svc.id}`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
                           <span>Book Now</span>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
+import { formatMoney } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'My Orders' };
@@ -38,7 +39,7 @@ export default async function MyOrders() {
                       {o.items.map(i => `${i.name} (${i.qty})`).join(', ')}
                     </div>
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right', fontWeight: 600, whiteSpace: 'nowrap' }}>₹{o.subtotal.toLocaleString('en-IN')}</td>
+                  <td style={{ padding: 12, textAlign: 'right', fontWeight: 600, whiteSpace: 'nowrap' }}>{formatMoney(o.total && o.total > 0 ? o.total : o.subtotal, o.currency)}</td>
                   <td style={{ padding: 12, textAlign: 'center' }}><span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{o.status}</span></td>
                   <td style={{ padding: 12, textAlign: 'right', color: '#888', fontSize: '0.82rem', whiteSpace: 'nowrap' }}>{new Date(o.createdAt).toLocaleDateString('en-IN')}</td>
                   <td style={{ padding: 12, textAlign: 'right' }}>

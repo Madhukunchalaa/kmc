@@ -5,6 +5,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { Product } from '@/models/Product';
 import { resolveProductImage } from '@/lib/resolveProductImage';
+import { formatMoney } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail' };
@@ -15,6 +16,7 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
   await connectMongoose();
   const o = await Order.findOne({ _id: id, user: session.user.id }).lean();
   if (!o) notFound();
+  const cur = o.currency || 'INR';
 
   // Query products to get images and details
   const slugs = o.items.map(i => i.productSlug);
@@ -382,7 +384,7 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
           ) : o.shippingPayment.status === 'link-sent' && o.shippingPayment.link ? (
             <>
               <p style={{ margin: '0 0 12px', color: '#666', fontSize: '0.9rem' }}>
-                Your shipping charge{o.shippingPayment.amount ? <> of <strong>{(o.currency || 'INR') === 'INR' ? '₹' : '$'}{o.shippingPayment.amount.toLocaleString('en-IN')}</strong></> : ''} is ready. Please complete the payment so we can dispatch your order.
+                Your shipping charge{o.shippingPayment.amount ? <> of <strong>{formatMoney(o.shippingPayment.amount, cur)}</strong></> : ''} is ready. Please complete the payment so we can dispatch your order.
               </p>
               <a href={o.shippingPayment.link} target="_blank" rel="noopener noreferrer" className="btn-primary-custom" style={{ textDecoration: 'none' }}>
                 <i className="fa-solid fa-credit-card"></i><span>Pay shipping charges</span>
@@ -422,18 +424,18 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
                         </div>
                       </td>
                       <td style={{ padding: 8, textAlign: 'right', color: '#888', verticalAlign: 'middle' }}>x{i.qty}</td>
-                      <td style={{ padding: 8, textAlign: 'right', fontWeight: 600, verticalAlign: 'middle' }}>₹{i.lineTotal.toLocaleString('en-IN')}</td>
+                      <td style={{ padding: 8, textAlign: 'right', fontWeight: 600, verticalAlign: 'middle' }}>{formatMoney(i.lineTotal, cur)}</td>
                     </tr>
                   );
                 })}
                 <tr><td colSpan={2} style={{ padding: '6px 8px', textAlign: 'right', color: '#888' }}>Subtotal</td>
-                  <td style={{ padding: '6px 8px', textAlign: 'right' }}>₹{o.subtotal.toLocaleString('en-IN')}</td></tr>
+                  <td style={{ padding: '6px 8px', textAlign: 'right' }}>{formatMoney(o.subtotal, cur)}</td></tr>
                 <tr><td colSpan={2} style={{ padding: '2px 8px', textAlign: 'right', color: '#888' }}>Shipping</td>
                   <td style={{ padding: '2px 8px', textAlign: 'right' }}>
-                    {o.international ? <em style={{ color: '#888' }}>billed separately</em> : (o.shipping ? `₹${o.shipping.toLocaleString('en-IN')}` : 'Free')}
+                    {o.international ? <em style={{ color: '#888' }}>billed separately</em> : (o.shipping ? formatMoney(o.shipping, cur) : 'Free')}
                   </td></tr>
                 <tr><td colSpan={2} style={{ padding: 8, textAlign: 'right', fontWeight: 700 }}>Total{o.international ? ' (excl. shipping)' : ''}</td>
-                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{((o.total && o.total > 0 ? o.total : o.subtotal)).toLocaleString('en-IN')}</td></tr>
+                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>{formatMoney(o.total && o.total > 0 ? o.total : o.subtotal, cur)}</td></tr>
               </tbody>
             </table>
           </div>

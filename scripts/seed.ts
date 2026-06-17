@@ -121,6 +121,23 @@ async function main() {
       bullets: ['Detailed PDF chart report', '5-10 mins WhatsApp explanation', 'Tailored crystal recommendations'],
       active: true,
     },
+    {
+      slug: 'tarot-video',
+      title: 'Live Tarot Reading — Video Call',
+      tagline: "See every card as it's drawn — face to face",
+      desc: 'A live, face-to-face tarot session via WhatsApp Video Call. Witness every card reveal in real time and dive deep into the messages the cards hold for you.',
+      image: '/service-tarot.png',
+      icon: 'fa-solid fa-video',
+      price: 3499,
+      usdPrice: 70,
+      durationMins: 30,
+      bullets: ['Live WhatsApp Video Call', 'See every card drawn in real time', '30 min or 60 min sessions available'],
+      tiers: [
+        { label: 'Video Call (30 min)', price: 3499, usdPrice: 70 },
+        { label: 'Video Call (1 hour)', price: 6999, usdPrice: 140 },
+      ],
+      active: true,
+    },
   ];
   for (const s of services) {
     const existing = await Service.findOne({ slug: s.slug });

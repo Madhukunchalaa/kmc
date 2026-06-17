@@ -6,6 +6,7 @@ import { CART_COOKIE } from '@/lib/cartSession';
 import { getDb } from '@/lib/mongodb';
 import { sendEmail, orderPaidEmail, adminOrderReceivedEmail } from '@/lib/email';
 import { resolveProductImage } from '@/lib/resolveProductImage';
+import { formatMoney } from '@/lib/money';
 
 export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
   const stockUpdates = order.items
@@ -33,11 +34,12 @@ export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
   }
 
   if (order.user) {
+    const cur = order.currency || 'INR';
     Notification.create({
       user: order.user,
       type: 'order',
       title: `Order ${order.orderNumber} confirmed`,
-      message: `Payment received — ₹${order.subtotal.toLocaleString('en-IN')}. We're preparing your crystals.`,
+      message: `Payment received — ${formatMoney(order.subtotal, cur)}. We're preparing your crystals.`,
       link: `/dashboard/orders/${order._id}`,
     }).catch(() => {});
   }
@@ -74,13 +76,14 @@ export async function fulfillPaidOrder(order: OrderDoc): Promise<void> {
 
   // Send email to customer and admin, awaiting both
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'krissmaagiicrystals@gmail.com';
+  const cur = order.currency || 'INR';
   await Promise.allSettled([
     sendEmail({
-      ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal, itemsWithImages),
+      ...orderPaidEmail(order.customer.name, order.orderNumber, order.subtotal, itemsWithImages, cur, order.international ?? false),
       to: order.customer.email,
     }),
     sendEmail({
-      ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal, itemsWithImages),
+      ...adminOrderReceivedEmail(order.orderNumber, order.customer.name, order.customer.email, order.customer.phone, order.subtotal, itemsWithImages, cur, order.international ?? false),
       to: adminEmail,
     }),
   ]).then((results) => {

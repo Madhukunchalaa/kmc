@@ -3,12 +3,12 @@ import { requireAdmin } from '@/lib/adminGuard';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { Notification } from '@/models/Notification';
-import { sendEmail, shippingPaymentLinkEmail } from '@/lib/email';
+import { sendEmail, shippingPaymentLinkEmail, shippingPaymentConfirmedEmail } from '@/lib/email';
 import { z } from 'zod';
 import { zodErrorMessage } from '@/lib/validators';
 
 const schema = z.object({
-  action: z.enum(['send-link', 'mark-paid', 'mark-unpaid']),
+  action: z.enum(['send-link', 'save-link', 'mark-paid', 'mark-unpaid', 'mark-international', 'mark-domestic']),
   link: z.string().url('Enter a valid payment link URL').optional().or(z.literal('')),
   amount: z.number().min(0).nullable().optional(),
   note: z.string().max(500).optional(),
@@ -34,6 +34,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     const sp = order.shippingPayment || ({} as NonNullable<typeof order.shippingPayment>);
     const update: Record<string, unknown> = {};
     let emailIt = false;
+    let sendPaidEmail = false;
 
     if (action === 'send-link') {
       if (!link) return NextResponse.json({ ok: false, reason: 'link-required' }, { status: 400 });
@@ -44,9 +45,24 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       update['shippingPayment.sentAt'] = new Date();
       update['international'] = true;
       emailIt = true;
+    } else if (action === 'save-link') {
+      if (!link) return NextResponse.json({ ok: false, reason: 'link-required' }, { status: 400 });
+      update['shippingPayment.link'] = link;
+      update['shippingPayment.amount'] = amount ?? sp.amount ?? null;
+      update['shippingPayment.note'] = note ?? sp.note ?? '';
+      update['international'] = true;
+      // Keep status as-is (pending stays pending; link-sent stays link-sent)
     } else if (action === 'mark-paid') {
       update['shippingPayment.status'] = 'paid';
       update['shippingPayment.paidAt'] = new Date();
+      sendPaidEmail = true;
+    } else if (action === 'mark-international') {
+      // Flag an order as abroad delivery so the shipping-payment workflow applies.
+      update['international'] = true;
+      if (sp.status === 'not-required' || !sp.status) update['shippingPayment.status'] = 'pending';
+    } else if (action === 'mark-domestic') {
+      update['international'] = false;
+      update['shippingPayment.status'] = 'not-required';
     } else {
       // mark-unpaid — revert to whatever stage makes sense
       update['shippingPayment.status'] = sp.link ? 'link-sent' : 'pending';
@@ -63,8 +79,16 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       }).catch((err) => console.error('[shipping-payment-email-error]', err));
     }
 
-    // Notify the customer in their dashboard
-    if (order.user) {
+    // Email the customer when shipping payment is confirmed
+    if (sendPaidEmail && order.customer?.email) {
+      await sendEmail({
+        ...shippingPaymentConfirmedEmail(order.customer.name, order.orderNumber, sp.amount ?? null, order.currency || 'INR'),
+        to: order.customer.email,
+      }).catch((err) => console.error('[shipping-paid-email-error]', err));
+    }
+
+    // Notify the customer in their dashboard (skip save-link — no customer-facing change)
+    if (order.user && action !== 'save-link') {
       const title = action === 'mark-paid'
         ? `Shipping payment received · ${order.orderNumber}`
         : action === 'send-link'
@@ -84,7 +108,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       }).catch(() => {});
     }
 
-    return NextResponse.json({ ok: true, status: update['shippingPayment.status'] });
+    return NextResponse.json({ ok: true, status: update['shippingPayment.status'] ?? sp.status ?? 'pending' });
   } catch (err) {
     console.error('[shipping-payment]', err);
     return NextResponse.json({ ok: false, reason: 'server-error' }, { status: 500 });

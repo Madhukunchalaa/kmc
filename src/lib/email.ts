@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { formatMoney } from './money';
 
 const HOST = process.env.SMTP_HOST;
 const PORT = Number(process.env.SMTP_PORT ?? 587);
@@ -68,7 +69,7 @@ export function welcomeEmail(name: string): EmailMessage {
   };
 }
 
-export function orderPaidEmail(name: string, orderNumber: string, subtotal: number, items: any[] = []): EmailMessage {
+export function orderPaidEmail(name: string, orderNumber: string, subtotal: number, items: any[] = [], currency: string = 'INR', international = false): EmailMessage {
   const itemsHtml = items.map(i => `
     <tr style="border-bottom:1px solid rgba(0,0,0,0.05)">
       <td style="padding:10px 0;display:flex;align-items:center;gap:12px">
@@ -78,7 +79,7 @@ export function orderPaidEmail(name: string, orderNumber: string, subtotal: numb
           <div style="font-size:11px;color:#666">Qty: ${i.qty}</div>
         </div>
       </td>
-      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">₹${i.lineTotal.toLocaleString('en-IN')}</td>
+      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">${formatMoney(i.lineTotal, currency)}</td>
     </tr>
   `).join('');
 
@@ -89,13 +90,14 @@ export function orderPaidEmail(name: string, orderNumber: string, subtotal: numb
       `Thank you, ${name}!`,
       `<p>Your payment for order <strong>${orderNumber}</strong> was successful.</p>
        <p>We're preparing your crystals and will update you when your order ships.</p>
+       ${international ? `<p style="background:#FFF8EF;border:1px solid rgba(200,149,108,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#8A4F27">🌍 <strong>International order:</strong> Shipping charges for your location will be calculated and sent separately via a secure payment link.</p>` : ''}
        <h4 style="margin:20px 0 10px;border-bottom:1px solid rgba(0,0,0,0.1);padding-bottom:6px;color:#2D1B0E">Order Summary</h4>
        <table style="width:100%;border-collapse:collapse;font-size:14px">
          <tbody>
            ${itemsHtml}
            <tr>
-             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total</td>
-             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">₹${subtotal.toLocaleString('en-IN')}</td>
+             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total${international ? ' (excl. shipping)' : ''}</td>
+             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">${formatMoney(subtotal, currency)}</td>
            </tr>
          </tbody>
        </table>`,
@@ -168,6 +170,25 @@ export function orderStatusEmail(name: string, orderNumber: string, status: stri
   };
 }
 
+export function shippingPaymentConfirmedEmail(
+  name: string,
+  orderNumber: string,
+  amount: number | null | undefined,
+  currency: string = 'INR',
+): EmailMessage {
+  const amt = amount && amount > 0 ? formatMoney(amount, currency) : '';
+  return {
+    to: '',
+    subject: `Shipping payment received · ${orderNumber}`,
+    html: shell(
+      `Shipping payment confirmed, ${name}!`,
+      `<p>We have received your shipping payment${amt ? ` of <strong style="color:#C8956C">${amt}</strong>` : ''} for order <strong>${orderNumber}</strong>.</p>
+       <p>Your crystals will be dispatched shortly. We'll notify you once shipped. 💫</p>
+       <p><a href="${process.env.NEXTAUTH_URL || ''}/dashboard/orders" style="display:inline-block;background:#C8956C;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">View my orders</a></p>`,
+    ),
+  };
+}
+
 export function shippingPaymentLinkEmail(
   name: string,
   orderNumber: string,
@@ -176,8 +197,7 @@ export function shippingPaymentLinkEmail(
   currency: string,
   note?: string,
 ): EmailMessage {
-  const sym = (currency || 'INR') === 'INR' ? '₹' : '$';
-  const amt = amount && amount > 0 ? `${sym}${amount.toLocaleString('en-IN')}` : '';
+  const amt = amount && amount > 0 ? formatMoney(amount, currency) : '';
   return {
     to: '',
     subject: `Shipping payment for your order ${orderNumber}`,
@@ -245,7 +265,9 @@ export function adminOrderReceivedEmail(
   customerEmail: string,
   customerPhone: string,
   subtotal: number,
-  items: any[] = []
+  items: any[] = [],
+  currency: string = 'INR',
+  international = false,
 ): EmailMessage {
   const itemsHtml = items.map(i => `
     <tr style="border-bottom:1px solid rgba(0,0,0,0.05)">
@@ -256,16 +278,17 @@ export function adminOrderReceivedEmail(
           <div style="font-size:11px;color:#666">Qty: ${i.qty}</div>
         </div>
       </td>
-      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">₹${i.lineTotal.toLocaleString('en-IN')}</td>
+      <td style="padding:10px 0;text-align:right;font-weight:bold;color:#2D1B0E">${formatMoney(i.lineTotal, currency)}</td>
     </tr>
   `).join('');
 
   return {
     to: '',
-    subject: `🚨 New Order Received · ${orderNumber}`,
+    subject: `🚨 New ${international ? '🌍 International ' : ''}Order · ${orderNumber}`,
     html: shell(
       `New Order Placed!`,
       `<p>A new order <strong>${orderNumber}</strong> has been successfully paid and placed.</p>
+       ${international ? `<p style="background:#FFF8EF;border:1px solid rgba(200,149,108,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#8A4F27">🌍 <strong>International order</strong> — shipping charges need to be collected separately via a payment link.</p>` : ''}
        <p><strong>Customer Details:</strong></p>
        <ul style="padding-left:20px;margin-bottom:20px">
          <li>Name: <strong>${customerName}</strong></li>
@@ -277,8 +300,8 @@ export function adminOrderReceivedEmail(
          <tbody>
            ${itemsHtml}
            <tr>
-             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total Paid</td>
-             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">₹${subtotal.toLocaleString('en-IN')}</td>
+             <td style="padding:12px 0 0;font-weight:bold;color:#2D1B0E">Total Paid${international ? ' (excl. shipping)' : ''}</td>
+             <td style="padding:12px 0 0;text-align:right;font-weight:bold;font-size:16px;color:#C8956C">${formatMoney(subtotal, currency)}</td>
            </tr>
          </tbody>
        </table>

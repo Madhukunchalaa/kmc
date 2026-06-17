@@ -6,6 +6,8 @@ import { Product } from '@/models/Product';
 import { resolveProductImage } from '@/lib/resolveProductImage';
 import OrderStatusForm from './OrderStatusForm';
 import ShippingPaymentForm from './ShippingPaymentForm';
+import MarkAbroadButton from './MarkAbroadButton';
+import { formatMoney, currencySymbol } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail · Admin' };
@@ -15,6 +17,7 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
   await connectMongoose();
   const order = await Order.findById(id).lean();
   if (!order) notFound();
+  const cur = order.currency || 'INR';
 
   // Query products to get images and details
   const slugs = order.items.map(i => i.productSlug);
@@ -28,7 +31,9 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
         {order.orderNumber}
       </h1>
       <p style={{ color: '#888' }}>
-        Placed {new Date(order.createdAt).toLocaleString('en-IN')} · Status: <strong>{order.status}</strong>
+        Placed {new Date(order.createdAt).toLocaleString('en-IN')}
+        {' · '}<strong>{order.international ? '🌍 Abroad' : '🇮🇳 India'}</strong> delivery · paid in <strong>{cur}</strong>
+        {' · '}Status: <strong>{order.status}</strong>
         {order.paymentStatus && (
           <> · Payment: <strong>{order.paymentStatus}</strong></>
         )}
@@ -72,22 +77,22 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
                           <div style={{ fontSize: '0.75rem', color: '#888' }}>{i.productSlug}</div>
                         </div>
                       </td>
-                      <td style={{ padding: 8, textAlign: 'right', verticalAlign: 'middle' }}>₹{i.price.toLocaleString('en-IN')}</td>
+                      <td style={{ padding: 8, textAlign: 'right', verticalAlign: 'middle' }}>{formatMoney(i.price, cur)}</td>
                       <td style={{ padding: 8, textAlign: 'right', verticalAlign: 'middle' }}>{i.qty}</td>
-                      <td style={{ padding: 8, textAlign: 'right', fontWeight: 600, verticalAlign: 'middle' }}>₹{i.lineTotal.toLocaleString('en-IN')}</td>
+                      <td style={{ padding: 8, textAlign: 'right', fontWeight: 600, verticalAlign: 'middle' }}>{formatMoney(i.lineTotal, cur)}</td>
                     </tr>
                   );
                 })}
               </tbody>
               <tfoot>
                 <tr><td colSpan={3} style={{ padding: '8px', textAlign: 'right', color: '#666' }}>Subtotal</td>
-                  <td style={{ padding: 8, textAlign: 'right' }}>₹{order.subtotal.toLocaleString('en-IN')}</td></tr>
+                  <td style={{ padding: 8, textAlign: 'right' }}>{formatMoney(order.subtotal, cur)}</td></tr>
                 <tr><td colSpan={3} style={{ padding: '2px 8px', textAlign: 'right', color: '#666' }}>Shipping</td>
                   <td style={{ padding: '2px 8px', textAlign: 'right' }}>
-                    {order.international ? <em style={{ color: '#888' }}>billed separately</em> : (order.shipping ? `₹${order.shipping.toLocaleString('en-IN')}` : 'Free')}
+                    {order.international ? <em style={{ color: '#888' }}>billed separately</em> : (order.shipping ? formatMoney(order.shipping, cur) : 'Free')}
                   </td></tr>
                 <tr><td colSpan={3} style={{ padding: 8, textAlign: 'right', fontWeight: 700 }}>Total{order.international ? ' (excl. shipping)' : ''}</td>
-                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{((order.total && order.total > 0 ? order.total : order.subtotal)).toLocaleString('en-IN')}</td></tr>
+                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>{formatMoney(order.total && order.total > 0 ? order.total : order.subtotal, cur)}</td></tr>
               </tfoot>
             </table>
           </div>
@@ -123,7 +128,7 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
               </p>
               <ShippingPaymentForm
                 orderId={String(order._id)}
-                currencySymbol={(order.currency || 'INR') === 'INR' ? '₹' : '$'}
+                currencySymbol={currencySymbol(cur)}
                 initial={{
                   status: order.shippingPayment?.status || 'pending',
                   link: order.shippingPayment?.link ?? '',
@@ -133,6 +138,16 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
                   paidAt: order.shippingPayment?.paidAt ? String(order.shippingPayment.paidAt) : null,
                 }}
               />
+            </div>
+          )}
+
+          {!order.international && (
+            <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>
+                <i className="fa-solid fa-truck me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+                Delivery
+              </h4>
+              <MarkAbroadButton orderId={String(order._id)} />
             </div>
           )}
         </div>

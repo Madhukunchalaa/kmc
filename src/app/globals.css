@@ -57,7 +57,7 @@
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: var(--navbar-height); overflow-x: hidden; width: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--navbar-height); width: 100%; max-width: 100vw; }
 
 body {
   font-family: var(--font-body);
@@ -65,7 +65,7 @@ body {
   background-color: var(--light);
   line-height: 1.7;
   overflow-x: hidden;
-  /* GPU compositing layer — prevents scroll jank */
+  /* GPU compositing layer — prevents scroll jank on iOS */
   -webkit-overflow-scrolling: touch;
 }
 

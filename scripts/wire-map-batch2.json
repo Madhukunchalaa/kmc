@@ -1,0 +1,26 @@
+{
+  "amethyst-design-ring": ["others/designer-crystal-rings/amethyst-oval-pic-2.webp"],
+  "lapis-lazuli-design-ring": ["others/designer-crystal-rings/lapis-lazuli-pic4.webp"],
+  "moonstone-design-ring": ["others/designer-crystal-rings/moonstone-pic21.webp", "others/designer-crystal-rings/moonstone-pic3.webp"],
+  "pyrite-design-ring": ["others/designer-crystal-rings/pyrite-pic-1.webp", "others/designer-crystal-rings/pyrite-pic1.webp", "others/designer-crystal-rings/pyrite-pic22.webp"],
+  "raw-black-tourmaline-design-ring": ["others/designer-crystal-rings/raw-black-tourmaline-pic-4.webp", "others/designer-crystal-rings/raw-black-tourmaline-pic-5.webp"],
+  "rhodonite-design-ring": ["others/designer-crystal-rings/rhodonite-pic1.webp", "others/designer-crystal-rings/rhodonite-pic2.webp", "others/designer-crystal-rings/rhodonite-pic3.webp"],
+  "rose-quartz-design-ring": ["others/designer-crystal-rings/rose-quartz-elephant-pic1.webp", "others/designer-crystal-rings/rose-quartz-elephant-pic2.webp", "others/designer-crystal-rings/rose-quartz-elephant-pic3.webp"],
+  "sulemani-hakik-design-ring": ["others/designer-crystal-rings/sulemani-hakik-pic1.webp", "others/designer-crystal-rings/sulemani-hakik-pic2.webp", "others/designer-crystal-rings/sulemani-hakik-pic3.webp"],
+  "tiger-eye-design-ring": ["others/designer-crystal-rings/tiger-eye-owl-pic1.webp", "others/designer-crystal-rings/tiger-eye-owl-pic2.webp", "others/designer-crystal-rings/tiger-eye-owl-pic3.webp"],
+  "yellow-calcite-design-ring": ["others/designer-crystal-rings/yellow-calcite-pic1.webp", "others/designer-crystal-rings/yellow-calcite-pic2.webp", "others/designer-crystal-rings/yellow-calcite-pic3.webp", "others/designer-crystal-rings/yellow-calcite-pic4.webp"],
+  "green-eventurine-design-ring": ["others/designer-crystal-rings/green-eventurine-owl-pic3.webp"],
+
+  "amethyst-merkaba": ["others/home-decor/amethyst-merkaba-pic-1.webp", "others/home-decor/amethyst-merkaba-pic-2.webp", "others/home-decor/amethyst-merkaba-pic-3.webp"],
+  "rose-quartz-merkaba": ["others/home-decor/rose-quartz-merkaba-pic-1.webp", "others/home-decor/rose-quartz-merkaba-pic-2.webp", "others/home-decor/rose-quartz-merkaba-pic-3.webp"],
+  "amethyst-shell-tree": ["others/home-decor/amethyst-small-tree.webp"],
+  "citrine-shell-tree": ["others/home-decor/citrine-small-tree.webp"],
+  "green-eventurine-shell-tree": ["others/home-decor/green-eventurine-small-tree.webp"],
+  "amethyst-small-sphere": ["others/home-decor/amethyst-sphere-2.webp"],
+  "pyrite-small-sphere": ["others/home-decor/pyrite-sphere.webp"],
+  "pyrite-angel": ["others/home-decor/pyrite-angel.webp"],
+  "tiger-eye-angel": ["others/home-decor/tiger-eye-angel.webp"],
+  "ganesha-pyrite-frame": ["others/home-decor/ganesha-pyrite-duster-plate-pic-1.webp", "others/home-decor/ganesha-pyrite-pic-2.webp", "others/home-decor/ganesha-pyrite-pic-3.webp"],
+  "selenite-laxmi-devi-pyrite-frame": ["others/home-decor/laxmi-pyrite-duster-plate-pic-1.webp", "others/home-decor/laxmi-pyrite-duster-plate-pic-3.webp"],
+  "seven-chakra-wand": ["others/home-decor/seven-chakra-wand.webp"]
+}

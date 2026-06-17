@@ -14,6 +14,9 @@ export interface ResolvedOrderLine {
   qty: number;
   lineTotal: number;
   stock: number | null;
+  category: string;
+  subcategory: string;
+  shippingCharge: number | null;
 }
 
 export async function resolveOrderLines(items: CartLineInput[], currency: string = 'INR'): Promise<{
@@ -24,15 +27,16 @@ export async function resolveOrderLines(items: CartLineInput[], currency: string
   // Any currency other than INR uses the usdPrice value (same number, different symbol)
   const useIntlPrice = currency !== 'INR';
   const dbProducts = await Product.find({ slug: { $in: items.map((i) => i.productId) }, active: true, isDeleted: { $ne: true } }).lean();
-  const productMap = new Map<string, { _id: string; slug: string; name: string; price: number; stock: number | null }>();
+  type MapVal = { _id: string; slug: string; name: string; price: number; stock: number | null; category: string; subcategory: string; shippingCharge: number | null };
+  const productMap = new Map<string, MapVal>();
   for (const p of dbProducts) {
     const pPrice = useIntlPrice ? (p.usdPrice && p.usdPrice > 0 ? p.usdPrice : Math.round(p.price / 50)) : p.price;
-    productMap.set(p.slug, { _id: String(p._id), slug: p.slug, name: p.name, price: pPrice, stock: p.stock ?? null });
+    productMap.set(p.slug, { _id: String(p._id), slug: p.slug, name: p.name, price: pPrice, stock: p.stock ?? null, category: p.category || '', subcategory: p.subcategory || '', shippingCharge: (p as { shippingCharge?: number | null }).shippingCharge ?? null });
   }
   for (const sp of seedProducts) {
     if (!productMap.has(sp.id)) {
       const spPrice = useIntlPrice ? (sp.usdPrice && sp.usdPrice > 0 ? sp.usdPrice : Math.round(sp.price / 50)) : sp.price;
-      productMap.set(sp.id, { _id: sp.id, slug: sp.id, name: sp.name, price: spPrice, stock: null });
+      productMap.set(sp.id, { _id: sp.id, slug: sp.id, name: sp.name, price: spPrice, stock: null, category: sp.category || '', subcategory: sp.subcategory || '', shippingCharge: null });
     }
   }
 
@@ -56,6 +60,9 @@ export async function resolveOrderLines(items: CartLineInput[], currency: string
         qty: it.qty,
         lineTotal: p.price * it.qty,
         stock: p.stock,
+        category: p.category,
+        subcategory: p.subcategory,
+        shippingCharge: p.shippingCharge,
       };
     })
     .filter((x): x is ResolvedOrderLine => x !== null);

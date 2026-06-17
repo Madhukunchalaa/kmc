@@ -24,15 +24,32 @@ export async function POST(req: Request) {
     : Service.findOne({ slug: serviceId, isDeleted: { $ne: true } }).lean());
   if (!service) return NextResponse.json({ ok: false, reason: 'service-not-found' }, { status: 404 });
 
-  // Conflict check only if a specific time is requested.
+  // Slot reservation: a slot is only truly taken once a booking is PAID/confirmed.
+  // Unpaid "pending" holds are temporary (15 min) so a failed/abandoned payment frees the slot,
+  // and a user's own hold never blocks their own retry.
   if (date !== 'N/A' && timeSlot !== 'N/A') {
+    const recentCutoff = new Date(Date.now() - 15 * 60 * 1000);
     const clash = await Booking.findOne({
       service: service._id,
       date,
       timeSlot,
-      status: { $in: ['pending', 'approved'] },
+      $or: [
+        { status: { $in: ['approved', 'booked', 'in_progress', 'completed'] } },
+        { paymentStatus: 'paid', status: { $nin: ['cancelled', 'rejected'] } },
+        { status: 'pending', paymentStatus: 'unpaid', user: { $ne: session.user.id }, createdAt: { $gte: recentCutoff } },
+      ],
     });
     if (clash) return NextResponse.json({ ok: false, reason: 'slot-already-taken' }, { status: 409 });
+
+    // Clear this user's own stale unpaid hold(s) on this slot so a retry creates a clean booking.
+    await Booking.deleteMany({
+      service: service._id,
+      date,
+      timeSlot,
+      user: session.user.id,
+      status: 'pending',
+      paymentStatus: 'unpaid',
+    });
   }
 
   const bookingNumber = 'BKG-' + Date.now().toString(36).toUpperCase();

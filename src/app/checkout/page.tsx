@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 import Spinner from '@/components/Spinner';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
+import { getShippingCharge, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
 
 interface Form {
   name: string;
@@ -36,6 +37,15 @@ export default function CheckoutPage() {
   const usdSubtotal = hydrated.reduce((sum, it) => sum + (it.product.usdPrice || 0) * it.qty, 0);
 
   const [form, setForm] = useState<Form>(EMPTY);
+
+  // Shipping (India only): highest single-item rate, free at/above the threshold.
+  // International (country ≠ IN) is billed separately by admin after the order.
+  const destinationIsIntl = form.country ? form.country !== 'IN' : currency !== 'INR';
+  const shippingInr =
+    destinationIsIntl || hydrated.length === 0 || inrSubtotal >= FREE_SHIPPING_THRESHOLD
+      ? 0
+      : Math.max(...hydrated.map((it) => getShippingCharge(it.product)));
+  const payableInr = destinationIsIntl ? inrSubtotal : inrSubtotal + shippingInr;
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -253,21 +263,31 @@ export default function CheckoutPage() {
 
                 {(() => {
                   const isInr = (confirmedOrder.currency || 'INR') === 'INR';
-                  const subtotalFmt = formatPrice(isInr ? confirmedOrder.subtotal : 0, isInr ? null : confirmedOrder.subtotal);
+                  const ship = confirmedOrder.shipping ?? 0;
+                  const total = confirmedOrder.total && confirmedOrder.total > 0 ? confirmedOrder.total : confirmedOrder.subtotal;
+                  const isIntl = !!confirmedOrder.international;
+                  const fmt = (n: number) => formatPrice(isInr ? n : 0, isInr ? null : n);
                   return (
                     <>
                       <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666' }}>
                         <span>Subtotal</span>
-                        <span>{subtotalFmt}</span>
+                        <span>{fmt(confirmedOrder.subtotal)}</span>
                       </div>
                       <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666', marginTop: '-0.5rem' }}>
                         <span>Shipping</span>
-                        <span style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Free</span>
+                        <span style={{ color: isIntl || ship === 0 ? 'var(--primary,#C8956C)' : '#2D1B0E', fontWeight: 600 }}>
+                          {isIntl ? 'Billed separately' : ship === 0 ? 'Free' : fmt(ship)}
+                        </span>
                       </div>
                       <div className="d-flex justify-content-between" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#2D1B0E', marginTop: '0.5rem' }}>
                         <span>Total Paid</span>
-                        <span>{subtotalFmt}</span>
+                        <span>{fmt(total)}</span>
                       </div>
+                      {isIntl && (
+                        <p style={{ fontSize: '0.8rem', color: '#888', marginTop: 8, marginBottom: 0 }}>
+                          Shipping for your location will be calculated and sent separately via a payment link.
+                        </p>
+                      )}
                     </>
                   );
                 })()}
@@ -661,8 +681,15 @@ export default function CheckoutPage() {
 
                 <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
                   {submitting ? <Spinner /> : <i className="fa-solid fa-lock"></i>}
-                  <span>{submitting ? 'Processing…' : `Pay ${formatPrice(inrSubtotal, usdSubtotal)}`}</span>
+                  <span>{submitting ? 'Processing…' : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
                 </button>
+
+                {destinationIsIntl && (
+                  <p style={{ fontSize: '0.82rem', color: 'var(--primary,#C8956C)', background: 'rgba(200,149,108,0.08)', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', margin: 0 }}>
+                    <i className="fa-solid fa-earth-asia me-2"></i>
+                    <strong>International order:</strong> Shipping is not included above. Shipping charges for your location will be calculated and sent to you separately via a secure payment link.
+                  </p>
+                )}
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
                   Secure payment via Cashfree — UPI, cards, netbanking &amp; wallets accepted.
@@ -690,12 +717,29 @@ export default function CheckoutPage() {
                 <hr style={{ margin: '1rem 0' }} />
                 <div className="d-flex justify-content-between"><span>Subtotal</span><strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong></div>
                 <div className="d-flex justify-content-between" style={{ color: '#777', fontSize: '0.9rem' }}>
-                  <span>Shipping</span><span>Free</span>
+                  <span>Shipping</span>
+                  <span>
+                    {destinationIsIntl
+                      ? <span style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Billed separately</span>
+                      : shippingInr === 0
+                        ? <span style={{ color: '#2B7A5C', fontWeight: 600 }}>Free</span>
+                        : <strong>{formatPrice(shippingInr, 0)}</strong>}
+                  </span>
                 </div>
+                {!destinationIsIntl && shippingInr > 0 && inrSubtotal < FREE_SHIPPING_THRESHOLD && (
+                  <div style={{ fontSize: '0.78rem', color: '#999', marginTop: 4 }}>
+                    Add {formatPrice(FREE_SHIPPING_THRESHOLD - inrSubtotal, 0)} more for free shipping.
+                  </div>
+                )}
                 <hr style={{ margin: '1rem 0' }} />
                 <div className="d-flex justify-content-between" style={{ fontSize: '1.2rem' }}>
-                  <strong>Total</strong><strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong>
+                  <strong>Total</strong><strong>{formatPrice(payableInr, usdSubtotal)}</strong>
                 </div>
+                {destinationIsIntl && (
+                  <p style={{ fontSize: '0.78rem', color: '#999', marginTop: 8, marginBottom: 0 }}>
+                    Shipping charges for international orders are calculated and sent separately.
+                  </p>
+                )}
               </div>
             </div>
           </div>

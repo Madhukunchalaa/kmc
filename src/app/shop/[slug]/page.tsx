@@ -14,16 +14,16 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
 
   const all = await getAllProducts();
 
-  // Group products into our 4 target categories for better related products matching
+  // Group products by collection for better related-products matching.
   const getProductGroup = (p: { category: string; subcategory?: string; name: string }) => {
     const sub = (p.subcategory || '').toLowerCase();
     const cat = (p.category || '').toLowerCase();
-    const name = (p.name || '').toLowerCase();
     if (sub === 'designer bracelets') return 'designer';
     if (sub === 'signature bracelets') return 'signature';
-    if (sub === 'spell jars' || name.includes('spell jar')) return 'spelljar';
     if (cat === 'bracelets') return 'bycrystal';
-    return 'other';
+    // Non-bracelet items group by their (re-tagged) category: malas, pendants,
+    // silver-jewelry, anklets, home-decor, spell-jars, etc.
+    return cat || 'other';
   };
 
   const productGroup = getProductGroup(product);

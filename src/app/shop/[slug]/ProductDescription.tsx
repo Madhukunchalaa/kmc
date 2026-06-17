@@ -8,6 +8,7 @@ interface DescObj {
   benefits?: string[];
   howToWear?: string[];
   careInstructions?: string[];
+  affirmation?: string;
   disclaimer?: string;
 }
 
@@ -53,11 +54,12 @@ export default function ProductDescription({ descObj, desc, longDesc }: ProductD
   }
 
   // If there is structured JSON content:
-  const hasExtraSections = 
+  const hasExtraSections =
     (descObj.whoShouldWear && descObj.whoShouldWear.length > 0) ||
     (descObj.benefits && descObj.benefits.length > 0) ||
     (descObj.howToWear && descObj.howToWear.length > 0) ||
     (descObj.careInstructions && descObj.careInstructions.length > 0) ||
+    !!descObj.affirmation ||
     !!descObj.disclaimer;
 
   return (
@@ -119,6 +121,13 @@ export default function ProductDescription({ descObj, desc, longDesc }: ProductD
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {descObj.affirmation && (
+            <div className="mt-4" style={{ background: 'linear-gradient(135deg, rgba(200,149,108,0.08), rgba(200,149,108,0.15))', borderLeft: '3px solid var(--primary,#C8956C)', borderRadius: '0 8px 8px 0', padding: '12px 16px' }}>
+              <h6 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.88rem', fontWeight: 700, color: 'var(--dark-2)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Affirmation</h6>
+              <p style={{ fontStyle: 'italic', color: 'var(--dark-2)', fontWeight: 500, margin: 0 }}>&ldquo;{descObj.affirmation}&rdquo;</p>
             </div>
           )}
 

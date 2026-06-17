@@ -39,10 +39,8 @@ export async function middleware(req: NextRequest) {
 
   // Dashboard routes — check user session (NextAuth) in Edge runtime
   const allCookies = req.cookies.getAll();
-  console.log(`[Middleware] Path: ${pathname}, Cookies: ${allCookies.map(c => c.name).join(', ')}`);
-
   const sessionCookies = allCookies.filter(c => c.name.includes('session-token'));
-  
+
   let token = null;
   for (const cookie of sessionCookies) {
     try {
@@ -52,33 +50,22 @@ export async function middleware(req: NextRequest) {
         cookieName: cookie.name,
         salt: cookie.name,
       });
-      if (t) {
-        token = t;
-        console.log(`[Middleware] Successfully decrypted token from cookie: ${cookie.name}`);
-        break;
-      }
-    } catch (err) {
-      console.error(`[Middleware] Error decrypting token with cookie ${cookie.name}:`, err);
+      if (t) { token = t; break; }
+    } catch {
+      // try next cookie
     }
   }
 
   if (!token) {
     // Fallback to default next-auth getToken behavior
     try {
-      token = await getToken({
-        req,
-        secret: process.env.AUTH_SECRET,
-      });
-      if (token) {
-        console.log(`[Middleware] Successfully decrypted token using default getToken`);
-      }
-    } catch (err) {
-      console.error(`[Middleware] Fallback getToken failed:`, err);
+      token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    } catch {
+      // no valid token
     }
   }
 
   if (!token) {
-    console.log(`[Middleware] No valid session token found. Redirecting to login.`);
     const url = req.nextUrl.clone();
     url.pathname = '/login';
     url.searchParams.set('callbackUrl', pathname + search);

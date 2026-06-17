@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';

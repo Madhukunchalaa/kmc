@@ -5,6 +5,7 @@ import { Order } from '@/models/Order';
 import { Product } from '@/models/Product';
 import { resolveProductImage } from '@/lib/resolveProductImage';
 import OrderStatusForm from './OrderStatusForm';
+import ShippingPaymentForm from './ShippingPaymentForm';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order Detail · Admin' };
@@ -79,8 +80,14 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
                 })}
               </tbody>
               <tfoot>
-                <tr><td colSpan={3} style={{ padding: 8, textAlign: 'right' }}>Subtotal</td>
-                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{order.subtotal.toLocaleString('en-IN')}</td></tr>
+                <tr><td colSpan={3} style={{ padding: '8px', textAlign: 'right', color: '#666' }}>Subtotal</td>
+                  <td style={{ padding: 8, textAlign: 'right' }}>₹{order.subtotal.toLocaleString('en-IN')}</td></tr>
+                <tr><td colSpan={3} style={{ padding: '2px 8px', textAlign: 'right', color: '#666' }}>Shipping</td>
+                  <td style={{ padding: '2px 8px', textAlign: 'right' }}>
+                    {order.international ? <em style={{ color: '#888' }}>billed separately</em> : (order.shipping ? `₹${order.shipping.toLocaleString('en-IN')}` : 'Free')}
+                  </td></tr>
+                <tr><td colSpan={3} style={{ padding: 8, textAlign: 'right', fontWeight: 700 }}>Total{order.international ? ' (excl. shipping)' : ''}</td>
+                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{((order.total && order.total > 0 ? order.total : order.subtotal)).toLocaleString('en-IN')}</td></tr>
               </tfoot>
             </table>
           </div>
@@ -104,6 +111,30 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Update status</h4>
             <OrderStatusForm orderId={String(order._id)} current={order.status} note={order.adminNote || ''} />
           </div>
+
+          {order.international && (
+            <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(200,149,108,0.3)' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>
+                <i className="fa-solid fa-earth-asia me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+                International Shipping Payment
+              </h4>
+              <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: 12 }}>
+                Generate a payment link externally and send it to the customer ({order.customer.country}).
+              </p>
+              <ShippingPaymentForm
+                orderId={String(order._id)}
+                currencySymbol={(order.currency || 'INR') === 'INR' ? '₹' : '$'}
+                initial={{
+                  status: order.shippingPayment?.status || 'pending',
+                  link: order.shippingPayment?.link ?? '',
+                  amount: order.shippingPayment?.amount ?? null,
+                  note: order.shippingPayment?.note ?? '',
+                  sentAt: order.shippingPayment?.sentAt ? String(order.shippingPayment.sentAt) : null,
+                  paidAt: order.shippingPayment?.paidAt ? String(order.shippingPayment.paidAt) : null,
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

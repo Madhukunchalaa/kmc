@@ -24,6 +24,8 @@ export interface ProductDoc {
   desc: string;
   longDesc?: string;
   chakras: string[];
+  /** Optional India shipping override (₹). When null, the rate is computed from category in lib/shipping. */
+  shippingCharge?: number | null;
   stock: number;
   active: boolean;
   isDeleted: boolean;
@@ -60,6 +62,7 @@ const ProductSchema = new Schema<ProductDoc>(
     desc: { type: String, required: true },
     longDesc: { type: String, default: '' },
     chakras: { type: [String], default: [] },
+    shippingCharge: { type: Number, default: null },
     stock: { type: Number, default: 99, min: 0 },
     active: { type: Boolean, default: true, index: true },
     isDeleted: { type: Boolean, default: false, index: true },

@@ -168,6 +168,32 @@ export function orderStatusEmail(name: string, orderNumber: string, status: stri
   };
 }
 
+export function shippingPaymentLinkEmail(
+  name: string,
+  orderNumber: string,
+  link: string,
+  amount: number | null | undefined,
+  currency: string,
+  note?: string,
+): EmailMessage {
+  const sym = (currency || 'INR') === 'INR' ? '₹' : '$';
+  const amt = amount && amount > 0 ? `${sym}${amount.toLocaleString('en-IN')}` : '';
+  return {
+    to: '',
+    subject: `Shipping payment for your order ${orderNumber}`,
+    html: shell(
+      `Complete your shipping payment, ${name}`,
+      `<p>Thank you for your order <strong>${orderNumber}</strong>. As this is an international order, shipping is calculated separately based on your delivery location.</p>
+       ${amt ? `<p style="font-size:16px">Shipping charge: <strong style="color:#C8956C">${amt}</strong></p>` : ''}
+       <p>Please complete your shipping payment using the secure link below:</p>
+       <p><a href="${link}" style="display:inline-block;background:#C8956C;color:#fff;padding:12px 22px;border-radius:999px;text-decoration:none">Pay shipping charges</a></p>
+       <p style="color:#888;font-size:12px">If the button doesn't work, copy and paste this link:<br/>${link}</p>
+       ${note ? `<p>Note from Kriss: <em>${note}</em></p>` : ''}
+       <p>Once your payment is received, we'll dispatch your crystals right away. 💫</p>`,
+    ),
+  };
+}
+
 export function passwordResetEmail(name: string, resetUrl: string): EmailMessage {
   return {
     to: '',

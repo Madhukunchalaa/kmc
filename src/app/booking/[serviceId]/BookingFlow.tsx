@@ -134,6 +134,12 @@ const VOICE_OPTIONS = [
 ];
 
 const AUDIO_TIERS = [
+  { label: '30 minutes (30min)', price: 1499, usdPrice: 30 },
+  { label: '1 hour (1hr)', price: 2999, usdPrice: 60 },
+  { label: '2 hours (2hr) — only one slot', price: 5999, usdPrice: 120 },
+];
+
+const VIDEO_TIERS = [
   { label: '30 minutes (30min)', price: 2499, usdPrice: 50 },
   { label: '1 hour (1hr)', price: 4999, usdPrice: 100 },
 ];
@@ -198,19 +204,26 @@ export default function BookingFlow({
 
   const requiresDateAndTime = isTarot ? (tarotType === 'audio') : false;
   const isTarotVoice = isTarot && tarotType === 'voice';
+  // Live-call label depends on how the customer arrived: a video link shows "Video Call",
+  // otherwise (audio/call/default) it shows "Audio Call".
+  const isVideoType = initialType === 'video';
+  const callLabel = isVideoType ? 'Video Call' : 'Audio Call';
+  const callIcon = isVideoType ? '📹' : '📞';
+  const callMedium = isVideoType ? 'WhatsApp Video Call' : 'WhatsApp Audio';
+  const callTiers = isVideoType ? VIDEO_TIERS : AUDIO_TIERS;
 
   const selectedTier = tiers && tiers[tierIdx];
   
   const activePrice = isTarot
     ? (tarotType === 'voice'
         ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.price, 0)
-        : (AUDIO_TIERS[tierIdx]?.price || 2499))
+        : (callTiers[tierIdx]?.price ?? callTiers[0].price))
     : (selectedTier ? selectedTier.price : servicePrice);
 
   const activeUsdPrice = isTarot
     ? (tarotType === 'voice'
         ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.usdPrice, 0)
-        : (AUDIO_TIERS[tierIdx]?.usdPrice || 50))
+        : (callTiers[tierIdx]?.usdPrice ?? callTiers[0].usdPrice))
     : (selectedTier ? selectedTier.usdPrice : serviceUsdPrice);
 
 
@@ -239,7 +252,7 @@ export default function BookingFlow({
           tierLabel: isTarot
             ? (tarotType === 'voice'
                 ? `Voice Chat (${selectedVoiceOptions.map(id => VOICE_OPTIONS.find(o => o.id === id)?.label).join(', ')})`
-                : `Audio Call (${AUDIO_TIERS[tierIdx]?.label})`)
+                : `${callLabel} (${callTiers[tierIdx]?.label})`)
             : selectedTier?.label,
           tierPrice: activePrice,
           tierUsdPrice: activeUsdPrice,
@@ -477,7 +490,7 @@ export default function BookingFlow({
                   textAlign: 'center',
                 }}
               >
-                📞 Audio Call
+                {callIcon} {callLabel}
               </button>
             </div>
           )}
@@ -555,7 +568,7 @@ export default function BookingFlow({
           ) : (
             <div>
               <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: 16 }}>
-                Select the duration for your live audio session (conducted via WhatsApp Audio):
+                Select the duration for your live {isVideoType ? 'video call' : 'audio session'} (conducted via {callMedium}):
               </p>
               <div style={{
                 display: 'grid',
@@ -564,7 +577,7 @@ export default function BookingFlow({
                 width: '100%',
                 boxSizing: 'border-box'
               }}>
-                {AUDIO_TIERS.map((t, idx) => {
+                {callTiers.map((t, idx) => {
                   const active = idx === tierIdx;
                   return (
                     <button

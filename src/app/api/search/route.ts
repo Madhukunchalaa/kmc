@@ -11,7 +11,9 @@ export async function GET(req: Request) {
     return NextResponse.json({ ok: true, products: [], services: [] });
   }
 
-  const regex = new RegExp(q, 'i');
+  // Escape special regex characters to prevent ReDoS attacks
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(escaped, 'i');
 
   try {
     await connectMongoose();

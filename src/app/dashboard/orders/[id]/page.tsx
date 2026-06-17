@@ -364,6 +364,39 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
         }
       `}</style>
 
+      {o.international && o.shippingPayment && o.shippingPayment.status !== 'not-required' && (
+        <div style={{
+          background: o.shippingPayment.status === 'paid' ? '#F0F8F4' : '#FFF8EF',
+          border: `1px solid ${o.shippingPayment.status === 'paid' ? '#BFE3CF' : 'rgba(200,149,108,0.35)'}`,
+          borderRadius: 14, padding: 20, marginTop: 20,
+        }}>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', marginTop: 0 }}>
+            <i className="fa-solid fa-earth-asia me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
+            International Shipping
+          </h4>
+          {o.shippingPayment.status === 'paid' ? (
+            <p style={{ margin: 0, color: '#2B7A5C', fontWeight: 600 }}>
+              <i className="fa-solid fa-circle-check me-2"></i>
+              Shipping payment received — your order will be dispatched shortly.
+            </p>
+          ) : o.shippingPayment.status === 'link-sent' && o.shippingPayment.link ? (
+            <>
+              <p style={{ margin: '0 0 12px', color: '#666', fontSize: '0.9rem' }}>
+                Your shipping charge{o.shippingPayment.amount ? <> of <strong>{(o.currency || 'INR') === 'INR' ? '₹' : '$'}{o.shippingPayment.amount.toLocaleString('en-IN')}</strong></> : ''} is ready. Please complete the payment so we can dispatch your order.
+              </p>
+              <a href={o.shippingPayment.link} target="_blank" rel="noopener noreferrer" className="btn-primary-custom" style={{ textDecoration: 'none' }}>
+                <i className="fa-solid fa-credit-card"></i><span>Pay shipping charges</span>
+              </a>
+            </>
+          ) : (
+            <p style={{ margin: 0, color: '#888', fontSize: '0.9rem' }}>
+              Shipping charges for your location are being calculated. We&apos;ll email you a secure payment link shortly.
+            </p>
+          )}
+          {o.shippingPayment.note && <p style={{ marginTop: 10, fontSize: '0.82rem', color: '#888' }}><em>{o.shippingPayment.note}</em></p>}
+        </div>
+      )}
+
       <div className="row g-4 mt-2">
         <div className="col-lg-8">
           <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
@@ -393,8 +426,14 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
                     </tr>
                   );
                 })}
-                <tr><td colSpan={2} style={{ padding: 8, textAlign: 'right' }}>Total</td>
-                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{o.subtotal.toLocaleString('en-IN')}</td></tr>
+                <tr><td colSpan={2} style={{ padding: '6px 8px', textAlign: 'right', color: '#888' }}>Subtotal</td>
+                  <td style={{ padding: '6px 8px', textAlign: 'right' }}>₹{o.subtotal.toLocaleString('en-IN')}</td></tr>
+                <tr><td colSpan={2} style={{ padding: '2px 8px', textAlign: 'right', color: '#888' }}>Shipping</td>
+                  <td style={{ padding: '2px 8px', textAlign: 'right' }}>
+                    {o.international ? <em style={{ color: '#888' }}>billed separately</em> : (o.shipping ? `₹${o.shipping.toLocaleString('en-IN')}` : 'Free')}
+                  </td></tr>
+                <tr><td colSpan={2} style={{ padding: 8, textAlign: 'right', fontWeight: 700 }}>Total{o.international ? ' (excl. shipping)' : ''}</td>
+                  <td style={{ padding: 8, textAlign: 'right', fontWeight: 700, fontSize: '1.05rem' }}>₹{((o.total && o.total > 0 ? o.total : o.subtotal)).toLocaleString('en-IN')}</td></tr>
               </tbody>
             </table>
           </div>

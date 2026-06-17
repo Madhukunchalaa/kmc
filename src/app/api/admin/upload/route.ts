@@ -15,6 +15,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, reason: 'File is required' }, { status: 400 });
     }
 
+    // ── Size guard: 10 MB max ──
+    const MAX_BYTES = 10 * 1024 * 1024;
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json({ ok: false, reason: 'File too large (max 10 MB)' }, { status: 413 });
+    }
+
+    // ── MIME type allowlist (images only) ──
+    const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+    const ALLOWED_EXT  = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'];
+    const fileExt = (file.name.split('.').pop() || '').toLowerCase();
+    if (!ALLOWED_MIME.includes(file.type) || !ALLOWED_EXT.includes(fileExt)) {
+      return NextResponse.json({ ok: false, reason: 'Only image files are allowed (JPG, PNG, WebP, GIF, AVIF)' }, { status: 415 });
+    }
+
     // Ensure R2 credentials are set
     if (!process.env.R2_ENDPOINT || !process.env.R2_ACCESS_KEY_ID || !process.env.R2_SECRET_ACCESS_KEY || !process.env.R2_BUCKET_NAME) {
       throw new Error('Cloudflare R2 credentials are not configured in environment variables');

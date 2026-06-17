@@ -5,6 +5,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { CART_COOKIE } from '@/lib/cartSession';
 import { resolveOrderLines } from '@/lib/orderLines';
+import { computeOrderShipping } from '@/lib/shipping';
 import { isCashfreeConfigured } from '@/lib/cashfree';
 import { createOrderSchema, zodErrorMessage } from '@/lib/validators';
 
@@ -41,6 +42,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: stockError }, { status });
   }
 
+  // Shipping: India = highest item rate (free ≥ ₹4,500); international = settled separately by admin.
+  const { shipping, international } = computeOrderShipping(lines, {
+    country: customer.country,
+    currency,
+    subtotal,
+  });
+  const total = subtotal + shipping;
+
   const orderNumber = 'KMC-' + Date.now().toString(36).toUpperCase();
 
   try {
@@ -57,6 +66,10 @@ export async function POST(req: Request) {
         lineTotal: l.lineTotal,
       })) as never,
       subtotal,
+      shipping,
+      total,
+      international,
+      shippingPayment: { status: international ? 'pending' : 'not-required' },
       currency,
       status: 'pending',
       paymentStatus: 'unpaid',
@@ -68,6 +81,9 @@ export async function POST(req: Request) {
       orderNumber,
       orderId: String(order._id),
       subtotal,
+      shipping,
+      total,
+      international,
       requiresPayment: true,
     });
   } catch (err) {

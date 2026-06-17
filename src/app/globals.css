@@ -6240,29 +6240,24 @@ body.theme-rose .hero-v2-orb {
 
 .shop-top-categories-track {
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  flex-wrap: wrap;
+  gap: 10px;
   padding: 4px 2px;
   justify-content: center;
-}
-.shop-top-categories-track::-webkit-scrollbar {
-  display: none;
 }
 
 .shop-top-category-btn {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  border-radius: 16px;
+  padding: 9px 15px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   background: transparent;
   color: rgba(255, 255, 255, 0.75);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-family: var(--font-heading);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   flex-shrink: 0;

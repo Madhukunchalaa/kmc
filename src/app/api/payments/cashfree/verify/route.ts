@@ -110,6 +110,9 @@ export async function POST(req: Request) {
       alreadyPaid: true,
       items: order.items,
       subtotal: order.subtotal,
+      shipping: order.shipping ?? 0,
+      total: order.total && order.total > 0 ? order.total : order.subtotal,
+      international: order.international ?? false,
       currency: order.currency || 'INR',
     });
   }
@@ -131,6 +134,9 @@ export async function POST(req: Request) {
     orderId: String(order._id),
     items: order.items,
     subtotal: order.subtotal,
+    shipping: order.shipping ?? 0,
+    total: order.total && order.total > 0 ? order.total : order.subtotal,
+    international: order.international ?? false,
     currency: order.currency || 'INR',
   });
 }

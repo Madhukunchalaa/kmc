@@ -10,11 +10,24 @@ import type { CatalogProduct } from '@/lib/catalog';
 const ITEMS_PER_PAGE = 30;
 
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
-  { key: 'all',       label: 'All Collections',      icon: 'fa-solid fa-gem' },
-  { key: 'designer',  label: 'Designer Bracelets',   icon: 'fa-solid fa-wand-magic-sparkles' },
-  { key: 'signature', label: 'Signature Crystals',   icon: 'fa-solid fa-crown' },
-  { key: 'spelljar',  label: 'Spell Jars',           icon: 'fa-solid fa-jar' },
-  { key: 'bycrystal', label: 'Bracelets by Crystals',icon: 'fa-solid fa-circle-notch' },
+  // --- Original 5 collections (kept together as a group) ---
+  { key: 'all',                   label: 'All Collections',       icon: 'fa-solid fa-gem' },
+  { key: 'designer-bracelets',    label: 'Designer Bracelets',    icon: 'fa-solid fa-wand-magic-sparkles' },
+  { key: 'signature',             label: 'Signature Crystals',    icon: 'fa-solid fa-crown' },
+  { key: 'spell-jars',            label: 'Spell Jars',            icon: 'fa-solid fa-jar' },
+  { key: 'bracelets-by-crystals', label: 'Bracelets by Crystals', icon: 'fa-solid fa-circle-notch' },
+  // --- New collections (from Drive folders) ---
+  { key: 'malas',                 label: 'Malas',                 icon: 'fa-solid fa-om' },
+  { key: 'pendants',              label: 'Pendants',              icon: 'fa-solid fa-gem' },
+  { key: 'designer-pendants',     label: 'Designer Pendants',     icon: 'fa-solid fa-star' },
+  { key: 'silver-jewelry',        label: 'Silver Jewelry',        icon: 'fa-solid fa-ring' },
+  { key: 'anklets',               label: 'Anklets',               icon: 'fa-solid fa-link' },
+  { key: 'glow-essentials',       label: 'Glow Essentials',       icon: 'fa-solid fa-spa' },
+  { key: 'crystal-towers',        label: 'Crystal Towers',        icon: 'fa-solid fa-mountain' },
+  { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
+  { key: 'raw-crystal',           label: 'Raw Crystals',          icon: 'fa-solid fa-cubes' },
+  { key: 'designer-crystals',     label: 'Designer Crystals',     icon: 'fa-solid fa-wand-sparkles' },
+  { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];
 
 const SORTS = [
@@ -55,32 +68,32 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
   }, [activeCat, sort, query]);
 
   const filtered = useMemo(() => {
-    // Filter out items not belonging to the 4 target categories
-    const allowed = products.filter((p) => {
-      const sub = (p.subcategory || '').toLowerCase();
-      const cat = (p.category || '').toLowerCase();
-      const name = (p.name || '').toLowerCase();
-      
-      const isDesigner = sub === 'designer bracelets';
-      const isSignature = sub === 'signature bracelets';
-      const isSpellJar = sub === 'spell jars' || name.includes('spell jar');
-      const isByCrystal = cat === 'bracelets' && !isDesigner && !isSignature;
-      
-      return isDesigner || isSignature || isSpellJar || isByCrystal;
-    });
+    const norm = (s: string | undefined) => (s || '').toLowerCase();
 
-    let list = [...allowed];
+    // Show the full catalog; each tab narrows by category / subcategory.
+    let list = [...products];
     if (activeCat !== 'all') {
-      list = allowed.filter((p) => {
-        const sub = (p.subcategory || '').toLowerCase();
-        const cat = (p.category || '').toLowerCase();
-        const name = (p.name || '').toLowerCase();
-        
-        if (activeCat === 'designer') return sub === 'designer bracelets';
-        if (activeCat === 'signature') return sub === 'signature bracelets';
-        if (activeCat === 'spelljar') return sub === 'spell jars' || name.includes('spell jar');
-        if (activeCat === 'bycrystal') return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
-        return false;
+      list = products.filter((p) => {
+        const sub = norm(p.subcategory);
+        const cat = norm(p.category);
+        switch (activeCat) {
+          case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
+          case 'designer-bracelets':    return sub === 'designer bracelets';
+          case 'signature':             return sub === 'signature bracelets';
+          case 'malas':                 return cat === 'malas';
+          case 'pendants':              return cat === 'pendants';
+          case 'designer-pendants':     return cat === 'designer-pendants';
+          case 'silver-jewelry':        return cat === 'silver-jewelry';
+          case 'anklets':               return cat === 'anklets';
+          case 'glow-essentials':       return cat === 'glow-essentials';
+          case 'crystal-towers':        return cat === 'crystal-towers';
+          case 'pyramids':              return cat === 'pyramids';
+          case 'raw-crystal':           return cat === 'raw-crystal';
+          case 'designer-crystals':     return cat === 'designer-crystals';
+          case 'home-decor':            return cat === 'home-decor';
+          case 'spell-jars':            return cat === 'spell-jars';
+          default:                      return false;
+        }
       });
     }
 

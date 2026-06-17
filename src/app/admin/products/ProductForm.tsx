@@ -18,24 +18,53 @@ interface Initial {
   desc: string;
   longDesc: string;
   chakras: string[];
+  shippingCharge: number | null;
   stock: number;
   active: boolean;
 }
 
 const EMPTY: Initial = {
   slug: '', name: '', category: 'bracelets', subcategory: 'Bracelets', price: 0, originalPrice: null, usdPrice: 0, originalUsdPrice: null,
-  image: '', images: [], badge: null, desc: '', longDesc: '', chakras: [], stock: 99, active: true,
+  image: '', images: [], badge: null, desc: '', longDesc: '', chakras: [], shippingCharge: null, stock: 99, active: true,
 };
 
 const STANDARD_CATEGORIES = [
   { value: 'bracelets', label: 'Bracelets' },
-  { value: 'spelljars', label: 'Spell Jars' },
+  { value: 'malas', label: 'Malas' },
+  { value: 'pendants', label: 'Pendants' },
+  { value: 'designer-pendants', label: 'Designer Pendants' },
+  { value: 'silver-jewelry', label: 'Silver Jewelry' },
+  { value: 'anklets', label: 'Anklets' },
+  { value: 'glow-essentials', label: 'Glow Essentials' },
+  { value: 'crystal-towers', label: 'Crystal Towers' },
+  { value: 'pyramids', label: 'Pyramids' },
+  { value: 'raw-crystal', label: 'Raw Crystals' },
+  { value: 'designer-crystals', label: 'Designer Crystals' },
+  { value: 'home-decor', label: 'Home Decor' },
+  { value: 'spell-jars', label: 'Spell Jars' },
 ];
 
 const STANDARD_SUBCATEGORIES = [
   'Designer Bracelets',
   'Signature Bracelets',
   'Bracelets by Crystals',
+  'Zodiac Bracelets',
+  'Bangle Bracelet',
+  'Chips Bracelet',
+  'Malas',
+  'Pendants',
+  'Anklets',
+  'Earrings',
+  'Design Rings',
+  'Normal Rings',
+  'Face Rollers',
+  'Gua Sha',
+  'Frames',
+  'Pyramids',
+  'Wands',
+  'Raw Stones',
+  'Crystal Trees',
+  'Shell Trees',
   'Spell Jars',
 ];
 
@@ -416,6 +445,19 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
         <div className="col-md-4">
           <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Stock (Inventory)</label>
           <input type="number" min={0} value={f.stock} onChange={(e) => set('stock', Number(e.target.value))} className="newsletter-input" style={{ width: '100%' }} />
+        </div>
+        <div className="col-md-4">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Shipping (₹, India)</label>
+          <input
+            type="number"
+            min={0}
+            value={f.shippingCharge ?? ''}
+            onChange={(e) => set('shippingCharge', e.target.value === '' ? null : Number(e.target.value))}
+            className="newsletter-input"
+            style={{ width: '100%' }}
+            placeholder="Auto by category"
+          />
+          <div style={{ fontSize: '0.72rem', color: '#999', marginTop: 2 }}>Blank = automatic (₹120 / ₹150 / ₹180). Free over ₹4,500.</div>
         </div>
       </div>
 

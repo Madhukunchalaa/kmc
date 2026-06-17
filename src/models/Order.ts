@@ -2,6 +2,17 @@ import mongoose, { Schema, models, model, Model } from 'mongoose';
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
 export type PaymentStatus = 'unpaid' | 'paid' | 'failed';
+/** International shipping is settled separately via an admin-sent payment link. */
+export type ShippingPaymentStatus = 'not-required' | 'pending' | 'link-sent' | 'paid';
+
+export interface ShippingPayment {
+  status: ShippingPaymentStatus;
+  link?: string | null;
+  amount?: number | null;
+  note?: string | null;
+  sentAt?: Date | null;
+  paidAt?: Date | null;
+}
 
 export interface OrderLine {
   productId?: mongoose.Types.ObjectId | string | null;
@@ -19,6 +30,10 @@ export interface OrderDoc {
   sessionId?: string | null;
   items: OrderLine[];
   subtotal: number;
+  shipping: number;
+  total: number;
+  international: boolean;
+  shippingPayment?: ShippingPayment;
   currency: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
@@ -62,6 +77,21 @@ const OrderSchema = new Schema<OrderDoc>(
     sessionId: { type: String, default: null, index: true },
     items: { type: [OrderLineSchema], required: true },
     subtotal: { type: Number, required: true },
+    shipping: { type: Number, default: 0 },
+    total: { type: Number, default: 0 },
+    international: { type: Boolean, default: false },
+    shippingPayment: {
+      status: {
+        type: String,
+        enum: ['not-required', 'pending', 'link-sent', 'paid'],
+        default: 'not-required',
+      },
+      link: { type: String, default: null },
+      amount: { type: Number, default: null },
+      note: { type: String, default: null },
+      sentAt: { type: Date, default: null },
+      paidAt: { type: Date, default: null },
+    },
     currency: { type: String, default: 'INR' },
     status: {
       type: String,

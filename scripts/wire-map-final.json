@@ -1,0 +1,23 @@
+{
+  "black-tourmaline-mala": ["others/malas/black-tourmaline.webp"],
+  "rose-quartz-mala": ["others/malas/rose-quartz-pic-1.webp", "others/malas/rose-quartz-pic-2.webp"],
+  "seven-chakra-mala": ["others/malas/seven-chakra-pic-1.webp", "others/malas/seven-chakra-pic-2.webp", "others/malas/seven-chakra-design-2.webp"],
+  "karungali-mala": ["others/malas/karungali-pic-1.webp", "others/malas/karungali-pic-2.webp"],
+  "turquoise-mala": ["others/malas/turquoise.webp"],
+
+  "black-tourmaline-pendant": ["others/pendants/black-tourmaline-pic-1.webp", "others/pendants/black-tourmaline-pic-2.webp"],
+  "lapis-lazuli-pendant": ["others/pendants/lapis-lazuli.webp"],
+  "pyrite-pendant": ["others/pendants/pyrite.webp", "others/pendants/pyrite-design-2.webp"],
+  "tiger-eye-pendant": ["others/pendants/tiger-eye-design-1.webp"],
+  "tiger-eye-designs-pendant": ["others/pendants/tiger-eye-pic-1-design-2.webp", "others/pendants/tiger-eye-pic-2-design-2.webp"],
+
+  "amethyst-face-roller": ["others/glow-essential-crystals/amethyst-pic-1.webp", "others/glow-essential-crystals/amethyst-pic-2.webp"],
+  "green-eventurine-face-roller": ["others/glow-essential-crystals/green-eventurine-pic-1.webp", "others/glow-essential-crystals/green-eventurine-pic-2.webp"],
+  "green-jade-face-roller": ["others/glow-essential-crystals/jade-pic-1.webp", "others/glow-essential-crystals/jade-pic-2.webp"],
+  "opal-face-roller": ["others/glow-essential-crystals/opal-pic-1.webp", "others/glow-essential-crystals/opal-face-roller-pic-2.webp"],
+  "tiger-eye-face-roller": ["others/glow-essential-crystals/tiger-eye-pic-1.webp", "others/glow-essential-crystals/tiger-eye-pic-2.webp"],
+  "rose-quartz-face-roller": ["others/glow-essential-crystals/rose-quartz-pic-1.webp", "others/glow-essential-crystals/rose-quartz-pic-2.webp", "others/glow-essential-crystals/rose-quartz-pic-21.webp"],
+  "rose-quartz-comb": ["others/glow-essential-crystals/rose-quartz-comb-pic-1.webp"],
+  "green-eventurine-guasha": ["others/glow-essential-crystals/green-eventurine-gua-sha-pic-1.webp", "others/glow-essential-crystals/green-eventurine-gua-sha-pic-2.webp"],
+  "black-tourmaline-guasha": ["others/glow-essential-crystals/black-tourmaline-gua-sha.webp"]
+}

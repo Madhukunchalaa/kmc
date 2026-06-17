@@ -22,7 +22,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("${service.image}")`,
+        backgroundImage: `linear-gradient(100deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.15) 65%, rgba(0, 0, 0, 0.04) 100%), url("${service.image}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -33,7 +33,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
           <h1 className="hero-title" style={{ fontSize: 'clamp(1.6rem,3vw,2.4rem)', marginTop: 10 }}>
             Book <span className="highlight">
               {service.slug === 'tarot' && (initialType === 'video' || initialType === 'audio' || initialType === 'call')
-                ? 'Live Tarot Reading — Video Call'
+                ? `Live Tarot Reading — ${initialType === 'video' ? 'Video Call' : 'Audio Call'}`
                 : service.slug === 'tarot' && initialType === 'voice'
                 ? 'Tarot Reading — Voice Chat'
                 : service.title}
@@ -41,7 +41,9 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
           </h1>
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
             {service.slug === 'tarot' && (initialType === 'video' || initialType === 'audio' || initialType === 'call') ? (
-              <>₹2,499 – ₹4,999 ($50 – $100) · 30–60 min</>
+              initialType === 'video'
+                ? <>₹2,499 – ₹4,999 ($50 – $100) · 30 min – 1 hr</>
+                : <>₹1,499 – ₹5,999 ($30 – $120) · 30 min – 2 hr</>
             ) : service.slug === 'tarot' && initialType === 'voice' ? (
               <>₹199 – ₹1,299 ($8 – $100) · Voice Notes</>
             ) : (

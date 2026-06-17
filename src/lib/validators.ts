@@ -85,6 +85,7 @@ export const productInputSchema = z.object({
   desc: z.string().min(5).max(600),
   longDesc: z.string().max(4000).optional().or(z.literal('')),
   chakras: z.array(z.string()).default([]),
+  shippingCharge: z.number().min(0).max(100000).nullable().optional(),
   stock: z.number().int().min(0).default(99),
   active: z.boolean().default(true),
 });

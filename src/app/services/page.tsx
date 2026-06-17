@@ -246,7 +246,7 @@ export default async function ServicesPage() {
 
                       {/* Book button */}
                       {svc.slug === 'spelljar' ? (
-                        <Link href={`/shop?category=spelljar`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
+                        <Link href={`/shop?category=spell-jars`} className="btn-primary-custom" style={{ marginLeft: 'auto' }}>
                           <span>Shop Jars</span>
                         </Link>
                       ) : (

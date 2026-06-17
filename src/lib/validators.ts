@@ -41,14 +41,14 @@ export const updateCartSchema = z.object({
 });
 
 export const orderCustomerSchema = z.object({
-  name: z.string().min(2).max(120),
-  email: z.string().email(),
-  phone: z.string().min(7).max(30),
-  address: z.string().min(5).max(400),
-  city: z.string().min(2).max(80),
-  state: z.string().min(2).max(80),
-  pincode: z.string().min(4).max(12),
-  country: z.string().min(2).max(80),
+  name: z.string().min(2, 'Please enter your full name.').max(120),
+  email: z.string().email('Please enter a valid email address.'),
+  phone: z.string().min(7, 'Please enter a valid phone number.').max(30),
+  address: z.string().min(5, 'Please enter your full street address.').max(400),
+  city: z.string().min(2, 'Please enter your city.').max(80),
+  state: z.string().min(2, 'Please enter your state or province.').max(80),
+  pincode: z.string().min(4, 'Please enter a valid postal or ZIP code.').max(12),
+  country: z.string().min(2, 'Please select your country.').max(80),
   dob: z.string().max(100).optional().or(z.literal('')),
   notes: z.string().max(600).optional().or(z.literal('')),
 });
@@ -162,14 +162,24 @@ export const passwordChangeSchema = z.object({
 });
 
 const FRIENDLY_FIELD: Record<string, string> = {
+  // Booking fields
   timeSlot:        'Please select a valid time slot before booking.',
   date:            'Please select a valid booking date.',
-  'customer.name':  'Please enter your full name.',
-  'customer.email': 'Please enter a valid email address.',
-  'customer.phone': 'Please enter a valid phone number.',
   serviceId:       'Something went wrong — please refresh and try again.',
   question:        'Your question is too long (max 1000 characters).',
   notes:           'Notes are too long (max 600 characters).',
+  // Shared customer sub-object (bookings + orders)
+  'customer.name':    'Please enter your full name.',
+  'customer.email':   'Please enter a valid email address.',
+  'customer.phone':   'Please enter a valid phone number.',
+  // Order-specific customer fields
+  'customer.address': 'Please enter your full street address.',
+  'customer.city':    'Please enter your city.',
+  'customer.state':   'Please enter your state or province.',
+  'customer.pincode': 'Please enter a valid postal or ZIP code.',
+  'customer.country': 'Please select your country.',
+  // Cart
+  items:           'Your cart is empty — please add items before checking out.',
 };
 
 export function zodErrorMessage(err: z.ZodError): string {

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug, type CatalogProduct } from '@/lib/catalog';
 import ProductCard from '@/components/ProductCard';
-import ProductDescription from './ProductDescription';
+import ProductDescription, { type DescObj } from './ProductDescription';
 import ProductDetailsClient from './ProductDetailsClient';
 
 export const dynamic = 'force-dynamic';
@@ -86,14 +86,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
     .slice(0, 6);
 
   // Safely parse JSON description if present in desc or longDesc
-  let descObj: {
-    description?: string;
-    whoShouldWear?: string[];
-    benefits?: string[];
-    howToWear?: string[];
-    careInstructions?: string[];
-    disclaimer?: string;
-  } | null = null;
+  let descObj: DescObj | null = null;
 
   let rawJsonField = '';
   if (product.desc && (product.desc.trim().startsWith('{') || product.desc.trim().startsWith('['))) {

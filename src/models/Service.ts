@@ -6,6 +6,13 @@ export interface ServiceTier {
   usdPrice?: number;
 }
 
+export interface ServiceOption {
+  id: string;
+  label: string;
+  price: number;
+  usdPrice?: number;
+}
+
 export interface ServiceDoc {
   _id: mongoose.Types.ObjectId;
   slug: string;
@@ -19,6 +26,7 @@ export interface ServiceDoc {
   durationMins: number;
   bullets: string[];
   tiers: ServiceTier[];
+  options?: ServiceOption[];
   active: boolean;
   isDeleted: boolean;
   createdAt: Date;
@@ -39,6 +47,15 @@ const ServiceSchema = new Schema<ServiceDoc>(
     bullets: { type: [String], default: [] },
     tiers: {
       type: [{ label: String, price: Number, usdPrice: Number }],
+      default: [],
+    },
+    options: {
+      type: [{
+        id: { type: String, required: true },
+        label: { type: String, required: true },
+        price: { type: Number, required: true, min: 0 },
+        usdPrice: { type: Number, default: 0 },
+      }],
       default: [],
     },
     active: { type: Boolean, default: true, index: true },

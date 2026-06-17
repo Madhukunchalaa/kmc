@@ -45,6 +45,40 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
 
   const totalCount = countAgg.reduce((sum, curr) => sum + curr.count, 0);
 
+  // Client Components can only receive plain objects — strip ObjectIds / Dates / toJSON
+  // before handing rows to <ExportOrdersButton> (a 'use client' component).
+  const exportRows = orders.map((o) => {
+    const ord = o as Record<string, any>;
+    const addr = ord.shippingAddress ?? {};
+    return {
+      orderNumber: ord.orderNumber ?? '',
+      createdAt: ord.createdAt ? new Date(ord.createdAt).toISOString() : '',
+      status: ord.status ?? '',
+      customer: {
+        name: ord.customer?.name ?? '',
+        email: ord.customer?.email ?? '',
+        phone: ord.customer?.phone ?? '',
+      },
+      items: (ord.items ?? []).map((i: Record<string, any>) => ({
+        quantity: i.quantity ?? 1,
+        name: i.name ?? '',
+      })),
+      subtotal: ord.subtotal ?? '',
+      shippingCost: ord.shippingCost ?? ord.shipping ?? '',
+      total: ord.total ?? '',
+      currency: ord.currency ?? 'INR',
+      shippingAddress: {
+        line1: addr.line1 ?? '',
+        line2: addr.line2 ?? '',
+        city: addr.city ?? '',
+        state: addr.state ?? '',
+        postalCode: addr.postalCode ?? '',
+        country: addr.country ?? '',
+      },
+      razorpayPaymentId: ord.razorpayPaymentId ?? '',
+    };
+  });
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -101,7 +135,7 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
             </Link>
           )}
 
-          <ExportOrdersButton orders={orders} />
+          <ExportOrdersButton orders={exportRows} />
         </form>
       </div>
 

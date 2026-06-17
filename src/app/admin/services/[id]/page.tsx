@@ -23,6 +23,7 @@ export default async function EditServicePage(props: PageProps<'/admin/services/
           icon: s.icon, price: s.price, usdPrice: (s as any).usdPrice ?? 0,
           durationMins: s.durationMins, bullets: s.bullets,
           tiers: ((s as any).tiers ?? []).map((t: any) => ({ label: t.label, price: t.price, usdPrice: t.usdPrice ?? 0 })),
+          options: ((s as any).options ?? []).map((o: any) => ({ id: o.id, label: o.label, price: o.price, usdPrice: o.usdPrice ?? 0 })),
           active: s.active,
         }}
       />

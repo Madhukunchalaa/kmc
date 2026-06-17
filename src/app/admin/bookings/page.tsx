@@ -46,6 +46,28 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
 
   const totalCount = countAgg.reduce((sum, curr) => sum + curr.count, 0);
 
+  // Client Components can only receive plain objects — strip ObjectIds / Dates / toJSON
+  // before handing the rows to <ExportBookingsButton> (a 'use client' component).
+  const exportRows = bookings.map((b) => ({
+    bookingNumber: b.bookingNumber ?? '',
+    date: b.date ?? '',
+    timeSlot: b.timeSlot ?? '',
+    status: b.status ?? '',
+    serviceTitle: b.serviceTitle ?? '',
+    serviceType: (b as { serviceType?: string }).serviceType ?? '',
+    customer: {
+      name: b.customer?.name ?? '',
+      email: b.customer?.email ?? '',
+      phone: b.customer?.phone ?? '',
+      age: (b.customer as { age?: string | number })?.age ?? '',
+    },
+    amountPaid: (b as { amountPaid?: number }).amountPaid ?? b.servicePrice ?? '',
+    currency: b.currency ?? 'INR',
+    answers: null,
+    razorpayPaymentId: b.razorpayPaymentId ?? '',
+    createdAt: b.createdAt ? new Date(b.createdAt).toISOString() : '',
+  }));
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -100,7 +122,7 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
             </Link>
           )}
 
-          <ExportBookingsButton bookings={bookings} />
+          <ExportBookingsButton bookings={exportRows} />
         </form>
       </div>
 

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
@@ -28,7 +29,20 @@ export async function POST(req: Request) {
   // Unpaid "pending" holds are temporary (15 min) so a failed/abandoned payment frees the slot,
   // and a user's own hold never blocks their own retry.
   if (date !== 'N/A' && timeSlot !== 'N/A') {
-    const recentCutoff = new Date(Date.now() - 15 * 60 * 1000);
+    const userId = new mongoose.Types.ObjectId(session.user.id);
+
+    // Clear this user's own stale unpaid hold(s) on this slot first, before checking for clashes.
+    // This ensures retries after failed payments always work.
+    await Booking.deleteMany({
+      service: service._id,
+      date,
+      timeSlot,
+      user: userId,
+      status: 'pending',
+      paymentStatus: 'unpaid',
+    });
+
+    // Now check if the slot is taken by other users or paid bookings.
     const clash = await Booking.findOne({
       service: service._id,
       date,
@@ -36,20 +50,10 @@ export async function POST(req: Request) {
       $or: [
         { status: { $in: ['approved', 'booked', 'in_progress', 'completed'] } },
         { paymentStatus: 'paid', status: { $nin: ['cancelled', 'rejected'] } },
-        { status: 'pending', paymentStatus: 'unpaid', user: { $ne: session.user.id }, createdAt: { $gte: recentCutoff } },
+        { status: 'pending', paymentStatus: 'unpaid', user: { $ne: userId }, createdAt: { $gte: new Date(Date.now() - 15 * 60 * 1000) } },
       ],
     });
     if (clash) return NextResponse.json({ ok: false, reason: 'slot-already-taken' }, { status: 409 });
-
-    // Clear this user's own stale unpaid hold(s) on this slot so a retry creates a clean booking.
-    await Booking.deleteMany({
-      service: service._id,
-      date,
-      timeSlot,
-      user: session.user.id,
-      status: 'pending',
-      paymentStatus: 'unpaid',
-    });
   }
 
   const bookingNumber = 'BKG-' + Date.now().toString(36).toUpperCase();

@@ -93,6 +93,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             serviceUsdPrice={service.usdPrice}
             serviceTitle={service.title}
             tiers={service.tiers}
+            options={service.options || []}
             defaultName={session.user.name || ''}
             defaultEmail={session.user.email || ''}
             initialType={initialType}

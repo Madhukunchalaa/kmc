@@ -1933,6 +1933,7 @@ export const products: Product[] = [
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/pyrite-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/pyrite-pic1.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/pyrite-pic11.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/pyrite-pic22.webp"
     ],
     "usdPrice": 0,
@@ -2100,7 +2101,12 @@ export const products: Product[] = [
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-owl-pic1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-owl-pic2.webp",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-owl-pic3.webp"
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-owl-pic3.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-dolphin-pic1.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-dolphin-pic2.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-halfmoon-pic1.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-halfmoon-pic2.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/tiger-eye-halfmoon-pic3.webp"
     ],
     "usdPrice": 0,
     "originalUsdPrice": null
@@ -2288,6 +2294,73 @@ export const products: Product[] = [
     ],
     "images": [
       "/images/products/sphere.png"
+    ],
+    "usdPrice": 0,
+    "originalUsdPrice": null
+  },
+  {
+    "id": "black-onyx-design-ring",
+    "name": "Black Onyx Design Ring",
+    "category": "silver-jewelry",
+    "subcategory": "Design Rings",
+    "price": 1050,
+    "originalPrice": 1260,
+    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/black-onyx-pic3.webp",
+    "badge": null,
+    "desc": "Powerful protective stone that absorbs negativity, grounds scattered energy, and builds inner strength and willpower.",
+    "longDesc": "{\n  \"description\": \"Black Onyx Design Ring is a premium quality, authentic spiritual item. Powerful protective stone that absorbs negativity, grounds scattered energy, and builds inner strength and willpower. Sourced carefully and ritually cleansed.\",\n  \"whoShouldWear\": [\n    \"People seeking to balance their Root Chakra.\",\n    \"Individuals seeking spiritual growth, clarity, and protection in their daily life.\",\n    \"Anyone experiencing low energy, stress, or blockages in personal development.\"\n  ],\n  \"benefits\": [\n    \"Powerful protective stone that absorbs negativity, grounds scattered energy, and builds inner strength and willpower.\",\n    \"Aligns and energises the Root Chakra.\",\n    \"Dissolves negative energies and builds a strong positive protective aura.\",\n    \"Supports emotional healing, meditation, and mindfulness practices.\"\n  ],\n  \"howToWear\": [\n    \"Keep close to your body or wear daily.\",\n    \"Can be placed in a clean pocket, purse, or worn on the body.\",\n    \"Best worn during meditation, yoga, or professional work.\"\n  ],\n  \"careInstructions\": [\n    \"Avoid contact with water, soap, and cosmetic chemicals.\",\n    \"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\n    \"Store in a dry, safe, clean velvet pouch or container when not in use.\"\n  ],\n  \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"\n}",
+    "chakras": [
+      "Root"
+    ],
+    "images": [
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/black-onyx-pic3.webp"
+    ],
+    "usdPrice": 0,
+    "originalUsdPrice": null
+  },
+  {
+    "id": "snowflake-obsidian-design-ring",
+    "name": "Snowflake Obsidian Design Ring",
+    "category": "silver-jewelry",
+    "subcategory": "Design Rings",
+    "price": 1050,
+    "originalPrice": 1260,
+    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-obsidian-pic-1.webp",
+    "badge": null,
+    "desc": "Stone of purity and balance that calms the mind, releases ingrained stress patterns, and clears negative energy.",
+    "longDesc": "{\n  \"description\": \"Snowflake Obsidian Design Ring is a premium quality, authentic spiritual item. Stone of purity and balance that calms the mind, releases ingrained stress patterns, and clears negative energy. Sourced carefully and ritually cleansed.\",\n  \"whoShouldWear\": [\n    \"People seeking to balance their Root, Crown Chakra.\",\n    \"Individuals seeking spiritual growth, clarity, and protection in their daily life.\",\n    \"Anyone experiencing low energy, stress, or blockages in personal development.\"\n  ],\n  \"benefits\": [\n    \"Stone of purity and balance that calms the mind, releases ingrained stress patterns, and clears negative energy.\",\n    \"Aligns and energises the Root, Crown Chakra.\",\n    \"Dissolves negative energies and builds a strong positive protective aura.\",\n    \"Supports emotional healing, meditation, and mindfulness practices.\"\n  ],\n  \"howToWear\": [\n    \"Keep close to your body or wear daily.\",\n    \"Can be placed in a clean pocket, purse, or worn on the body.\",\n    \"Best worn during meditation, yoga, or professional work.\"\n  ],\n  \"careInstructions\": [\n    \"Avoid contact with water, soap, and cosmetic chemicals.\",\n    \"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\n    \"Store in a dry, safe, clean velvet pouch or container when not in use.\"\n  ],\n  \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"\n}",
+    "chakras": [
+      "Root",
+      "Crown"
+    ],
+    "images": [
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-obsidian-pic-1.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-obsidian-owl-pic2.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-black-obsidian-owl-pic3.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-obsidian-halfmoon-pic-2.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/snowflake-obsidian-halfmoon-pic3.webp"
+    ],
+    "usdPrice": 0,
+    "originalUsdPrice": null
+  },
+  {
+    "id": "white-howlite-design-ring",
+    "name": "White Howlite Design Ring",
+    "category": "silver-jewelry",
+    "subcategory": "Design Rings",
+    "price": 1050,
+    "originalPrice": 1260,
+    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/white-howlite-pic1.webp",
+    "badge": null,
+    "desc": "Deeply calming stone that eases anxiety, quietens an overactive mind, and supports patience and restful sleep.",
+    "longDesc": "{\n  \"description\": \"White Howlite Design Ring is a premium quality, authentic spiritual item. Deeply calming stone that eases anxiety, quietens an overactive mind, and supports patience and restful sleep. Sourced carefully and ritually cleansed.\",\n  \"whoShouldWear\": [\n    \"People seeking to balance their Crown Chakra.\",\n    \"Individuals seeking spiritual growth, clarity, and protection in their daily life.\",\n    \"Anyone experiencing low energy, stress, or blockages in personal development.\"\n  ],\n  \"benefits\": [\n    \"Deeply calming stone that eases anxiety, quietens an overactive mind, and supports patience and restful sleep.\",\n    \"Aligns and energises the Crown Chakra.\",\n    \"Dissolves negative energies and builds a strong positive protective aura.\",\n    \"Supports emotional healing, meditation, and mindfulness practices.\"\n  ],\n  \"howToWear\": [\n    \"Keep close to your body or wear daily.\",\n    \"Can be placed in a clean pocket, purse, or worn on the body.\",\n    \"Best worn during meditation, yoga, or professional work.\"\n  ],\n  \"careInstructions\": [\n    \"Avoid contact with water, soap, and cosmetic chemicals.\",\n    \"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\n    \"Store in a dry, safe, clean velvet pouch or container when not in use.\"\n  ],\n  \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"\n}",
+    "chakras": [
+      "Crown"
+    ],
+    "images": [
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/white-howlite-pic1.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/white-howlite-pic2.webp",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-crystal-rings/white-howlite-pic3.webp"
     ],
     "usdPrice": 0,
     "originalUsdPrice": null
@@ -4247,13 +4320,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Innovation, independence, creativity, and personal growth for Aquarius (Jan 20 – Feb 18).",
     "longDesc": "{\"description\": \"The Aquarius Zodiac Bracelet is thoughtfully curated for those born under the Aquarius sign (January 20 – February 18). Aquarius is the visionary of the zodiac — innovative, independent, and forward-thinking. This bracelet channels energies that amplify Aquarius's natural gifts of creativity, intellectual curiosity, and humanitarian spirit, while supporting personal growth and authentic self-expression.\", \"whoShouldWear\": [\"Individuals born under Aquarius (January 20 – February 18).\", \"Creative thinkers, innovators, and those who value independence.\", \"Those seeking to enhance their originality and intellectual clarity.\", \"Humanitarians, reformers, and forward-thinking individuals.\", \"Anyone resonating with Aquarius energy — curiosity, vision, and freedom.\"], \"benefits\": [\"Enhances creative thinking, innovation, and original ideas.\", \"Fosters independence, authenticity, and freedom of expression.\", \"Supports personal growth and continuous self-discovery.\", \"Encourages intellectual exploration and open-mindedness.\", \"Promotes clarity of thought and visionary perspective.\", \"Strengthens the Third Eye and Crown chakras for higher insight.\"], \"howToWear\": [\"Wear on the Left Hand to receive and absorb the bracelet's positive energies.\", \"Best worn during: Daily wear, creative projects, meditation, study, and intention-setting.\", \"Set a personal intention while putting on the bracelet each morning.\"], \"careInstructions\": [\"Energize by: Moonlight charging (place under full moonlight overnight), selenite plate charging, or intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I embrace my uniqueness and confidently create my own path.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Third Eye", "Crown"]
+    "chakras": [
+      "Third Eye",
+      "Crown"
+    ]
   },
   {
     "id": "aries-zodiac-bracelet",
@@ -4263,13 +4341,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Confidence, courage, motivation, and leadership for Aries (Mar 21 – Apr 19).",
     "longDesc": "{\"description\": \"The Aries Zodiac Bracelet is crafted for the bold and spirited individuals born under the Aries sign (March 21 – April 19). As the first sign of the zodiac, Aries is defined by courage, confidence, and passionate drive. This bracelet amplifies Aries's natural leadership qualities and fiery energy, helping to sustain motivation, overcome obstacles, and charge forward with purpose and determination.\", \"whoShouldWear\": [\"Individuals born under Aries (March 21 – April 19).\", \"Leaders, entrepreneurs, and trailblazers seeking confidence and drive.\", \"Those facing new challenges, projects, or life chapters requiring courage.\", \"Anyone wanting to boost motivation, willpower, and decisive action.\", \"People resonating with bold, pioneering, and ambitious energy.\"], \"benefits\": [\"Builds confidence, self-assurance, and courage to take bold action.\", \"Fuels motivation, ambition, and unstoppable drive.\", \"Enhances leadership qualities and decision-making ability.\", \"Encourages resilience — bouncing back quickly from setbacks.\", \"Promotes clarity of purpose and direction.\", \"Grounds the Root Chakra while energizing the Solar Plexus for balanced power.\"], \"howToWear\": [\"Wear on the Left Hand to receive and amplify the bracelet's energies.\", \"Best worn during: Daily wear, important meetings, competitive events, fitness, and goal-setting.\", \"Set a courageous intention each morning while wearing it.\"], \"careInstructions\": [\"Energize by: Moonlight charging or intention setting while focusing on your goals.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I move forward with courage, confidence, and purpose.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Root", "Solar Plexus"]
+    "chakras": [
+      "Root",
+      "Solar Plexus"
+    ]
   },
   {
     "id": "cancer-zodiac-bracelet",
@@ -4279,13 +4362,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Emotional balance, intuition, compassion, and inner peace for Cancer (Jun 21 – Jul 22).",
     "longDesc": "{\"description\": \"The Cancer Zodiac Bracelet is lovingly designed for those born under the Cancer sign (June 21 – July 22). Cancer is the most emotionally intuitive and nurturing sign of the zodiac — deeply empathetic, compassionate, and connected to their inner world. This bracelet supports Cancer's emotional nature, enhancing intuition, promoting inner peace, and encouraging self-nurturing alongside caring for others.\", \"whoShouldWear\": [\"Individuals born under Cancer (June 21 – July 22).\", \"Empaths, healers, and nurturers seeking emotional support.\", \"Those going through emotional transitions or healing processes.\", \"Anyone wanting to deepen their intuition and emotional intelligence.\", \"People seeking comfort, inner peace, and compassionate connection.\"], \"benefits\": [\"Promotes emotional balance, stability, and inner harmony.\", \"Heightens intuition, sensitivity, and psychic awareness.\", \"Cultivates compassion, empathy, and nurturing energy.\", \"Creates a sense of inner peace, calm, and emotional safety.\", \"Supports emotional healing and letting go of past wounds.\", \"Strengthens the Heart and Sacral chakras for emotional flow and warmth.\"], \"howToWear\": [\"Wear on the Left Hand to absorb nurturing and emotionally healing energies.\", \"Best worn during: Daily wear, meditation, journaling, family time, and emotional processing.\", \"Charge especially under full moonlight — Cancer is deeply connected to lunar energy.\"], \"careInstructions\": [\"Energize by: Moonlight charging (especially recommended for Cancer bracelet), intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I trust my intuition and nurture myself with love and compassion.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Heart", "Sacral"]
+    "chakras": [
+      "Heart",
+      "Sacral"
+    ]
   },
   {
     "id": "capricorn-zodiac-bracelet",
@@ -4295,13 +4383,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Discipline, ambition, stability, and success for Capricorn (Dec 22 – Jan 19).",
     "longDesc": "{\"description\": \"The Capricorn Zodiac Bracelet is meticulously crafted for those born under the Capricorn sign (December 22 – January 19). Capricorn is the ambitious achiever and master builder of the zodiac — disciplined, patient, and unwavering in the pursuit of goals. This bracelet supports Capricorn's determined nature, strengthening focus, amplifying ambition, and providing the grounded stability needed to reach the highest summits of success.\", \"whoShouldWear\": [\"Individuals born under Capricorn (December 22 – January 19).\", \"Ambitious professionals, executives, and long-term goal achievers.\", \"Those seeking greater discipline, structure, and focus in their lives.\", \"Entrepreneurs and career-driven individuals building toward lasting success.\", \"Anyone resonating with steady, determined, and goal-oriented energy.\"], \"benefits\": [\"Strengthens discipline, focus, and organizational skills.\", \"Supports ambition, goal-setting, and long-term planning.\", \"Grounds and stabilizes energy for steady, sustained progress.\", \"Encourages perseverance through challenges and setbacks.\", \"Attracts opportunities for professional success and achievement.\", \"Fortifies the Root Chakra for stability and the Solar Plexus for confidence.\"], \"howToWear\": [\"Wear on the Left Hand to receive the grounding and ambitious energies.\", \"Best worn during: Daily wear, work, study, business meetings, and goal-setting sessions.\", \"Set a clear, specific goal as your intention when putting on the bracelet.\"], \"careInstructions\": [\"Energize by: Moonlight charging or intention setting focused on your goals.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I remain focused, disciplined, and committed to my goals.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Root", "Solar Plexus"]
+    "chakras": [
+      "Root",
+      "Solar Plexus"
+    ]
   },
   {
     "id": "gemini-zodiac-bracelet",
@@ -4311,13 +4404,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Communication, adaptability, learning, and creativity for Gemini (May 21 – Jun 20).",
     "longDesc": "{\"description\": \"The Gemini Zodiac Bracelet is vibrantly designed for those born under the Gemini sign (May 21 – June 20). Gemini is the communicator and intellectual explorer of the zodiac — curious, adaptable, witty, and endlessly fascinated by the world. This bracelet enhances Gemini's natural gifts of communication, mental agility, and creative thinking, while supporting focus and helping to channel their dynamic energy purposefully.\", \"whoShouldWear\": [\"Individuals born under Gemini (May 21 – June 20).\", \"Writers, speakers, teachers, and communicators seeking clarity and expression.\", \"Students, learners, and curious minds seeking mental stimulation.\", \"Social butterflies and networkers who thrive on connection and conversation.\", \"Creative thinkers looking to channel ideas into focused action.\"], \"benefits\": [\"Enhances communication skills, eloquence, and self-expression.\", \"Promotes adaptability, flexibility, and openness to change.\", \"Stimulates intellectual curiosity, learning, and mental sharpness.\", \"Encourages creative thinking and imaginative problem-solving.\", \"Supports clear, confident social interactions and networking.\", \"Activates the Throat Chakra for expression and the Third Eye for clarity.\"], \"howToWear\": [\"Wear on the Left Hand to amplify communicative and creative energies.\", \"Best worn during: Daily wear, presentations, creative projects, studying, and social events.\", \"Selenite plate charging or moonlight charging is especially beneficial.\"], \"careInstructions\": [\"Energize by: Moonlight charging, selenite plate charging, or intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I communicate clearly and embrace new opportunities with confidence.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Throat", "Third Eye"]
+    "chakras": [
+      "Throat",
+      "Third Eye"
+    ]
   },
   {
     "id": "libra-zodiac-bracelet",
@@ -4327,13 +4425,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Balance, harmony, relationships, and self-expression for Libra (Sep 23 – Oct 22).",
     "longDesc": "{\"description\": \"The Libra Zodiac Bracelet is gracefully crafted for those born under the Libra sign (September 23 – October 22). Libra is the harmonizer and peacekeeper of the zodiac — fair-minded, diplomatic, and deeply attuned to beauty, balance, and relationships. This bracelet supports Libra's quest for harmony in all areas of life, nurturing meaningful connections, enhancing self-expression, and helping to maintain the inner equilibrium that Libra naturally seeks.\", \"whoShouldWear\": [\"Individuals born under Libra (September 23 – October 22).\", \"Diplomats, mediators, and relationship builders seeking harmony.\", \"Those working to restore balance between their personal and professional lives.\", \"Artists, aesthetes, and those who appreciate beauty and creative expression.\", \"Anyone seeking fairer, more harmonious relationships and interactions.\"], \"benefits\": [\"Restores balance and harmony in life, relationships, and decisions.\", \"Nurtures meaningful relationships and social connections.\", \"Enhances self-expression, diplomacy, and artistic creativity.\", \"Promotes inner peace, fairness, and conflict resolution.\", \"Encourages confidence in expressing thoughts and feelings.\", \"Balances the Heart Chakra for love and the Throat Chakra for authentic expression.\"], \"howToWear\": [\"Wear on the Left Hand to receive harmonizing and relationship-nurturing energies.\", \"Best worn during: Daily wear, social gatherings, creative work, and conflict resolution.\", \"Moonlight charging is especially recommended to amplify Libra's lunar connection.\"], \"careInstructions\": [\"Energize by: Moonlight charging (especially recommended), intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I create balance, harmony, and positive connections in my life.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Heart", "Throat"]
+    "chakras": [
+      "Heart",
+      "Throat"
+    ]
   },
   {
     "id": "pisces-zodiac-bracelet",
@@ -4343,13 +4446,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Intuition, compassion, creativity, and spiritual growth for Pisces (Feb 19 – Mar 20).",
     "longDesc": "{\"description\": \"The Pisces Zodiac Bracelet is dreamily crafted for those born under the Pisces sign (February 19 – March 20). Pisces is the most spiritually attuned and imaginative sign of the zodiac — intuitive, compassionate, and deeply connected to the unseen realms. This bracelet supports Pisces's rich inner world, deepening intuition, fostering creative inspiration, and nurturing the spiritual growth that flows naturally to this mystical sign.\", \"whoShouldWear\": [\"Individuals born under Pisces (February 19 – March 20).\", \"Spiritual seekers, mystics, and those on an inner journey of growth.\", \"Empaths, healers, and compassionate souls needing energetic support.\", \"Artists, musicians, writers, and creatives seeking deeper inspiration.\", \"Anyone wanting to strengthen their intuition and spiritual awareness.\"], \"benefits\": [\"Deepens intuition, psychic sensitivity, and spiritual awareness.\", \"Cultivates compassion, empathy, and unconditional understanding.\", \"Enhances creative inspiration, imagination, and artistic flow.\", \"Supports spiritual development and connection to higher consciousness.\", \"Promotes emotional healing, forgiveness, and inner peace.\", \"Activates the Third Eye and Crown chakras for profound intuitive insight.\"], \"howToWear\": [\"Wear on the Left Hand to absorb intuitive and spiritually uplifting energies.\", \"Best worn during: Daily wear, meditation, creative work, spiritual practice, and dreamwork.\", \"Moonlight charging is especially recommended — Pisces has the deepest lunar connection.\"], \"careInstructions\": [\"Energize by: Moonlight charging (especially recommended for Pisces bracelet), intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I trust my intuition and embrace my creative spirit.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Third Eye", "Crown"]
+    "chakras": [
+      "Third Eye",
+      "Crown"
+    ]
   },
   {
     "id": "sagittarius-zodiac-bracelet",
@@ -4359,13 +4467,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Adventure, optimism, wisdom, and personal growth for Sagittarius (Nov 22 – Dec 21).",
     "longDesc": "{\"description\": \"The Sagittarius Zodiac Bracelet is boldly crafted for those born under the Sagittarius sign (November 22 – December 21). Sagittarius is the adventurous philosopher and truth-seeker of the zodiac — optimistic, freedom-loving, and endlessly hungry for wisdom and experience. This bracelet amplifies Sagittarius's expansive spirit, supporting the pursuit of knowledge, personal growth, and the courage to explore new horizons with an open and joyful heart.\", \"whoShouldWear\": [\"Individuals born under Sagittarius (November 22 – December 21).\", \"Adventurers, travelers, and explorers seeking new experiences.\", \"Truth-seekers, philosophers, and those pursuing higher wisdom.\", \"Optimists and visionaries who see opportunity in every challenge.\", \"Anyone wanting to expand their horizons and embrace growth with confidence.\"], \"benefits\": [\"Sparks an adventurous spirit, enthusiasm, and love of exploration.\", \"Expands wisdom, philosophical thinking, and higher understanding.\", \"Encourages bold personal growth and stepping beyond comfort zones.\", \"Promotes optimism, positivity, and a joyful outlook on life.\", \"Attracts positive opportunities, new experiences, and synchronicities.\", \"Energizes the Solar Plexus for confidence and the Crown for expanded awareness.\"], \"howToWear\": [\"Wear on the Left Hand to receive the bracelet's adventurous and wisdom-enhancing energies.\", \"Best worn during: Daily wear, travel, study, outdoor activities, and new ventures.\", \"Set an intention for expansion and growth when energizing the bracelet.\"], \"careInstructions\": [\"Energize by: Moonlight charging or intention setting focused on wisdom and growth.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I embrace growth, wisdom, and new opportunities with confidence.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Solar Plexus", "Crown"]
+    "chakras": [
+      "Solar Plexus",
+      "Crown"
+    ]
   },
   {
     "id": "taurus-zodiac-bracelet",
@@ -4375,13 +4488,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Stability, abundance, patience, and emotional balance for Taurus (Apr 20 – May 20).",
     "longDesc": "{\"description\": \"The Taurus Zodiac Bracelet is thoughtfully crafted for those born under the Taurus sign (April 20 – May 20). Taurus is the steadfast and grounded sign of the zodiac — patient, sensuous, and deeply connected to the natural world and material abundance. This bracelet channels earthy, stabilizing energies that resonate with Taurus's nature, supporting patience, attracting prosperity, and nurturing the emotional security that allows this sign to thrive.\", \"whoShouldWear\": [\"Individuals born under Taurus (April 20 – May 20).\", \"Those seeking stability, security, and grounding in their lives.\", \"Abundance manifesters and those working toward financial prosperity.\", \"Nature lovers and those deeply connected to the physical and material world.\", \"Patient souls who appreciate beauty, comfort, and steady progress.\"], \"benefits\": [\"Grounds and stabilizes energy, providing a solid foundation.\", \"Attracts abundance, prosperity, and financial well-being.\", \"Cultivates patience, persistence, and unwavering determination.\", \"Promotes emotional security, comfort, and inner harmony.\", \"Enhances appreciation for beauty, sensory experiences, and nature.\", \"Strengthens the Root Chakra for grounding and the Heart Chakra for receptivity.\"], \"howToWear\": [\"Wear on the Left Hand to receive grounding and abundance-inviting energies.\", \"Best worn during: Daily wear, outdoor activities, manifestation practices, and relaxation.\", \"Selenite plate charging or moonlight charging enhances this bracelet's energy.\"], \"careInstructions\": [\"Energize by: Moonlight charging, selenite plate charging, or intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I am grounded, patient, and open to abundance and growth.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Root", "Heart"]
+    "chakras": [
+      "Root",
+      "Heart"
+    ]
   },
   {
     "id": "virgo-zodiac-bracelet",
@@ -4391,13 +4509,18 @@ export const products: Product[] = [
     "price": 1450,
     "originalPrice": 1740,
     "image": "/images/products/bracelet.png",
-    "images": ["/images/products/bracelet.png"],
+    "images": [
+      "/images/products/bracelet.png"
+    ],
     "usdPrice": 28,
     "originalUsdPrice": 34,
     "badge": "New",
     "desc": "Clarity, organization, growth, and self-improvement for Virgo (Aug 23 – Sep 22).",
     "longDesc": "{\"description\": \"The Virgo Zodiac Bracelet is precisely crafted for those born under the Virgo sign (August 23 – September 22). Virgo is the meticulous analyst and dedicated healer of the zodiac — methodical, detail-oriented, and endlessly committed to growth and self-improvement. This bracelet supports Virgo's analytical mind and service-oriented heart, promoting mental clarity, organizational focus, and the practical wisdom needed to serve both self and others with excellence.\", \"whoShouldWear\": [\"Individuals born under Virgo (August 23 – September 22).\", \"Detail-oriented perfectionists and analytical thinkers.\", \"Those committed to self-improvement, personal development, and growth.\", \"Healers, wellness practitioners, and those in service-oriented professions.\", \"Anyone seeking greater clarity, organization, and purposeful focus.\"], \"benefits\": [\"Sharpens mental clarity, analytical thinking, and discernment.\", \"Promotes organization, precision, and practical problem-solving.\", \"Supports continuous self-improvement and healthy personal habits.\", \"Encourages practical wisdom and a grounded, realistic perspective.\", \"Enhances focus, productivity, and attention to detail.\", \"Energizes the Solar Plexus for confidence and the Third Eye for insight.\"], \"howToWear\": [\"Wear on the Left Hand to receive clarity-enhancing and growth-supporting energies.\", \"Best worn during: Daily wear, work, study, health routines, and self-reflection.\", \"Selenite plate charging or moonlight charging maintains this bracelet's clarity.\"], \"careInstructions\": [\"Energize by: Moonlight charging, selenite plate charging, or intention setting.\", \"Avoid contact with water, soap, and cosmetic chemicals.\", \"Cleanse periodically under overnight moonlight or smudge with incense smoke.\", \"Store in a dry, clean velvet pouch when not in use.\"], \"affirmation\": \"I am focused, organized, and aligned with my highest potential.\", \"disclaimer\": \"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": ["Solar Plexus", "Third Eye"]
+    "chakras": [
+      "Solar Plexus",
+      "Third Eye"
+    ]
   },
   {
     "id": "amethyst-mala",

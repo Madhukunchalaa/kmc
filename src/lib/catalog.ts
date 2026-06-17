@@ -36,6 +36,13 @@ export interface ServiceTier {
   usdPrice?: number;
 }
 
+export interface ServiceOption {
+  id: string;
+  label: string;
+  price: number;
+  usdPrice?: number;
+}
+
 export interface CatalogService {
   id: string;
   slug: string;
@@ -49,6 +56,7 @@ export interface CatalogService {
   durationMins: number;
   bullets: string[];
   tiers?: ServiceTier[];
+  options?: ServiceOption[];
 }
 
 function fromSeed(p: SeedProduct): CatalogProduct {
@@ -276,6 +284,7 @@ export async function getAllServices(): Promise<CatalogService[]> {
         durationMins: d.durationMins,
         bullets: d.bullets,
         tiers,
+        options: ((d as { options?: ServiceOption[] }).options ?? []),
       };
     });
   } catch (err) {
@@ -297,8 +306,11 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
       image: string;
       icon: string;
       price: number;
+      usdPrice?: number;
       durationMins: number;
       bullets: string[];
+      tiers?: ServiceTier[];
+      options?: ServiceOption[];
     };
     let doc: ServiceLeanDoc | null = null;
     if (/^[a-f0-9]{24}$/i.test(id)) {
@@ -308,10 +320,12 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
       doc = (await Service.findOne({ slug: id, isDeleted: { $ne: true } }).lean()) as ServiceLeanDoc | null;
     }
     if (doc) {
-      const tiers = SERVICE_TIERS[doc.slug] || [];
+      // Prefer tiers/options saved in the DB (admin-editable); fall back to hardcoded only if none.
+      const tiers = (doc.tiers && doc.tiers.length > 0) ? doc.tiers : (SERVICE_TIERS[doc.slug] || []);
+      const options = doc.options ?? [];
       const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : doc.price;
       const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
-      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : Math.round(basePrice / 50);
+      const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : (doc.usdPrice || Math.round(basePrice / 50));
 
       return {
         id: String(doc._id),
@@ -326,6 +340,7 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
         durationMins: doc.durationMins,
         bullets: doc.bullets,
         tiers,
+        options,
       };
     }
   } catch (err) {

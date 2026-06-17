@@ -147,7 +147,7 @@ const VIDEO_TIERS = [
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, defaultName, defaultEmail, initialType,
+  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, options, defaultName, defaultEmail, initialType,
 }: {
   serviceId: string;
   serviceSlug: string;
@@ -155,6 +155,7 @@ export default function BookingFlow({
   serviceUsdPrice?: number;
   serviceTitle: string;
   tiers?: { label: string; price: number; usdPrice?: number }[];
+  options?: { id: string; label: string; price: number; usdPrice?: number }[];
   defaultName: string;
   defaultEmail: string;
   initialType?: string;
@@ -214,15 +215,17 @@ export default function BookingFlow({
 
   const selectedTier = tiers && tiers[tierIdx];
   
+  const voiceOptions = options && options.length > 0 ? options : VOICE_OPTIONS;
+
   const activePrice = isTarot
     ? (tarotType === 'voice'
-        ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.price, 0)
+        ? voiceOptions.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.price, 0)
         : (callTiers[tierIdx]?.price ?? callTiers[0].price))
     : (selectedTier ? selectedTier.price : servicePrice);
 
   const activeUsdPrice = isTarot
     ? (tarotType === 'voice'
-        ? VOICE_OPTIONS.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + o.usdPrice, 0)
+        ? voiceOptions.filter(o => selectedVoiceOptions.includes(o.id)).reduce((sum, o) => sum + (o.usdPrice ?? 0), 0)
         : (callTiers[tierIdx]?.usdPrice ?? callTiers[0].usdPrice))
     : (selectedTier ? selectedTier.usdPrice : serviceUsdPrice);
 
@@ -508,7 +511,7 @@ export default function BookingFlow({
                 width: '100%',
                 boxSizing: 'border-box'
               }}>
-                {VOICE_OPTIONS.map((opt) => {
+                {voiceOptions.map((opt) => {
                   const selected = selectedVoiceOptions.includes(opt.id);
                   return (
                     <div

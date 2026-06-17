@@ -106,6 +106,12 @@ export const serviceInputSchema = z.object({
     price: z.number().min(0),
     usdPrice: z.number().min(0).default(0),
   })).default([]),
+  options: z.array(z.object({
+    id: z.string().min(1).max(120),
+    label: z.string().min(1).max(200),
+    price: z.number().min(0),
+    usdPrice: z.number().min(0).default(0),
+  })).default([]),
   active: z.boolean().default(true),
 });
 

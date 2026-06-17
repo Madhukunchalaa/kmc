@@ -1,11 +1,65 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getAllProducts, getProductBySlug } from '@/lib/catalog';
+import { getAllProducts, getProductBySlug, type CatalogProduct } from '@/lib/catalog';
 import ProductCard from '@/components/ProductCard';
 import ProductDescription from './ProductDescription';
 import ProductDetailsClient from './ProductDetailsClient';
 
 export const dynamic = 'force-dynamic';
+
+const SITE_NAME = 'KrissMaagiic Crystals';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://krissmaagiiccrystals.com';
+
+/** Build a clean, plain-text meta description from a product (skips JSON blobs, trims to ~160 chars). */
+function metaDescriptionFor(product: CatalogProduct): string {
+  const raw = (product.desc || '').trim();
+  const plain = raw && !raw.startsWith('{') && !raw.startsWith('[')
+    ? raw
+    : `${product.name} — an authentic, energy-cleansed crystal from ${SITE_NAME}. Sourced with care and ritually charged.`;
+  return plain.length > 160 ? plain.slice(0, 157).trimEnd() + '…' : plain;
+}
+
+export async function generateMetadata(props: PageProps<'/shop/[slug]'>) {
+  const { slug } = await props.params;
+  const product = await getProductBySlug(slug);
+  if (!product) return { title: `Product Not Found · ${SITE_NAME}` };
+
+  const seo = (product as unknown as { seo?: { title?: string; description?: string; keywords?: string[] } }).seo || {};
+  const description = seo.description || metaDescriptionFor(product);
+  const title = seo.title || `${product.name} · ${SITE_NAME}`;
+  const keywords = seo.keywords && seo.keywords.length
+    ? seo.keywords
+    : [
+        product.name,
+        (product.subcategory || product.category || '').replace(/-/g, ' '),
+        ...(product.chakras || []).filter(Boolean).map((c) => `${c} chakra`),
+        'crystal', 'healing crystal', 'spiritual', SITE_NAME,
+      ].filter(Boolean);
+
+  const path = `/shop/${product.slug}`;
+  const images = [product.image, ...(product.images || [])].filter(Boolean);
+
+  return {
+    title,
+    description,
+    keywords,
+    alternates: { canonical: path },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}${path}`,
+      siteName: SITE_NAME,
+      type: 'website',
+      images: images.map((url) => ({ url, alt: product.name })),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images,
+    },
+  };
+}
 
 export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
   const { slug } = await props.params;
@@ -56,8 +110,30 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
     // Fail silently
   }
 
+  // JSON-LD structured data → richer Google product results (price, availability, image).
+  const jsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: product.name,
+    image: [product.image, ...(product.images || [])].filter(Boolean),
+    description: metaDescriptionFor(product),
+    category: (product.subcategory || product.category || '').replace(/-/g, ' '),
+    brand: { '@type': 'Brand', name: SITE_NAME },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: `${SITE_URL}/shop/${product.slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section style={{ paddingTop: '140px', paddingBottom: '40px', background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)', color: '#fff' }}>
         <div className="container">
           <div style={{ fontSize: '0.85rem', opacity: 0.7 }}>

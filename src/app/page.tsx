@@ -11,6 +11,7 @@ import MobileSearchBar from '@/components/MobileSearchBar';
 import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
+import VideoGallery from '@/components/VideoGallery';
 
 interface SelectedSession {
   serviceSlug: string;
@@ -765,6 +766,9 @@ export default function Home() {
       </section>
       */}
 
+
+      {/* ===== VIDEO GALLERY ===== */}
+      <VideoGallery />
 
       {/* ===== BOOKING MODAL ===== */}
       {activeSession && (

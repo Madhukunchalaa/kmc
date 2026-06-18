@@ -57,17 +57,18 @@
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: var(--navbar-height); overflow-x: clip; width: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--navbar-height); }
 
 body {
   font-family: var(--font-body);
   color: var(--text);
   background-color: var(--light);
   line-height: 1.7;
-  overflow-x: hidden;
-  /* GPU compositing layer — prevents scroll jank on iOS */
   -webkit-overflow-scrolling: touch;
 }
+
+/* Clips horizontal overflow without touching html/body scroll — safe on all mobile browsers */
+#page-wrapper { overflow-x: hidden; position: relative; width: 100%; }
 
 img { max-width: 100%; height: auto; display: block; }
 

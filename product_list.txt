@@ -1,0 +1,886 @@
+﻿Total products: 221
+
+  1. id=triple-protection-bracelet
+     name=Triple Protection Bracelet
+     INR=1100, USD=22
+
+  2. id=money-magnet-bracelet
+     name=Money Magnet Bracelet
+     INR=1100, USD=22
+
+  3. id=rose-quartz-bracelet
+     name=Rose Quartz Bracelet
+     INR=900, USD=18
+
+  4. id=seven-chakra-bracelet
+     name=Seven Chakra Bracelet
+     INR=900, USD=18
+
+  5. id=black-tourmaline-bracelet
+     name=Black Tourmaline Bracelet
+     INR=900, USD=18
+
+  6. id=irani-firoza-bracelet
+     name=Irani Firoza Crystal Bracelet
+     INR=2450, USD=49
+
+  7. id=green-eventurine-bracelet
+     name=Green A Venturine Bracelet
+     INR=900, USD=18
+
+  8. id=pyrite-bracelet
+     name=Pyrite Bracelet
+     INR=1100, USD=22
+
+  9. id=amethyst-bracelet
+     name=Amethyst Bracelet
+     INR=900, USD=18
+
+ 10. id=citrine-bracelet
+     name=Citrine Bracelet
+     INR=900, USD=18
+
+ 11. id=clear-quartz-bracelet
+     name=Clear Quartz Bracelet
+     INR=900, USD=18
+
+ 12. id=om-mani-padmehum-bracelet
+     name=Om Mani Padmehum Crystal Bracelet
+     INR=1750, USD=35
+
+ 13. id=smoky-quartz-bracelet
+     name=Smoky Quartz Bracelet
+     INR=1450, USD=28
+
+ 14. id=red-jasper-bracelet
+     name=Red Jasper Bracelet
+     INR=900, USD=18
+
+ 15. id=dalmatian-jasper-bracelet
+     name=Dalmatian Jasper Bracelet
+     INR=1450, USD=28
+
+ 16. id=shungite-bracelet
+     name=Shungite Bracelet
+     INR=900, USD=18
+
+ 17. id=tiger-eye-bracelet
+     name=Tiger Eye Bracelet
+     INR=900, USD=18
+
+ 18. id=golden-pyrite-bracelet
+     name=Golden Pyrite Bracelet
+     INR=1450, USD=28
+
+ 19. id=angel-aura-bracelet
+     name=Angel Aura Crystal Bracelet
+     INR=1450, USD=28
+
+ 20. id=evil-eye-bracelet
+     name=Evil Eye Bracelet
+     INR=600, USD=12
+
+ 21. id=angelite-bracelet
+     name=Angelite Bracelet
+     INR=900, USD=18
+
+ 22. id=peridot-bracelet
+     name=Peridot Bracelet
+     INR=1450, USD=28
+
+ 23. id=rhodonite-bracelet
+     name=Rhodonite Bracelet
+     INR=900, USD=18
+
+ 24. id=blue-howlite-bracelet
+     name=Blue Howlite Crystal Bracelet
+     INR=950, USD=19
+
+ 25. id=multiflourite-bracelet
+     name=Multiflourite Crystal Bracelet
+     INR=1450, USD=28
+
+ 26. id=sulemani-hakik-bracelet
+     name=Sulemani Hakik Crystal Bracelet
+     INR=1450, USD=28
+
+ 27. id=lava-seven-chakra-bracelet
+     name=Lava Seven Chakra Crystal Bracelet
+     INR=1250, USD=25
+
+ 28. id=red-garnet-chakra-bracelet
+     name=Red Garnet Chakra Crystal Bracelet
+     INR=1450, USD=28
+
+ 29. id=citrine-rudraksha-bracelet
+     name=Citrine Rudraksha Crystal Bracelet
+     INR=1450, USD=28
+
+ 30. id=grey-cats-eye-bracelet
+     name=Grey Cat�S Eye Bracelet
+     INR=1750, USD=35
+
+ 31. id=moon-stone-bracelet
+     name=Moon Stone Crystal Bracelet
+     INR=1450, USD=28
+
+ 32. id=blue-apatite-bracelet
+     name=Blue Apatite Bracelet
+     INR=1450, USD=28
+
+ 33. id=lapis-lazuli-bracelet
+     name=Lapis Lazuli Bracelet
+     INR=900, USD=18
+
+ 34. id=amazonite-bracelet
+     name=Amazonite Bracelet
+     INR=1450, USD=28
+
+ 35. id=aquamarine-bracelet
+     name=Aquamarine Bracelet
+     INR=1450, USD=28
+
+ 36. id=sunstone-bracelet
+     name=Sunstone Bracelet
+     INR=900, USD=18
+
+ 37. id=peach-moonstone-bracelet
+     name=Peach Moonstone Bracelet
+     INR=1450, USD=28
+
+ 38. id=strawberry-quartz-bracelet
+     name=Strawberry Quartz Bracelet
+     INR=900, USD=18
+
+ 39. id=morganite-bracelet
+     name=Morganite Bracelet
+     INR=1450, USD=28
+
+ 40. id=ametrine-bracelet
+     name=Ametrine Bracelet
+     INR=1450, USD=28
+
+ 41. id=pixu-om-mani-padmeham-bracelet
+     name=Pixu Om Mani Padmeham Crystal Bracelet
+     INR=1750, USD=35
+
+ 42. id=mother-pearls-bracelet
+     name=Mother Pearls Crystal Bracelet
+     INR=1250, USD=25
+
+ 43. id=malachite-bracelet
+     name=Malachite Bracelet
+     INR=2200, USD=44
+
+ 44. id=chrysocolla-bracelet
+     name=Chrysocolla Bracelet
+     INR=1750, USD=35
+
+ 45. id=green-eventurine-chips-bracelet
+     name=Green A Venturine Bracelet
+     INR=900, USD=18
+
+ 46. id=moonstone-chips-bracelet
+     name=Moonstone Chips Bracelet
+     INR=1450, USD=28
+
+ 47. id=lapis-lazuli-chips-bracelet
+     name=Lapis Lazuli Bracelet
+     INR=900, USD=18
+
+ 48. id=red-garnet-chips-bracelet
+     name=Red Garnet Bracelet
+     INR=1450, USD=28
+
+ 49. id=amethyst-chips-bracelet
+     name=Amethyst Bracelet
+     INR=900, USD=18
+
+ 50. id=clear-quartz-bangle-bracelet
+     name=Clear Quartz Bracelet
+     INR=900, USD=18
+
+ 51. id=opal-bangle-bracelet
+     name=Opal Bangle Bracelet
+     INR=1450, USD=28
+
+ 52. id=rose-quartz-bangle-bracelet
+     name=Rose Quartz Bracelet
+     INR=900, USD=18
+
+ 53. id=tiger-eye-bangle-bracelet
+     name=Tiger Eye Bracelet
+     INR=900, USD=18
+
+ 54. id=lapis-lazuli-bangle-bracelet
+     name=Lapis Lazuli Bracelet
+     INR=900, USD=18
+
+ 55. id=green-eventurine-bangle-bracelet
+     name=Green A Venturine Bracelet
+     INR=900, USD=18
+
+ 56. id=amethyst-bangle-bracelet
+     name=Amethyst Bracelet
+     INR=900, USD=18
+
+ 57. id=seven-chakra-bangle-bracelet
+     name=Seven Chakra Bracelet
+     INR=900, USD=18
+
+ 58. id=pyrite-bangle-bracelet
+     name=Pyrite Bracelet
+     INR=1100, USD=22
+
+ 59. id=red-jasper-bangle-bracelet
+     name=Red Jasper Bracelet
+     INR=900, USD=18
+
+ 60. id=tree-of-life-pendant
+     name=Tree Of Life Crystal Pendant
+     INR=1200, USD=0
+
+ 61. id=opal-pendant
+     name=Opal Crystal Pendant
+     INR=1450, USD=0
+
+ 62. id=tiger-eye-pendant
+     name=Tiger Eye Crystal Pendant
+     INR=1050, USD=0
+
+ 63. id=rose-quartz-pendant
+     name=Rose Quartz Crystal Pendant
+     INR=950, USD=0
+
+ 64. id=tiger-eye-designs-pendant
+     name=Tiger Eye Designs Crystal Pendant
+     INR=1050, USD=0
+
+ 65. id=lapis-lazuli-pendant
+     name=Lapis Lazuli Crystal Pendant
+     INR=1150, USD=0
+
+ 66. id=black-tourmaline-pendant
+     name=Black Tourmaline Crystal Pendant
+     INR=1050, USD=0
+
+ 67. id=green-eventurine-pendant
+     name=Green Eventurine Crystal Pendant
+     INR=950, USD=0
+
+ 68. id=pyrite-pendant
+     name=Pyrite Crystal Pendant
+     INR=1250, USD=0
+
+ 69. id=evil-eye-pendant
+     name=Evil Eye Crystal Pendant
+     INR=850, USD=0
+
+ 70. id=moonstone-normal-ring
+     name=Moonstone Classic Ring
+     INR=1200, USD=0
+
+ 71. id=rose-quartz-normal-ring
+     name=Rose Quartz Classic Ring
+     INR=950, USD=0
+
+ 72. id=lapis-lazuli-normal-ring
+     name=Lapis Lazuli Classic Ring
+     INR=1150, USD=0
+
+ 73. id=peridot-normal-ring
+     name=Peridot Classic Ring
+     INR=1450, USD=0
+
+ 74. id=amethyst-design-ring
+     name=Amethyst Design Ring
+     INR=1050, USD=0
+
+ 75. id=lapis-lazuli-design-ring
+     name=Lapis Lazuli Design Ring
+     INR=1150, USD=0
+
+ 76. id=pyrite-design-ring
+     name=Pyrite Design Ring
+     INR=1250, USD=0
+
+ 77. id=green-eventurine-design-ring
+     name=Green Eventurine Design Ring
+     INR=950, USD=0
+
+ 78. id=irani-firoza-design-ring
+     name=Irani Firoza Design Ring
+     INR=2450, USD=0
+
+ 79. id=polished-black-tourmaline-design-ring
+     name=Polished Black Tourmaline Design Ring
+     INR=1050, USD=0
+
+ 80. id=raw-black-tourmaline-design-ring
+     name=Raw Black Tourmaline Design Ring
+     INR=1050, USD=0
+
+ 81. id=rose-quartz-design-ring
+     name=Rose Quartz Design Ring
+     INR=950, USD=0
+
+ 82. id=moonstone-design-ring
+     name=Moonstone Design Ring
+     INR=1200, USD=0
+
+ 83. id=labradorite-design-ring
+     name=Labradorite Design Ring
+     INR=1350, USD=0
+
+ 84. id=tiger-eye-design-ring
+     name=Tiger Eye Design Ring
+     INR=1050, USD=0
+
+ 85. id=yellow-calcite-design-ring
+     name=Yellow Calcite Design Ring
+     INR=950, USD=0
+
+ 86. id=red-carnalian-design-ring
+     name=Red Carnalian Design Ring
+     INR=1050, USD=0
+
+ 87. id=sulemani-hakik-design-ring
+     name=Sulemani Hakik Design Ring
+     INR=1250, USD=0
+
+ 88. id=dalmatian-jasper-design-ring
+     name=Dalmatian Jasper Design Ring
+     INR=950, USD=0
+
+ 89. id=rhodonite-design-ring
+     name=Rhodonite Design Ring
+     INR=1150, USD=0
+
+ 90. id=malachite-design-ring
+     name=Malachite Design Ring
+     INR=2200, USD=0
+
+ 91. id=opal-design-ring
+     name=Opal Design Ring
+     INR=1450, USD=0
+
+ 92. id=clear-quartz-design-ring
+     name=Clear Quartz Design Ring
+     INR=950, USD=0
+
+ 93. id=white-agate-design-ring
+     name=White Agate Design Ring
+     INR=850, USD=0
+
+ 94. id=black-onyx-design-ring
+     name=Black Onyx Design Ring
+     INR=1050, USD=0
+
+ 95. id=snowflake-obsidian-design-ring
+     name=Snowflake Obsidian Design Ring
+     INR=1050, USD=0
+
+ 96. id=white-howlite-design-ring
+     name=White Howlite Design Ring
+     INR=1050, USD=0
+
+ 97. id=seven-chakra-mala
+     name=Seven Chakra Crystal Mala
+     INR=1650, USD=0
+
+ 98. id=rose-quartz-mala
+     name=Rose Quartz Crystal Mala
+     INR=950, USD=0
+
+ 99. id=turquoise-mala
+     name=Turquoise Crystal Mala
+     INR=1850, USD=0
+
+100. id=black-tourmaline-mala
+     name=Black Tourmaline Crystal Mala
+     INR=1050, USD=0
+
+101. id=karungali-mala
+     name=Karungali Crystal Mala
+     INR=1850, USD=0
+
+102. id=rose-quartz-comb
+     name=Rose Quartz Healing Comb
+     INR=950, USD=0
+
+103. id=lapis-lazuli-anklet
+     name=Lapis Lazuli Anklet
+     INR=1150, USD=0
+
+104. id=black-tourmaline-anklet
+     name=Black Tourmaline Anklet
+     INR=1050, USD=0
+
+105. id=pyrite-anklet
+     name=Pyrite Anklet
+     INR=1250, USD=0
+
+106. id=opal-face-roller
+     name=Opal Face Roller
+     INR=1450, USD=0
+
+107. id=green-jade-face-roller
+     name=Green Jade Face Roller
+     INR=1350, USD=0
+
+108. id=tiger-eye-face-roller
+     name=Tiger Eye Face Roller
+     INR=1050, USD=0
+
+109. id=amethyst-face-roller
+     name=Amethyst Face Roller
+     INR=1050, USD=0
+
+110. id=green-eventurine-face-roller
+     name=Green Eventurine Face Roller
+     INR=950, USD=0
+
+111. id=rose-quartz-face-roller
+     name=Rose Quartz Face Roller
+     INR=950, USD=0
+
+112. id=green-eventurine-guasha
+     name=Green Eventurine Guasha Stone
+     INR=950, USD=0
+
+113. id=black-tourmaline-guasha
+     name=Black Tourmaline Guasha Stone
+     INR=1050, USD=0
+
+114. id=big-crystal-tree
+     name=Big Crystal Tree
+     INR=2800, USD=0
+
+115. id=small-crystal-tree
+     name=Small Crystal Tree
+     INR=1600, USD=0
+
+116. id=shell-tree
+     name=Shell Tree
+     INR=2200, USD=0
+
+117. id=plain-pyrite-frame
+     name=Plain Pyrite Frame
+     INR=3500, USD=0
+
+118. id=selenite-laxmi-devi-pyrite-frame
+     name=Selenite Laxmi Devi Pyrite Frame
+     INR=3500, USD=0
+
+119. id=ganesha-pyrite-frame
+     name=Ganesha Pyrite Frame
+     INR=3500, USD=0
+
+120. id=gayatri-mantra-pyrite-plate
+     name=Gayatri Mantra Pyrite Duster Plate
+     INR=3500, USD=0
+
+121. id=selenite-plain-plate
+     name=Selenite Plain Plate
+     INR=1200, USD=0
+
+122. id=selenite-lamp-model
+     name=Selenite Lamp Model
+     INR=2400, USD=0
+
+123. id=custom-rashi-bracelet
+     name=Custom Rashi Zodiac Bracelet
+     INR=1550, USD=0
+
+124. id=custom-numerology-bracelet
+     name=Custom Numerology Number Bracelet
+     INR=1550, USD=0
+
+125. id=tree-of-life-keychain
+     name=Tree Of Life Keychain
+     INR=450, USD=0
+
+126. id=zibu-green-eventurine-keychain
+     name=Zibu Green Eventurine Keychain
+     INR=450, USD=0
+
+127. id=pyrite-keychain
+     name=Pyrite Keychain
+     INR=450, USD=0
+
+128. id=lapis-lazuli-pyramid
+     name=Lapis Lazuli Pyramid
+     INR=1800, USD=0
+
+129. id=laxmi-pyramid
+     name=Laxmi Aura Pyramid
+     INR=1800, USD=0
+
+130. id=pencil-point-wand
+     name=Pencil Point Wand
+     INR=1450, USD=0
+
+131. id=seven-chakra-wand
+     name=Seven Chakra Healing Wand
+     INR=1450, USD=0
+
+132. id=black-tourmaline-wand
+     name=Black Tourmaline Wand
+     INR=1450, USD=0
+
+133. id=rhodonite-wand
+     name=Rhodonite Wand
+     INR=1450, USD=0
+
+134. id=evil-eye-pendant-beauty
+     name=Evil Eye Protective Pendant
+     INR=850, USD=0
+
+135. id=evil-eye-bracelet-beauty
+     name=Evil Eye Protective Bracelet
+     INR=850, USD=0
+
+136. id=white-sage-smudge
+     name=White Sage Smudge Bundle
+     INR=650, USD=0
+
+137. id=karungali-bracelet
+     name=Karungali Ebony Wood Bracelet
+     INR=900, USD=18
+
+138. id=sri-chakra-yantra
+     name=Sri Yantra Sacred Geometry Plate
+     INR=2100, USD=0
+
+139. id=rose-quartz-merkaba
+     name=Rose Quartz Merkaba Star
+     INR=1250, USD=0
+
+140. id=amethyst-merkaba
+     name=Amethyst Merkaba Star
+     INR=1250, USD=0
+
+141. id=pyrite-small-sphere
+     name=Pyrite Small Sphere
+     INR=1250, USD=0
+
+142. id=amethyst-small-sphere
+     name=Amethyst Small Sphere
+     INR=1250, USD=0
+
+143. id=aura-booster-spray
+     name=Aura Booster Energy Spray
+     INR=1100, USD=0
+
+144. id=lapis-lazuli-shell-tree
+     name=Lapis Lazuli Shell Tree
+     INR=2450, USD=0
+
+145. id=rose-quartz-shell-tree
+     name=Rose Quartz Shell Tree
+     INR=2450, USD=0
+
+146. id=green-eventurine-shell-tree
+     name=Green Eventurine Shell Tree
+     INR=2450, USD=0
+
+147. id=amethyst-rose-quartz-shell-tree
+     name=Amethyst Rose Quartz Shell Tree
+     INR=2450, USD=0
+
+148. id=citrine-shell-tree
+     name=Citrine Shell Tree
+     INR=2450, USD=0
+
+149. id=amethyst-shell-tree
+     name=Amethyst Shell Tree
+     INR=2450, USD=0
+
+150. id=pyrite-soap-palm-stone
+     name=Pyrite Soap Palm Stone
+     INR=1250, USD=0
+
+151. id=peridot-earrings
+     name=Peridot Earrings
+     INR=850, USD=0
+
+152. id=green-eventurine-earrings
+     name=Green Eventurine Earrings
+     INR=850, USD=0
+
+153. id=rose-quartz-earrings
+     name=Rose Quartz Earrings
+     INR=850, USD=0
+
+154. id=green-eventurine-angel
+     name=Green Eventurine Guardian Angel
+     INR=1100, USD=0
+
+155. id=pyrite-angel
+     name=Pyrite Guardian Angel
+     INR=1100, USD=0
+
+156. id=citrine-angel
+     name=Citrine Guardian Angel
+     INR=1100, USD=0
+
+157. id=tiger-eye-angel
+     name=Tiger Eye Guardian Angel
+     INR=1100, USD=0
+
+158. id=water-tumble-set
+     name=Water Crystal Purification Tumble Set
+     INR=950, USD=0
+
+159. id=aura-cleansing-bath-salt
+     name=Aura Cleansing Ritual Bath Salt
+     INR=750, USD=0
+
+160. id=tibetan-singing-bowl-set
+     name=Tibetan Singing Meditation Bowl Set
+     INR=3200, USD=0
+
+161. id=manifestation-spell-jar
+     name=Ritual Manifestation Spell Jar
+     INR=1200, USD=24
+
+162. id=abundance-ritual-candle
+     name=Mini
+     INR=1200, USD=24
+
+163. id=golden-pyrite-turtle
+     name=Medium (100ml)
+     INR=3800, USD=74
+
+164. id=green-eventurine-zibu-coin
+     name=Large (500ml)
+     INR=6300, USD=124
+
+165. id=black-tourmaline-zibu-coin
+     name=Abundance Intentional Ritual Candle
+     INR=950, USD=0
+
+166. id=rose-quartz-zibu-coin
+     name=Golden Pyrite Turtle Vastu Statue
+     INR=1800, USD=0
+
+167. id=pyrite-cluster-set-3
+     name=Green Eventurine Zibu Coin
+     INR=650, USD=0
+
+168. id=kuber-stone-set-3
+     name=Black Tourmaline Zibu Coin
+     INR=650, USD=0
+
+169. id=black-tourmaline-chain
+     name=Rose Quartz Zibu Coin
+     INR=650, USD=0
+
+170. id=irani-firoza-chain-large-beads
+     name=Golden Pyrite Raw Cluster (Set of 3)
+     INR=2100, USD=0
+
+171. id=seven-chakra-and-om-mani-padme-hum-bracelet
+     name=Kuber Manifestation Raw Stone (Set of 3)
+     INR=1450, USD=0
+
+172. id=angel-aura-quartz-bracelet
+     name=Black Tourmaline Chain
+     INR=1450, USD=0
+
+173. id=karungali-bracelet-round
+     name=Irani Firoza Chain (Large Beads)
+     INR=2850, USD=0
+
+174. id=kunzite-bracelet
+     name=Seven Chakra + Om Mani Padme Hum Bracelet
+     INR=1450, USD=28
+
+175. id=moonstone-bracelet-white-moonstone-bracelet
+     name=Angel Aura Quartz Bracelet
+     INR=1450, USD=28
+
+176. id=multi-fluorite-bracelet-rainbow-fluorite-bracelet
+     name=Karungali Bracelet
+     INR=900, USD=18
+
+177. id=om-mani-padme-hum-and-black-obsidian-bracelet
+     name=Kunzite Bracelet
+     INR=1750, USD=35
+
+178. id=suleimani-hakeek-bracelet
+     name=Moonstone Bracelet (White Moonstone) Bracelet
+     INR=1450, USD=28
+
+179. id=turquoise-bracelet
+     name=Multi-Fluorite Bracelet (Rainbow Fluorite) Bracelet
+     INR=1450, USD=28
+
+180. id=earth-tone-mother-of-pearl-bracelet
+     name=Om Mani Padme Hum + Black Obsidian Bracelet
+     INR=1750, USD=35
+
+181. id=green-mother-of-pearl-shell-bracelet
+     name=Suleimani Hakeek Bracelet
+     INR=1450, USD=28
+
+182. id=natural-mother-of-pearl-shell-bracelet
+     name=Turquoise Bracelet
+     INR=1450, USD=28
+
+183. id=jade-bracelet
+     name=Earth-Tone Mother Of Pearl Bracelet
+     INR=2200, USD=44
+
+184. id=selenite-bracelet
+     name=Green Mother Of Pearl Shell Bracelet
+     INR=2200, USD=44
+
+185. id=om-mani-padme-hum-and-pixiu-black-obsidian-bracelet
+     name=Natural Mother Of Pearl Shell Bracelet
+     INR=2200, USD=44
+
+186. id=aquarius-zodiac-bracelet
+     name=Jade Bracelet
+     INR=1750, USD=35
+
+187. id=aries-zodiac-bracelet
+     name=Selenite Bracelet
+     INR=1750, USD=44
+
+188. id=cancer-zodiac-bracelet
+     name=Om Mani Padme Hum + Pixiu Black Obsidian Bracelet
+     INR=1750, USD=35
+
+189. id=capricorn-zodiac-bracelet
+     name=Aquarius Zodiac Bracelet
+     INR=1450, USD=28
+
+190. id=gemini-zodiac-bracelet
+     name=Aries Zodiac Bracelet
+     INR=1450, USD=28
+
+191. id=libra-zodiac-bracelet
+     name=Cancer Zodiac Bracelet
+     INR=1450, USD=28
+
+192. id=pisces-zodiac-bracelet
+     name=Capricorn Zodiac Bracelet
+     INR=1450, USD=28
+
+193. id=sagittarius-zodiac-bracelet
+     name=Gemini Zodiac Bracelet
+     INR=1450, USD=28
+
+194. id=taurus-zodiac-bracelet
+     name=Libra Zodiac Bracelet
+     INR=1450, USD=28
+
+195. id=virgo-zodiac-bracelet
+     name=Pisces Zodiac Bracelet
+     INR=1450, USD=28
+
+196. id=amethyst-mala
+     name=Sagittarius Zodiac Bracelet
+     INR=1450, USD=28
+
+197. id=citrine-mala
+     name=Taurus Zodiac Bracelet
+     INR=1450, USD=28
+
+198. id=peridot-mala
+     name=Virgo Zodiac Bracelet
+     INR=1450, USD=28
+
+199. id=clear-quartz-pendant
+     name=Amethyst Crystal Mala
+     INR=1650, USD=32
+
+200. id=malachite-pendant
+     name=Citrine Crystal Mala
+     INR=1650, USD=32
+
+201. id=red-jasper-pendant
+     name=Peridot Crystal Mala
+     INR=1650, USD=32
+
+202. id=yellow-calcite-pendant
+     name=Clear Quartz Crystal Pendant
+     INR=1200, USD=23
+
+203. id=designer-tiger-eye-pendant
+     name=Malachite Crystal Pendant
+     INR=1200, USD=23
+
+204. id=silver-rudraksha
+     name=Red Jasper Crystal Pendant
+     INR=1200, USD=23
+
+205. id=silver-rudraksha-mala
+     name=Yellow Calcite Crystal Pendant
+     INR=1200, USD=23
+
+206. id=all-in-one-bracelet
+     name=Tiger Eye Designer Pendant
+     INR=1200, USD=23
+
+207. id=business-growth-bracelet
+     name=Silver Rudraksha Bracelet
+     INR=1200, USD=23
+
+208. id=career-success-bracelet
+     name=Silver Rudraksha Mala
+     INR=1200, USD=23
+
+209. id=conceive-and-nurture-bracelet
+     name=All In One Bracelet
+     INR=1450, USD=28
+
+210. id=good-luck-bracelet
+     name=Business Growth Bracelet
+     INR=1450, USD=28
+
+211. id=love-and-luck-bracelet
+     name=Career Success Bracelet
+     INR=1450, USD=28
+
+212. id=love-and-peace-bracelet
+     name=Conceive And Nurture Bracelet
+     INR=1450, USD=28
+
+213. id=luxury-client-attraction-bracelet
+     name=Good Luck Bracelet
+     INR=1450, USD=28
+
+214. id=protection-and-wellness-bracelet
+     name=Love And Luck Bracelet
+     INR=1450, USD=28
+
+215. id=spiritual-cleansing-bracelet
+     name=Love And Peace Bracelet
+     INR=1450, USD=28
+
+216. id=love-attraction-spell-jar
+     name=Luxury Client Attraction Bracelet
+     INR=1450, USD=28
+
+217. id=protection-spell-jar
+     name=Protection And Wellness Bracelet
+     INR=1450, USD=28
+
+218. id=success-manifestation-spell-jar
+     name=Spiritual Cleansing Bracelet
+     INR=1450, USD=28
+
+219. id=abundance-spell-jar
+     name=Love Attraction Spell Jar
+     INR=1200, USD=24
+
+220. id=good-luck-spell-jar
+     name=Mini
+     INR=1200, USD=24
+
+221. id=custom-spell-jar
+     name=Medium (100ml)
+     INR=3800, USD=74
+

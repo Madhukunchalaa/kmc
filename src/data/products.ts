@@ -1190,8 +1190,8 @@ export const products: Product[] = [
     "name": "Green A Venturine Bracelet",
     "category": "bracelets",
     "subcategory": "Chips Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1450,
+    "originalPrice": 1740,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%201",
     "badge": null,
     "desc": "Growth, optimism, emotional balance, and opportunity.",
@@ -1206,8 +1206,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 28,
+    "originalUsdPrice": 34
   },
   {
     "id": "moonstone-chips-bracelet",
@@ -1241,8 +1241,8 @@ export const products: Product[] = [
     "name": "Lapis Lazuli Bracelet",
     "category": "bracelets",
     "subcategory": "Chips Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%201",
     "badge": null,
     "desc": "Wisdom, communication, intuition, and self- expression.",
@@ -1258,8 +1258,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "red-garnet-chips-bracelet",
@@ -1293,8 +1293,8 @@ export const products: Product[] = [
     "name": "Amethyst Bracelet",
     "category": "bracelets",
     "subcategory": "Chips Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1450,
+    "originalPrice": 1740,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%201",
     "badge": null,
     "desc": "Peace, intuition, spiritual awareness, and relaxation.",
@@ -1312,16 +1312,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 28,
+    "originalUsdPrice": 34
   },
   {
     "id": "clear-quartz-bangle-bracelet",
     "name": "Clear Quartz Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/clear%20quartz/Pic%201",
     "badge": null,
     "desc": "Clarity, focus, energy amplification, and intention setting.",
@@ -1340,8 +1340,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/clear%20quartz/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/clear%20quartz/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "opal-bangle-bracelet",
@@ -1368,8 +1368,8 @@ export const products: Product[] = [
     "name": "Rose Quartz Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%201",
     "badge": null,
     "desc": "Love, self-love, compassion, and emotional harmony.",
@@ -1385,16 +1385,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%203",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%204"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 44,
+    "originalUsdPrice": 53
   },
   {
     "id": "tiger-eye-bangle-bracelet",
     "name": "Tiger Eye Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/tiger%20eye/Pic%201",
     "badge": null,
     "desc": "Confidence, focus, courage, and determination.",
@@ -1410,16 +1410,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/tiger%20eye/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/tiger%20eye/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "lapis-lazuli-bangle-bracelet",
     "name": "Lapis Lazuli Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%201",
     "badge": null,
     "desc": "Wisdom, communication, intuition, and self- expression.",
@@ -1435,16 +1435,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Lapis%20lazuli/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "green-eventurine-bangle-bracelet",
     "name": "Green A Venturine Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1450,
+    "originalPrice": 1740,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%201",
     "badge": null,
     "desc": "Growth, optimism, emotional balance, and opportunity.",
@@ -1459,16 +1459,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/green%20eventurine/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 28,
+    "originalUsdPrice": 34
   },
   {
     "id": "amethyst-bangle-bracelet",
     "name": "Amethyst Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%201",
     "badge": null,
     "desc": "Peace, intuition, spiritual awareness, and relaxation.",
@@ -1486,16 +1486,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/amethyst/Pic%203"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "seven-chakra-bangle-bracelet",
     "name": "Seven Chakra Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1450,
+    "originalPrice": 1740,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/seven%20chakra/Pic%201",
     "badge": null,
     "desc": "Chakra balancing, energetic harmony, and spiritual alignment.",
@@ -1529,16 +1529,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/seven%20chakra/Seven%20chakra%20%2B%20lava%20/Pic%203",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/seven%20chakra/Seven%20chakra%20%2B%20lava%20/Pic%204"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 28,
+    "originalUsdPrice": 34
   },
   {
     "id": "pyrite-bangle-bracelet",
     "name": "Pyrite Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 1100,
-    "originalPrice": 1320,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/pyrite/Pic%201",
     "badge": null,
     "desc": "Confidence, determination, leadership, and motivation.",
@@ -1553,16 +1553,16 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/pyrite/Pic%202",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/pyrite/Pic%203"
     ],
-    "usdPrice": 22,
-    "originalUsdPrice": 26
+    "usdPrice": 42,
+    "originalUsdPrice": 50
   },
   {
     "id": "red-jasper-bangle-bracelet",
     "name": "Red Jasper Bracelet",
     "category": "bracelets",
     "subcategory": "Bangle Bracelet",
-    "price": 900,
-    "originalPrice": 1080,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/red%20jasper/Pic%201",
     "badge": null,
     "desc": "Grounding, stability, courage, and endurance.",
@@ -1584,8 +1584,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/red%20jasper/Pic%203",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/red%20jasper/Pic%204"
     ],
-    "usdPrice": 18,
-    "originalUsdPrice": 22
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "tree-of-life-pendant",
@@ -1632,52 +1632,52 @@ export const products: Product[] = [
     "name": "Tiger Eye Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/tiger-eye-design-1.webp",
     "badge": null,
-    "desc": "Boosts courage, self-confidence, willpower, and personal power.",
-    "longDesc": "{\"purpose\":\"Confidence, focus, courage, and determination.\",\"crystalsIncluded\":\"Tiger Eye\",\"associatedChakras\":\"Solar Plexus Chakra, Root Chakra\",\"description\":\"Tiger Eye is traditionally associated with courage, confidence, and focus. It is one of the most popular stones for those seeking motivation and balanced decision-making.\",\"benefits\":[\"Encourages confidence and courage\",\"Supports focus and determination\",\"Promotes balanced decision-making\",\"Inspires motivation and action\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, interviews, business meetings, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Confidence, focus, and determination.",
+    "longDesc": "{\"purpose\": \"Confidence, focus, and determination.\", \"crystalsIncluded\": \"Natural Tiger Eye\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"A classic Tiger Eye pendant designed for daily wear and personal confidence.\", \"benefits\": [\"Encourages focus\", \"Supports confidence\", \"Promotes determination\", \"Suitable for everyday use\"], \"howToWear\": \"Wear daily.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I am focused, confident, and determined.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/tiger-eye-design-1.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 12,
+    "originalUsdPrice": 14
   },
   {
     "id": "rose-quartz-pendant",
     "name": "Rose Quartz Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz",
     "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, meditation, self-care practices, and relationship intentions.\",\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Love, compassion, and emotional harmony.",
+    "longDesc": "{\"purpose\": \"Love, compassion, and emotional harmony.\", \"crystalsIncluded\": \"Natural Rose Quartz\", \"associatedChakras\": \"Heart Chakra\", \"description\": \"The Rose Quartz Pendant symbolises love, kindness, and emotional well-being while adding a soft and elegant touch to any outfit.\", \"benefits\": [\"Encourages self-love\", \"Supports emotional harmony\", \"Promotes compassion\", \"Suitable for daily wear\"], \"howToWear\": \"Wear close to the heart.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I radiate love, kindness, and harmony.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 12,
+    "originalUsdPrice": 14
   },
   {
     "id": "tiger-eye-designs-pendant",
     "name": "Tiger Eye Designs Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/tiger-eye-pic-1-design-2.webp",
     "badge": null,
-    "desc": "Boosts courage, self-confidence, willpower, and personal power.",
-    "longDesc": "{\"purpose\":\"Confidence, focus, courage, and determination.\",\"crystalsIncluded\":\"Tiger Eye\",\"associatedChakras\":\"Solar Plexus Chakra, Root Chakra\",\"description\":\"Tiger Eye is traditionally associated with courage, confidence, and focus. It is one of the most popular stones for those seeking motivation and balanced decision-making.\",\"benefits\":[\"Encourages confidence and courage\",\"Supports focus and determination\",\"Promotes balanced decision-making\",\"Inspires motivation and action\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, interviews, business meetings, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Confidence, courage, and motivation.",
+    "longDesc": "{\"purpose\": \"Confidence, courage, and motivation.\", \"crystalsIncluded\": \"Natural Tiger Eye\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"An elegant variation of Tiger Eye jewellery crafted for everyday confidence and style.\", \"benefits\": [\"Encourages courage\", \"Supports motivation\", \"Promotes positive action\", \"Stylish daily accessory\"], \"howToWear\": \"Wear daily.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I move forward with courage and confidence.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ],
@@ -1685,20 +1685,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/tiger-eye-pic-1-design-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/tiger-eye-pic-2-design-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 12,
+    "originalUsdPrice": 14
   },
   {
     "id": "lapis-lazuli-pendant",
     "name": "Lapis Lazuli Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1150,
-    "originalPrice": 1380,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/lapis-lazuli.webp",
     "badge": null,
-    "desc": "Traditional royal blue stone for wisdom, truth, and inner power.",
-    "longDesc": "{\"purpose\":\"Wisdom, communication, intuition, and self-expression.\",\"crystalsIncluded\":\"Lapis Lazuli\",\"associatedChakras\":\"Throat Chakra, Third Eye Chakra\",\"description\":\"Lapis Lazuli has long been associated with wisdom, truth, and self-expression. It is traditionally used to support clear communication and deeper self-awareness.\",\"benefits\":[\"Encourages confident communication\",\"Supports intuition and insight\",\"Promotes mental clarity\",\"Inspires self-awareness\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Meetings, presentations, study, meditation, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I express my truth with wisdom, confidence, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Communication, wisdom, and self-expression.",
+    "longDesc": "{\"purpose\": \"Communication, wisdom, and self-expression.\", \"crystalsIncluded\": \"Natural Lapis Lazuli\", \"associatedChakras\": \"Throat Chakra, Third Eye Chakra\", \"description\": \"A beautiful pendant traditionally associated with confidence, communication, and personal expression.\", \"benefits\": [\"Encourages communication\", \"Supports confidence\", \"Promotes wisdom and clarity\", \"Inspires self-expression\"], \"howToWear\": \"Wear daily or during presentations, meetings, and social interactions.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I communicate with confidence and clarity.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Throat",
       "Third Eye"
@@ -1706,20 +1706,20 @@ export const products: Product[] = [
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/lapis-lazuli.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 12,
+    "originalUsdPrice": 14
   },
   {
     "id": "black-tourmaline-pendant",
     "name": "Black Tourmaline Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/black-tourmaline-pic-1.webp",
     "badge": null,
-    "desc": "Shields against negative energy, electromagnetic frequencies, and toxic environments.",
-    "longDesc": "{\"purpose\":\"Grounding, protection, and energetic stability.\",\"crystalsIncluded\":\"Black Tourmaline\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Black Tourmaline is one of the most widely used grounding stones. It is traditionally associated with protection, stability, and maintaining a balanced energetic environment.\",\"benefits\":[\"Encourages grounding\",\"Supports energetic protection\",\"Promotes stability\",\"Helps maintain focus and balance\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, travel, crowded environments, work.\",\"howToEnergize\":\"Moonlight, selenite charging, intention setting.\",\"affirmation\":\"I am grounded, protected, and secure.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Grounding, stability, and protection.",
+    "longDesc": "{\"purpose\": \"Grounding, stability, and protection.\", \"crystalsIncluded\": \"Natural Black Tourmaline\", \"associatedChakras\": \"Root Chakra\", \"description\": \"A classic pendant designed for those who appreciate grounding energy and minimalist crystal jewellery.\", \"benefits\": [\"Encourages stability\", \"Supports emotional balance\", \"Promotes confidence\", \"Suitable for everyday wear\"], \"howToWear\": \"Wear near the heart daily.\", \"howToEnergize\": \"Moonlight or selenite charging.\", \"affirmation\": \"I am grounded, protected, and confident.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root"
     ],
@@ -1727,8 +1727,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/black-tourmaline-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/black-tourmaline-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 12,
+    "originalUsdPrice": 14
   },
   {
     "id": "green-eventurine-pendant",
@@ -1756,12 +1756,12 @@ export const products: Product[] = [
     "name": "Pyrite Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1250,
-    "originalPrice": 1500,
+    "price": 800,
+    "originalPrice": 960,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/pyrite.webp",
     "badge": null,
-    "desc": "Fool's gold that acts as a strong protective shield and magnet for wealth.",
-    "longDesc": "{\"purpose\":\"Confidence, determination, leadership, and motivation.\",\"crystalsIncluded\":\"Pyrite\",\"associatedChakras\":\"Solar Plexus Chakra\",\"description\":\"Pyrite is traditionally associated with confidence, leadership, and determination. It is often chosen by entrepreneurs, professionals, and individuals working toward ambitious goals.\",\"benefits\":[\"Encourages confidence and leadership\",\"Supports motivation and determination\",\"Promotes goal-focused thinking\",\"Inspires positive action\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, business meetings, interviews, and goal-setting activities.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and determination.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Confidence, motivation, and abundance mindset.",
+    "longDesc": "{\"purpose\": \"Confidence, motivation, and abundance mindset.\", \"crystalsIncluded\": \"Natural Pyrite\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Pyrite Pendant is admired for its metallic golden appearance and association with confidence and determination.\", \"benefits\": [\"Encourages confidence\", \"Supports motivation\", \"Promotes positive thinking\", \"Inspires goal-oriented action\"], \"howToWear\": \"Wear during work, business activities, or daily routines.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I move forward with confidence and determination.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ],
@@ -1769,8 +1769,8 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/pyrite.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/pyrite-design-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 16,
+    "originalUsdPrice": 19
   },
   {
     "id": "evil-eye-pendant",
@@ -2370,12 +2370,12 @@ export const products: Product[] = [
     "name": "Seven Chakra Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1650,
-    "originalPrice": 1980,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/seven-chakra-pic-1.webp",
     "badge": null,
-    "desc": "Balances, aligns, and activates all body energy centers.",
-    "longDesc": "{\"purpose\":\"Chakra balancing, energetic harmony, and spiritual alignment.\",\"crystalsIncluded\":\"Seven Chakra Stones\",\"associatedChakras\":\"Root, Sacral, Solar Plexus, Heart, Throat, Third Eye, Crown\",\"description\":\"The Seven Chakra Bracelet is designed to support balance across the body’s primary energy centers. Each stone is traditionally associated with a specific chakra, encouraging harmony between the mind, body, and spirit.\",\"benefits\":[\"Supports chakra alignment\",\"Encourages energetic balance\",\"Promotes mindfulness and self-awareness\",\"Suitable for meditation and daily wear\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, meditation, yoga, prayer, and spiritual practices.\",\"howToEnergize\":\"Moonlight, selenite charging, or intention setting.\",\"affirmation\":\"I am balanced, aligned, and connected to my highest self.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Chakra awareness, balance, and spiritual alignment.",
+    "longDesc": "{\"purpose\": \"Chakra awareness, balance, and spiritual alignment.\", \"crystalsIncluded\": \"Seven Chakra Crystal Chips\", \"associatedChakras\": \"All Seven Chakras\", \"description\": \"The Seven Chakra Chips Mala is designed to represent the seven major energy centres. It serves as a beautiful reminder of balance, mindfulness, and holistic well-being.\", \"benefits\": [\"Encourages chakra awareness\", \"Supports meditation practices\", \"Promotes balance and harmony\", \"Suitable for daily wear\"], \"howToUse\": \"Wear daily or use during meditation.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I am balanced, aligned, and connected to positive energy.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root",
       "Sacral",
@@ -2390,20 +2390,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/seven-chakra-pic-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/seven-chakra-design-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "rose-quartz-mala",
     "name": "Rose Quartz Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/rose-quartz-pic-1.webp",
     "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, meditation, self-care practices, and relationship intentions.\",\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Love, compassion, emotional balance, and self-care.",
+    "longDesc": "{\"purpose\": \"Love, compassion, emotional balance, and self-care.\", \"crystalsIncluded\": \"Natural Rose Quartz\", \"associatedChakras\": \"Heart Chakra\", \"description\": \"The Rose Quartz Mala is designed to symbolise love, compassion, and emotional harmony. It is perfect for meditation, self-care rituals, and everyday wear.\", \"benefits\": [\"Encourages self-love and compassion\", \"Supports emotional balance\", \"Promotes harmony and kindness\", \"Suitable for meditation and affirmations\"], \"howToUse\": \"Wear daily or use during self-love and mindfulness practices.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I am worthy of love, peace, and compassion.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart"
     ],
@@ -2411,60 +2411,60 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/rose-quartz-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/rose-quartz-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "turquoise-mala",
     "name": "Turquoise Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1850,
-    "originalPrice": 2220,
+    "price": 2500,
+    "originalPrice": 3000,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/turquoise.webp",
     "badge": null,
-    "desc": "Ancient stones of protection, alignment, and communication.",
-    "longDesc": "{\"purpose\":\"Communication, wisdom, balance, and self-expression.\",\"crystalsIncluded\":\"Natural Turquoise\",\"associatedChakras\":\"Throat Chakra\",\"description\":\"Turquoise has been valued for centuries as a stone associated with wisdom, communication, and self-expression. It is often worn by those seeking confidence in speaking and authentic communication.\",\"benefits\":[\"Encourages clear communication\",\"Supports self-expression\",\"Promotes confidence and wisdom\",\"Inspires emotional balance\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Meetings, presentations, conversations, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I communicate with wisdom, confidence, and authenticity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Communication, wisdom, confidence, and self-expression.",
+    "longDesc": "{\"purpose\": \"Communication, wisdom, confidence, and self-expression.\", \"crystalsIncluded\": \"Natural Turquoise\", \"associatedChakras\": \"Throat Chakra\", \"description\": \"The Turquoise Mala is admired for its beautiful blue-green tones and timeless appeal. Traditionally associated with communication and wisdom, it is ideal for meditation, prayer, and daily wear.\", \"benefits\": [\"Encourages confident communication\", \"Supports self-expression\", \"Promotes clarity and wisdom\", \"Suitable for meditation and mindful practices\"], \"howToUse\": \"Wear daily or use during meditation and affirmations.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I express myself clearly, confidently, and authentically.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Throat"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/turquoise.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 50,
+    "originalUsdPrice": 60
   },
   {
     "id": "black-tourmaline-mala",
     "name": "Black Tourmaline Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/black-tourmaline.webp",
     "badge": null,
-    "desc": "Shields against negative energy, electromagnetic frequencies, and toxic environments.",
-    "longDesc": "{\"purpose\":\"Grounding, protection, and energetic stability.\",\"crystalsIncluded\":\"Black Tourmaline\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Black Tourmaline is one of the most widely used grounding stones. It is traditionally associated with protection, stability, and maintaining a balanced energetic environment.\",\"benefits\":[\"Encourages grounding\",\"Supports energetic protection\",\"Promotes stability\",\"Helps maintain focus and balance\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, travel, crowded environments, work.\",\"howToEnergize\":\"Moonlight, selenite charging, intention setting.\",\"affirmation\":\"I am grounded, protected, and secure.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Grounding, stability, and protection.",
+    "longDesc": "{\"purpose\": \"Grounding, stability, and protection.\", \"crystalsIncluded\": \"Natural Black Tourmaline\", \"associatedChakras\": \"Root Chakra\", \"description\": \"The Black Tourmaline Mala is crafted for those seeking grounding and balance in their daily lives. Its timeless design makes it suitable for meditation, prayer, and everyday wear.\", \"benefits\": [\"Encourages grounding and stability\", \"Supports emotional balance\", \"Promotes mindful living\", \"Suitable for spiritual practices\"], \"howToUse\": \"Wear daily or use during meditation sessions.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I am grounded, centred, and confident.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/black-tourmaline.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "karungali-mala",
     "name": "Karungali Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1850,
-    "originalPrice": 2220,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/karungali-pic-1.webp",
     "badge": null,
-    "desc": "Sacred Ebony wood traditionally used for protection, grounding, and power.",
-    "longDesc": "{\"purpose\":\"Grounding, spiritual discipline, and inner stability.\",\"crystalsIncluded\":\"Karungali Wood\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Karungali is traditionally valued in spiritual practices for its grounding and stabilizing qualities. It is commonly worn during meditation, prayer, and daily spiritual routines.\",\"benefits\":[\"Encourages grounding and stability\",\"Supports spiritual practices\",\"Promotes inner calm\",\"Suitable for daily wear\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Meditation, prayer, spiritual practices, and daily wear.\",\"howToEnergize\":\"Prayer, intention setting, or placing near incense during spiritual practice.\",\"affirmation\":\"I remain grounded, calm, and connected to my inner strength.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Grounding, discipline, and spiritual focus.",
+    "longDesc": "{\"purpose\": \"Grounding, discipline, and spiritual focus.\", \"materialIncluded\": \"Natural Karungali Wood\", \"associatedChakras\": \"Root Chakra\", \"description\": \"The Karungali Mala is traditionally used in spiritual and meditation practices. Crafted from natural Karungali wood, it is appreciated for its classic appearance and connection to mindful living.\", \"benefits\": [\"Encourages focus and discipline\", \"Supports meditation practices\", \"Promotes grounding energy\", \"Suitable for daily spiritual routines\"], \"howToUse\": \"Wear daily or use during prayer and meditation.\", \"howToEnergize\": \"Intention setting or moonlight charging.\", \"affirmation\": \"I remain focused, disciplined, and spiritually aligned.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root"
     ],
@@ -2472,40 +2472,40 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/karungali-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/karungali-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "rose-quartz-comb",
     "name": "Rose Quartz Healing Comb",
     "category": "glow-essentials",
     "subcategory": "Combs",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/rose-quartz-comb-pic-1.webp",
     "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Scalp care, beauty rituals, and mindful self-care.",
+    "longDesc": "{\"purpose\": \"Scalp care, beauty rituals, and mindful self-care.\", \"materialIncluded\": \"Natural Rose Quartz\", \"description\": \"The Rose Quartz Comb is a luxurious crystal beauty accessory crafted to elevate your hair care and self-care routine. Its elegant design makes it both a practical and beautiful addition to your collection.\", \"benefits\": [\"Complements hair care rituals\", \"Encourages mindful self-care\", \"Beautiful handcrafted appearance\", \"Suitable for daily use\"], \"howToUse\": \"Gently comb through dry or damp hair as part of your regular hair care routine.\", \"affirmation\": \"I nurture myself with love, care, and confidence.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Heart"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/rose-quartz-comb-pic-1.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 44,
+    "originalUsdPrice": 53
   },
   {
     "id": "lapis-lazuli-anklet",
     "name": "Lapis Lazuli Anklet",
     "category": "anklets",
     "subcategory": "Anklets",
-    "price": 1150,
-    "originalPrice": 1380,
+    "price": 300,
+    "originalPrice": 360,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/lapis-lazuli-pic-1.webp",
     "badge": null,
-    "desc": "Traditional royal blue stone for wisdom, truth, and inner power.",
-    "longDesc": "{\"purpose\":\"Wisdom, communication, intuition, and self-expression.\",\"crystalsIncluded\":\"Lapis Lazuli\",\"associatedChakras\":\"Throat Chakra, Third Eye Chakra\",\"description\":\"Lapis Lazuli has long been associated with wisdom, truth, and self-expression. It is traditionally used to support clear communication and deeper self-awareness.\",\"benefits\":[\"Encourages confident communication\",\"Supports intuition and insight\",\"Promotes mental clarity\",\"Inspires self-awareness\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Meetings, presentations, study, meditation, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I express my truth with wisdom, confidence, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Wisdom, communication, intuition, and self-expression.",
+    "longDesc": "{\"purpose\": \"Wisdom, communication, intuition, and self-expression.\", \"crystalsIncluded\": \"Lapis Lazuli\", \"associatedChakras\": \"Throat Chakra, Third Eye Chakra\", \"description\": \"The Lapis Lazuli Anklet is designed for individuals who value self-expression, confidence, and personal growth. Traditionally associated with wisdom and communication, it makes a beautiful addition to both casual and elegant styles.\", \"benefits\": [\"Encourages confident communication\", \"Supports intuition and clarity\", \"Promotes self-expression\", \"Inspires personal growth\"], \"recommendedAnkle\": \"Either Ankle\", \"whenToWear\": \"Daily wear, social occasions, travel, and special events.\", \"howToEnergize\": \"Moonlight or selenite charging.\", \"affirmation\": \"I express myself with wisdom, confidence, and clarity.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Throat",
       "Third Eye"
@@ -2515,20 +2515,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/lapis-lazuli-pic-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/lapis-lazuli-pic-3.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 8,
+    "originalUsdPrice": 10
   },
   {
     "id": "black-tourmaline-anklet",
     "name": "Black Tourmaline Anklet",
     "category": "anklets",
     "subcategory": "Anklets",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 300,
+    "originalPrice": 360,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/black-tourmaline-pic-1.webp",
     "badge": null,
-    "desc": "Shields against negative energy, electromagnetic frequencies, and toxic environments.",
-    "longDesc": "{\"purpose\":\"Grounding, protection, and energetic stability.\",\"crystalsIncluded\":\"Black Tourmaline\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Black Tourmaline is one of the most widely used grounding stones. It is traditionally associated with protection, stability, and maintaining a balanced energetic environment.\",\"benefits\":[\"Encourages grounding\",\"Supports energetic protection\",\"Promotes stability\",\"Helps maintain focus and balance\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, travel, crowded environments, work.\",\"howToEnergize\":\"Moonlight, selenite charging, intention setting.\",\"affirmation\":\"I am grounded, protected, and secure.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Grounding, stability, and energetic protection.",
+    "longDesc": "{\"purpose\": \"Grounding, stability, and energetic protection.\", \"crystalsIncluded\": \"Black Tourmaline\", \"associatedChakras\": \"Root Chakra\", \"description\": \"The Black Tourmaline Anklet combines elegance with the timeless appeal of natural crystal jewelry. Traditionally associated with grounding and stability, this anklet is designed for those who appreciate meaningful accessories and mindful living.\", \"benefits\": [\"Encourages grounding and balance\", \"Supports emotional stability\", \"Promotes a sense of calmness\", \"Suitable for everyday wear\"], \"recommendedAnkle\": \"Either Ankle\", \"whenToWear\": \"Daily wear, travel, work, and outdoor activities.\", \"howToEnergize\": \"Moonlight or selenite charging.\", \"affirmation\": \"I am grounded, balanced, and confident.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root"
     ],
@@ -2536,20 +2536,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/black-tourmaline-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/black-tourmaline-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 8,
+    "originalUsdPrice": 10
   },
   {
     "id": "pyrite-anklet",
     "name": "Pyrite Anklet",
     "category": "anklets",
     "subcategory": "Anklets",
-    "price": 1250,
-    "originalPrice": 1500,
+    "price": 300,
+    "originalPrice": 360,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/pyrite-pic-1.webp",
     "badge": null,
-    "desc": "Fool's gold that acts as a strong protective shield and magnet for wealth.",
-    "longDesc": "{\"purpose\":\"Confidence, determination, leadership, and motivation.\",\"crystalsIncluded\":\"Pyrite\",\"associatedChakras\":\"Solar Plexus Chakra\",\"description\":\"Pyrite is traditionally associated with confidence, leadership, and determination. It is often chosen by entrepreneurs, professionals, and individuals working toward ambitious goals.\",\"benefits\":[\"Encourages confidence and leadership\",\"Supports motivation and determination\",\"Promotes goal-focused thinking\",\"Inspires positive action\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, business meetings, interviews, and goal-setting activities.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and determination.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Confidence, motivation, abundance mindset, and determination.",
+    "longDesc": "{\"purpose\": \"Confidence, motivation, abundance mindset, and determination.\", \"crystalsIncluded\": \"Pyrite\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Pyrite Anklet combines natural beauty with symbolism traditionally associated with confidence and determination. It is designed for individuals seeking motivation, positivity, and a stylish crystal accessory.\", \"benefits\": [\"Encourages confidence and motivation\", \"Supports determination and focus\", \"Promotes a positive mindset\", \"Inspires personal growth\"], \"recommendedAnkle\": \"Either Ankle\", \"whenToWear\": \"Work, business activities, social occasions, and daily wear.\", \"howToEnergize\": \"Moonlight or selenite charging.\", \"affirmation\": \"I move forward with confidence, focus, and determination.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ],
@@ -2557,20 +2557,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/pyrite-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/anklets/pyrite-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 8,
+    "originalUsdPrice": 10
   },
   {
     "id": "opal-face-roller",
     "name": "Opal Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/opal-pic-1.webp",
     "badge": null,
-    "desc": "Enhances cosmic consciousness, spiritual vision, and inspiration.",
-    "longDesc": "{\"purpose\":\"Enhances cosmic consciousness, spiritual vision, and inspiration.\",\"crystalsIncluded\":\"Opal\",\"associatedChakras\":\"Crown\",\"description\":\"Opal Face Roller is a premium quality, authentic spiritual item. Enhances cosmic consciousness, spiritual vision, and inspiration. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Enhances cosmic consciousness, spiritual vision, and inspiration.\",\"Aligns and energises the Crown Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
+    "desc": "Beauty rituals and mindful self-care.",
+    "longDesc": "{\"purpose\": \"Beauty rituals and mindful self-care.\", \"materialIncluded\": \"Natural Opal\", \"description\": \"The Opal Face Roller combines elegance and functionality, making it a beautiful skincare companion. Its polished finish provides a luxurious facial massage experience.\", \"benefits\": [\"Supports self-care practices\", \"Complements skincare routines\", \"Provides a soothing massage experience\", \"Elegant crystal beauty tool\"], \"howToUse\": \"Use daily with serum or moisturiser for a relaxing skincare routine.\", \"affirmation\": \"I glow with confidence, beauty, and positive energy.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Crown"
     ],
@@ -2578,20 +2578,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/opal-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/opal-face-roller-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "green-jade-face-roller",
     "name": "Green Jade Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 1350,
-    "originalPrice": 1620,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/jade-pic-1.webp",
     "badge": null,
-    "desc": "Noble stone of luck, wisdom, long life, and physical health.",
-    "longDesc": "{\"purpose\":\"Noble stone of luck, wisdom, long life, and physical health.\",\"crystalsIncluded\":\"Green Jade\",\"associatedChakras\":\"Heart\",\"description\":\"Green Jade Face Roller is a premium quality, authentic spiritual item. Noble stone of luck, wisdom, long life, and physical health. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Noble stone of luck, wisdom, long life, and physical health.\",\"Aligns and energises the Heart Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
+    "desc": "Beauty care, self-care, and relaxation.",
+    "longDesc": "{\"purpose\": \"Beauty care, self-care, and relaxation.\", \"materialIncluded\": \"Natural Jade\", \"description\": \"The Jade Face Roller is a timeless beauty tool loved for its elegant appearance and cooling touch. It makes a beautiful addition to any skincare ritual.\", \"benefits\": [\"Enhances self-care routines\", \"Provides a refreshing massage experience\", \"Complements daily skincare\", \"Suitable for all skin types\"], \"howToUse\": \"Roll gently across the face using upward motions.\", \"affirmation\": \"I embrace beauty, harmony, and self-care.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Heart"
     ],
@@ -2599,20 +2599,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/jade-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/jade-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "tiger-eye-face-roller",
     "name": "Tiger Eye Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/tiger-eye-pic-1.webp",
     "badge": null,
-    "desc": "Boosts courage, self-confidence, willpower, and personal power.",
-    "longDesc": "{\"purpose\":\"Confidence, focus, courage, and determination.\",\"crystalsIncluded\":\"Tiger Eye\",\"associatedChakras\":\"Solar Plexus Chakra, Root Chakra\",\"description\":\"Tiger Eye is traditionally associated with courage, confidence, and focus. It is one of the most popular stones for those seeking motivation and balanced decision-making.\",\"benefits\":[\"Encourages confidence and courage\",\"Supports focus and determination\",\"Promotes balanced decision-making\",\"Inspires motivation and action\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Beauty care, confidence, and self-care rituals.",
+    "longDesc": "{\"purpose\": \"Beauty care, confidence, and self-care rituals.\", \"materialIncluded\": \"Natural Tiger Eye\", \"description\": \"The Tiger Eye Face Roller is designed for those who appreciate beauty tools crafted from natural crystals. Its smooth rolling action helps create a relaxing and enjoyable skincare experience.\", \"benefits\": [\"Complements daily skincare\", \"Supports facial massage routines\", \"Encourages self-care habits\", \"Elegant crystal craftsmanship\"], \"howToUse\": \"Roll gently across the face and neck after applying skincare products.\", \"affirmation\": \"I radiate confidence, strength, and natural beauty.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Solar Plexus"
     ],
@@ -2620,20 +2620,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/tiger-eye-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/tiger-eye-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "amethyst-face-roller",
     "name": "Amethyst Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/amethyst-pic-1.webp",
     "badge": null,
-    "desc": "Calms mind, increases spiritual wisdom, and supports deep meditation.",
-    "longDesc": "{\"purpose\":\"Peace, intuition, spiritual awareness, and relaxation.\",\"crystalsIncluded\":\"Amethyst\",\"associatedChakras\":\"Crown Chakra, Third Eye Chakra\",\"description\":\"Amethyst is one of the most popular spiritual crystals and is traditionally associated with peace, wisdom, and intuition. It is often used during meditation and mindfulness practices to support mental clarity and inner calm.\",\"benefits\":[\"Encourages relaxation\",\"Supports intuition\",\"Promotes spiritual awareness\",\"Helps create a peaceful environment\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I trust my intuition and embrace inner peace.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Self-care, relaxation, and beauty rituals.",
+    "longDesc": "{\"purpose\": \"Self-care, relaxation, and beauty rituals.\", \"materialIncluded\": \"Natural Amethyst\", \"description\": \"The Amethyst Face Roller is a luxurious beauty tool designed to complement your skincare routine. Traditionally associated with calmness and relaxation, this roller provides a soothing massage experience while helping skincare products glide smoothly across the skin.\", \"benefits\": [\"Enhances self-care rituals\", \"Provides a cooling massage experience\", \"Complements skincare application\", \"Encourages moments of relaxation\"], \"howToUse\": \"Use gently on cleansed skin or after applying your favourite serum or facial oil.\", \"affirmation\": \"I nurture myself with care, balance, and beauty.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Third Eye",
       "Crown"
@@ -2642,20 +2642,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/amethyst-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/amethyst-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "green-eventurine-face-roller",
     "name": "Green Eventurine Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-pic-1.webp",
     "badge": null,
-    "desc": "Stone of opportunity and luck, bringing abundance and career success.",
-    "longDesc": "{\"purpose\":\"Growth, optimism, emotional balance, and opportunity.\",\"crystalsIncluded\":\"Green Aventurine\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Green Aventurine is traditionally associated with growth, optimism, and emotional well-being. It is commonly used by those seeking fresh opportunities and a positive outlook.\",\"benefits\":[\"Encourages optimism and positivity\",\"Supports emotional balance\",\"Promotes personal growth\",\"Inspires confidence in new beginnings\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I welcome growth, positivity, and new opportunities into my life.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Beauty rituals, relaxation, and skincare support.",
+    "longDesc": "{\"purpose\": \"Beauty rituals, relaxation, and skincare support.\", \"materialIncluded\": \"Natural Green Aventurine\", \"description\": \"The Green Aventurine Face Roller is designed to enhance your daily skincare routine while bringing a touch of luxury to your self-care practices. Its naturally cool surface offers a refreshing massage experience.\", \"benefits\": [\"Complements skincare application\", \"Supports facial massage routines\", \"Encourages relaxation\", \"Suitable for daily use\"], \"howToUse\": \"Use on clean skin after applying serum or moisturiser.\", \"affirmation\": \"I care for myself with love, confidence, and gratitude.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Heart"
     ],
@@ -2663,20 +2663,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "rose-quartz-face-roller",
     "name": "Rose Quartz Face Roller",
     "category": "glow-essentials",
     "subcategory": "Face Rollers",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/rose-quartz-pic-1.webp",
     "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Love energy, self-care rituals, and radiant beauty.",
+    "longDesc": "{\"purpose\": \"Love energy, self-care rituals, and radiant beauty.\", \"materialIncluded\": \"Natural Rose Quartz\", \"description\": \"The Rose Quartz Face Roller is a beloved beauty tool associated with self-love and radiance. Its smooth surface glides gently across the skin for a soothing and mindful skincare ritual.\", \"benefits\": [\"Encourages self-love and self-care\", \"Complements skincare application\", \"Provides a calming massage experience\", \"Suitable for daily use\"], \"howToUse\": \"Use gently on cleansed skin after applying serum or moisturiser.\", \"affirmation\": \"I radiate love, beauty, and inner harmony.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Heart"
     ],
@@ -2685,20 +2685,20 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/rose-quartz-pic-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/rose-quartz-pic-21.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 35,
+    "originalUsdPrice": 42
   },
   {
     "id": "green-eventurine-guasha",
     "name": "Green Eventurine Guasha Stone",
     "category": "glow-essentials",
     "subcategory": "Gua Sha",
-    "price": 950,
-    "originalPrice": 1140,
+    "price": 450,
+    "originalPrice": 540,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-gua-sha-pic-1.webp",
     "badge": null,
-    "desc": "Stone of opportunity and luck, bringing abundance and career success.",
-    "longDesc": "{\"purpose\":\"Growth, optimism, emotional balance, and opportunity.\",\"crystalsIncluded\":\"Green Aventurine\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Green Aventurine is traditionally associated with growth, optimism, and emotional well-being. It is commonly used by those seeking fresh opportunities and a positive outlook.\",\"benefits\":[\"Encourages optimism and positivity\",\"Supports emotional balance\",\"Promotes personal growth\",\"Inspires confidence in new beginnings\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I welcome growth, positivity, and new opportunities into my life.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Facial massage and beauty care.",
+    "longDesc": "{\"purpose\": \"Facial massage and beauty care.\", \"materialIncluded\": \"Natural Green Aventurine\", \"description\": \"The Green Aventurine Gua Sha combines natural beauty with timeless skincare traditions. Designed for facial massage routines, it helps create a relaxing and mindful self-care experience.\", \"benefits\": [\"Complements skincare routines\", \"Supports facial massage practices\", \"Encourages mindful self-care\", \"Beautiful natural crystal craftsmanship\"], \"howToUse\": \"Glide gently over the skin using upward and outward motions.\", \"affirmation\": \"I radiate confidence, beauty, and positivity.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Heart"
     ],
@@ -2706,28 +2706,28 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-gua-sha-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/green-eventurine-gua-sha-pic-2.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 9,
+    "originalUsdPrice": 11
   },
   {
     "id": "black-tourmaline-guasha",
     "name": "Black Tourmaline Guasha Stone",
     "category": "glow-essentials",
     "subcategory": "Gua Sha",
-    "price": 1050,
-    "originalPrice": 1260,
+    "price": 450,
+    "originalPrice": 540,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/black-tourmaline-gua-sha.webp",
     "badge": null,
-    "desc": "Shields against negative energy, electromagnetic frequencies, and toxic environments.",
-    "longDesc": "{\"purpose\":\"Grounding, protection, and energetic stability.\",\"crystalsIncluded\":\"Black Tourmaline\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Black Tourmaline is one of the most widely used grounding stones. It is traditionally associated with protection, stability, and maintaining a balanced energetic environment.\",\"benefits\":[\"Encourages grounding\",\"Supports energetic protection\",\"Promotes stability\",\"Helps maintain focus and balance\"],\"howToEnergize\":\"Moonlight, selenite charging, intention setting.\",\"affirmation\":\"I am grounded, protected, and secure.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Facial massage and self-care rituals.",
+    "longDesc": "{\"purpose\": \"Facial massage and self-care rituals.\", \"materialIncluded\": \"Natural Black Tourmaline\", \"description\": \"The Black Tourmaline Gua Sha is crafted to elevate your beauty and wellness routine. Its smooth surface glides comfortably across the skin, making it an elegant addition to daily skincare practices.\", \"benefits\": [\"Supports facial massage routines\", \"Enhances self-care moments\", \"Comfortable and easy to use\", \"Elegant natural stone design\"], \"howToUse\": \"Use with facial oil or serum and gently massage the face using upward strokes.\", \"affirmation\": \"I care for myself with intention and confidence.\", \"careInstructions\": [\"Clean after each use with a soft cloth.\", \"Avoid dropping or exposing to harsh chemicals.\", \"Store in a dry place.\", \"Handle with care as natural crystals may be delicate.\"], \"disclaimer\": \"Crystal beauty tools are intended for cosmetic and self-care use only. They are not intended to diagnose, treat, cure, or prevent any medical condition.\"}",
     "chakras": [
       "Root"
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/glow-essential-crystals/black-tourmaline-gua-sha.webp"
     ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
+    "usdPrice": 9,
+    "originalUsdPrice": 11
   },
   {
     "id": "big-crystal-tree",
@@ -4527,19 +4527,19 @@ export const products: Product[] = [
     "name": "Amethyst Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1650,
-    "originalPrice": 1980,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/amethyst-mala-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/amethyst-mala-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/amethyst-pic-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/amethyst-pic-3.webp"
     ],
-    "usdPrice": 32,
-    "originalUsdPrice": 38,
+    "usdPrice": 35,
+    "originalUsdPrice": 42,
     "badge": "New",
-    "desc": "Calming amethyst mala for intuition, inner peace, and deeper meditation.",
-    "longDesc": "{\"purpose\":\"Peace, intuition, spiritual awareness, and relaxation.\",\"crystalsIncluded\":\"Amethyst\",\"associatedChakras\":\"Crown Chakra, Third Eye Chakra\",\"description\":\"Amethyst is one of the most popular spiritual crystals and is traditionally associated with peace, wisdom, and intuition. It is often used during meditation and mindfulness practices to support mental clarity and inner calm.\",\"benefits\":[\"Encourages relaxation\",\"Supports intuition\",\"Promotes spiritual awareness\",\"Helps create a peaceful environment\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Meditation, sleep, spiritual practices, daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I trust my intuition and embrace inner peace.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Peace, clarity, mindfulness, and spiritual growth.",
+    "longDesc": "{\"purpose\": \"Peace, clarity, mindfulness, and spiritual growth.\", \"crystalsIncluded\": \"Natural Amethyst\", \"associatedChakras\": \"Crown Chakra\", \"description\": \"The Amethyst Mala is designed for meditation, prayer, and mindful living. Traditionally associated with peace, clarity, and spiritual awareness, it serves as a meaningful companion for daily spiritual practices and intention setting.\", \"benefits\": [\"Encourages calmness and inner peace\", \"Supports mindfulness practices\", \"Promotes clarity and balance\", \"Suitable for meditation and prayer\"], \"howToUse\": \"Wear as a necklace or use during meditation and mantra recitation.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I am calm, balanced, and connected to my highest self.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Third Eye",
       "Crown"
@@ -4550,18 +4550,18 @@ export const products: Product[] = [
     "name": "Citrine Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1650,
-    "originalPrice": 1980,
+    "price": 1750,
+    "originalPrice": 2100,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/citrine-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/citrine-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/citrine-pic-2.webp"
     ],
-    "usdPrice": 32,
-    "originalUsdPrice": 38,
+    "usdPrice": 35,
+    "originalUsdPrice": 42,
     "badge": "New",
-    "desc": "Bright citrine mala for abundance, confidence, and positivity.",
-    "longDesc": "{\"purpose\":\"Confidence, positivity, abundance mindset, and personal empowerment.\",\"crystalsIncluded\":\"Citrine\",\"associatedChakras\":\"Solar Plexus Chakra\",\"description\":\"Citrine is traditionally associated with positivity, confidence, and personal growth. It is often used by those seeking motivation, optimism, and a positive outlook on life.\",\"benefits\":[\"Encourages confidence and self-belief\",\"Promotes optimism and positivity\",\"Supports motivation and determination\",\"Inspires personal growth\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, business activities, goal setting, and daily wear.\",\"howToEnergize\":\"Moonlight, selenite charging, or intention setting.\",\"affirmation\":\"I attract confidence, positivity, and opportunities for growth.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Confidence, positivity, and abundance mindset.",
+    "longDesc": "{\"purpose\": \"Confidence, positivity, and abundance mindset.\", \"crystalsIncluded\": \"Natural Citrine\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Citrine Mala is designed for those who wish to cultivate positivity, confidence, and a growth-oriented mindset. It is ideal for meditation and daily wear.\", \"benefits\": [\"Encourages confidence and optimism\", \"Supports positive thinking\", \"Promotes motivation and focus\", \"Suitable for manifestation practices\"], \"howToUse\": \"Wear daily or use during affirmations and meditation.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I welcome positivity, confidence, and abundance.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ]
@@ -4571,17 +4571,17 @@ export const products: Product[] = [
     "name": "Peridot Crystal Mala",
     "category": "malas",
     "subcategory": "Malas",
-    "price": 1650,
-    "originalPrice": 1980,
+    "price": 1950,
+    "originalPrice": 2340,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/peridot-mala.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/malas/peridot-mala.webp"
     ],
-    "usdPrice": 32,
-    "originalUsdPrice": 38,
+    "usdPrice": 39,
+    "originalUsdPrice": 47,
     "badge": "New",
-    "desc": "Fresh green peridot mala for growth, renewal, and heart healing.",
-    "longDesc": "{\"purpose\":\"Growth, positivity, and emotional renewal.\",\"crystalsIncluded\":\"Peridot\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Peridot is traditionally associated with growth, positivity, and renewal. Its vibrant green color symbolizes fresh beginnings and a positive outlook.\",\"benefits\":[\"Encourages optimism\",\"Supports emotional renewal\",\"Promotes personal growth\",\"Inspires positive thinking\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"New beginnings, personal development, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I welcome growth, positivity, and fresh opportunities.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Growth, positivity, renewal, and abundance.",
+    "longDesc": "{\"purpose\": \"Growth, positivity, renewal, and abundance.\", \"crystalsIncluded\": \"Natural Peridot\", \"associatedChakras\": \"Heart Chakra\", \"description\": \"The Peridot Mala symbolises renewal, positivity, and personal growth. Its vibrant appearance makes it a beautiful addition to both spiritual and everyday wear.\", \"benefits\": [\"Encourages positivity and optimism\", \"Supports personal growth\", \"Promotes emotional balance\", \"Inspires confidence and gratitude\"], \"howToUse\": \"Wear daily or use during meditation and affirmations.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I welcome growth, positivity, and new opportunities.\", \"careInstructions\": [\"Store in a clean and dry place.\", \"Avoid prolonged exposure to water, perfumes, and chemicals.\", \"Handle with care to preserve the natural beauty of the crystals.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart"
     ]
@@ -4591,19 +4591,19 @@ export const products: Product[] = [
     "name": "Clear Quartz Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/clear-quartz-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/clear-quartz-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/clear-quartz-pic-2.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/clear-quartz.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 12,
+    "originalUsdPrice": 14,
     "badge": "New",
-    "desc": "Master-healer clear quartz pendant for clarity and amplified intention.",
-    "longDesc": "{\"purpose\":\"Clarity, focus, energy amplification, and intention setting.\",\"crystalsIncluded\":\"Clear Quartz\",\"associatedChakras\":\"Crown Chakra\",\"description\":\"Clear Quartz is often referred to as the “Master Crystal” and is traditionally associated with clarity, focus, and amplifying intentions. It is commonly used alongside other crystals and spiritual practices.\",\"benefits\":[\"Supports mental clarity\",\"Enhances focus and awareness\",\"Amplifies intentions and affirmations\",\"Suitable for meditation and mindfulness\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily, meditation, spiritual practices, and goal setting.\",\"howToEnergize\":\"Moonlight, sunlight (briefly), or selenite charging.\",\"affirmation\":\"My mind is clear, focused, and aligned with my intentions.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Clarity, focus, and balance.",
+    "longDesc": "{\"purpose\": \"Clarity, focus, and balance.\", \"crystalsIncluded\": \"Natural Clear Quartz\", \"associatedChakras\": \"Crown Chakra\", \"description\": \"The Clear Quartz Pendant is admired for its timeless beauty and versatility, making it an excellent everyday crystal accessory.\", \"benefits\": [\"Encourages mental clarity\", \"Supports focus and concentration\", \"Promotes balance\", \"Suitable for meditation practices\"], \"howToWear\": \"Wear daily near the heart.\", \"howToEnergize\": \"Moonlight or selenite charging.\", \"affirmation\": \"My mind is clear, focused, and aligned.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Crown"
     ]
@@ -4613,18 +4613,18 @@ export const products: Product[] = [
     "name": "Malachite Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 1100,
+    "originalPrice": 1320,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/malachite-pic1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/malachite-pic1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/malachite-pic2.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 22,
+    "originalUsdPrice": 26,
     "badge": "New",
-    "desc": "Bold malachite pendant for transformation, protection, and heart healing.",
-    "longDesc": "{\"purpose\":\"Transformation, confidence, and personal growth.\",\"crystalsIncluded\":\"Malachite\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Malachite is traditionally associated with transformation and personal growth. It is often chosen by those navigating change and seeking courage to move forward.\",\"benefits\":[\"Encourages personal transformation\",\"Supports confidence and determination\",\"Promotes emotional awareness\",\"Inspires growth and positive change\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"During life transitions, new beginnings, and personal development journeys.\",\"howToEnergize\":\"Selenite charging only. Avoid prolonged water exposure.\",\"affirmation\":\"I embrace positive transformation and move forward with confidence.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Transformation, growth, and positive change.",
+    "longDesc": "{\"purpose\": \"Transformation, growth, and positive change.\", \"crystalsIncluded\": \"Natural Malachite\", \"associatedChakras\": \"Heart Chakra\", \"description\": \"The Malachite Pendant showcases striking natural patterns and is valued for its distinctive beauty and symbolism of growth and transformation.\", \"benefits\": [\"Encourages personal growth\", \"Supports positive change\", \"Promotes emotional balance\", \"Elegant statement piece\"], \"howToWear\": \"Wear daily or during personal development practices.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I welcome positive growth and transformation.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart"
     ]
@@ -4634,18 +4634,18 @@ export const products: Product[] = [
     "name": "Red Jasper Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/red-jasper-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/red-jasper-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/red-jasper-pic-2.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 12,
+    "originalUsdPrice": 14,
     "badge": "New",
-    "desc": "Grounding red jasper pendant for strength, stability, and endurance.",
-    "longDesc": "{\"purpose\":\"Grounding, stability, courage, and endurance.\",\"crystalsIncluded\":\"Red Jasper\",\"associatedChakras\":\"Root Chakra\",\"description\":\"Red Jasper is traditionally associated with stability, grounding, and steady determination. It is often chosen by those seeking balance, resilience, and emotional strength.\",\"benefits\":[\"Encourages grounding and stability\",\"Supports emotional strength\",\"Promotes resilience and endurance\",\"Inspires courage and determination\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, travel, work, and stressful situations.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I am grounded, strong, and resilient.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Strength, grounding, and stability.",
+    "longDesc": "{\"purpose\": \"Strength, grounding, and stability.\", \"crystalsIncluded\": \"Natural Red Jasper\", \"associatedChakras\": \"Root Chakra\", \"description\": \"A beautiful pendant traditionally associated with resilience, stability, and personal strength.\", \"benefits\": [\"Encourages confidence\", \"Supports grounding\", \"Promotes emotional balance\", \"Suitable for everyday wear\"], \"howToWear\": \"Wear daily close to the heart.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I am strong, grounded, and resilient.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root"
     ]
@@ -4655,18 +4655,18 @@ export const products: Product[] = [
     "name": "Yellow Calcite Crystal Pendant",
     "category": "pendants",
     "subcategory": "Pendants",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 600,
+    "originalPrice": 720,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/yellow-calcite-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/yellow-calcite-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/pendants/yellow-calcite-pic-2.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 12,
+    "originalUsdPrice": 14,
     "badge": "New",
-    "desc": "Sunny yellow calcite pendant for confidence, energy, and optimism.",
-    "longDesc": "{\"purpose\":\"Sunny yellow calcite pendant for confidence, energy, and optimism.\",\"crystalsIncluded\":\"Yellow Calcite\",\"associatedChakras\":\"Solar Plexus\",\"description\":\"Sunny yellow calcite pendant for confidence, energy, and optimism.\",\"benefits\":[\"Boosts confidence and self-belief.\",\"Energizes the mind and lifts the mood.\",\"Encourages motivation and optimism.\",\"Clears stagnant energy and inspires action.\"],\"howToEnergize\":\"Moonlight charging, selenite charging, or intention setting.\",\"affirmation\":\"I radiate confidence, warmth, and positive energy.\",\"careInstructions\":[\"Cleanse and energize by: Moonlight charging, selenite charging, or intention setting.\",\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
+    "desc": "Positivity, confidence, and motivation.",
+    "longDesc": "{\"purpose\": \"Positivity, confidence, and motivation.\", \"crystalsIncluded\": \"Natural Yellow Calcite\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Yellow Calcite Pendant features warm golden tones and is traditionally associated with positivity and personal empowerment.\", \"benefits\": [\"Encourages optimism\", \"Supports confidence\", \"Promotes motivation\", \"Bright and elegant design\"], \"howToWear\": \"Wear daily or during goal-focused activities.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I welcome positivity, confidence, and success.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
     ]
@@ -4676,18 +4676,18 @@ export const products: Product[] = [
     "name": "Tiger Eye Designer Pendant",
     "category": "designer-pendants",
     "subcategory": "Designer Pendants",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 400,
+    "originalPrice": 480,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye-pic25.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 8,
+    "originalUsdPrice": 10,
     "badge": "New",
-    "desc": "Designer tiger eye pendant for courage, confidence, and clear focus.",
-    "longDesc": "{\"purpose\":\"Confidence, focus, courage, and determination.\",\"crystalsIncluded\":\"Tiger Eye\",\"associatedChakras\":\"Solar Plexus Chakra, Root Chakra\",\"description\":\"Tiger Eye is traditionally associated with courage, confidence, and focus. It is one of the most popular stones for those seeking motivation and balanced decision-making.\",\"benefits\":[\"Encourages confidence and courage\",\"Supports focus and determination\",\"Promotes balanced decision-making\",\"Inspires motivation and action\"],\"recommendedHand\":\"Right Hand\",\"whenToWear\":\"Work, interviews, business meetings, and daily wear.\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"affirmation\":\"I move forward with confidence, courage, and clarity.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
+    "desc": "Focus, confidence, and determination.",
+    "longDesc": "{\"purpose\": \"Focus, confidence, and determination.\", \"crystalsIncluded\": \"Natural Tiger Eye\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"A simple and elegant Tiger Eye pendant suitable for everyday wear.\", \"benefits\": [\"Encourages confidence\", \"Supports focus\", \"Promotes positivity\", \"Easy to wear daily\"], \"howToWear\": \"Wear throughout the day.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I am confident, focused, and capable.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus",
       "Root"
@@ -4698,8 +4698,8 @@ export const products: Product[] = [
     "name": "Silver Rudraksha Bracelet",
     "category": "silver-jewelry",
     "subcategory": "Rudraksha",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 3700,
+    "originalPrice": 4440,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-pic-1.webp",
@@ -4707,11 +4707,11 @@ export const products: Product[] = [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-pic-3.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-pic-4.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 74,
+    "originalUsdPrice": 89,
     "badge": "New",
-    "desc": "Sacred rudraksha beads set in silver for calm, protection, and spiritual focus.",
-    "longDesc": "{\"purpose\":\"Sacred rudraksha beads set in silver for calm, protection, and spiritual focus.\",\"crystalsIncluded\":\"Silver Rudraksha\",\"associatedChakras\":\"Root, Crown\",\"description\":\"Sacred rudraksha beads set in silver for calm, protection, and spiritual focus.\",\"benefits\":[\"Calms the mind and steadies the nervous system.\",\"Offers spiritual protection and positive energy.\",\"Supports meditation, focus, and devotion.\",\"Silver capping adds durability and elegance.\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight charging, selenite charging, or intention setting.\",\"affirmation\":\"I am calm, protected, and spiritually connected.\",\"careInstructions\":[\"Cleanse and energize by: Moonlight charging, selenite charging, or intention setting.\",\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
+    "desc": "Spiritual connection, mindfulness, grounding, and daily devotional wear.",
+    "longDesc": "{\"purpose\": \"Spiritual connection, mindfulness, grounding, and daily devotional wear.\", \"materialIncluded\": \"Natural Rudraksh Beads, 925 Pure Sterling Silver\", \"associatedChakras\": \"All Chakras (traditionally associated with spiritual balance)\", \"description\": \"The 925 Silver Rudraksh Bracelet beautifully combines the timeless significance of natural Rudraksh beads with the elegance of pure sterling silver. Designed for those who appreciate meaningful spiritual jewellery, this bracelet can be worn during meditation, prayer, spiritual practices, or everyday life. Rudraksh beads have been traditionally revered in various spiritual traditions and are often worn as a symbol of devotion, mindfulness, and inner strength.\", \"benefits\": [\"Encourages mindfulness and spiritual awareness\", \"Supports meditation and prayer practices\", \"Symbolises devotion and inner discipline\", \"Elegant combination of silver and Rudraksh\", \"Suitable for everyday wear\"], \"recommendedHand\": \"Either hand according to personal comfort and spiritual preference.\", \"whenToWear\": \"During meditation and prayer, daily spiritual practices, temple visits, and everyday wear.\", \"howToEnergize\": \"Place before your chosen deity, prayer space, or altar and set your intentions. Moonlight charging may also be used.\", \"affirmation\": \"I walk my path with devotion, clarity, and inner strength.\", \"careInstructions\": [\"Keep away from harsh chemicals.\", \"Clean silver periodically with a soft cloth.\", \"Store in a dry place when not in use.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root",
       "Crown"
@@ -4722,18 +4722,18 @@ export const products: Product[] = [
     "name": "Silver Rudraksha Mala",
     "category": "silver-jewelry",
     "subcategory": "Rudraksha",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 5500,
+    "originalPrice": 6600,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-mala-pic-1.webp",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-mala-pic-1.webp",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/silver-jewlery/silver-rudraksha-mala-pic-2.webp"
     ],
-    "usdPrice": 23,
-    "originalUsdPrice": 28,
+    "usdPrice": 110,
+    "originalUsdPrice": 132,
     "badge": "New",
-    "desc": "Traditional rudraksha mala with silver detailing for meditation and devotion.",
-    "longDesc": "{\"purpose\":\"Traditional rudraksha mala with silver detailing for meditation and devotion.\",\"crystalsIncluded\":\"Silver Rudraksha\",\"associatedChakras\":\"Root, Crown\",\"description\":\"Traditional rudraksha mala with silver detailing for meditation and devotion.\",\"benefits\":[\"Supports japa meditation and mantra practice.\",\"Calms the mind and deepens spiritual focus.\",\"Provides protection and positive energy.\",\"Silver detailing adds beauty and durability.\"],\"howToEnergize\":\"Moonlight charging, selenite charging, or intention setting.\",\"affirmation\":\"I am calm, protected, and spiritually connected.\",\"careInstructions\":[\"Cleanse and energize by: Moonlight charging, selenite charging, or intention setting.\",\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
+    "desc": "Meditation, mantra chanting, prayer, mindfulness, and spiritual practices.",
+    "longDesc": "{\"purpose\": \"Meditation, mantra chanting, prayer, mindfulness, and spiritual practices.\", \"materialIncluded\": \"Natural Rudraksh Beads, 925 Pure Sterling Silver\", \"beadCount\": \"54 Beads\", \"associatedChakras\": \"All Chakras\", \"description\": \"The 925 Silver Rudraksh Jaap Mala is handcrafted for meditation, mantra recitation, and spiritual practices. Combining sacred Rudraksh beads with pure sterling silver elements, this mala is designed for seekers who value both spiritual tradition and fine craftsmanship. The 54-bead format is commonly used for mantra chanting, meditation, and daily devotional practices.\", \"benefits\": [\"Supports meditation and mantra recitation\", \"Encourages focus and mindfulness\", \"Symbolises spiritual discipline and devotion\", \"Suitable for prayer and daily spiritual practices\", \"Elegant handcrafted design\"], \"howToUse\": \"Use during meditation, for mantra chanting, during prayer rituals, or as a spiritual necklace when worn respectfully.\", \"howToEnergize\": \"Place in your prayer area, before your chosen deity, or use during meditation while setting positive intentions.\", \"affirmation\": \"My mind is focused, my heart is devoted, and my spirit is at peace.\", \"careInstructions\": [\"Keep dry and clean.\", \"Avoid perfumes and chemicals.\", \"Clean silver portions with a soft cloth.\", \"Store respectfully when not in use.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root",
       "Crown"
@@ -4744,17 +4744,17 @@ export const products: Product[] = [
     "name": "All In One Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Complete chakra balancing, protection, and positive energy amplification.",
-    "longDesc": "{\"purpose\":\"Complete chakra balancing, protection, and positive energy amplification.\",\"associatedChakras\":\"Root, Sacral, Solar Plexus, Heart, Throat, Third Eye, Crown\",\"description\":\"Complete chakra balancing, protection, and positive energy amplification.\",\"benefits\":[\"Complete chakra balancing, protection, and positive energy amplification.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Balance, protection, abundance, love, and overall well-being.",
+    "longDesc": "{\"purpose\": \"Balance, protection, abundance, love, and overall well-being.\", \"crystalsIncluded\": \"Rose Quartz, Green Aventurine, Pyrite, Black Tourmaline, Seven Chakra Stones\", \"associatedChakras\": \"All Seven Chakras\", \"description\": \"The Life Harmony Bracelet is a comprehensive crystal combination designed to support balance across various aspects of life. It combines crystals traditionally associated with love, abundance, confidence, protection, and chakra alignment. This bracelet is ideal for individuals seeking an all-in-one crystal companion for daily wear.\", \"benefits\": [\"Encourages overall balance and harmony\", \"Supports confidence and personal growth\", \"Promotes emotional well-being\", \"Inspires positivity and abundance\", \"Supports chakra alignment\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Daily wear, meditation, work, travel, and spiritual practices.\", \"howToEnergize\": \"Moonlight charging, selenite charging, and intention setting.\", \"affirmation\": \"I am balanced, protected, abundant, and aligned with my highest good.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root",
       "Sacral",
@@ -4770,17 +4770,17 @@ export const products: Product[] = [
     "name": "Business Growth Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Business%20growth%20",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Business%20growth%20"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Elegantly designed to invite confidence, determination, and professional opportunities.",
-    "longDesc": "{\"purpose\":\"Elegantly designed to invite confidence, determination, and professional opportunities.\",\"crystalsIncluded\":\"Business Growth\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Elegantly designed to invite confidence, determination, and professional opportunities.\",\"benefits\":[\"Elegantly designed to invite confidence, determination, and professional opportunities.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Business growth, confidence, focus, opportunity, and success.",
+    "longDesc": "{\"purpose\": \"Business growth, confidence, focus, opportunity, and success.\", \"crystalsIncluded\": \"Selenite, Citrine, Pyrite, Green Aventurine, Black Tourmaline\", \"associatedChakras\": \"Solar Plexus Chakra, Heart Chakra, Root Chakra, Crown Chakra\", \"description\": \"The Business Growth Bracelet combines crystals traditionally associated with clarity, confidence, opportunity, focus, and stability. It is designed for entrepreneurs, business owners, professionals, and individuals working toward meaningful goals.\", \"benefits\": [\"Encourages confidence and leadership\", \"Supports goal-oriented thinking\", \"Promotes focus and motivation\", \"Inspires growth and opportunity\", \"Supports balanced decision-making\"], \"recommendedHand\": \"Right Hand\", \"whenToWear\": \"Business meetings, work, networking events, and goal-setting activities.\", \"howToEnergize\": \"Moonlight charging, selenite charging, and intention setting.\", \"affirmation\": \"I confidently attract growth, success, and new opportunities.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus",
       "Heart"
@@ -4791,17 +4791,17 @@ export const products: Product[] = [
     "name": "Career Success Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 900,
+    "originalPrice": 1080,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Career%20sucess",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Career%20sucess"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 18,
+    "originalUsdPrice": 22,
     "badge": null,
-    "desc": "Supports clarity, motivation, leadership, and advancement in career paths.",
-    "longDesc": "{\"purpose\":\"Supports clarity, motivation, leadership, and advancement in career paths.\",\"crystalsIncluded\":\"Career Success\",\"associatedChakras\":\"Solar Plexus, Third Eye\",\"description\":\"Supports clarity, motivation, leadership, and advancement in career paths.\",\"benefits\":[\"Supports clarity, motivation, leadership, and advancement in career paths.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Career success, confidence, abundance mindset, and motivation.",
+    "longDesc": "{\"purpose\": \"Career success, confidence, abundance mindset, and motivation.\", \"crystalsIncluded\": \"Natural Citrine\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Citrine Career Success Bracelet is designed to support ambition, positivity, and personal growth. Citrine is traditionally associated with success and motivation, making it ideal for professionals, entrepreneurs, and students.\", \"benefits\": [\"Encourages confidence and motivation\", \"Supports career growth and success mindset\", \"Promotes positivity and focus\", \"Helps attract abundance energy\", \"Suitable for daily wear\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Work, business activities, goal setting, and daily wear.\", \"howToEnergize\": \"Moonlight charging or selenite cleansing.\", \"affirmation\": \"I attract success, growth, and abundance in my career.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus",
       "Third Eye"
@@ -4812,17 +4812,17 @@ export const products: Product[] = [
     "name": "Conceive And Nurture Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Nurturing energy supporting fertility, emotional comfort, and feminine balance.",
-    "longDesc": "{\"purpose\":\"Nurturing energy supporting fertility, emotional comfort, and feminine balance.\",\"crystalsIncluded\":\"Conceive And Nurture\",\"associatedChakras\":\"Sacral, Heart\",\"description\":\"Nurturing energy supporting fertility, emotional comfort, and feminine balance.\",\"benefits\":[\"Nurturing energy supporting fertility, emotional comfort, and feminine balance.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Nurturing energy, emotional balance, self-care, and feminine well-being.",
+    "longDesc": "{\"purpose\": \"Nurturing energy, emotional balance, self-care, and feminine well-being.\", \"crystalsIncluded\": \"Moonstone, Rose Quartz, Green Aventurine, Rhodonite, Amethyst, Black Tourmaline\", \"associatedChakras\": \"Heart Chakra, Crown Chakra, Root Chakra, Sacral Chakra\", \"description\": \"The Conceive & Nurture Bracelet has been thoughtfully designed to symbolise nurturing energy, emotional support, self-love, and inner harmony. This beautiful combination encourages balance, positivity, and mindful self-care practices.\", \"benefits\": [\"Encourages emotional harmony\", \"Supports self-love and nurturing energy\", \"Promotes inner peace and positivity\", \"Encourages mindfulness and balance\", \"Supports emotional well-being\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Daily wear, meditation, self-care routines, and relaxation practices.\", \"howToEnergize\": \"Moonlight charging and intention setting.\", \"affirmation\": \"I nurture myself with love, balance, and positive energy.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Sacral",
       "Heart"
@@ -4833,17 +4833,17 @@ export const products: Product[] = [
     "name": "Good Luck Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 900,
+    "originalPrice": 1080,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 18,
+    "originalUsdPrice": 22,
     "badge": null,
-    "desc": "Invites luck, positivity, synchronicity, and general well-being.",
-    "longDesc": "{\"purpose\":\"Invites luck, positivity, synchronicity, and general well-being.\",\"crystalsIncluded\":\"Good Luck\",\"associatedChakras\":\"Solar Plexus, Crown\",\"description\":\"Invites luck, positivity, synchronicity, and general well-being.\",\"benefits\":[\"Invites luck, positivity, synchronicity, and general well-being.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Good luck, opportunity attraction, positivity, and growth.",
+    "longDesc": "{\"purpose\": \"Good luck, opportunity attraction, positivity, and growth.\", \"crystalsIncluded\": \"Natural Green Aventurine\", \"associatedChakras\": \"Heart Chakra\", \"description\": \"The Green Aventurine Good Luck Bracelet is often associated with opportunity and positive outcomes. It is a popular choice for those seeking new beginnings, success in ventures, and emotional balance.\", \"benefits\": [\"Attracts luck and opportunity\", \"Encourages positive energy flow\", \"Supports growth and optimism\", \"Promotes emotional balance\", \"Suitable for everyday wear\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"New ventures, daily wear, travel, and personal development.\", \"howToEnergize\": \"Moonlight charging or selenite cleansing.\", \"affirmation\": \"I welcome luck, growth, and positive opportunities into my life.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus",
       "Crown"
@@ -4854,17 +4854,17 @@ export const products: Product[] = [
     "name": "Love And Luck Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Harmonises emotional healing, compassion, and positive opportunities.",
-    "longDesc": "{\"purpose\":\"Harmonises emotional healing, compassion, and positive opportunities.\",\"crystalsIncluded\":\"Love And Luck\",\"associatedChakras\":\"Heart, Solar Plexus\",\"description\":\"Harmonises emotional healing, compassion, and positive opportunities.\",\"benefits\":[\"Harmonises emotional healing, compassion, and positive opportunities.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Love, positivity, harmony, and fortunate opportunities.",
+    "longDesc": "{\"purpose\": \"Love, positivity, harmony, and fortunate opportunities.\", \"crystalsIncluded\": \"Green Aventurine, Moonstone\", \"associatedChakras\": \"Heart Chakra, Crown Chakra\", \"description\": \"The Love & Luck Bracelet combines crystals traditionally associated with emotional balance, positivity, harmony, and opportunity. It is designed for individuals seeking both meaningful relationships and positive experiences in life.\", \"benefits\": [\"Encourages positivity and optimism\", \"Supports emotional balance\", \"Promotes harmonious relationships\", \"Inspires openness to opportunities\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Daily wear, social occasions, dating, and personal development activities.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I welcome love, harmony, and positive opportunities into my life.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart",
       "Solar Plexus"
@@ -4875,17 +4875,17 @@ export const products: Product[] = [
     "name": "Love And Peace Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Encourages gentle communication, emotional calm, and self-love.",
-    "longDesc": "{\"purpose\":\"Encourages gentle communication, emotional calm, and self-love.\",\"crystalsIncluded\":\"Love And Peace\",\"associatedChakras\":\"Heart, Throat\",\"description\":\"Encourages gentle communication, emotional calm, and self-love.\",\"benefits\":[\"Encourages gentle communication, emotional calm, and self-love.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Love, emotional harmony, compassion, and inner peace.",
+    "longDesc": "{\"purpose\": \"Love, emotional harmony, compassion, and inner peace.\", \"crystalsIncluded\": \"Rose Quartz, Amethyst\", \"associatedChakras\": \"Heart Chakra, Crown Chakra\", \"description\": \"The Love & Peace Bracelet combines two beloved crystals traditionally associated with love, emotional balance, compassion, and tranquility. It is designed to encourage self-love, kindness, and a peaceful state of mind.\", \"benefits\": [\"Encourages self-love and compassion\", \"Supports emotional balance\", \"Promotes inner peace\", \"Inspires kindness and positivity\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Daily wear, meditation, relaxation, and self-care practices.\", \"howToEnergize\": \"Moonlight charging or selenite charging.\", \"affirmation\": \"I radiate love, peace, and emotional harmony.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Heart",
       "Throat"
@@ -4896,17 +4896,17 @@ export const products: Product[] = [
     "name": "Luxury Client Attraction Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 3200,
+    "originalPrice": 3840,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Luxury%20client%20attraction%20",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Luxury%20client%20attraction%20"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 64,
+    "originalUsdPrice": 77,
     "badge": null,
-    "desc": "Formulated to align with prosperity, abundance mindset, and client attraction.",
-    "longDesc": "{\"purpose\":\"Formulated to align with prosperity, abundance mindset, and client attraction.\",\"crystalsIncluded\":\"Luxury Client Attraction\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Formulated to align with prosperity, abundance mindset, and client attraction.\",\"benefits\":[\"Formulated to align with prosperity, abundance mindset, and client attraction.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Communication, visibility, confidence, and professional attraction.",
+    "longDesc": "{\"purpose\": \"Communication, visibility, confidence, and professional attraction.\", \"crystalsIncluded\": \"Blue Apatite, Lapis Lazuli\", \"associatedChakras\": \"Throat Chakra, Third Eye Chakra\", \"description\": \"The Luxury Client Attraction Bracelet is designed for entrepreneurs, coaches, creators, consultants, and business owners who wish to enhance communication, visibility, and professional confidence. This elegant combination symbolises clarity, self-expression, and meaningful professional connections.\", \"benefits\": [\"Encourages confident communication\", \"Supports visibility and self-expression\", \"Promotes clarity and focus\", \"Inspires professional confidence\", \"Supports meaningful business connections\"], \"recommendedHand\": \"Right Hand\", \"whenToWear\": \"Client meetings, networking events, presentations, content creation, and business activities.\", \"howToEnergize\": \"Moonlight charging, selenite charging, and intention setting.\", \"affirmation\": \"I confidently attract aligned opportunities and meaningful professional connections.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus",
       "Heart"
@@ -4917,17 +4917,17 @@ export const products: Product[] = [
     "name": "Protection And Wellness Bracelet",
     "category": "bracelets",
     "subcategory": "Signature Bracelets",
-    "price": 1450,
-    "originalPrice": 1740,
+    "price": 1100,
+    "originalPrice": 1320,
     "image": "/images/products/bracelet.png",
     "images": [
       "/images/products/bracelet.png"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 22,
+    "originalUsdPrice": 26,
     "badge": null,
-    "desc": "Combines grounding protective stones to secure energy and wellness.",
-    "longDesc": "{\"purpose\":\"Combines grounding protective stones to secure energy and wellness.\",\"crystalsIncluded\":\"Protection And Wellness\",\"associatedChakras\":\"Root, Heart\",\"description\":\"Combines grounding protective stones to secure energy and wellness.\",\"benefits\":[\"Combines grounding protective stones to secure energy and wellness.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Protection, grounding, emotional balance, and energetic stability.",
+    "longDesc": "{\"purpose\": \"Protection, grounding, emotional balance, and energetic stability.\", \"crystalsIncluded\": \"Black Tourmaline, Hematite, Tiger Eye\", \"associatedChakras\": \"Root Chakra, Solar Plexus Chakra\", \"description\": \"The Triple Protection Bracelet is designed as a powerful combination of grounding and protective energies. Carefully crafted with Black Tourmaline, Hematite, and Tiger Eye, this bracelet is ideal for those seeking stability, confidence, and energetic shielding in daily life.\", \"benefits\": [\"Supports energetic protection\", \"Encourages grounding and stability\", \"Enhances confidence and focus\", \"Helps maintain emotional balance\", \"Suitable for daily wear\"], \"recommendedHand\": \"Left Hand (can be worn on either hand based on comfort).\", \"whenToWear\": \"Daily wear, travel, work, and crowded environments.\", \"howToEnergize\": \"Moonlight charging or selenite cleansing.\", \"affirmation\": \"I am protected, grounded, and confident in every situation.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Root",
       "Heart"
@@ -4944,11 +4944,11 @@ export const products: Product[] = [
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Signature%20crystal%20collection%20/Spiritual%20cleansing%20"
     ],
-    "usdPrice": 28,
-    "originalUsdPrice": 34,
+    "usdPrice": 29,
+    "originalUsdPrice": 35,
     "badge": null,
-    "desc": "Aids in clearing mental blockages, enhancing meditation, and auric cleansing.",
-    "longDesc": "{\"purpose\":\"Aids in clearing mental blockages, enhancing meditation, and auric cleansing.\",\"crystalsIncluded\":\"Spiritual Cleansing\",\"associatedChakras\":\"Crown, Third Eye\",\"description\":\"Aids in clearing mental blockages, enhancing meditation, and auric cleansing.\",\"benefits\":[\"Aids in clearing mental blockages, enhancing meditation, and auric cleansing.\",\"Premium quality handselected crystal bracelet\"],\"recommendedHand\":\"Left Hand\",\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals\",\"Cleanse under moonlight or smudge with incense smoke\"],\"disclaimer\":\"Crystals are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Spiritual cleansing, energy purification, clarity, and high vibration alignment.",
+    "longDesc": "{\"purpose\": \"Spiritual cleansing, energy purification, clarity, and high vibration alignment.\", \"crystalsIncluded\": \"Natural Selenite\", \"associatedChakras\": \"Crown Chakra\", \"description\": \"The Selenite Bracelet is a high-vibration spiritual accessory known for its association with cleansing and energetic clarity. It is designed to help clear stagnant energy and promote a sense of peace and lightness. This bracelet is ideal for meditation, spiritual practices, and daily energetic cleansing support.\", \"benefits\": [\"Supports energetic cleansing\", \"Promotes mental clarity and calmness\", \"Encourages spiritual awareness\", \"Helps maintain high vibrational energy\", \"Suitable for daily spiritual wear\"], \"recommendedHand\": \"Left Hand\", \"whenToWear\": \"Meditation, spiritual practices, and daily wear.\", \"howToEnergize\": \"Selenite does not require cleansing; however, you may recharge it with moonlight if desired.\", \"affirmation\": \"I release all negativity and welcome peace and clarity.\", \"careInstructions\": [\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\", \"Store in a clean, dry place when not in use.\", \"Cleanse and recharge regularly.\", \"Handle natural stones with care to preserve their beauty.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Crown",
       "Third Eye"
@@ -4959,43 +4959,43 @@ export const products: Product[] = [
     "name": "Love Attraction Spell Jar",
     "category": "spell-jars",
     "subcategory": "Spell Jars",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Love%20Attraction%20Spell%20Jar",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Love%20Attraction%20Spell%20Jar"
     ],
-    "usdPrice": 24,
-    "originalUsdPrice": 28,
+    "usdPrice": 44,
+    "originalUsdPrice": 53,
     "badge": null,
-    "desc": "Intuitively prepared spell jar aligned with attracting harmony, self-love, and relationships.",
-    "longDesc": "{\"purpose\":\"Intuitively prepared spell jar aligned with attracting harmony, self-love, and relationships.\",\"crystalsIncluded\":\"Love Attraction Spell Jar\",\"associatedChakras\":\"Heart\",\"description\":\"Intuitively prepared spell jar aligned with attracting harmony, self-love, and relationships.\",\"benefits\":[\"Intuitively prepared spell jar aligned with attracting harmony, self-love, and relationships.\",\"Premium quality ritually prepared spell jar\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Love, self-love, harmony, emotional connection, and positive relationships.",
+    "longDesc": "{\"purpose\": \"Love, self-love, harmony, emotional connection, and positive relationships.\", \"description\": \"The Love Attraction Spell Jar is thoughtfully created to symbolise love, emotional harmony, and positive intentions. It serves as a beautiful reminder to open your heart to meaningful connections, self-worth, and loving energy.\", \"benefits\": [\"Encourages self-love and confidence\", \"Supports positive relationship intentions\", \"Promotes emotional harmony\", \"Inspires openness to love and connection\"], \"availableSizes\": \"Mini (₹2,200), Medium (₹4,500), Large (₹7,500)\", \"howToUse\": \"Place the spell jar in your bedroom, sacred space, personal altar, or anywhere you wish to focus your intentions toward love and emotional well-being.\", \"placementRecommendation\": \"Bedroom, relationship corner, personal altar, or meditation space.\", \"affirmation\": \"I attract loving, healthy, and meaningful connections into my life.\", \"careInstructions\": [\"Keep the spell jar in a safe and dry place.\", \"Avoid opening the jar unless specifically instructed.\", \"Handle with care as the contents are delicate.\", \"Recharge your intentions periodically through meditation, prayer, or affirmations.\"], \"disclaimer\": \"Spell jars are spiritual and symbolic tools intended for personal reflection, intention setting, and mindfulness practices. They are not intended to guarantee specific outcomes or replace professional, legal, financial, medical, or psychological advice.\"}",
     "chakras": [
       "Heart"
     ],
     "variants": [
       {
         "name": "Mini",
-        "price": 1200,
-        "usdPrice": 24,
-        "originalPrice": 1440,
-        "originalUsdPrice": 28,
+        "price": 2200,
+        "usdPrice": 44,
+        "originalPrice": 2640,
+        "originalUsdPrice": 53,
         "image": "/images/products/spelljar-mini.png"
       },
       {
         "name": "Medium (100ml)",
-        "price": 3800,
-        "usdPrice": 74,
-        "originalPrice": 4560,
-        "originalUsdPrice": 88,
+        "price": 4500,
+        "usdPrice": 89,
+        "originalPrice": 5400,
+        "originalUsdPrice": 107,
         "image": "/images/products/spelljar-medium.png"
       },
       {
         "name": "Large (250ml)",
-        "price": 6300,
-        "usdPrice": 124,
-        "originalPrice": 7560,
-        "originalUsdPrice": 148,
+        "price": 7500,
+        "usdPrice": 149,
+        "originalPrice": 9000,
+        "originalUsdPrice": 179,
         "image": "/images/products/spelljar-large.png"
       }
     ]
@@ -5005,44 +5005,44 @@ export const products: Product[] = [
     "name": "Protection Spell Jar",
     "category": "spell-jars",
     "subcategory": "Spell Jars",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%201",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%201",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%202"
     ],
-    "usdPrice": 24,
-    "originalUsdPrice": 28,
+    "usdPrice": 44,
+    "originalUsdPrice": 53,
     "badge": null,
-    "desc": "Crafted with protective herbs, black obsidian, and salt to block negative energies.",
-    "longDesc": "{\"purpose\":\"Crafted with protective herbs, black obsidian, and salt to block negative energies.\",\"crystalsIncluded\":\"Protection Spell Jar\",\"associatedChakras\":\"Root\",\"description\":\"Crafted with protective herbs, black obsidian, and salt to block negative energies.\",\"benefits\":[\"Crafted with protective herbs, black obsidian, and salt to block negative energies.\",\"Premium quality ritually prepared spell jar\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Protection, grounding, stability, and positive energy.",
+    "longDesc": "{\"purpose\": \"Protection, grounding, stability, and positive energy.\", \"description\": \"The Protection Spell Jar is created as a symbolic tool for grounding and energetic protection. It serves as a reminder to remain centred, confident, and surrounded by positive intentions.\", \"benefits\": [\"Encourages grounding and stability\", \"Supports feelings of safety and confidence\", \"Promotes a positive environment\", \"Inspires emotional balance\"], \"availableSizes\": \"Mini (₹2,200), Medium (₹4,500), Large (₹7,500)\", \"howToUse\": \"Place near the entrance of your home, workspace, bedside table, or personal sacred space.\", \"placementRecommendation\": \"Main entrance, workspace, bedside table, or altar.\", \"affirmation\": \"I am grounded, protected, and surrounded by positive energy.\", \"careInstructions\": [\"Keep the spell jar in a safe and dry place.\", \"Avoid opening the jar unless specifically instructed.\", \"Handle with care as the contents are delicate.\", \"Recharge your intentions periodically through meditation, prayer, or affirmations.\"], \"disclaimer\": \"Spell jars are spiritual and symbolic tools intended for personal reflection, intention setting, and mindfulness practices. They are not intended to guarantee specific outcomes or replace professional, legal, financial, medical, or psychological advice.\"}",
     "chakras": [
       "Root"
     ],
     "variants": [
       {
         "name": "Mini",
-        "price": 1200,
-        "usdPrice": 24,
-        "originalPrice": 1440,
-        "originalUsdPrice": 28,
+        "price": 2200,
+        "usdPrice": 44,
+        "originalPrice": 2640,
+        "originalUsdPrice": 53,
         "image": "/images/products/spelljar-mini.png"
       },
       {
         "name": "Medium (100ml)",
-        "price": 3800,
-        "usdPrice": 74,
-        "originalPrice": 4560,
-        "originalUsdPrice": 88,
+        "price": 4500,
+        "usdPrice": 89,
+        "originalPrice": 5400,
+        "originalUsdPrice": 107,
         "image": "/images/products/spelljar-medium.png"
       },
       {
         "name": "Large (250ml)",
-        "price": 6300,
-        "usdPrice": 124,
-        "originalPrice": 7560,
-        "originalUsdPrice": 148,
+        "price": 7500,
+        "usdPrice": 149,
+        "originalPrice": 9000,
+        "originalUsdPrice": 179,
         "image": "/images/products/spelljar-large.png"
       }
     ]
@@ -5052,44 +5052,44 @@ export const products: Product[] = [
     "name": "Success Manifestation Spell Jar",
     "category": "spell-jars",
     "subcategory": "Spell Jars",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%202"
     ],
-    "usdPrice": 24,
-    "originalUsdPrice": 28,
+    "usdPrice": 44,
+    "originalUsdPrice": 53,
     "badge": null,
-    "desc": "Filled with citrine, pyrite, and positive intent to boost confidence and manifestation.",
-    "longDesc": "{\"purpose\":\"Filled with citrine, pyrite, and positive intent to boost confidence and manifestation.\",\"crystalsIncluded\":\"Success Manifestation Spell Jar\",\"associatedChakras\":\"Solar Plexus\",\"description\":\"Filled with citrine, pyrite, and positive intent to boost confidence and manifestation.\",\"benefits\":[\"Filled with citrine, pyrite, and positive intent to boost confidence and manifestation.\",\"Premium quality ritually prepared spell jar\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Motivation, confidence, focus, and goal achievement.",
+    "longDesc": "{\"purpose\": \"Motivation, confidence, focus, and goal achievement.\", \"description\": \"The Success Manifestation Spell Jar is designed to support intention setting and goal-oriented thinking. It serves as a daily reminder to stay focused, motivated, and committed to your aspirations.\", \"benefits\": [\"Encourages confidence and determination\", \"Supports goal setting and planning\", \"Promotes focus and motivation\", \"Inspires positive action\"], \"availableSizes\": \"Mini (₹2,200), Medium (₹4,500), Large (₹7,500)\", \"howToUse\": \"Place on your work desk, study table, business area, or goal-planning space.\", \"placementRecommendation\": \"Office desk, study table, workspace, or business area.\", \"affirmation\": \"I am focused, capable, and aligned with success.\", \"careInstructions\": [\"Keep the spell jar in a safe and dry place.\", \"Avoid opening the jar unless specifically instructed.\", \"Handle with care as the contents are delicate.\", \"Recharge your intentions periodically through meditation, prayer, or affirmations.\"], \"disclaimer\": \"Spell jars are spiritual and symbolic tools intended for personal reflection, intention setting, and mindfulness practices. They are not intended to guarantee specific outcomes or replace professional, legal, financial, medical, or psychological advice.\"}",
     "chakras": [
       "Solar Plexus"
     ],
     "variants": [
       {
         "name": "Mini",
-        "price": 1200,
-        "usdPrice": 24,
-        "originalPrice": 1440,
-        "originalUsdPrice": 28,
+        "price": 2200,
+        "usdPrice": 44,
+        "originalPrice": 2640,
+        "originalUsdPrice": 53,
         "image": "/images/products/spelljar-mini.png"
       },
       {
         "name": "Medium (100ml)",
-        "price": 3800,
-        "usdPrice": 74,
-        "originalPrice": 4560,
-        "originalUsdPrice": 88,
+        "price": 4500,
+        "usdPrice": 89,
+        "originalPrice": 5400,
+        "originalUsdPrice": 107,
         "image": "/images/products/spelljar-medium.png"
       },
       {
         "name": "Large (250ml)",
-        "price": 6300,
-        "usdPrice": 124,
-        "originalPrice": 7560,
-        "originalUsdPrice": 148,
+        "price": 7500,
+        "usdPrice": 149,
+        "originalPrice": 9000,
+        "originalUsdPrice": 179,
         "image": "/images/products/spelljar-large.png"
       }
     ]
@@ -5099,17 +5099,17 @@ export const products: Product[] = [
     "name": "Abundance Spell Jar",
     "category": "spell-jars",
     "subcategory": "Spell Jars",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/Abundance%20spell%20jar",
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/Abundance%20spell%20jar"
     ],
-    "usdPrice": 24,
-    "originalUsdPrice": 28,
+    "usdPrice": 44,
+    "originalUsdPrice": 53,
     "badge": null,
-    "desc": "Dressed with money-drawing herbs and crystals to align with wealth and abundance.",
-    "longDesc": "{\"purpose\":\"Dressed with money-drawing herbs and crystals to align with wealth and abundance.\",\"crystalsIncluded\":\"Abundance Spell Jar\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Dressed with money-drawing herbs and crystals to align with wealth and abundance.\",\"benefits\":[\"Dressed with money-drawing herbs and crystals to align with wealth and abundance.\",\"Premium quality ritually prepared spell jar\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Abundance mindset, prosperity, gratitude, and growth.",
+    "longDesc": "{\"purpose\": \"Abundance mindset, prosperity, gratitude, and growth.\", \"description\": \"The Abundance Spell Jar is designed to symbolise prosperity, gratitude, and positive opportunities. It serves as a reminder to cultivate an abundant mindset and remain open to growth in all areas of life.\", \"benefits\": [\"Encourages gratitude and positivity\", \"Supports an abundance mindset\", \"Promotes growth and opportunity\", \"Inspires confidence and optimism\"], \"availableSizes\": \"Mini (₹2,200), Medium (₹4,500), Large (₹7,500)\", \"howToUse\": \"Place near your workspace, cash box, business area, or prosperity corner.\", \"placementRecommendation\": \"Office, business area, cash counter, or manifestation altar.\", \"affirmation\": \"I welcome abundance, prosperity, and positive opportunities into my life.\", \"careInstructions\": [\"Keep the spell jar in a safe and dry place.\", \"Avoid opening the jar unless specifically instructed.\", \"Handle with care as the contents are delicate.\", \"Recharge your intentions periodically through meditation, prayer, or affirmations.\"], \"disclaimer\": \"Spell jars are spiritual and symbolic tools intended for personal reflection, intention setting, and mindfulness practices. They are not intended to guarantee specific outcomes or replace professional, legal, financial, medical, or psychological advice.\"}",
     "chakras": [
       "Solar Plexus",
       "Heart"
@@ -5117,26 +5117,26 @@ export const products: Product[] = [
     "variants": [
       {
         "name": "Mini",
-        "price": 1200,
-        "usdPrice": 24,
-        "originalPrice": 1440,
-        "originalUsdPrice": 28,
+        "price": 2200,
+        "usdPrice": 44,
+        "originalPrice": 2640,
+        "originalUsdPrice": 53,
         "image": "/images/products/spelljar-mini.png"
       },
       {
         "name": "Medium (100ml)",
-        "price": 3800,
-        "usdPrice": 74,
-        "originalPrice": 4560,
-        "originalUsdPrice": 88,
+        "price": 4500,
+        "usdPrice": 89,
+        "originalPrice": 5400,
+        "originalUsdPrice": 107,
         "image": "/images/products/spelljar-medium.png"
       },
       {
         "name": "Large (250ml)",
-        "price": 6300,
-        "usdPrice": 124,
-        "originalPrice": 7560,
-        "originalUsdPrice": 148,
+        "price": 7500,
+        "usdPrice": 149,
+        "originalPrice": 9000,
+        "originalUsdPrice": 179,
         "image": "/images/products/spelljar-large.png"
       }
     ]
@@ -5146,43 +5146,43 @@ export const products: Product[] = [
     "name": "Good Luck Spell Jar",
     "category": "spell-jars",
     "subcategory": "Spell Jars",
-    "price": 1200,
-    "originalPrice": 1440,
+    "price": 2200,
+    "originalPrice": 2640,
     "image": "/images/products/pendant.png",
     "images": [
       "/images/products/pendant.png"
     ],
-    "usdPrice": 24,
-    "originalUsdPrice": 28,
+    "usdPrice": 44,
+    "originalUsdPrice": 53,
     "badge": null,
-    "desc": "Ritually sealed to bring positive energy, joy, and good fortune into your space.",
-    "longDesc": "{\"purpose\":\"Ritually sealed to bring positive energy, joy, and good fortune into your space.\",\"crystalsIncluded\":\"Good Luck Spell Jar\",\"associatedChakras\":\"Solar Plexus\",\"description\":\"Ritually sealed to bring positive energy, joy, and good fortune into your space.\",\"benefits\":[\"Ritually sealed to bring positive energy, joy, and good fortune into your space.\",\"Premium quality ritually prepared spell jar\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Keep in dry place\",\"Recharge under moonlight\"],\"disclaimer\":\"Crystals and spell jars are spiritual tools and not a substitute for medical treatment.\"}",
+    "desc": "Good fortune, positivity, confidence, and new opportunities.",
+    "longDesc": "{\"purpose\": \"Good fortune, positivity, confidence, and new opportunities.\", \"description\": \"The Good Luck Spell Jar is created to symbolise positive energy, confidence, and favourable opportunities. It serves as a meaningful reminder to approach life with optimism and trust in new possibilities.\", \"benefits\": [\"Encourages optimism and confidence\", \"Supports positive thinking\", \"Promotes motivation and enthusiasm\", \"Inspires openness to opportunities\"], \"availableSizes\": \"Mini (₹2,200), Medium (₹4,500), Large (₹7,500)\", \"howToUse\": \"Keep on your desk, carry nearby during important events, or place in your personal sacred space.\", \"placementRecommendation\": \"Work desk, study area, living room, or altar.\", \"affirmation\": \"I welcome positive opportunities and fortunate experiences into my life.\", \"careInstructions\": [\"Keep the spell jar in a safe and dry place.\", \"Avoid opening the jar unless specifically instructed.\", \"Handle with care as the contents are delicate.\", \"Recharge your intentions periodically through meditation, prayer, or affirmations.\"], \"disclaimer\": \"Spell jars are spiritual and symbolic tools intended for personal reflection, intention setting, and mindfulness practices. They are not intended to guarantee specific outcomes or replace professional, legal, financial, medical, or psychological advice.\"}",
     "chakras": [
       "Solar Plexus"
     ],
     "variants": [
       {
         "name": "Mini",
-        "price": 1200,
-        "usdPrice": 24,
-        "originalPrice": 1440,
-        "originalUsdPrice": 28,
+        "price": 2200,
+        "usdPrice": 44,
+        "originalPrice": 2640,
+        "originalUsdPrice": 53,
         "image": "/images/products/spelljar-mini.png"
       },
       {
         "name": "Medium (100ml)",
-        "price": 3800,
-        "usdPrice": 74,
-        "originalPrice": 4560,
-        "originalUsdPrice": 88,
+        "price": 4500,
+        "usdPrice": 89,
+        "originalPrice": 5400,
+        "originalUsdPrice": 107,
         "image": "/images/products/spelljar-medium.png"
       },
       {
         "name": "Large (250ml)",
-        "price": 6300,
-        "usdPrice": 124,
-        "originalPrice": 7560,
-        "originalUsdPrice": 148,
+        "price": 7500,
+        "usdPrice": 149,
+        "originalPrice": 9000,
+        "originalUsdPrice": 179,
         "image": "/images/products/spelljar-large.png"
       }
     ]

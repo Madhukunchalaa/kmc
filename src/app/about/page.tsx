@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import Link from 'next/link';
 import ScrollFade from '@/components/ScrollFade';
 import Counter from '@/components/Counter';
@@ -7,11 +8,11 @@ export const metadata = {
   description: 'The story, mission and values of KrissMaagiic Crystals — an authentic crystal shop and spiritual studio in Hyderabad.',
 };
 
-const MILESTONES = [
+const MILESTONES: { year: string; text: ReactNode }[] = [
   { year: '2022', text: 'Kriss begins her crystal journey — collecting, studying and energising her first stones.' },
-  { year: '2023', text: 'First spell jars and tarot sessions opened to a small circle of clients in Hyderabad.' },
+  { year: '2023', text: <>First <Link href="/services#spelljar" style={{ color: 'var(--primary,#C8956C)', textDecoration: 'underline' }}>spell jars</Link> and <Link href="/services#tarot" style={{ color: 'var(--primary,#C8956C)', textDecoration: 'underline' }}>tarot sessions</Link> opened to a small circle of clients in Hyderabad.</> },
   { year: '2024', text: 'KrissMaagiic Crystals launches as a curated shop — direct-source crystals from trusted mines.' },
-  { year: '2025', text: 'Studio expands to candle spells, numerology and full chakra-aligned collections.' },
+  { year: '2025', text: <>Studio expands to <Link href="/services#candle" style={{ color: 'var(--primary,#C8956C)', textDecoration: 'underline' }}>candle spells</Link>, <Link href="/services#numerology" style={{ color: 'var(--primary,#C8956C)', textDecoration: 'underline' }}>numerology</Link> and full chakra-aligned collections.</> },
   { year: '2026', text: 'Pan-India shipping + booking platform — bringing energised crystals to seekers everywhere.' },
 ];
 
@@ -298,6 +299,57 @@ export default function AboutPage() {
                   <p style={{ color: 'var(--text-light,#666)', lineHeight: 1.7, margin: 0 }}>{m.text}</p>
                 </div>
               </ScrollFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="section-pad" style={{ background: 'var(--bg-soft,#FAF6F1)' }}>
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow">What we offer</span>
+            <h2 className="section-title">Our <span>Services</span></h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+          </div>
+          <div className="row g-4">
+            {[
+              { slug: 'tarot',       icon: 'fa-solid fa-moon',            title: 'Tarot Reading',    desc: 'Live video, audio or voice-note readings — clarity for love, career and life.' },
+              { slug: 'numerology',  icon: 'fa-solid fa-infinity',        title: 'Numerology',       desc: 'Decode your birth chart and unlock the numbers that shape your destiny.' },
+              { slug: 'spelljar',    icon: 'fa-solid fa-jar',             title: 'Spell Jars',       desc: 'Handcrafted crystal-infused jars set with intention for love, wealth and protection.' },
+              { slug: 'candle',      icon: 'fa-solid fa-fire-flame-curved', title: 'Candle Spells',  desc: 'Custom candle rituals charged with energy for manifestation and release.' },
+            ].map((svc) => (
+              <div key={svc.slug} className="col-sm-6 col-lg-3">
+                <ScrollFade>
+                  <Link href={`/services#${svc.slug}`} style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                    <div style={{
+                      background: '#fff',
+                      border: '1px solid rgba(200,149,108,0.18)',
+                      borderRadius: 20,
+                      padding: '2rem 1.5rem',
+                      textAlign: 'center',
+                      height: '100%',
+                      transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                      boxShadow: '0 4px 16px rgba(45,27,14,0.04)',
+                    }} className="value-premium-card">
+                      <div style={{
+                        width: 52, height: 52, borderRadius: '50%',
+                        background: 'rgba(200,149,108,0.1)',
+                        border: '1px solid rgba(200,149,108,0.25)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        margin: '0 auto 1.25rem',
+                      }}>
+                        <i className={svc.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.2rem' }}></i>
+                      </div>
+                      <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', fontWeight: 600, color: 'var(--dark-2)', marginBottom: '0.6rem' }}>{svc.title}</h4>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-light,#666)', lineHeight: 1.65, margin: '0 0 1rem' }}>{svc.desc}</p>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--primary,#C8956C)', letterSpacing: '0.05em' }}>
+                        View Service →
+                      </span>
+                    </div>
+                  </Link>
+                </ScrollFade>
+              </div>
             ))}
           </div>
         </div>

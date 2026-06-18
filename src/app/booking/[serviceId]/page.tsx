@@ -45,7 +45,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
           <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', margin: '10px 0 0' }}>
             {service.slug === 'tarot' && (initialType === 'video' || initialType === 'audio' || initialType === 'call') ? (
               initialType === 'video'
-                ? <>₹2,499 – ₹4,999 ($50 – $100) · 30 min – 1 hr</>
+                ? <>₹2,499 – ₹6,999 ($50 – $140) · 30 min – 2 hr</>
                 : <>₹1,499 – ₹5,999 ($30 – $120) · 30 min – 2 hr</>
             ) : service.slug === 'tarot' && initialType === 'voice' ? (
               <>₹199 – ₹1,299 ($8 – $100) · Voice Notes</>

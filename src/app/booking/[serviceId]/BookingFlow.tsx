@@ -27,9 +27,6 @@ function to24h(time: string): string {
   return `${String(h).padStart(2, '0')}:${min}`;
 }
 
-function addDays(d: Date, n: number) {
-  const c = new Date(d); c.setDate(c.getDate() + n); return c;
-}
 
 /* ── Spiritual helpers ─────────────────────────── */
 
@@ -142,6 +139,7 @@ const AUDIO_TIERS = [
 const VIDEO_TIERS = [
   { label: '30 minutes (30min)', price: 2499, usdPrice: 50 },
   { label: '1 hour (1hr)', price: 4999, usdPrice: 100 },
+  { label: '2 hours (2hr) — only one slot', price: 6999, usdPrice: 140 },
 ];
 
 /* ─────────────────────────────────────────────── */
@@ -164,10 +162,27 @@ export default function BookingFlow({
   const { formatPrice, countryCode } = useCurrency();
   const currency = (COUNTRY_CURRENCY_MAP[countryCode.toUpperCase()] || COUNTRY_CURRENCY_MAP['Other']).code;
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const dateOptions = useMemo(
-    () => Array.from({ length: 14 }, (_, i) => addDays(today, i)),
-    [today],
-  );
+
+  // Calendar month state
+  const [calYear,  setCalYear]  = useState(today.getFullYear());
+  const [calMonth, setCalMonth] = useState(today.getMonth()); // 0-indexed
+
+  const calDays = useMemo(() => {
+    const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    return { firstDay, daysInMonth };
+  }, [calYear, calMonth]);
+
+  const prevMonth = () => {
+    if (calMonth === 0) { setCalYear(y => y - 1); setCalMonth(11); }
+    else setCalMonth(m => m - 1);
+  };
+  const nextMonth = () => {
+    if (calMonth === 11) { setCalYear(y => y + 1); setCalMonth(0); }
+    else setCalMonth(m => m + 1);
+  };
+  // Disable prev if already at current month
+  const isPrevDisabled = calYear === today.getFullYear() && calMonth === today.getMonth();
 
   const [tierIdx,      setTierIdx]      = useState(0);
   const [selectedDate, setSelectedDate] = useState<string>(ymd(today));
@@ -372,7 +387,11 @@ export default function BookingFlow({
   }
 
   /* ── Selected date spiritual info ── */
-  const selDateObj  = dateOptions.find(d => ymd(d) === selectedDate) ?? today;
+  const selDateObj = (() => {
+    if (!selectedDate) return today;
+    const [y, m, d] = selectedDate.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  })();
   const { planet, moon, num } = getSpiritualInfo(selDateObj);
 
   return (
@@ -622,57 +641,78 @@ export default function BookingFlow({
             {tiers && tiers.length > 0 ? '2. Pick a Date' : '1. Pick a Date'}
           </h3>
 
-        <div className="custom-scrollbar" style={{
-          display: 'flex', gap: 10, overflowX: 'auto',
-          paddingBottom: 8, scrollBehavior: 'smooth',
-          width: '100%', maxWidth: '100%', boxSizing: 'border-box',
-        }}>
-          {dateOptions.map((d) => {
-            const v      = ymd(d);
+        {/* Month navigation */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <button type="button" onClick={prevMonth} disabled={isPrevDisabled} style={{
+            background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+            color: isPrevDisabled ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.8)',
+            borderRadius: 8, padding: '6px 14px', cursor: isPrevDisabled ? 'not-allowed' : 'pointer',
+            fontSize: '0.85rem', fontWeight: 600,
+          }}>‹ Prev</button>
+          <span style={{ color: '#fff', fontFamily: 'var(--font-heading)', fontSize: '1rem', fontWeight: 700 }}>
+            {new Date(calYear, calMonth).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}
+          </span>
+          <button type="button" onClick={nextMonth} style={{
+            background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.8)', borderRadius: 8, padding: '6px 14px', cursor: 'pointer',
+            fontSize: '0.85rem', fontWeight: 600,
+          }}>Next ›</button>
+        </div>
+
+        {/* Day-of-week headers */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4, marginBottom: 4 }}>
+          {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+            <div key={d} style={{ textAlign: 'center', fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)', fontWeight: 700, textTransform: 'uppercase', padding: '4px 0' }}>{d}</div>
+          ))}
+        </div>
+
+        {/* Calendar grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4 }}>
+          {/* Empty cells for offset */}
+          {Array.from({ length: calDays.firstDay }).map((_, i) => <div key={`e${i}`} />)}
+
+          {Array.from({ length: calDays.daysInMonth }, (_, i) => {
+            const dayNum = i + 1;
+            const dateObj = new Date(calYear, calMonth, dayNum);
+            const v = ymd(dateObj);
+            const todayStr = ymd(today);
+            const isPast = v < todayStr;
             const active = v === selectedDate;
-            const isToday = v === ymd(today);
-            const { planet: dp, moon: dm } = getSpiritualInfo(d);
+            const isToday = v === todayStr;
+            const { planet: dp, moon: dm } = getSpiritualInfo(dateObj);
             return (
               <button
                 key={v}
                 type="button"
+                disabled={isPast}
                 onClick={() => setSelectedDate(v)}
                 style={{
-                  flex: '0 0 auto',
-                  minWidth: 76,
-                  padding: '10px 8px 8px',
-                  borderRadius: 16,
+                  padding: '6px 2px',
+                  borderRadius: 10,
                   border: active
-                    ? '1.5px solid rgba(200,149,108,0.7)'
-                    : '1px solid rgba(255,255,255,0.1)',
+                    ? '1.5px solid rgba(200,149,108,0.8)'
+                    : isToday
+                    ? '1px solid rgba(200,149,108,0.35)'
+                    : '1px solid transparent',
                   background: active
-                    ? 'linear-gradient(135deg, rgba(200,149,108,0.35) 0%, rgba(162,59,236,0.18) 100%)'
-                    : 'rgba(255,255,255,0.04)',
-                  color: active ? '#fff' : 'rgba(255,255,255,0.75)',
-                  cursor: 'pointer',
+                    ? 'linear-gradient(135deg, rgba(200,149,108,0.4) 0%, rgba(162,59,236,0.2) 100%)'
+                    : isToday
+                    ? 'rgba(200,149,108,0.1)'
+                    : 'rgba(255,255,255,0.03)',
+                  color: isPast ? 'rgba(255,255,255,0.15)' : active ? '#fff' : 'rgba(255,255,255,0.75)',
+                  cursor: isPast ? 'not-allowed' : 'pointer',
                   textAlign: 'center',
-                  fontWeight: 600,
-                  boxShadow: active ? '0 8px 24px rgba(200,149,108,0.25), 0 0 12px rgba(162,59,236,0.15)' : 'none',
-                  transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-                  transform: active ? 'scale(1.04)' : 'none',
-                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.2s',
+                  boxShadow: active ? '0 4px 16px rgba(200,149,108,0.25)' : 'none',
                 }}
-                className="date-picker-btn"
               >
-                <div style={{ fontSize: '0.6rem', textTransform: 'uppercase', opacity: 0.65, letterSpacing: '0.05em', marginBottom: 2 }}>
-                  {d.toLocaleDateString('en-IN', { weekday: 'short' })}
-                </div>
-                <div style={{ fontSize: '1.3rem', fontFamily: 'var(--font-heading)', fontWeight: 700, lineHeight: 1 }}>
-                  {d.getDate()}
-                </div>
-                <div style={{ fontSize: '0.58rem', opacity: 0.6, margin: '2px 0 4px' }}>
-                  {isToday ? 'Today' : d.toLocaleDateString('en-IN', { month: 'short' })}
-                </div>
-                {/* Spiritual micro-badges */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
-                  <span style={{ fontSize: '0.7rem' }} title={`${dp.name} day`}>{dp.emoji}</span>
-                  <span style={{ fontSize: '0.7rem' }} title={dm.name}>{dm.emoji}</span>
-                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, lineHeight: 1 }}>{dayNum}</div>
+                {!isPast && (
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: 1, marginTop: 2 }}>
+                    <span style={{ fontSize: '0.55rem' }} title={dp.name}>{dp.emoji}</span>
+                    <span style={{ fontSize: '0.55rem' }} title={dm.name}>{dm.emoji}</span>
+                  </div>
+                )}
               </button>
             );
           })}

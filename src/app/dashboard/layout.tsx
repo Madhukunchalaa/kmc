@@ -3,12 +3,18 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { auth, signOut } from '@/auth';
 import DashboardNav from './DashboardNav';
+import { connectMongoose } from '@/lib/mongoose';
+import { User } from '@/models/User';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const session = await auth();
   if (!session?.user) redirect('/login?callbackUrl=/dashboard');
+
+  await connectMongoose();
+  const dbUser = await User.findById(session.user.id, 'country').lean() as { country?: string } | null;
+  const hasCountry = !!(dbUser?.country);
 
   async function logout() {
     'use server';
@@ -22,7 +28,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>
           <Link href="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
             <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.9rem' }}></i>
-            <span>KrissMaagiic</span>
+            <span>Kriss Maagiic</span>
           </Link>
         </div>
 
@@ -50,7 +56,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         <DashboardNav isAdmin={session.user.role === 'admin'} />
 
         <main className="dashboard-main">
-          {!session.user.country && (
+          {!hasCountry && (
             <div style={{ background: '#FFF4E5', border: '1px solid #FFE0B2', padding: '14px 16px', borderRadius: '12px', marginBottom: '20px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
               <i className="fa-solid fa-earth-americas" style={{ color: '#E6A23C', fontSize: '1.3rem', marginTop: 2 }}></i>
               <div>

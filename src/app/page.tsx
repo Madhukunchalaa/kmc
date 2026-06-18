@@ -19,6 +19,19 @@ interface SelectedSession {
   tiers: BookingTier[];
 }
 
+interface HomepageService {
+  path: string;
+  icon: string;
+  title: string;
+  category: string;
+  desc: string;
+  bullets: string[];
+  tiers: { label: string; price: number; usdPrice?: number }[];
+  slug: string;
+  bookingUrl: string;
+  featured: boolean;
+}
+
 export default function Home() {
   // Bestsellers: Rose Quartz first, then remaining top picks — one row of 5
   const roseQuartz = products.find(p => p.id === 'rose-quartz-bracelet');
@@ -66,108 +79,39 @@ export default function Home() {
     }
   };
 
-  const homepageServices = [
-    {
-      path: 'PATH I',
-      icon: 'fa-solid fa-headphones',
-      title: 'Tarot Reading — Voice Chat & Audio Call',
-      category: 'Tarot Readings',
-      desc: 'Delivered via WhatsApp voice notes or live audio calls. Receive detailed, highly personalized responses to your questions and immediate spiritual guidance.',
-      bullets: [
-        'Voice notes or live 1-on-1 audio',
-        'Audio recorded directly by the founder',
-        'Ask unlimited questions during live sessions',
-      ],
-      tiers: [
-        { label: 'SINGLE READING (YES/NO)', price: 199, usdPrice: 8 },
-        { label: 'SINGLE DETAILED READING', price: 299, usdPrice: 10 },
-        { label: 'SITUATIONAL READINGS', price: 399, usdPrice: 50 },
-        { label: 'MARRIAGE ANALYSIS', price: 499, usdPrice: 60 },
-        { label: 'RELATIONSHIP READINGS', price: 599, usdPrice: 60 },
-        { label: 'SET OF 3 QUESTIONS', price: 666, usdPrice: 30 },
-        { label: 'SET OF 5 QUESTIONS', price: 999, usdPrice: 40 },
-        { label: 'FUTURE SPOUSE READING', price: 999, usdPrice: 40 },
-        { label: 'ANNUAL READING (WHOLE YEAR)', price: 1299, usdPrice: 100 },
-        { label: 'Audio Call (30 min)', price: 1499, usdPrice: 30 },
-        { label: 'Audio Call (1 hour)', price: 2999, usdPrice: 60 },
-        { label: 'Audio Call (2 hours - only one slot)', price: 5999, usdPrice: 120 },
-      ],
-      slug: 'tarot',
-      bookingUrl: '/booking/tarot',
-      featured: false,
-    },
-    {
-      path: 'PATH II',
-      icon: 'fa-solid fa-video',
-      title: 'Live Tarot Reading — Video Call',
-      category: 'Tarot Readings',
-      desc: 'Conducted face-to-face via WhatsApp Video. Directly connect with the founder for real-time card pull reveals, instant clarifications, and immediate spiritual guidance.',
-      bullets: [
-        'Live face-to-face interaction',
-        'Instant card-pull explanations',
-        'WhatsApp video options',
-        'Ask unlimited questions during your session',
-      ],
-      tiers: [
-        { label: 'Video Call (30 min)', price: 3499, usdPrice: 70 },
-        { label: 'Video Call (1 hour)', price: 6999, usdPrice: 140 },
-      ],
-      slug: 'tarot',
-      bookingUrl: '/booking/tarot?type=video',
-      featured: false,
-    },
-    {
-      path: 'PATH III',
-      icon: 'fa-solid fa-wand-magic-sparkles',
-      title: 'Bespoke Spell Casting Ritual',
-      category: 'Spell Casting Services',
-      desc: 'Each ritual is uniquely crafted around your intention using candles, crystals, herbs, and focused energy work. Performed personally by our founder, with ritual updates and photo or video shared upon completion.',
-      bullets: [
-        'Custom-dressed & blessed candles',
-        'Full altar ritual by the founder',
-        'Photo & video proof of the ritual',
-      ],
-      tiers: [
-        { label: 'Travel Safety', price: 1800, usdPrice: 35 },
-        { label: 'Psychic / Intuition', price: 2200, usdPrice: 40 },
-        { label: 'Luck & Career', price: 2900, usdPrice: 45 },
-        { label: 'Reconciliation', price: 3200, usdPrice: 50 },
-        { label: 'Abundance / Wealth', price: 3600, usdPrice: 55 },
-        { label: 'Remove Obstacles', price: 3800, usdPrice: 60 },
-        { label: 'Bindings / Fidelity', price: 4200, usdPrice: 65 },
-        { label: 'Fertility & Family', price: 4200, usdPrice: 65 },
-        { label: 'Success & Growth', price: 4500, usdPrice: 70 },
-        { label: 'Love & Soulmate', price: 4800, usdPrice: 70 },
-        { label: 'Protection Spell', price: 5200, usdPrice: 75 },
-        { label: 'Cleansing / Blessing', price: 6300, usdPrice: 75 },
-      ],
-      slug: 'candle',
-      bookingUrl: '/booking/candle',
-      featured: false,
-    },
-    {
-      path: 'PATH IV',
-      icon: 'fa-solid fa-infinity',
-      title: 'Numerology Services',
-      category: 'Numerology Readings',
-      desc: 'Personally prepared and customized readings for your name, business, brand, or birth chart. Delivered digitally via WhatsApp or email within 3–5 business days.',
-      bullets: [
-        'Detailed PDF chart report',
-        '5-10 mins WhatsApp explanation',
-        'Lucky numbers & crystal remedies',
-      ],
-      tiers: [
-        { label: 'Vehicle Number', price: 1999, usdPrice: 30 },
-        { label: 'Date of Birth', price: 2499, usdPrice: 45 },
-        { label: 'Mobile Number', price: 3999, usdPrice: 55 },
-        { label: 'Name Numerology', price: 4999, usdPrice: 75 },
-        { label: 'Business / Brand', price: 9999, usdPrice: 150 },
-      ],
-      slug: 'numerology',
-      bookingUrl: '/booking/numerology',
-      featured: false,
-    },
-  ];
+  const PATHS = ['PATH I', 'PATH II', 'PATH III', 'PATH IV', 'PATH V'];
+
+  function bookingUrlForSlug(slug: string, id: string) {
+    if (slug === 'tarot-video') return '/booking/tarot?type=video';
+    if (slug === 'spelljar') return '/shop?category=spell-jars';
+    return `/booking/${id}`;
+  }
+
+  const [homepageServices, setHomepageServices] = useState<HomepageService[]>([]);
+
+  useEffect(() => {
+    fetch('/api/services', { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok && Array.isArray(data.services) && data.services.length > 0) {
+          const mapped: HomepageService[] = data.services.map((svc: any, idx: number) => ({
+            path: PATHS[idx] ?? `PATH ${idx + 1}`,
+            icon: svc.icon || 'fa-solid fa-sparkles',
+            title: svc.title,
+            category: svc.tagline || '',
+            desc: svc.desc,
+            bullets: svc.bullets || [],
+            tiers: svc.tiers || [],
+            slug: svc.slug,
+            bookingUrl: bookingUrlForSlug(svc.slug, svc.id),
+            featured: false,
+          }));
+          setHomepageServices(mapped);
+        }
+      })
+      .catch((err) => console.error('Error fetching services:', err));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -385,17 +329,16 @@ export default function Home() {
                       <div className="session-price-range">
                         <span className="price-range-label">Energy Exchange</span>
                         <span className="price-range-value">
-                          {(() => {
+                          {svc.tiers.length > 0 ? (() => {
                             const minTier = svc.tiers.reduce((prev, curr) => prev.price < curr.price ? prev : curr);
                             const maxTier = svc.tiers.reduce((prev, curr) => prev.price > curr.price ? prev : curr);
                             return (
                               <>
                                 <SimplePrice price={minTier.price} usdPrice={(minTier as any).usdPrice} />
-                                {' – '}
-                                <SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} />
+                                {minTier.price !== maxTier.price && <>{' – '}<SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} /></>}
                               </>
                             );
-                          })()}
+                          })() : <SimplePrice price={0} usdPrice={0} />}
                         </span>
                       </div>
                       <Link

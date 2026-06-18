@@ -127,11 +127,6 @@ export default async function AdminServices(props: PageProps<'/admin/services'>)
                   </td>
                   <td style={{ padding: '12px 16px' }}>
                     <div className="d-flex align-items-center gap-2 justify-content-end">
-                      {!s.isDeleted && (
-                        <Link href={`/admin/services/${s._id}`} style={{ color: 'var(--primary,#C8956C)', textDecoration: 'none', fontSize: '0.85rem' }}>
-                          Edit
-                        </Link>
-                      )}
                       <ServiceRowActions id={String(s._id)} isDeleted={s.isDeleted} />
                     </div>
                   </td>

@@ -81,7 +81,7 @@ export const products: Product[] = [
     "subcategory": "Bracelets",
     "price": 900,
     "originalPrice": 1080,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%204",
+    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/5ZA01616.jpg",
     "badge": null,
     "desc": "Love, self-love, compassion, and emotional harmony.",
     "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, meditation, self-care practices, and relationship intentions.\",\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
@@ -89,12 +89,12 @@ export const products: Product[] = [
       "Heart"
     ],
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%204",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%201",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/5ZA01616.jpg",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/5ZA01617.jpg",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%201",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%202",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%203"
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%203",
+      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/bracelates%20by%20crystals/Rose%20quartz%20/pic%204"
     ],
     "usdPrice": 18,
     "originalUsdPrice": 22

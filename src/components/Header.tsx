@@ -202,7 +202,7 @@ export default function Header() {
             <img src="/site-logo.png" alt="KrissMaagiic Crystals Logo" className="navbar-logo-img" />
           </div>
           <div className="navbar-brand-text">
-            <span className="navbar-brand-main">KrissMaagiic Crystals</span>
+            <span className="navbar-brand-main">Kriss Maagiic Crystals</span>
             <span className="navbar-brand-sub">Crystals &amp; Healing</span>
           </div>
         </Link>

@@ -253,60 +253,7 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
           </div>
         </div>
 
-        {/* Service Options (e.g. reading types) */}
-        <div className="col-12">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-            <label style={labelStyle}>Service Options (checkboxes - for tarot, etc)</label>
-            <button type="button" onClick={addOption} className="btn-outline-custom" style={{ padding: '6px 16px', fontSize: '0.8rem' }}>
-              <i className="fa-solid fa-plus me-1"></i> Add Option
-            </button>
-          </div>
-          {f.options.length === 0 && (
-            <p style={{ fontSize: '0.8rem', color: '#aaa', margin: 0, marginBottom: '1rem' }}>No options yet — click "Add Option" to create selectable reading types or service variants.</p>
-          )}
-          <div style={{ display: 'grid', gap: 8 }}>
-            {f.options.length > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 100px 36px', gap: 8, padding: '0 12px', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                <span>Title shown to customer</span>
-                <span>Price (₹ INR)</span>
-                <span>Price ($ USD)</span>
-                <span></span>
-              </div>
-            )}
-            {f.options.map((opt, idx) => (
-              <div key={opt.id} style={{ display: 'grid', gridTemplateColumns: '1fr 120px 100px 36px', gap: 8, alignItems: 'center', padding: '8px 12px', background: '#FFF5E6', borderRadius: 8, border: '1px solid rgba(200,149,108,0.15)' }}>
-                <input
-                  value={opt.label}
-                  onChange={(e) => updateOption(idx, 'label', e.target.value)}
-                  className="newsletter-input"
-                  style={{ margin: 0 }}
-                  placeholder="e.g. SINGLE READING (YES/NO)"
-                />
-                <input
-                  type="number"
-                  min={0}
-                  value={opt.price}
-                  onChange={(e) => updateOption(idx, 'price', Number(e.target.value))}
-                  className="newsletter-input"
-                  style={{ margin: 0 }}
-                  placeholder="₹ Price"
-                />
-                <input
-                  type="number"
-                  min={0}
-                  value={opt.usdPrice}
-                  onChange={(e) => updateOption(idx, 'usdPrice', Number(e.target.value))}
-                  className="newsletter-input"
-                  style={{ margin: 0 }}
-                  placeholder="$ Price"
-                />
-                <button type="button" onClick={() => removeOption(idx)} style={{ width: 32, height: 32, borderRadius: 6, background: '#D95F5F', color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <i className="fa-solid fa-trash" style={{ fontSize: '0.7rem' }}></i>
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Service Options section hidden — managed in code, not from admin */}
 
         {/* Active toggle */}
         <div className="col-12">

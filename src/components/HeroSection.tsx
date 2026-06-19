@@ -66,6 +66,7 @@ export default function HeroSection() {
               alt="KrissMaagiic Crystal Collection"
               className="hero-editorial-img"
               loading="eager"
+              fetchPriority="high"
             />
           </picture>
           <div

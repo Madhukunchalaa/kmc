@@ -4,7 +4,9 @@ import SimplePrice from '@/components/SimplePrice';
 import ServiceVideoPlayer from '@/components/ServiceVideoPlayer';
 import { getAllServices } from '@/lib/catalog';
 
-export const dynamic = 'force-dynamic';
+// ISR: Cache page for 60 seconds, then rebuild
+export const revalidate = 60;
+
 export const metadata = {
   title: 'Services · KrissMaagiic Crystals',
   description: 'Book tarot readings, candle spells, custom spell jars and numerology sessions with Kriss.',

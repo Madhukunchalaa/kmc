@@ -12,7 +12,7 @@ export function resolveProductImage(image: string, category: string, name: strin
     // Break cache for R2 images because we just fixed their Content-Types on the server
     if (image.includes('r2.dev')) {
       const sep = image.includes('?') ? '&' : '?';
-      return image + sep + 'v=3';
+      return image + sep + 'v=4';
     }
     return image;
   }

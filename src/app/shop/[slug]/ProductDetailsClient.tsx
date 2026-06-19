@@ -1,11 +1,13 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductPriceDisplay from '@/components/ProductPriceDisplay';
 import ProductBuyPanel from './ProductBuyPanel';
 
 export default function ProductDetailsClient({ product, children }: { product: any; children: React.ReactNode }) {
   const [selectedVariantIdx, setSelectedVariantIdx] = useState<number>(0);
+  const router = useRouter();
 
   const hasVariants = Array.isArray(product.variants) && product.variants.length > 0;
   const currentVariant = hasVariants ? product.variants[selectedVariantIdx] : null;
@@ -17,6 +19,55 @@ export default function ProductDetailsClient({ product, children }: { product: a
   const displayOriginalUsdPrice = currentVariant ? currentVariant.originalUsdPrice : product.originalUsdPrice;
 
   return (
+    <div>
+      <button
+        onClick={() => router.back()}
+        style={{
+          background: 'linear-gradient(135deg, rgba(200, 149, 108, 0.08), rgba(200, 149, 108, 0.03))',
+          border: 'none',
+          borderRadius: '12px',
+          cursor: 'pointer',
+          color: 'var(--primary, #C8956C)',
+          fontSize: '0.9rem',
+          fontWeight: 600,
+          padding: '10px 20px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '24px',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 2px 8px rgba(200, 149, 108, 0.1)',
+          backdropFilter: 'blur(10px)',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(200, 149, 108, 0.15), rgba(200, 149, 108, 0.08))';
+          e.currentTarget.style.transform = 'translateX(-4px)';
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(200, 149, 108, 0.2)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(200, 149, 108, 0.08), rgba(200, 149, 108, 0.03))';
+          e.currentTarget.style.transform = 'translateX(0)';
+          e.currentTarget.style.boxShadow = '0 2px 8px rgba(200, 149, 108, 0.1)';
+        }}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ flexShrink: 0 }}
+        >
+          <path
+            d="M10 12L6 8L10 4"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Back
+      </button>
     <div className="row g-5 align-items-start">
       <div className="col-lg-5">
         <ProductImageGallery
@@ -79,6 +130,7 @@ export default function ProductDetailsClient({ product, children }: { product: a
           <li><i className="fa-solid fa-hand-sparkles me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> Each piece intuitively selected by Kriss</li>
         </ul>
       </div>
+    </div>
     </div>
   );
 }

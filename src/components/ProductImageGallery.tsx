@@ -26,6 +26,9 @@ export default function ProductImageGallery({
     transform: 'scale(1)',
     transformOrigin: 'center',
   });
+  
+  // Determine if this is a pyramid product
+  const isPyramid = category === 'pyramids' || name.toLowerCase().includes('pyramid');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -77,6 +80,7 @@ export default function ProductImageGallery({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: isPyramid ? 'center bottom' : 'center center',
             display: 'block',
             ...zoomStyle,
             transition: 'transform 0.25s ease-out, transform-origin 0.08s ease-out',

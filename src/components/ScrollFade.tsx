@@ -17,10 +17,14 @@ export default function ScrollFade({ children, delay = 0, className = '' }: Scro
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(entry.target);
+          // Disconnect after becoming visible (performance optimization)
+          observer.disconnect();
         }
       },
-      { threshold: 0.12 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Start animation slightly before element enters viewport
+      }
     );
 
     const el = ref.current;
@@ -29,9 +33,7 @@ export default function ScrollFade({ children, delay = 0, className = '' }: Scro
     }
 
     return () => {
-      if (el) {
-        observer.unobserve(el);
-      }
+      observer.disconnect();
     };
   }, []);
 
@@ -39,7 +41,10 @@ export default function ScrollFade({ children, delay = 0, className = '' }: Scro
     <div
       ref={ref}
       className={`fade-up ${isVisible ? 'visible' : ''} ${className}`}
-      style={{ transitionDelay: isVisible ? `${delay}ms` : undefined }}
+      style={{ 
+        transitionDelay: isVisible ? `${delay}ms` : undefined,
+        willChange: isVisible ? 'auto' : 'opacity, transform', // Only hint before animation
+      }}
     >
       {children}
     </div>

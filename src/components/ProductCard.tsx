@@ -73,74 +73,79 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="product-card">
-      {/* Badge */}
-      {product.badge && (
-        <span className={`pc-badge pc-badge--${product.badge.toLowerCase()}`}>
-          {product.badge}
-        </span>
-      )}
-
-      {/* Wishlist */}
-      <button
-        className={`pc-wish ${isInWishlist ? 'pc-wish--active' : ''}`}
-        onClick={handleWishlist}
-        aria-label="Wishlist"
-      >
-        <i className={`${isInWishlist ? 'fas' : 'far'} fa-heart`} />
-      </button>
-
-      {/* Full-bleed image */}
-      <Link href={`/shop/${product.id}`} className="pc-img-link" aria-label={product.name}>
-        <Image 
-          className="pc-image" 
-          src={resolveProductImage(product.image, product.category, product.name)} 
-          alt={product.name} 
-          fill 
-          sizes="(max-width: 768px) 50vw, 33vw" 
-        />
-      </Link>
-
-      {/* Product Name & Mobile Price (Always visible until hover, price shows on mobile) */}
-      <div className="pc-visible-title">
-        <h3 className="pc-visible-name">{product.name}</h3>
-        <div className="pc-visible-price">
-          {product.originalPrice && (
-            <s className="pc-overlay-orig" style={{ marginRight: '6px' }}>
-              {formatPrice(product.originalPrice, product.originalUsdPrice)}
-            </s>
-          )}
-          <span className="pc-overlay-sale">
-            {formatPrice(product.price, product.usdPrice)}
+    <Link href={`/shop/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+      <div className="product-card" data-category={product.category}>
+        {/* Badge */}
+        {product.badge && (
+          <span className={`pc-badge pc-badge--${product.badge.toLowerCase()}`}>
+            {product.badge}
           </span>
-        </div>
-      </div>
+        )}
 
-      {/* Cinematic hover overlay */}
-      <div className="pc-overlay">
-        <div className="pc-overlay-inner">
-          <span className="pc-overlay-cat">{product.subcategory}</span>
-          <h3 className="pc-overlay-name">
-            <Link href={`/shop/${product.id}`}>{product.name}</Link>
-          </h3>
-          <div className="pc-overlay-price">
+        {/* Wishlist */}
+        <button
+          className={`pc-wish ${isInWishlist ? 'pc-wish--active' : ''}`}
+          onClick={handleWishlist}
+          aria-label="Wishlist"
+        >
+          <i className={`${isInWishlist ? 'fas' : 'far'} fa-heart`} />
+        </button>
+
+        {/* Full-bleed image */}
+        <div className="pc-img-link">
+          <Image 
+            className="pc-image" 
+            src={resolveProductImage(product.image, product.category, product.name)} 
+            alt={product.name} 
+            fill 
+            sizes="(max-width: 768px) 50vw, 33vw"
+            style={{
+              objectPosition: product.category === 'pyramids' ? 'center bottom' : 'center center'
+            }}
+          />
+        </div>
+
+        {/* Product Name & Mobile Price (Always visible until hover, price shows on mobile) */}
+        <div className="pc-visible-title">
+          <h3 className="pc-visible-name">{product.name}</h3>
+          <div className="pc-visible-price">
             {product.originalPrice && (
-              <s className="pc-overlay-orig">
+              <s className="pc-overlay-orig" style={{ marginRight: '6px' }}>
                 {formatPrice(product.originalPrice, product.originalUsdPrice)}
               </s>
             )}
-            <span className="pc-overlay-sale">{formatPrice(product.price, product.usdPrice)}</span>
+            <span className="pc-overlay-sale">
+              {formatPrice(product.price, product.usdPrice)}
+            </span>
           </div>
-          <div className="pc-overlay-actions">
-            <button className="pc-btn-cart" onClick={handleAddToCart}>
-              {addedToCart ? 'Added ✓' : 'Add to Cart'}
-            </button>
-            <Link href={`/shop/${product.id}`} className="pc-btn-view" aria-label="View product">
-              <i className="fa-solid fa-arrow-right" />
-            </Link>
+        </div>
+
+        {/* Cinematic hover overlay */}
+        <div className="pc-overlay">
+          <div className="pc-overlay-inner">
+            <span className="pc-overlay-cat">{product.subcategory}</span>
+            <h3 className="pc-overlay-name">
+              <span>{product.name}</span>
+            </h3>
+            <div className="pc-overlay-price">
+              {product.originalPrice && (
+                <s className="pc-overlay-orig">
+                  {formatPrice(product.originalPrice, product.originalUsdPrice)}
+                </s>
+              )}
+              <span className="pc-overlay-sale">{formatPrice(product.price, product.usdPrice)}</span>
+            </div>
+            <div className="pc-overlay-actions">
+              <button className="pc-btn-cart" onClick={handleAddToCart}>
+                {addedToCart ? 'Added ✓' : 'Add to Cart'}
+              </button>
+              <span className="pc-btn-view" aria-label="View product">
+                <i className="fa-solid fa-arrow-right" />
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

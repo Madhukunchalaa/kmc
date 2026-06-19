@@ -3,6 +3,59 @@
    Mobile-first | Bootstrap 5 enhancement layer
    ============================================================ */
 
+/* ---------- Performance Optimizations ---------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed navbar */
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* GPU acceleration for animations */
+.hero-celestial-motion,
+.hero-celestial-glow,
+.hero-celestial-orb,
+.particle-wrapper,
+.space-stars,
+.galaxy-nebula {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* EXIF Orientation Fix - Respect image orientation */
+img {
+  image-orientation: from-image;
+}
+
+/* Pyramid Product Images - Show full base */
+a[href*="pyramid"] .pc-image,
+a[href*="pyramid"] img,
+.product-card[data-category="pyramids"] img,
+.product-image-gallery img[alt*="Pyramid"] {
+  object-position: center bottom !important;
+}
+
+/* Reduce motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ---------- CSS Variables ---------- */
 :root {
   --primary:        #C8956C;
@@ -476,6 +529,10 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 2px;
   transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 0 8px rgba(200, 149, 108, 0.3);
+}
+
+.navbar-custom.scrolled .nav-link {
+  color: var(--text, #3D2B1F) !important;
 }
 
 .navbar-custom .nav-link:hover {
@@ -6923,6 +6980,12 @@ body.theme-rose .hero-v2-orb {
 }
 .shop-products-grid .product-card:hover .pc-image {
   filter: brightness(0.98) saturate(1.18) contrast(1.02);
+}
+
+/* Pyramids: contain with space at top so bottom is always fully visible */
+.shop-products-grid .product-card[data-category="pyramids"] .pc-image {
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 /* Always-visible bottom name strip */

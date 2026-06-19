@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Tier {
@@ -29,13 +29,14 @@ interface Initial {
   bullets: string[];
   tiers: Tier[];
   options: ServiceOption[];
+  videoUrl: string;
   active: boolean;
 }
 
 const EMPTY: Initial = {
   slug: '', title: '', tagline: '', desc: '', image: '',
   icon: 'fa-solid fa-sparkles', price: 0, usdPrice: 0,
-  durationMins: 30, bullets: [], tiers: [], options: [], active: true,
+  durationMins: 30, bullets: [], tiers: [], options: [], videoUrl: '', active: true,
 };
 
 export default function ServiceForm({ id, initial }: { id?: string; initial?: Initial }) {
@@ -44,6 +45,13 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [videoUploading, setVideoUploading] = useState(false);
+
+  useEffect(() => {
+    if (!err) return;
+    const t = setTimeout(() => setErr(null), 5000);
+    return () => clearTimeout(t);
+  }, [err]);
 
   const set = <K extends keyof Initial>(k: K, v: Initial[K]) => setF((s) => ({ ...s, [k]: v }));
 
@@ -63,6 +71,28 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
       setErr(err instanceof Error ? err.message : 'File upload error');
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const MAX = 10 * 1024 * 1024;
+    if (file.size > MAX) { setErr('Video must be under 10 MB'); return; }
+    setVideoUploading(true);
+    setErr(null);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/upload-video', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.reason || 'Upload failed');
+      set('videoUrl', data.url);
+    } catch (err) {
+      setErr(err instanceof Error ? err.message : 'Video upload error');
+    } finally {
+      setVideoUploading(false);
+      e.target.value = '';
     }
   };
 
@@ -174,6 +204,35 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
           )}
         </div>
 
+        {/* Video */}
+        <div className="col-12">
+          <label style={{ ...labelStyle, display: 'block', marginBottom: '0.5rem' }}>
+            <i className="fa-solid fa-video me-2" style={{ color: '#C8956C' }}></i>
+            Service Video <span style={{ fontWeight: 400, color: '#888', fontSize: '0.78rem' }}>(optional · max 10 MB · MP4, WebM, MOV)</span>
+          </label>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
+            <div>
+              <input type="file" id="service-video-upload" style={{ display: 'none' }} accept="video/mp4,video/webm,video/quicktime,video/x-msvideo" onChange={handleVideoUpload} disabled={videoUploading} />
+              <label htmlFor="service-video-upload" className="btn-outline-custom" style={{ cursor: 'pointer', margin: 0, display: 'inline-flex', alignItems: 'center', height: '44px', padding: '0 20px' }}>
+                <i className={`fa-solid ${videoUploading ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-up'} me-2`}></i>
+                {videoUploading ? 'Uploading…' : 'Upload Video'}
+              </label>
+              <p style={{ margin: '6px 0 0', fontSize: '0.75rem', color: '#888' }}>
+                Video goes directly to Cloudflare R2. Max 10 MB.
+              </p>
+            </div>
+            {f.videoUrl && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#F0FAF0', border: '1px solid #B2D8B2', borderRadius: 10, padding: '8px 14px' }}>
+                <i className="fa-solid fa-circle-check" style={{ color: '#4CAF50', fontSize: '1rem' }}></i>
+                <span style={{ fontSize: '0.8rem', color: '#2D6A2D', fontWeight: 600 }}>Video uploaded</span>
+                <button type="button" onClick={() => set('videoUrl', '')} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: '0.75rem', marginLeft: 4 }}>
+                  <i className="fa-solid fa-xmark"></i> Remove
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Icon + Base Price + USD Price + Duration */}
         <div className="col-md-4">
           <label style={labelStyle}>Icon (FontAwesome class)</label>
@@ -264,10 +323,8 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
         </div>
       </div>
 
-      {err && <p style={{ color: '#D95F5F', marginTop: 12 }}><i className="fa-solid fa-circle-exclamation me-2"></i>{err}</p>}
-
       <div className="d-flex gap-3 mt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1.25rem' }}>
-        <button type="submit" disabled={saving || uploading} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>
+        <button type="submit" disabled={saving || uploading || videoUploading} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>
           <i className="fa-solid fa-save me-2"></i>
           <span>{saving ? 'Saving…' : (id ? 'Save changes' : 'Create service')}</span>
         </button>
@@ -276,6 +333,38 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
           <span>Cancel</span>
         </button>
       </div>
+
+      {/* Error toast popup */}
+      {err && (
+        <div style={{
+          position: 'fixed', top: 24, right: 24, zIndex: 9999,
+          display: 'flex', alignItems: 'flex-start', gap: 12,
+          background: '#fff',
+          border: '1.5px solid #F5AABB',
+          borderLeft: '5px solid #D95F5F',
+          borderRadius: 14,
+          padding: '14px 18px',
+          maxWidth: 380,
+          boxShadow: '0 8px 32px rgba(217,95,95,0.18), 0 2px 8px rgba(0,0,0,0.08)',
+          animation: 'toastSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+        }}>
+          <i className="fa-solid fa-circle-exclamation" style={{ color: '#D95F5F', fontSize: '1.1rem', marginTop: 1, flexShrink: 0 }}></i>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#B71C1C', marginBottom: 2 }}>Error</div>
+            <div style={{ fontSize: '0.83rem', color: '#555', lineHeight: 1.5 }}>{err}</div>
+          </div>
+          <button type="button" onClick={() => setErr(null)} style={{ background: 'none', border: 'none', color: '#bbb', cursor: 'pointer', padding: 0, lineHeight: 1, flexShrink: 0 }}>
+            <i className="fa-solid fa-xmark" style={{ fontSize: '0.9rem' }}></i>
+          </button>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes toastSlideIn {
+          from { opacity: 0; transform: translateX(60px) scale(0.95); }
+          to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+      `}</style>
     </form>
   );
 }

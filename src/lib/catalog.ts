@@ -57,6 +57,7 @@ export interface CatalogService {
   bullets: string[];
   tiers?: ServiceTier[];
   options?: ServiceOption[];
+  videoUrl?: string;
 }
 
 function fromSeed(p: SeedProduct): CatalogProduct {
@@ -303,6 +304,7 @@ export async function getAllServices(): Promise<CatalogService[]> {
         bullets: d.bullets,
         tiers,
         options: ((d as { options?: ServiceOption[] }).options ?? []),
+        videoUrl: (d as { videoUrl?: string }).videoUrl || '',
       };
     });
   } catch (err) {

@@ -96,6 +96,36 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
               </tfoot>
             </table>
           </div>
+
+          {order.international && (
+            <div className="mt-4" style={{ 
+              background: '#fff', 
+              borderRadius: 14, 
+              padding: '24px 20px', 
+              boxShadow: '0 4px 14px rgba(0,0,0,0.04)', 
+              border: '1px solid rgba(200,149,108,0.25)' 
+            }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.15rem', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fa-solid fa-earth-asia" style={{ color: 'var(--primary,#C8956C)' }}></i>
+                International Shipping Payment
+              </h4>
+              <p style={{ fontSize: '0.82rem', color: '#666', marginBottom: 20 }}>
+                Generate a payment link externally and send it to the customer ({order.customer.country}).
+              </p>
+              <ShippingPaymentForm
+                orderId={String(order._id)}
+                currencySymbol={currencySymbol(cur)}
+                initial={{
+                  status: order.shippingPayment?.status || 'pending',
+                  link: order.shippingPayment?.link ?? '',
+                  amount: order.shippingPayment?.amount ?? null,
+                  note: order.shippingPayment?.note ?? '',
+                  sentAt: order.shippingPayment?.sentAt ? String(order.shippingPayment.sentAt) : null,
+                  paidAt: order.shippingPayment?.paidAt ? String(order.shippingPayment.paidAt) : null,
+                }}
+              />
+            </div>
+          )}
         </div>
         <div className="col-lg-4">
           <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
@@ -116,30 +146,6 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Update status</h4>
             <OrderStatusForm orderId={String(order._id)} current={order.status} note={order.adminNote || ''} />
           </div>
-
-          {order.international && (
-            <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(200,149,108,0.3)' }}>
-              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>
-                <i className="fa-solid fa-earth-asia me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>
-                International Shipping Payment
-              </h4>
-              <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: 12 }}>
-                Generate a payment link externally and send it to the customer ({order.customer.country}).
-              </p>
-              <ShippingPaymentForm
-                orderId={String(order._id)}
-                currencySymbol={currencySymbol(cur)}
-                initial={{
-                  status: order.shippingPayment?.status || 'pending',
-                  link: order.shippingPayment?.link ?? '',
-                  amount: order.shippingPayment?.amount ?? null,
-                  note: order.shippingPayment?.note ?? '',
-                  sentAt: order.shippingPayment?.sentAt ? String(order.shippingPayment.sentAt) : null,
-                  paidAt: order.shippingPayment?.paidAt ? String(order.shippingPayment.paidAt) : null,
-                }}
-              />
-            </div>
-          )}
 
           {!order.international && (
             <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>

@@ -10,7 +10,7 @@ import { COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 export default function RegisterForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const callbackUrl = params.get('callbackUrl') || '/dashboard';
+  const callbackUrl = params.get('callbackUrl') || '/';
 
   const { status } = useSession();
 

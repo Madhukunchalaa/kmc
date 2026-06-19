@@ -112,6 +112,7 @@ export const serviceInputSchema = z.object({
     price: z.number().min(0),
     usdPrice: z.number().min(0).default(0),
   })).default([]),
+  videoUrl: z.string().max(500).optional().or(z.literal('')),
   active: z.boolean().default(true),
 });
 

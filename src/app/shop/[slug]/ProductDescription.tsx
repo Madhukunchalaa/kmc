@@ -103,10 +103,13 @@ export default function ProductDescription({ descObj, desc, longDesc }: ProductD
 
   return (
     <div style={{ marginTop: 20, color: 'var(--text-light,#666)', fontSize: '0.95rem', lineHeight: 1.7 }}>
-      <p>{d.description || desc}</p>
+      {/* Short description always shows first */}
+      <p>{desc || d.description}</p>
 
       {isExpanded && (
         <div style={{ animation: 'fadeInUp 0.3s ease-out' }}>
+          {/* Long description in expanded section if different from short desc */}
+          {d.description && d.description !== desc && <p>{d.description}</p>}
           <Field label="Purpose" value={d.purpose} />
           <Field label="Crystals Included" value={d.crystalsIncluded} />
           <Field label="Associated Chakras" value={d.associatedChakras} />

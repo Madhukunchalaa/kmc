@@ -33,6 +33,11 @@ export default function Shell({ children }: { children: ReactNode }) {
     };
   }, [chrome, isAuth]);
 
+  // Reset scroll to top on page change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <SessionProvider>
       <CurrencyProvider>

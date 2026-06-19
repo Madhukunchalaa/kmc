@@ -49,53 +49,53 @@ function SearchBar() {
   const go = (href: string) => { setOpen(false); setQuery(''); router.push(href); };
 
   return (
-    <div ref={ref} style={{ position: 'relative' }}>
-      {/* Search input — light/cream style for white navbar */}
+    <div ref={ref} style={{ position: 'relative', width: '100%' }}>
       <div
         id="search-pill"
         style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          background: 'rgba(200,149,108,0.1)',
-          border: '1.5px solid rgba(200,149,108,0.4)',
-          borderRadius: 30,
-          padding: '5px 13px',
-          minWidth: 160,
-          transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+          background: 'rgba(255,255,255,0.92)',
+          border: '1.5px solid rgba(200,149,108,0.35)',
+          borderRadius: 40,
+          padding: '7px 16px',
+          width: '100%',
+          boxShadow: '0 2px 12px rgba(200,149,108,0.1), inset 0 1px 0 rgba(255,255,255,0.8)',
+          transition: 'border-color 0.25s, box-shadow 0.25s, background 0.25s',
         }}
       >
-        <i className="fa-solid fa-magnifying-glass" style={{ color: '#A0622A', fontSize: '0.74rem', flexShrink: 0 }}></i>
+        <i className="fa-solid fa-magnifying-glass" style={{ color: '#C8956C', fontSize: '0.78rem', flexShrink: 0 }}></i>
         <input
           type="text"
           value={query}
           onChange={(e) => search(e.target.value)}
-          onFocus={(e) => {
+          onFocus={() => {
             hasResults && setOpen(true);
             const pill = document.getElementById('search-pill');
-            if (pill) { pill.style.borderColor = '#C8956C'; pill.style.background = 'rgba(200,149,108,0.15)'; pill.style.boxShadow = '0 0 0 3px rgba(200,149,108,0.12)'; }
+            if (pill) { pill.style.borderColor = '#C8956C'; pill.style.boxShadow = '0 0 0 3px rgba(200,149,108,0.18), 0 4px 20px rgba(200,149,108,0.15)'; }
           }}
           onBlur={() => {
             const pill = document.getElementById('search-pill');
-            if (pill) { pill.style.borderColor = 'rgba(200,149,108,0.4)'; pill.style.background = 'rgba(200,149,108,0.1)'; pill.style.boxShadow = 'none'; }
+            if (pill) { pill.style.borderColor = 'rgba(200,149,108,0.35)'; pill.style.boxShadow = '0 2px 12px rgba(200,149,108,0.1), inset 0 1px 0 rgba(255,255,255,0.8)'; }
           }}
-          placeholder="Search…"
+          placeholder="Search crystals & services…"
           style={{
             background: 'transparent', border: 'none', outline: 'none',
-            color: '#2D1B0E', fontSize: '0.8rem', width: '100%', minWidth: 0,
+            color: '#2D1B0E', fontSize: '0.82rem', width: '100%', minWidth: 0,
           }}
         />
         {loading
-          ? <i className="fa-solid fa-spinner fa-spin" style={{ color: '#A0622A', fontSize: '0.7rem' }}></i>
+          ? <i className="fa-solid fa-spinner fa-spin" style={{ color: '#C8956C', fontSize: '0.72rem' }}></i>
           : query
-            ? <button type="button" onClick={() => { setQuery(''); setOpen(false); }} style={{ background: 'none', border: 'none', color: '#A0622A', cursor: 'pointer', padding: 0, lineHeight: 1, flexShrink: 0 }}>
-                <i className="fa-solid fa-xmark" style={{ fontSize: '0.7rem' }}></i>
+            ? <button type="button" onClick={() => { setQuery(''); setOpen(false); }} style={{ background: 'rgba(200,149,108,0.12)', border: 'none', color: '#A0622A', cursor: 'pointer', padding: '2px 5px', borderRadius: 20, lineHeight: 1, flexShrink: 0 }}>
+                <i className="fa-solid fa-xmark" style={{ fontSize: '0.65rem' }}></i>
               </button>
-            : null
+            : <span style={{ fontSize: '0.6rem', color: 'rgba(160,98,42,0.4)', fontWeight: 600, letterSpacing: '0.04em', flexShrink: 0 }}>✦</span>
         }
       </div>
 
       {(open && (hasResults || noResults)) && (
         <div style={{
-          position: 'absolute', top: 'calc(100% + 10px)', right: 0, left: 'auto',
+          position: 'absolute', top: 'calc(100% + 10px)', left: 0, right: 'auto',
           width: 360,
           background: 'linear-gradient(135deg, #1C0A02 0%, #2D1B0E 100%)',
           border: '1px solid rgba(200,149,108,0.3)',
@@ -206,6 +206,7 @@ export default function Header() {
             <span className="navbar-brand-sub">Crystals &amp; Healing</span>
           </div>
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -216,7 +217,11 @@ export default function Header() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className={`collapse navbar-collapse ${mobileOpen ? 'show' : ''}`} id="mainNavbar">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          {/* Search bar — desktop only, left-side of nav links */}
+          <div className="d-none d-lg-flex align-items-center me-auto" style={{ maxWidth: 280, padding: '0 1rem 0 0.5rem' }}>
+            <SearchBar />
+          </div>
+          <ul className="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -228,11 +233,6 @@ export default function Header() {
               );
             })}
 
-            {/* Search bar — desktop only */}
-            <li className="nav-item d-none d-lg-flex align-items-center ms-2 me-1">
-              <SearchBar />
-            </li>
-
             {status === 'authenticated' && (
               <li className="nav-item d-flex align-items-center">
                 <NotificationBell />
@@ -241,7 +241,7 @@ export default function Header() {
 
             <li className="nav-item">
               <Link href="/cart" className="nav-link navbar-cart" onClick={() => setMobileOpen(false)} aria-label={`Cart (${count} items)`} style={{ position: 'relative' }}>
-                <i className="fa-solid fa-bag-shopping"></i>
+                <i className="fa-solid fa-basket-shopping"></i>
                 {count > 0 && (
                   <span aria-hidden="true" style={{ position: 'absolute', top: 2, right: -2, background: 'var(--primary, #C8956C)', color: '#fff', borderRadius: 999, fontSize: '0.65rem', minWidth: 18, height: 18, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 5px', fontWeight: 700, lineHeight: 1 }}>
                     {count}

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import ScrollFade from '@/components/ScrollFade';
 import SimplePrice from '@/components/SimplePrice';
+import ServiceVideoPlayer from '@/components/ServiceVideoPlayer';
 import { getAllServices } from '@/lib/catalog';
 
 export const dynamic = 'force-dynamic';
@@ -114,27 +115,9 @@ export default async function ServicesPage() {
                     pointerEvents: 'none',
                   }} />
 
-                  {/* Image side */}
+                  {/* Video side */}
                   <div className="services-card-image-col">
-                    <div style={{
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      border: '1px solid rgba(200,149,108,0.25)',
-                      boxShadow: '0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(162,59,236,0.08)',
-                      position: 'relative',
-                    }}>
-                      <img
-                        src={svc.image}
-                        alt={svc.title}
-                        style={{ width: '100%', display: 'block', aspectRatio: '16/9', objectFit: 'cover' }}
-                      />
-                      {/* Image overlay shimmer */}
-                      <div style={{
-                        position: 'absolute', inset: 0,
-                        background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)',
-                        pointerEvents: 'none',
-                      }} />
-                    </div>
+                    <ServiceVideoPlayer slug={svc.slug} image={svc.image} title={svc.title} videoUrl={svc.videoUrl} />
                   </div>
 
                   {/* Content side */}

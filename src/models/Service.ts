@@ -27,6 +27,7 @@ export interface ServiceDoc {
   bullets: string[];
   tiers: ServiceTier[];
   options?: ServiceOption[];
+  videoUrl?: string;
   active: boolean;
   isDeleted: boolean;
   createdAt: Date;
@@ -58,6 +59,7 @@ const ServiceSchema = new Schema<ServiceDoc>(
       }],
       default: [],
     },
+    videoUrl: { type: String, default: '' },
     active: { type: Boolean, default: true, index: true },
     isDeleted: { type: Boolean, default: false, index: true },
   },

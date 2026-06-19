@@ -20,6 +20,44 @@ export default function ProductBuyPanel({ productId, stock, variant }: { product
     await addItem(cartKey, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+
+    // Fly to cart animation
+    const imgEl = document.querySelector('.product-image-gallery img') as HTMLImageElement;
+    const cartEl = document.querySelector('.navbar-cart');
+
+    if (imgEl && cartEl) {
+      const imgRect = imgEl.getBoundingClientRect();
+      const cartRect = cartEl.getBoundingClientRect();
+
+      const clone = document.createElement('img');
+      clone.src = imgEl.src;
+      clone.style.position = 'fixed';
+      clone.style.top = `${imgRect.top}px`;
+      clone.style.left = `${imgRect.left}px`;
+      clone.style.width = `${imgRect.width}px`;
+      clone.style.height = `${imgRect.height}px`;
+      clone.style.zIndex = '9999';
+      clone.style.transition = 'all 1.4s cubic-bezier(0.25, 1, 0.35, 1)';
+      clone.style.pointerEvents = 'none';
+      clone.style.boxShadow = '0 10px 30px rgba(200, 149, 108, 0.6)';
+      clone.style.borderRadius = '20px';
+      document.body.appendChild(clone);
+
+      requestAnimationFrame(() => {
+        clone.style.top = `${cartRect.top + cartRect.height / 2 - 15}px`;
+        clone.style.left = `${cartRect.left + cartRect.width / 2 - 15}px`;
+        clone.style.width = '30px';
+        clone.style.height = '30px';
+        clone.style.opacity = '0.1';
+        clone.style.transform = 'rotate(720deg) scale(0.1)';
+      });
+
+      setTimeout(() => {
+        clone.remove();
+        cartEl.classList.add('cart-pulse');
+        setTimeout(() => cartEl.classList.remove('cart-pulse'), 500);
+      }, 1400);
+    }
   };
 
   return (

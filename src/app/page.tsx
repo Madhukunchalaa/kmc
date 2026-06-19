@@ -11,7 +11,7 @@ import MobileSearchBar from '@/components/MobileSearchBar';
 import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
-import VideoGallery from '@/components/VideoGallery';
+import CrystalCard from './crystal-strength/CrystalCard';
 
 interface SelectedSession {
   serviceSlug: string;
@@ -152,7 +152,7 @@ export default function Home() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        objectPosition: 'center top',
+                        objectPosition: 'center 15%',
                         borderRadius: '16px',
                         transition: 'transform 0.4s ease'
                       }}
@@ -580,19 +580,7 @@ export default function Home() {
             ].map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>
                 <ScrollFade delay={idx * 80}>
-                  <div className="crystal-card" style={{ '--crystal-color': c.color } as React.CSSProperties}>
-                    <div className="crystal-gem-image-wrapper">
-                      <img src={c.image} alt={c.name} className="crystal-gem-image" />
-                    </div>
-                    <h3 className="crystal-name">{c.name}</h3>
-                    <p className="crystal-keyword">{c.keyword}</p>
-                    <p className="crystal-desc">{c.desc}</p>
-                    <div className="crystal-tags">
-                      {c.tags.map((tag) => (
-                        <span className="crystal-tag" key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
+                  <CrystalCard crystal={c} />
                 </ScrollFade>
               </div>
             ))}
@@ -709,9 +697,6 @@ export default function Home() {
       </section>
       */}
 
-
-      {/* ===== VIDEO GALLERY ===== */}
-      <VideoGallery />
 
       {/* ===== BOOKING MODAL ===== */}
       {activeSession && (

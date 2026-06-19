@@ -1,6 +1,7 @@
 import ScrollFade from '@/components/ScrollFade';
 import { crystals } from '@/data/crystals';
 import CrystalQuiz from './CrystalQuiz';
+import CrystalCard from './CrystalCard';
 
 export const metadata = {
   title: 'Crystal Strength Guide · KrissMaagiic Crystals',
@@ -50,22 +51,7 @@ export default function CrystalStrengthPage() {
             {crystals.map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>
                 <ScrollFade delay={Math.min(idx, 6) * 60}>
-                  <div className="crystal-card">
-                    <div className="crystal-gem-image-wrapper">
-                      <img src={c.image} alt={c.name} className="crystal-gem-image" />
-                    </div>
-                    <h3 className="crystal-name">{c.name}</h3>
-                    <p className="crystal-keyword">{c.keyword}</p>
-                    <p className="crystal-desc">{c.desc}</p>
-                    <div className="crystal-tags">
-                      {c.tags.map((t) => (
-                        <span className="crystal-tag" key={t}>{t}</span>
-                      ))}
-                    </div>
-                    <p style={{ fontSize: '0.75rem', color: 'rgba(255, 200, 150, 0.75)', marginTop: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                      {c.chakras.join(' · ')}
-                    </p>
-                  </div>
+                  <CrystalCard crystal={c} />
                 </ScrollFade>
               </div>
             ))}

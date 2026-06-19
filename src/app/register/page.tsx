@@ -12,7 +12,7 @@ interface PageProps {
 
 export default async function RegisterPage(props: PageProps) {
   const searchParams = await props.searchParams;
-  const callbackUrl = searchParams.callbackUrl || '/dashboard';
+  const callbackUrl = searchParams.callbackUrl || '/';
   const loginUrl = searchParams.callbackUrl ? `/login?callbackUrl=${encodeURIComponent(searchParams.callbackUrl)}` : '/login';
   
   return (

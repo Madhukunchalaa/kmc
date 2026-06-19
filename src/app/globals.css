@@ -6057,9 +6057,9 @@ body.theme-rose .hero-v2-orb {
 .services-galaxy-card {
   scroll-margin-top: 120px;
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1.1fr;
   gap: 2.5rem;
-  align-items: center;
+  align-items: stretch;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(200,149,108,0.2);
   border-radius: 28px;
@@ -6079,6 +6079,9 @@ body.theme-rose .hero-v2-orb {
 
 .services-card-image-col {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .services-card-content-col {
@@ -6114,7 +6117,6 @@ body.theme-rose .hero-v2-orb {
     gap: 2rem;
     padding: 2rem;
   }
-  /* Force image top, content bottom on tablet/mobile */
   .services-card-image-col {
     order: 1 !important;
   }

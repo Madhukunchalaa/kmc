@@ -9,7 +9,7 @@ import Spinner from '@/components/Spinner';
 export default function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const callbackUrl = params.get('callbackUrl') || '/dashboard';
+  const callbackUrl = params.get('callbackUrl') || '/';
   
   const { status } = useSession();
 

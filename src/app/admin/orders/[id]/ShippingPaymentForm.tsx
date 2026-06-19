@@ -88,49 +88,71 @@ export default function ShippingPaymentForm({
   };
 
   return (
-    <div style={{ display: 'grid', gap: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '0.85rem', color: '#666' }}>Status:</span>
-        <span style={{ fontWeight: 700, color: badgeText.color, fontSize: '0.9rem' }}>{badgeText.text}</span>
-        {initial.sentAt && status !== 'paid' && (
-          <span style={{ fontSize: '0.75rem', color: '#aaa' }}>· sent {new Date(initial.sentAt).toLocaleDateString('en-IN')}</span>
-        )}
-        {initial.paidAt && status === 'paid' && (
-          <span style={{ fontSize: '0.75rem', color: '#aaa' }}>· {new Date(initial.paidAt).toLocaleDateString('en-IN')}</span>
+    <div className="d-flex flex-column gap-4">
+      {/* Premium Status Banner */}
+      <div style={{
+        background: 'rgba(200, 149, 108, 0.06)',
+        border: '1px solid rgba(200, 149, 108, 0.18)',
+        borderRadius: '12px',
+        padding: '16px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px'
+      }}>
+        <div>
+          <span style={{ fontSize: '0.8rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '4px' }}>Shipping Payment Status</span>
+          <span style={{ fontWeight: 700, color: badgeText.color, fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: badgeText.color, display: 'inline-block' }}></span>
+            {badgeText.text}
+          </span>
+        </div>
+        <div style={{ textAlign: 'right', fontSize: '0.8rem', color: '#777' }}>
+          {initial.sentAt && status !== 'paid' && (
+            <div>Link sent: <strong>{new Date(initial.sentAt).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}</strong></div>
+          )}
+          {initial.paidAt && status === 'paid' && (
+            <div>Paid on: <strong>{new Date(initial.paidAt).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}</strong></div>
+          )}
+        </div>
+      </div>
+
+      {/* Payment Link Input Group */}
+      <div>
+        <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#333', marginBottom: '6px', display: 'block' }}>Payment link</label>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            type="url"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            placeholder="https://… (Cashfree / Razorpay / PayPal link)"
+            className="newsletter-input"
+            style={{ flex: 1 }}
+          />
+          <button
+            type="button"
+            onClick={copyLink}
+            disabled={!link.trim()}
+            title="Copy link to clipboard"
+            className="btn-outline-custom"
+            style={{ whiteSpace: 'nowrap', padding: '0 18px', opacity: link.trim() ? 1 : 0.5, borderRadius: '30px' }}
+          >
+            <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`}></i>
+            <span style={{ marginLeft: 6 }}>{copied ? 'Copied!' : 'Copy'}</span>
+          </button>
+        </div>
+        {link.trim() && (
+          <a href={link.trim()} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: 'var(--primary,#C8956C)', marginTop: '8px', fontWeight: 600 }}>
+            Open Payment Link <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.7rem' }}></i>
+          </a>
         )}
       </div>
 
-      <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Payment link</label>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <input
-          type="url"
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
-          placeholder="https://… (Cashfree / Razorpay / PayPal link)"
-          className="newsletter-input"
-          style={{ flex: 1 }}
-        />
-        <button
-          type="button"
-          onClick={copyLink}
-          disabled={!link.trim()}
-          title="Copy link to clipboard"
-          className="btn-outline-custom"
-          style={{ whiteSpace: 'nowrap', padding: '0 14px', opacity: link.trim() ? 1 : 0.5 }}
-        >
-          <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`}></i>
-          <span style={{ marginLeft: 6 }}>{copied ? 'Copied!' : 'Copy'}</span>
-        </button>
-      </div>
-      {link.trim() && (
-        <a href={link.trim()} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.72rem', color: 'var(--primary,#C8956C)', wordBreak: 'break-all' }}>
-          Open link ↗
-        </a>
-      )}
-
-      <div style={{ display: 'flex', gap: 10 }}>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Shipping amount ({currencySymbol})</label>
+      {/* Two Column details row */}
+      <div className="row g-3">
+        <div className="col-md-6">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#333', marginBottom: '6px', display: 'block' }}>Shipping amount ({currencySymbol})</label>
           <input
             type="number"
             min={0}
@@ -141,73 +163,89 @@ export default function ShippingPaymentForm({
             style={{ width: '100%' }}
           />
         </div>
+        <div className="col-md-6">
+          <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#333', marginBottom: '6px', display: 'block' }}>Note to customer (optional)</label>
+          <input
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="e.g. courier + insurance to USA"
+            className="newsletter-input"
+            style={{ width: '100%' }}
+          />
+        </div>
       </div>
 
-      <label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Note to customer (optional)</label>
-      <input
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        placeholder="e.g. courier + insurance to USA"
-        className="newsletter-input"
-        style={{ width: '100%' }}
-      />
-
-      {/* Row 1: Save + Send buttons */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-        <button
-          type="button"
-          onClick={() => call('save-link')}
-          disabled={!!busy || !link.trim()}
-          className="btn-outline-custom"
-          style={{ justifyContent: 'center', flex: 1, opacity: !link.trim() ? 0.5 : 1 }}
-        >
-          <i className="fa-solid fa-floppy-disk"></i>
-          <span style={{ marginLeft: 6 }}>{busy === 'save-link' ? 'Saving…' : 'Save link'}</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => call('send-link')}
-          disabled={!!busy || !link.trim()}
-          className="btn-primary-custom"
-          style={{ justifyContent: 'center', flex: 1, opacity: !link.trim() ? 0.6 : 1 }}
-        >
-          <i className="fa-solid fa-paper-plane"></i>
-          <span>{busy === 'send-link' ? 'Sending…' : status === 'link-sent' || status === 'paid' ? 'Resend to customer' : 'Send to customer email'}</span>
-        </button>
-      </div>
-
-      {/* Row 2: Mark paid / Undo */}
-      <div style={{ display: 'flex', gap: 8 }}>
-        {status !== 'paid' ? (
+      {/* Action buttons section */}
+      <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '10px' }}>
+        {/* Row 1: Save + Send buttons */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
           <button
             type="button"
-            onClick={() => call('mark-paid')}
-            disabled={!!busy}
-            className="btn-primary-custom"
-            style={{ justifyContent: 'center', flex: 1, background: '#2B7A5C', borderColor: '#2B7A5C' }}
+            onClick={() => call('save-link')}
+            disabled={!!busy || !link.trim()}
+            className="btn-outline-custom"
+            style={{ justifyContent: 'center', flex: 1, opacity: !link.trim() ? 0.5 : 1, padding: '12px 20px', borderRadius: '30px' }}
           >
-            <i className="fa-solid fa-circle-check"></i>
-            <span>{busy === 'mark-paid' ? 'Saving…' : 'Mark shipping received'}</span>
+            <i className="fa-solid fa-floppy-disk"></i>
+            <span style={{ marginLeft: 8 }}>{busy === 'save-link' ? 'Saving…' : 'Save link'}</span>
           </button>
-        ) : (
+
           <button
             type="button"
-            onClick={() => call('mark-unpaid')}
-            disabled={!!busy}
+            onClick={() => call('send-link')}
+            disabled={!!busy || !link.trim()}
             className="btn-primary-custom"
-            style={{ justifyContent: 'center', flex: 1, background: 'transparent', borderColor: '#ccc', color: '#888' }}
+            style={{ justifyContent: 'center', flex: 1, opacity: !link.trim() ? 0.6 : 1, padding: '12px 20px', borderRadius: '30px' }}
           >
-            <i className="fa-solid fa-rotate-left"></i>
-            <span style={{ color: '#888' }}>{busy === 'mark-unpaid' ? 'Saving…' : 'Undo received'}</span>
+            <i className="fa-solid fa-paper-plane"></i>
+            <span style={{ marginLeft: 8 }}>{busy === 'send-link' ? 'Sending…' : status === 'link-sent' || status === 'paid' ? 'Resend to customer' : 'Send to customer email'}</span>
           </button>
-        )}
+        </div>
+
+        {/* Row 2: Mark paid / Undo */}
+        <div>
+          {status !== 'paid' ? (
+            <button
+              type="button"
+              onClick={() => call('mark-paid')}
+              disabled={!!busy}
+              className="btn-primary-custom"
+              style={{ justifyContent: 'center', width: '100%', background: '#2B7A5C', borderColor: '#2B7A5C', padding: '12px 20px', borderRadius: '30px' }}
+            >
+              <i className="fa-solid fa-circle-check"></i>
+              <span style={{ marginLeft: 8 }}>{busy === 'mark-paid' ? 'Saving…' : 'Mark shipping received'}</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => call('mark-unpaid')}
+              disabled={!!busy}
+              className="btn-outline-custom"
+              style={{ justifyContent: 'center', width: '100%', borderColor: '#ccc', color: '#666', padding: '12px 20px', borderRadius: '30px' }}
+            >
+              <i className="fa-solid fa-rotate-left"></i>
+              <span style={{ marginLeft: 8 }}>{busy === 'mark-unpaid' ? 'Saving…' : 'Undo received status'}</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {msg && (
-        <p style={{ fontSize: '0.82rem', color: msg.ok ? '#2B7A5C' : '#D95F5F', margin: 0, fontWeight: msg.ok ? 500 : 400 }}>
-          {msg.text}
-        </p>
+        <div style={{
+          background: msg.ok ? 'rgba(43, 122, 92, 0.06)' : 'rgba(217, 95, 95, 0.06)',
+          border: `1px solid ${msg.ok ? 'rgba(43, 122, 92, 0.2)' : 'rgba(217, 95, 95, 0.2)'}`,
+          borderRadius: '8px',
+          padding: '12px 16px',
+          fontSize: '0.85rem',
+          color: msg.ok ? '#2B7A5C' : '#D95F5F',
+          fontWeight: 500,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <i className={`fa-solid ${msg.ok ? 'fa-circle-check' : 'fa-circle-exclamation'}`}></i>
+          <span>{msg.text}</span>
+        </div>
       )}
     </div>
   );

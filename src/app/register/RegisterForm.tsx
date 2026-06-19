@@ -34,6 +34,12 @@ export default function RegisterForm() {
   const onSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (form.name.trim().length < 2) {
+      setError('Please enter your full name (at least 2 characters).');
+      return;
+    }
+
     setSubmitting(true);
 
     try {

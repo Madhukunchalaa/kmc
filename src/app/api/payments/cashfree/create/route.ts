@@ -58,6 +58,7 @@ export async function POST(req: Request) {
       const result = await createCashfreeOrder({
         orderId: `KMC-${order.orderNumber}`,
         amount: order.total && order.total > 0 ? order.total : order.subtotal,
+        currency: order.currency || 'INR',
         customerId: session.user.id,
         customerName: order.customer.name,
         customerEmail: order.customer.email,

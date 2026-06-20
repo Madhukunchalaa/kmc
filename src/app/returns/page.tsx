@@ -26,15 +26,25 @@ export default function ReturnsPage() {
         <li>Crystals returned more than <strong>7 days</strong> after delivery, or in used / cleansed condition.</li>
       </ul>
 
-      <h2>How to start a return</h2>
+      <h2>Cancellations</h2>
       <p>
-        Email{' '}
-        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a> with your order number and a short description. We&apos;ll send a return address and walk you through it.
+        You can cancel your order at any time before it is shipped for a full refund. Once the shipment has been dispatched, we cannot accept cancellations. To request a cancellation, please email us immediately with your order details.
       </p>
 
-      <h2>Refunds</h2>
+      <h2>Refunds Timeline & Method</h2>
       <p>
-        Please note that <strong>all products and services are strictly non-refundable</strong>. Due to the energetic and personalized nature of our offerings, we do not issue refunds under any circumstances. If an item arrives damaged and is verified, we may offer a replacement.
+        If your return (due to transit damage) or cancellation is approved, we will initiate a refund. The refund will be processed and credited back to your original payment method (credit/debit card, UPI, net banking, or wallet) within <strong>5–7 working days</strong>.
+      </p>
+
+      <h2>How to request a Return or Cancellation</h2>
+      <p>
+        To initiate a return (for damaged items) or request an order cancellation before dispatch, please email us at{' '}
+        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a> with your order number and a brief description. We will guide you through the next steps.
+      </p>
+
+      <h2>Non-Refundable Items & Services</h2>
+      <p>
+        Please note that custom or personalized items (such as spell jars, made-to-order bracelets, name-based numerology reports) and services that have already been rendered/delivered are not eligible for cancellation or refunds once processing has begun.
       </p>
     </PolicyPage>
   );

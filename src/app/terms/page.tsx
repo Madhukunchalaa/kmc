@@ -42,7 +42,12 @@ export default function TermsPage() {
         KrissMaagiic Crystals shall not be liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use our products or services. The use of crystals and spiritual services is at your own discretion.
       </p>
 
-      <h2>7. Contact Us</h2>
+      <h2>7. Governing Law</h2>
+      <p>
+        These Terms & Conditions and any separate agreements whereby we provide you services shall be governed by and construed in accordance with the laws of India, with jurisdiction in Hyderabad, Telangana.
+      </p>
+
+      <h2>8. Contact Us</h2>
       <p>
         If you have any questions about these Terms & Conditions, please contact us at:
         <br />
@@ -50,7 +55,7 @@ export default function TermsPage() {
         <br />
         <strong>Phone:</strong> +91 80962 23929
         <br />
-        <strong>Address:</strong> Hyderabad, Telangana, India
+        <strong>Address:</strong> Hyderabad, Telangana - 500055, India
       </p>
     </PolicyPage>
   );

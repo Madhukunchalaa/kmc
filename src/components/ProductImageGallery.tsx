@@ -83,6 +83,9 @@ export default function ProductImageGallery({
             objectPosition: isPyramid ? 'center bottom' : 'center center',
             display: 'block',
             ...zoomStyle,
+            transform: activeImage.includes('Rose%20quartz')
+              ? `rotate(-90deg) ${zoomStyle.transform === 'scale(1)' ? 'scale(1.4)' : 'scale(3.08)'}`
+              : zoomStyle.transform,
             transition: 'transform 0.25s ease-out, transform-origin 0.08s ease-out',
           }}
         />
@@ -152,6 +155,7 @@ export default function ProductImageGallery({
                       height: '100%',
                       objectFit: 'cover',
                       display: 'block',
+                      transform: imgUrl.includes('Rose%20quartz') ? 'rotate(-90deg) scale(1.4)' : undefined,
                     }}
                   />
                 </button>

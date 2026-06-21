@@ -92,7 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </button>
 
         {/* Full-bleed image */}
-        <div className="pc-img-link">
+        <div className="pc-img-link" style={{ overflow: 'hidden' }}>
           <Image 
             className="pc-image" 
             src={resolveProductImage(product.image, product.category, product.name)} 
@@ -100,7 +100,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             fill 
             sizes="(max-width: 768px) 50vw, 33vw"
             style={{
-              objectPosition: product.category === 'pyramids' ? 'center bottom' : 'center center'
+              objectPosition: product.category === 'pyramids' ? 'center bottom' : 'center center',
+              transform: product.image.includes('Rose%20quartz') ? 'rotate(-90deg) scale(1.4)' : undefined,
             }}
           />
         </div>

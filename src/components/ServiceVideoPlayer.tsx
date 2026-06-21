@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 const BASE = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos';
 
@@ -27,13 +27,65 @@ export default function ServiceVideoPlayer({
 }) {
   const videoSrc = (videoUrl && videoUrl.trim()) ? videoUrl : SLUG_TO_VIDEO[slug];
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<Phase>('idle');
   const [muted, setMuted] = useState(true);
+  const [userPaused, setUserPaused] = useState(false);
+
+  const userPausedRef = useRef(userPaused);
+  const mutedRef = useRef(muted);
+
+  useEffect(() => {
+    userPausedRef.current = userPaused;
+  }, [userPaused]);
+
+  useEffect(() => {
+    mutedRef.current = muted;
+  }, [muted]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const video = videoRef.current;
+    if (!container || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!userPausedRef.current) {
+            if (!video.getAttribute('src')) {
+              setPhase('loading');
+              video.muted = mutedRef.current;
+              video.src = videoSrc;
+              video.load();
+            } else {
+              video.muted = mutedRef.current;
+            }
+            video.play()
+              .then(() => setPhase('playing'))
+              .catch(() => setPhase('error'));
+          }
+        } else {
+          if (video.getAttribute('src') && !video.paused) {
+            video.pause();
+            setPhase('paused');
+          }
+        }
+      },
+      {
+        threshold: 0.25,
+      }
+    );
+
+    observer.observe(container);
+    return () => {
+      observer.disconnect();
+    };
+  }, [videoSrc]);
 
   if (!videoSrc) {
     return (
-      <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6)', position: 'relative', width: '100%', aspectRatio: '3/4', background: '#0d041a' }}>
-        <img src={image} alt={title} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center bottom' }} />
+      <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6)', position: 'relative', width: '100%', flex: 1, background: '#0d041a' }}>
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'contain', objectPosition: 'center center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none' }} />
       </div>
     );
@@ -42,19 +94,30 @@ export default function ServiceVideoPlayer({
   const start = () => {
     const v = videoRef.current;
     if (!v) return;
+    setUserPaused(false);
     setPhase('loading');
     v.muted = muted;
     v.src = videoSrc;
     v.load();
-    v.play().catch(() => setPhase('error'));
+    v.play()
+      .then(() => setPhase('playing'))
+      .catch(() => setPhase('error'));
   };
 
   const toggle = () => {
     const v = videoRef.current;
     if (!v) return;
     if (phase === 'idle' || phase === 'error') { start(); return; }
-    if (phase === 'playing') { v.pause(); setPhase('paused'); }
-    else { v.play().catch(() => {}); }
+    if (v.paused) {
+      setUserPaused(false);
+      v.play()
+        .then(() => setPhase('playing'))
+        .catch(() => {});
+    } else {
+      setUserPaused(true);
+      v.pause();
+      setPhase('paused');
+    }
   };
 
   const toggleMute = () => {
@@ -67,10 +130,10 @@ export default function ServiceVideoPlayer({
   const started = phase === 'playing' || phase === 'paused' || phase === 'buffering';
 
   return (
-    <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(162,59,236,0.08)', position: 'relative', width: '100%', aspectRatio: '3/4', background: '#0d041a', cursor: 'pointer' }} onClick={toggle}>
+    <div ref={containerRef} style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(162,59,236,0.08)', position: 'relative', width: '100%', flex: 1, background: '#0d041a', cursor: 'pointer' }} onClick={toggle}>
       {/* Fallback image shows until video starts */}
       {(phase === 'idle' || phase === 'error') && (
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center bottom' }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center' }} />
       )}
 
       <video
@@ -78,7 +141,7 @@ export default function ServiceVideoPlayer({
         preload="none"
         playsInline
         muted={muted}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center bottom', display: started || phase === 'loading' ? 'block' : 'none' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none' }}
         onCanPlay={() => { if (phase === 'loading' || phase === 'buffering') videoRef.current?.play().catch(() => {}); }}
         onPlaying={() => setPhase('playing')}
         onPause={() => { if (phase === 'playing') setPhase('paused'); }}

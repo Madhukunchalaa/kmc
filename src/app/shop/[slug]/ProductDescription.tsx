@@ -12,6 +12,7 @@ export interface DescObj {
   description?: string;
   benefits?: string[];
   recommendedHand?: string;
+  recommendedAnkle?: string;
   whenToWear?: string;
   howToEnergize?: string;
   affirmation?: string;
@@ -26,6 +27,7 @@ interface ProductDescriptionProps {
   descObj: DescObj | null;
   desc: string;
   longDesc?: string;
+  category?: string;
 }
 
 const headingStyle: React.CSSProperties = {
@@ -67,7 +69,7 @@ function ListField({ label, items }: { label: string; items?: string[] }) {
   );
 }
 
-export default function ProductDescription({ descObj, desc, longDesc }: ProductDescriptionProps) {
+export default function ProductDescription({ descObj, desc, longDesc, category }: ProductDescriptionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No structured JSON → simple collapse on the long description.
@@ -119,7 +121,11 @@ export default function ProductDescription({ descObj, desc, longDesc }: ProductD
           {/* legacy field, only if a product still uses it */}
           <ListField label="Who Should Wear" items={d.whoShouldWear} />
 
-          <Field label="Recommended Hand to Wear" value={d.recommendedHand} />
+          {category?.toLowerCase().includes('anklet') ? (
+            <Field label="Recommended Ankle" value={d.recommendedAnkle || d.recommendedHand} />
+          ) : (
+            <Field label="Recommended Hand to Wear" value={d.recommendedHand} />
+          )}
           <Field label="When to Wear" value={d.whenToWear} />
           {/* legacy combined field */}
           <ListField label="How to Wear" items={d.howToWear} />

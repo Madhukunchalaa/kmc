@@ -64,6 +64,7 @@ export async function POST(req: Request) {
         price: l.price,
         qty: l.qty,
         lineTotal: l.lineTotal,
+        size: (l as any).size || null,
       })) as never,
       subtotal,
       shipping,

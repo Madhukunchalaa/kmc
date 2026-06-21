@@ -10,6 +10,7 @@ interface SP {
   q?: string;
   category?: string;
   status?: string;
+  page?: string;
 }
 
 export default async function AdminProducts(props: PageProps<'/admin/products'>) {
@@ -17,6 +18,10 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   const q = sp.q || '';
   const category = sp.category || '';
   const status = sp.status || '';
+
+  const page = Number(sp.page) || 1;
+  const limit = 20;
+  const skip = (page - 1) * limit;
 
   await connectMongoose();
 
@@ -42,10 +47,24 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     ];
   }
 
-  const [items, uniqueCategories] = await Promise.all([
-    Product.find(filter).sort({ createdAt: -1 }).lean(),
+  const [items, totalCount, uniqueCategories] = await Promise.all([
+    Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+    Product.countDocuments(filter),
     Product.distinct('category'),
   ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
+  const startItem = totalCount === 0 ? 0 : skip + 1;
+  const endItem = Math.min(skip + limit, totalCount);
+
+  function getPageUrl(pageNum: number) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (category) params.set('category', category);
+    if (status) params.set('status', status);
+    params.set('page', String(pageNum));
+    return `/admin/products?${params.toString()}`;
+  }
 
   return (
     <div>
@@ -54,9 +73,9 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
         <div>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', margin: 0 }}>
             {isTrashView ? (
-              <>🗑️ Trash <span style={{ fontSize: '1.1rem', color: '#888', fontWeight: 400 }}>({items.length} deleted)</span></>
+              <>🗑️ Trash <span style={{ fontSize: '1.1rem', color: '#888', fontWeight: 400 }}>({totalCount} deleted)</span></>
             ) : (
-              <>Products <span style={{ fontSize: '1.1rem', color: '#888', fontWeight: 400 }}>({items.length} total)</span></>
+              <>Products <span style={{ fontSize: '1.1rem', color: '#888', fontWeight: 400 }}>({totalCount} total)</span></>
             )}
           </h1>
           {isTrashView && (
@@ -246,7 +265,154 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
             </tbody>
           </table>
         </div>
+
+        {/* ── Pagination UI ── */}
+        {totalCount > 0 && (
+          <div
+            style={{
+              padding: '16px 24px',
+              borderTop: '1px solid rgba(0,0,0,0.05)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 12,
+              background: '#FCFBF9',
+            }}
+          >
+            <div style={{ fontSize: '0.85rem', color: '#666' }}>
+              Showing <span style={{ fontWeight: 600, color: '#333' }}>{startItem}</span> to{' '}
+              <span style={{ fontWeight: 600, color: '#333' }}>{endItem}</span> of{' '}
+              <span style={{ fontWeight: 600, color: '#333' }}>{totalCount}</span> products
+            </div>
+
+            {totalPages > 1 && (
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                {/* Previous page link */}
+                {page > 1 ? (
+                  <Link
+                    href={getPageUrl(page - 1)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      border: '1px solid rgba(0,0,0,0.08)',
+                      background: '#fff',
+                      color: '#555',
+                      textDecoration: 'none',
+                      fontSize: '0.85rem',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <i className="fa-solid fa-chevron-left" style={{ fontSize: '0.75rem' }}></i>
+                  </Link>
+                ) : (
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      border: '1px solid rgba(0,0,0,0.04)',
+                      background: '#FAF6F1',
+                      color: '#ccc',
+                      fontSize: '0.85rem',
+                      cursor: 'not-allowed',
+                    }}
+                  >
+                    <i className="fa-solid fa-chevron-left" style={{ fontSize: '0.75rem' }}></i>
+                  </span>
+                )}
+
+                {/* Page numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                  const isCurrent = page === pageNum;
+                  const isNear = Math.abs(page - pageNum) <= 2;
+                  const isEdge = pageNum === 1 || pageNum === totalPages;
+
+                  if (!isNear && !isEdge) {
+                    if (pageNum === 2 || pageNum === totalPages - 1) {
+                      return <span key={pageNum} style={{ padding: '0 4px', color: '#999' }}>...</span>;
+                    }
+                    return null;
+                  }
+
+                  return (
+                    <Link
+                      key={pageNum}
+                      href={getPageUrl(pageNum)}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 32,
+                        height: 32,
+                        borderRadius: 8,
+                        border: isCurrent ? '1.5px solid var(--primary,#C8956C)' : '1px solid rgba(0,0,0,0.08)',
+                        background: isCurrent ? 'var(--primary,#C8956C)' : '#fff',
+                        color: isCurrent ? '#fff' : '#555',
+                        fontWeight: isCurrent ? 700 : 500,
+                        textDecoration: 'none',
+                        fontSize: '0.85rem',
+                        transition: 'all 0.2s',
+                      }}
+                    >
+                      {pageNum}
+                    </Link>
+                  );
+                })}
+
+                {/* Next page link */}
+                {page < totalPages ? (
+                  <Link
+                    href={getPageUrl(page + 1)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      border: '1px solid rgba(0,0,0,0.08)',
+                      background: '#fff',
+                      color: '#555',
+                      textDecoration: 'none',
+                      fontSize: '0.85rem',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.75rem' }}></i>
+                  </Link>
+                ) : (
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      border: '1px solid rgba(0,0,0,0.04)',
+                      background: '#FAF6F1',
+                      color: '#ccc',
+                      fontSize: '0.85rem',
+                      cursor: 'not-allowed',
+                    }}
+                  >
+                    <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.75rem' }}></i>
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 }
+

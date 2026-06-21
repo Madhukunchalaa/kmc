@@ -120,10 +120,14 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
         try {
           const parsed = JSON.parse(initial.longDesc);
           
-          // Extract hand and when from howToWear array
+          // Extract hand and when from howToWear array or recommendedAnkle/whenToWear
           let hand = 'Left Hand';
           let when = '';
-          if (Array.isArray(parsed.howToWear)) {
+          const isAnklet = initial.category?.toLowerCase() === 'anklets';
+          if (isAnklet) {
+            hand = parsed.recommendedAnkle || 'Either Ankle';
+            when = parsed.whenToWear || '';
+          } else if (Array.isArray(parsed.howToWear)) {
             const handMatch = parsed.howToWear[0]?.match(/Wear on the (Left Hand|Right Hand|Either Hand) as recommended/i);
             if (handMatch) {
               hand = handMatch[1];
@@ -311,14 +315,20 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     }
 
     // Construct serialized longDesc JSON
+    const isAnklet = finalCategory.toLowerCase() === 'anklets';
     const longDescJson = JSON.stringify({
       description: structuredDesc.description,
       whoShouldWear: structuredDesc.whoShouldWear.filter(Boolean),
       benefits: structuredDesc.benefits.filter(Boolean),
-      howToWear: [
-        structuredDesc.howToWearHand ? `Wear on the ${structuredDesc.howToWearHand} as recommended.` : 'Keep close to your body or wear daily.',
-        structuredDesc.howToWearWhen ? `Best worn during: ${structuredDesc.howToWearWhen}.` : 'Best worn during meditation, yoga, or professional work.'
-      ],
+      ...(isAnklet ? {
+        recommendedAnkle: structuredDesc.howToWearHand || 'Either Ankle',
+        whenToWear: structuredDesc.howToWearWhen || 'Daily wear, travel, work, and outdoor activities.'
+      } : {
+        howToWear: [
+          structuredDesc.howToWearHand ? `Wear on the ${structuredDesc.howToWearHand} as recommended.` : 'Keep close to your body or wear daily.',
+          structuredDesc.howToWearWhen ? `Best worn during: ${structuredDesc.howToWearWhen}.` : 'Best worn during meditation, yoga, or professional work.'
+        ]
+      }),
       careInstructions: structuredDesc.careInstructions.filter(Boolean),
       disclaimer: structuredDesc.disclaimer || 'Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.',
     });
@@ -612,12 +622,25 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
         </div>
 
         <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Wear Rules - Hand Select</label>
+          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>
+            {f.category?.toLowerCase() === 'anklets' ? 'Wear Rules - Ankle Select' : 'Wear Rules - Hand Select'}
+          </label>
           <select value={structuredDesc.howToWearHand} onChange={(e) => setStructuredDesc(prev => ({ ...prev, howToWearHand: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
-            <option value="Left Hand">Left Hand (Receiving energy)</option>
-            <option value="Right Hand">Right Hand (Giving/Projecting energy)</option>
-            <option value="Either Hand">Either Hand</option>
-            <option value="">None / Not Applicable</option>
+            {f.category?.toLowerCase() === 'anklets' ? (
+              <>
+                <option value="Either Ankle">Either Ankle</option>
+                <option value="Left Ankle">Left Ankle</option>
+                <option value="Right Ankle">Right Ankle</option>
+                <option value="">None / Not Applicable</option>
+              </>
+            ) : (
+              <>
+                <option value="Left Hand">Left Hand (Receiving energy)</option>
+                <option value="Right Hand">Right Hand (Giving/Projecting energy)</option>
+                <option value="Either Hand">Either Hand</option>
+                <option value="">None / Not Applicable</option>
+              </>
+            )}
           </select>
         </div>
 

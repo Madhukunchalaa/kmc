@@ -21,6 +21,7 @@ export interface OrderLine {
   price: number;
   qty: number;
   lineTotal: number;
+  size?: string | null;
 }
 
 export interface OrderDoc {
@@ -66,6 +67,7 @@ const OrderLineSchema = new Schema<OrderLine>(
     price: { type: Number, required: true },
     qty: { type: Number, required: true, min: 1 },
     lineTotal: { type: Number, required: true },
+    size: { type: String, default: null },
   },
   { _id: false },
 );

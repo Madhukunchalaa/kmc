@@ -12,6 +12,7 @@ const LINKS = [
   { href: '/admin/home-services', label: 'Home Services', icon: 'fa-solid fa-layer-group' },
   { href: '/admin/blogs', label: 'Blogs', icon: 'fa-solid fa-pen-nib' },
   { href: '/admin/testimonials', label: 'Testimonials', icon: 'fa-solid fa-comment-dots' },
+  { href: '/admin/gifting', label: 'Gifting', icon: 'fa-solid fa-gift' },
   { href: '/admin/users', label: 'Users', icon: 'fa-solid fa-users' },
 ];
 

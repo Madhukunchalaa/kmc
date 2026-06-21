@@ -10,6 +10,9 @@ import { config as loadEnv } from 'dotenv';
 loadEnv({ path: '.env.local' });
 loadEnv();
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+import '../src/lib/mongoDns';
 import mongoose from 'mongoose';
 import { products as productSeed } from '../src/data/products';
 

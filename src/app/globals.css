@@ -6137,8 +6137,8 @@ body.theme-rose .hero-v2-orb {
 .services-card-image-col {
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  min-height: 400px;
 }
 
 .services-card-content-col {
@@ -6176,6 +6176,7 @@ body.theme-rose .hero-v2-orb {
   }
   .services-card-image-col {
     order: 1 !important;
+    min-height: 280px;
   }
   .services-card-content-col {
     order: 2 !important;
@@ -6187,6 +6188,9 @@ body.theme-rose .hero-v2-orb {
     padding: 1.5rem;
     gap: 1.5rem;
     border-radius: 20px;
+  }
+  .services-card-image-col {
+    min-height: 220px;
   }
   .services-card-footer {
     flex-direction: column;

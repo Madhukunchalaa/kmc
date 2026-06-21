@@ -5,152 +5,54 @@ import Link from 'next/link';
 import { products, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 
-const RECIPIENTS = [
-  {
-    key: 'partner',
-    label: 'Partner',
-    subtitle: 'Soulmate or lover',
-    icon: 'fa-solid fa-heart',
-    tagline: 'Crystals of love, deep connection & romance',
-    keywords: ['rose', 'love', 'heart', 'rhodonite', 'garnet', 'ruby', 'moonstone'],
-    fallback: 'bracelets',
-    color: '#D95F7A',
-    bg: 'rgba(217,95,122,0.12)',
-  },
-  {
-    key: 'friend',
-    label: 'Best Friend',
-    subtitle: 'Your ride-or-die',
-    icon: 'fa-solid fa-user-group',
-    tagline: 'Joyful, vibrant crystals for a sparkling bond',
-    keywords: ['citrine', 'amethyst', 'seven chakra', 'happiness', 'joy', 'clear quartz'],
-    fallback: 'bracelets',
-    color: '#C8956C',
-    bg: 'rgba(200,149,108,0.12)',
-  },
-  {
-    key: 'family',
-    label: 'Family',
-    subtitle: 'Parents & loved ones',
-    icon: 'fa-solid fa-people-roof',
-    tagline: 'Protective, healing stones for the home',
-    keywords: ['protection', 'black', 'obsidian', 'tourmaline', 'family', 'healing'],
-    fallback: 'bracelets',
-    color: '#9B8940',
-    bg: 'rgba(155,137,64,0.12)',
-  },
-  {
-    key: 'brother',
-    label: 'Brother',
-    subtitle: 'Strong & grounded',
-    icon: 'fa-solid fa-shield-halved',
-    tagline: 'Grounding crystals for strength & confidence',
-    keywords: ['tiger', 'pyrite', 'onyx', 'hematite', 'triple protection', 'obsidian'],
-    fallback: 'bracelets',
-    color: '#2E86AB',
-    bg: 'rgba(46,134,171,0.12)',
-  },
-  {
-    key: 'sister',
-    label: 'Sister',
-    subtitle: 'Radiant & free',
-    icon: 'fa-solid fa-star',
-    tagline: 'Feminine crystals for grace & intuition',
-    keywords: ['moonstone', 'rose quartz', 'pink', 'amethyst', 'labradorite', 'angel'],
-    fallback: 'bracelets',
-    color: '#C45FA0',
-    bg: 'rgba(196,95,160,0.12)',
-  },
-  {
-    key: 'mother',
-    label: 'Mother',
-    subtitle: 'Nurturing & divine',
-    icon: 'fa-solid fa-hand-holding-heart',
-    tagline: 'Loving crystals to honour the goddess in her',
-    keywords: ['rose quartz', 'moonstone', 'pink', 'nurturing', 'pearl', 'love', 'rose'],
-    fallback: 'bracelets',
-    color: '#E8647A',
-    bg: 'rgba(232,100,122,0.12)',
-  },
-  {
-    key: 'father',
-    label: 'Father',
-    subtitle: 'Strong & wise',
-    icon: 'fa-solid fa-mountain-sun',
-    tagline: 'Grounding stones for the pillar of the family',
-    keywords: ['tiger', 'pyrite', 'obsidian', 'hematite', 'strength', 'protection', 'black'],
-    fallback: 'bracelets',
-    color: '#5D6D7E',
-    bg: 'rgba(93,109,126,0.12)',
-  },
-  {
-    key: 'colleague',
-    label: 'Colleague',
-    subtitle: 'Success & clarity',
-    icon: 'fa-solid fa-briefcase',
-    tagline: 'Crystals for focus, abundance & career wins',
-    keywords: ['citrine', 'pyrite', 'green aventurine', 'success', 'abundance', 'clear quartz', 'focus'],
-    fallback: 'bracelets',
-    color: '#1A8C6E',
-    bg: 'rgba(26,140,110,0.12)',
-  },
-  {
-    key: 'bride',
-    label: 'Bride / Wedding',
-    subtitle: 'New beginnings',
-    icon: 'fa-solid fa-ring',
-    tagline: 'Blessings for love, harmony & a beautiful union',
-    keywords: ['rose quartz', 'moonstone', 'pink', 'love', 'harmony', 'pearl', 'angel'],
-    fallback: 'bracelets',
-    color: '#C45FA0',
-    bg: 'rgba(196,95,160,0.12)',
-  },
-  {
-    key: 'teacher',
-    label: 'Teacher / Mentor',
-    subtitle: 'Wisdom & guidance',
-    icon: 'fa-solid fa-graduation-cap',
-    tagline: 'Crystals of wisdom, clarity and calm energy',
-    keywords: ['amethyst', 'lapis', 'sodalite', 'clear quartz', 'wisdom', 'blue', 'labradorite'],
-    fallback: 'bracelets',
-    color: '#5B4FCF',
-    bg: 'rgba(91,79,207,0.12)',
-  },
-  {
-    key: 'self',
-    label: 'Yourself',
-    subtitle: 'You deserve it',
-    icon: 'fa-solid fa-spa',
-    tagline: 'Your soul picked this — trust the pull',
-    keywords: [],
-    fallback: 'bracelets',
-    color: '#27AE60',
-    bg: 'rgba(39,174,96,0.12)',
-  },
+const FALLBACK_RECIPIENTS = [
+  { key: 'partner',   label: 'Partner',         subtitle: 'Soulmate or lover',       icon: 'fa-solid fa-heart',              tagline: 'Crystals of love, deep connection & romance',              keywords: ['rose','love','heart','rhodonite','garnet','ruby','moonstone'],               fallback: 'bracelets', color: '#D95F7A', bg: 'rgba(217,95,122,0.12)' },
+  { key: 'friend',    label: 'Best Friend',      subtitle: 'Your ride-or-die',        icon: 'fa-solid fa-user-group',         tagline: 'Joyful, vibrant crystals for a sparkling bond',            keywords: ['citrine','amethyst','seven chakra','happiness','joy','clear quartz'],        fallback: 'bracelets', color: '#C8956C', bg: 'rgba(200,149,108,0.12)' },
+  { key: 'family',    label: 'Family',           subtitle: 'Parents & loved ones',    icon: 'fa-solid fa-people-roof',        tagline: 'Protective, healing stones for the home',                  keywords: ['protection','black','obsidian','tourmaline','family','healing'],             fallback: 'bracelets', color: '#9B8940', bg: 'rgba(155,137,64,0.12)' },
+  { key: 'brother',   label: 'Brother',          subtitle: 'Strong & grounded',       icon: 'fa-solid fa-shield-halved',      tagline: 'Grounding crystals for strength & confidence',              keywords: ['tiger','pyrite','onyx','hematite','triple protection','obsidian'],          fallback: 'bracelets', color: '#2E86AB', bg: 'rgba(46,134,171,0.12)' },
+  { key: 'sister',    label: 'Sister',           subtitle: 'Radiant & free',          icon: 'fa-solid fa-star',               tagline: 'Feminine crystals for grace & intuition',                  keywords: ['moonstone','rose quartz','pink','amethyst','labradorite','angel'],          fallback: 'bracelets', color: '#C45FA0', bg: 'rgba(196,95,160,0.12)' },
+  { key: 'mother',    label: 'Mother',           subtitle: 'Nurturing & divine',      icon: 'fa-solid fa-hand-holding-heart', tagline: 'Loving crystals to honour the goddess in her',             keywords: ['rose quartz','moonstone','pink','nurturing','pearl','love','rose'],         fallback: 'bracelets', color: '#E8647A', bg: 'rgba(232,100,122,0.12)' },
+  { key: 'father',    label: 'Father',           subtitle: 'Strong & wise',           icon: 'fa-solid fa-mountain-sun',       tagline: 'Grounding stones for the pillar of the family',            keywords: ['tiger','pyrite','obsidian','hematite','strength','protection','black'],     fallback: 'bracelets', color: '#5D6D7E', bg: 'rgba(93,109,126,0.12)' },
+  { key: 'colleague', label: 'Colleague',        subtitle: 'Success & clarity',       icon: 'fa-solid fa-briefcase',          tagline: 'Crystals for focus, abundance & career wins',              keywords: ['citrine','pyrite','green aventurine','success','abundance','clear quartz'], fallback: 'bracelets', color: '#1A8C6E', bg: 'rgba(26,140,110,0.12)' },
+  { key: 'bride',     label: 'Bride / Wedding',  subtitle: 'New beginnings',          icon: 'fa-solid fa-ring',               tagline: 'Blessings for love, harmony & a beautiful union',          keywords: ['rose quartz','moonstone','pink','love','harmony','pearl','angel'],          fallback: 'bracelets', color: '#C45FA0', bg: 'rgba(196,95,160,0.12)' },
+  { key: 'teacher',   label: 'Teacher / Mentor', subtitle: 'Wisdom & guidance',       icon: 'fa-solid fa-graduation-cap',     tagline: 'Crystals of wisdom, clarity and calm energy',              keywords: ['amethyst','lapis','sodalite','clear quartz','wisdom','blue','labradorite'], fallback: 'bracelets', color: '#5B4FCF', bg: 'rgba(91,79,207,0.12)' },
+  { key: 'self',      label: 'Yourself',         subtitle: 'You deserve it',          icon: 'fa-solid fa-spa',                tagline: "Your soul picked this — trust the pull",                   keywords: [],                                                                          fallback: 'bracelets', color: '#27AE60', bg: 'rgba(39,174,96,0.12)' },
 ];
 
-type Recipient = typeof RECIPIENTS[0];
+type Recipient = typeof FALLBACK_RECIPIENTS[0];
 
 function getGiftProducts(recipient: Recipient): Product[] {
   if (recipient.keywords.length === 0) return products.slice(0, 8);
-  const matched = products.filter(p =>
-    recipient.keywords.some(kw =>
-      p.name.toLowerCase().includes(kw) ||
-      p.desc.toLowerCase().includes(kw)
-    )
+  const matched = products.filter((p) =>
+    recipient.keywords.some(
+      (kw) => p.name.toLowerCase().includes(kw) || p.desc.toLowerCase().includes(kw),
+    ),
   );
   if (matched.length >= 4) return matched.slice(0, 8);
-  return products.filter(p => p.category === recipient.fallback).slice(0, 8);
+  return products.filter((p) => p.category === recipient.fallback).slice(0, 8);
 }
 
-// CSS confetti pieces rendered via JS for variety
-const CONFETTI_COLORS = ['#F7C948', '#E8647A', '#C8956C', '#9B59B6', '#27AE60', '#2E86AB', '#F0D080'];
+const CONFETTI_COLORS = ['#F7C948','#E8647A','#C8956C','#9B59B6','#27AE60','#2E86AB','#F0D080'];
 
 export default function GiftingExperience() {
   const [open, setOpen] = useState(false);
+  const [recipients, setRecipients] = useState<Recipient[]>(FALLBACK_RECIPIENTS);
+  const [loaded, setLoaded] = useState(false);
   const [recipient, setRecipient] = useState<Recipient | null>(null);
   const [giftMsg, setGiftMsg] = useState('');
   const [msgOpen, setMsgOpen] = useState(false);
+
+  // Load recipients from DB when drawer first opens
+  useEffect(() => {
+    if (!open || loaded) return;
+    fetch('/api/gifting')
+      .then((r) => r.json())
+      .then((data: Recipient[]) => {
+        if (Array.isArray(data) && data.length > 0) setRecipients(data);
+      })
+      .catch(() => {})
+      .finally(() => setLoaded(true));
+  }, [open, loaded]);
 
   const giftProducts = recipient ? getGiftProducts(recipient) : [];
 
@@ -227,7 +129,7 @@ export default function GiftingExperience() {
               </div>
 
               <div className="gift-recipients-grid">
-                {RECIPIENTS.map((r) => (
+                {recipients.map((r) => (
                   <button
                     key={r.key}
                     className="gift-recipient-card"
@@ -262,7 +164,7 @@ export default function GiftingExperience() {
 
               {/* Gift message box */}
               <div className="gift-msg-wrap">
-                <button className="gift-msg-toggle" onClick={() => setMsgOpen(v => !v)}>
+                <button className="gift-msg-toggle" onClick={() => setMsgOpen((v) => !v)}>
                   <i className="fa-solid fa-envelope-open-text me-2" />
                   {msgOpen ? 'Hide gift message' : 'Add a personal gift message'}
                 </button>
@@ -273,7 +175,7 @@ export default function GiftingExperience() {
                       rows={3}
                       maxLength={160}
                       value={giftMsg}
-                      onChange={e => setGiftMsg(e.target.value)}
+                      onChange={(e) => setGiftMsg(e.target.value)}
                       placeholder={`Write something beautiful for your ${recipient.label}...`}
                     />
                     <span className="gift-msg-count">{giftMsg.length}/160</span>

@@ -1,13 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 
-export default function ProductBuyPanel({ productId, stock, variant }: { productId: string; stock: number; variant?: string }) {
+export default function ProductBuyPanel({
+  productId,
+  stock,
+  variant,
+  sizeMandatory,
+}: {
+  productId: string;
+  stock: number;
+  variant?: string;
+  sizeMandatory?: boolean;
+}) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const outOfStock = stock === 0;
   const maxQty = Math.max(1, stock);
@@ -15,8 +26,22 @@ export default function ProductBuyPanel({ productId, stock, variant }: { product
   // If a variant is selected, encode it into the cart key so different sizes are tracked separately
   const cartKey = variant ? `${productId}::${variant}` : productId;
 
+  // Clear validation error when size is selected
+  useEffect(() => {
+    if (variant) {
+      setError(null);
+    }
+  }, [variant]);
+
   const handleAdd = async () => {
     if (outOfStock) return;
+    
+    if (sizeMandatory && !variant) {
+      setError('Please select a bead size first');
+      return;
+    }
+    setError(null);
+
     await addItem(cartKey, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -61,55 +86,63 @@ export default function ProductBuyPanel({ productId, stock, variant }: { product
   };
 
   return (
-    <div className="mt-4 d-flex flex-wrap align-items-center gap-3">
-      {outOfStock ? (
-        <span
-          style={{
-            display: 'inline-block',
-            padding: '0.55rem 1.4rem',
-            borderRadius: 999,
-            background: 'rgba(0,0,0,0.07)',
-            color: '#888',
-            fontWeight: 700,
-            fontSize: '0.95rem',
-          }}
-        >
-          <i className="fa-solid fa-ban me-2"></i>Out of Stock
-        </span>
-      ) : (
-        <>
-          <div className="d-inline-flex align-items-center" style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: '999px', overflow: 'hidden' }}>
-            <button
-              type="button"
-              aria-label="Decrease quantity"
-              onClick={() => setQty((q) => Math.max(1, q - 1))}
-              style={{ background: 'transparent', border: 0, padding: '0.6rem 1rem', cursor: 'pointer' }}
-            >
-              <i className="fa-solid fa-minus"></i>
-            </button>
-            <span style={{ minWidth: 36, textAlign: 'center', fontWeight: 700 }}>{qty}</span>
-            <button
-              type="button"
-              aria-label="Increase quantity"
-              onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
-              style={{ background: 'transparent', border: 0, padding: '0.6rem 1rem', cursor: 'pointer' }}
-            >
-              <i className="fa-solid fa-plus"></i>
-            </button>
-          </div>
-          <button
-            type="button"
-            className="btn-primary-custom"
-            onClick={handleAdd}
-            style={{ background: added ? '#4CAF50' : undefined }}
-          >
-            <span>{added ? 'Added to Cart ✓' : 'Add to Cart'}</span>
-          </button>
-        </>
+    <div className="d-flex flex-column gap-2 mt-4" style={{ width: '100%' }}>
+      {error && (
+        <div style={{ color: '#dc3545', fontSize: '0.88rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <i className="fa-solid fa-triangle-exclamation"></i>
+          {error}
+        </div>
       )}
-      <Link href="/cart" className="btn-outline-custom">
-        <span>Go to Cart</span>
-      </Link>
+      <div className="d-flex flex-wrap align-items-center gap-3">
+        {outOfStock ? (
+          <span
+            style={{
+              display: 'inline-block',
+              padding: '0.55rem 1.4rem',
+              borderRadius: 999,
+              background: 'rgba(0,0,0,0.07)',
+              color: '#888',
+              fontWeight: 700,
+              fontSize: '0.95rem',
+            }}
+          >
+            <i className="fa-solid fa-ban me-2"></i>Out of Stock
+          </span>
+        ) : (
+          <>
+            <div className="d-inline-flex align-items-center" style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: '999px', overflow: 'hidden' }}>
+              <button
+                type="button"
+                aria-label="Decrease quantity"
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                style={{ background: 'transparent', border: 0, padding: '0.6rem 1rem', cursor: 'pointer' }}
+              >
+                <i className="fa-solid fa-minus"></i>
+              </button>
+              <span style={{ minWidth: 36, textAlign: 'center', fontWeight: 700 }}>{qty}</span>
+              <button
+                type="button"
+                aria-label="Increase quantity"
+                onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
+                style={{ background: 'transparent', border: 0, padding: '0.6rem 1rem', cursor: 'pointer' }}
+              >
+                <i className="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <button
+              type="button"
+              className="btn-primary-custom"
+              onClick={handleAdd}
+              style={{ background: added ? '#4CAF50' : undefined }}
+            >
+              <span>{added ? 'Added to Cart ✓' : 'Add to Cart'}</span>
+            </button>
+          </>
+        )}
+        <Link href="/cart" className="btn-outline-custom">
+          <span>Go to Cart</span>
+        </Link>
+      </div>
     </div>
   );
 }

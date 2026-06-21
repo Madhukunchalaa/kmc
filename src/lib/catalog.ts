@@ -222,6 +222,20 @@ const SERVICE_FALLBACK: CatalogService[] = [
     tiers: SERVICE_TIERS.tarot,
   },
   {
+    id: 'tarot-video',
+    slug: 'tarot-video',
+    title: 'Live Tarot Reading — Video Call',
+    tagline: "See every card as it's drawn — face to face",
+    desc: 'A live, face-to-face tarot session via WhatsApp Video Call. Witness every card reveal in real time and dive deep into the messages the cards hold for you.',
+    image: '/service-tarot.png',
+    icon: 'fa-solid fa-video',
+    price: 3499,
+    usdPrice: 70,
+    durationMins: 30,
+    bullets: ['Live WhatsApp Video Call', 'See every card drawn in real time', '30 min or 60 min sessions available'],
+    tiers: SERVICE_TIERS['tarot-video'],
+  },
+  {
     id: 'candle',
     slug: 'candle',
     title: 'Bespoke Spell Casting Ritual',
@@ -260,20 +274,6 @@ const SERVICE_FALLBACK: CatalogService[] = [
     bullets: ['Detailed PDF chart report', '5-10 mins WhatsApp explanation', 'Tailored crystal recommendations'],
     tiers: SERVICE_TIERS.numerology,
   },
-  {
-    id: 'tarot-video',
-    slug: 'tarot-video',
-    title: 'Live Tarot Reading — Video Call',
-    tagline: "See every card as it's drawn — face to face",
-    desc: 'A live, face-to-face tarot session via WhatsApp Video Call. Witness every card reveal in real time and dive deep into the messages the cards hold for you.',
-    image: '/service-tarot.png',
-    icon: 'fa-solid fa-video',
-    price: 3499,
-    usdPrice: 70,
-    durationMins: 30,
-    bullets: ['Live WhatsApp Video Call', 'See every card drawn in real time', '30 min or 60 min sessions available'],
-    tiers: SERVICE_TIERS['tarot-video'],
-  },
 ];
 
 export async function getAllServices(): Promise<CatalogService[]> {
@@ -281,6 +281,16 @@ export async function getAllServices(): Promise<CatalogService[]> {
     await connectMongoose();
     const docs = await Service.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: 1 }).lean();
     if (docs.length === 0) return SERVICE_FALLBACK;
+
+    const SERVICE_ORDER = ['tarot', 'tarot-video', 'candle', 'spelljar', 'numerology'];
+    docs.sort((a, b) => {
+      const indexA = SERVICE_ORDER.indexOf(a.slug);
+      const indexB = SERVICE_ORDER.indexOf(b.slug);
+      const valA = indexA === -1 ? 999 : indexA;
+      const valB = indexB === -1 ? 999 : indexB;
+      return valA - valB;
+    });
+
     return docs.map((d) => {
       // Use tiers stored in DB if present, otherwise fall back to hardcoded
       const tiers: ServiceTier[] = (d.tiers && d.tiers.length > 0)

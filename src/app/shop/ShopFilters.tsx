@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import ScrollFade from '@/components/ScrollFade';
 import type { CatalogProduct } from '@/lib/catalog';
@@ -55,7 +55,8 @@ function toLegacy(p: CatalogProduct) {
 
 export default function ShopFilters({ products }: { products: CatalogProduct[] }) {
   const searchParams = useSearchParams();
-  const [activeCat, setActiveCat] = useState(searchParams.get('category') || 'all');
+  const router = useRouter();
+  const activeCat = searchParams.get('category') || 'all';
   const [sort, setSort] = useState('featured');
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,6 +67,43 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       setCurrentPage(1);
     });
   }, [activeCat, sort, query]);
+
+  // Load from sessionStorage on mount if URL does not have overrides
+  useEffect(() => {
+    const hasCategory = searchParams.has('category');
+    const hasIntent = searchParams.has('intent');
+    const hasSearch = searchParams.has('search');
+
+    if (!hasCategory) {
+      const storedCat = sessionStorage.getItem('last_shop_category');
+      if (storedCat && storedCat !== 'all') {
+        router.replace(`/shop?category=${storedCat}`, { scroll: false });
+      }
+    }
+    const storedSort = sessionStorage.getItem('last_shop_sort');
+    if (storedSort) {
+      setSort(storedSort);
+    }
+    if (!hasIntent && !hasSearch) {
+      const storedQuery = sessionStorage.getItem('last_shop_query');
+      if (storedQuery) {
+        setQuery(storedQuery);
+      }
+    }
+  }, [searchParams, router]);
+
+  // Persist category, sort, and query to sessionStorage when they change
+  useEffect(() => {
+    sessionStorage.setItem('last_shop_category', activeCat);
+  }, [activeCat]);
+
+  useEffect(() => {
+    sessionStorage.setItem('last_shop_sort', sort);
+  }, [sort]);
+
+  useEffect(() => {
+    sessionStorage.setItem('last_shop_query', query);
+  }, [query]);
 
   const filtered = useMemo(() => {
     const norm = (s: string | undefined) => (s || '').toLowerCase();
@@ -147,7 +185,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
             return (
               <button
                 key={c.key}
-                onClick={() => setActiveCat(c.key)}
+                onClick={() => router.replace(c.key === 'all' ? '/shop' : `/shop?category=${c.key}`, { scroll: false })}
                 className={`shop-top-category-btn${active ? ' active' : ''}`}
               >
                 <div 
@@ -203,7 +241,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
         {filtered.length === 0 ? (
           <div className="text-center py-5">
             <p className="section-subtitle">No crystals match your search. Try a different keyword.</p>
-            <button className="btn-outline-custom mt-3" onClick={() => { setQuery(''); setActiveCat('all'); }}>
+            <button className="btn-outline-custom mt-3" onClick={() => { setQuery(''); router.replace('/shop', { scroll: false }); }}>
               <i className="fa-solid fa-rotate-right"></i><span>Reset Filters</span>
             </button>
           </div>

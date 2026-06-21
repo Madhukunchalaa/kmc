@@ -79,13 +79,20 @@ export default function HomeServiceForm({ id, initial, pathLabel }: { id: string
     setF((s) => ({ ...s, tiers: s.tiers.filter((_, i) => i !== idx) }));
 
   const addBullet = () => {
-    if (!bulletText.trim()) return;
-    set('bullets', [...f.bullets, bulletText.trim()]);
+    const text = bulletText.trim();
+    if (!text) return;
+    setF((s) => ({
+      ...s,
+      bullets: [...(s.bullets || []), text],
+    }));
     setBulletText('');
   };
 
   const removeBullet = (idx: number) => {
-    set('bullets', f.bullets.filter((_, i) => i !== idx));
+    setF((s) => ({
+      ...s,
+      bullets: (s.bullets || []).filter((_, i) => i !== idx),
+    }));
   };
 
   const submit = async (e: React.FormEvent) => {

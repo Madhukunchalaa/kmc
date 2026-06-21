@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import ScrollFade from '@/components/ScrollFade';
 import SimplePrice from '@/components/SimplePrice';
 import ServiceVideoPlayer from '@/components/ServiceVideoPlayer';
 import { getAllServices } from '@/lib/catalog';
+import ScrollToHash from '@/components/ScrollToHash';
 
 // ISR: Cache page for 60 seconds, then rebuild
 export const revalidate = 60;
@@ -17,6 +19,9 @@ export default async function ServicesPage() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <ScrollToHash />
+      </Suspense>
       {/* ── HERO ── */}
       <section style={{
         paddingTop: '160px',

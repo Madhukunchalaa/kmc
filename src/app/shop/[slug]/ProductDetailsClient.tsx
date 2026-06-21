@@ -6,10 +6,22 @@ import ProductPriceDisplay from '@/components/ProductPriceDisplay';
 import ProductBuyPanel from './ProductBuyPanel';
 
 export default function ProductDetailsClient({ product, children }: { product: any; children: React.ReactNode }) {
-  const [selectedVariantIdx, setSelectedVariantIdx] = useState<number>(0);
   const router = useRouter();
 
+  const sub = (product.subcategory || '').toLowerCase();
+  const cat = (product.category || '').toLowerCase();
+  const isBraceletsByCrystals = cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
+
   const hasVariants = Array.isArray(product.variants) && product.variants.length > 0;
+  
+  // Find index of '8mm' in variants if it exists, otherwise default to 0
+  const defaultVariantIdx = hasVariants
+    ? Math.max(0, product.variants.findIndex((v: any) => v.name === '8mm' || v.name === '8MM'))
+    : 0;
+
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState<number>(defaultVariantIdx);
+  const [selectedSize, setSelectedSize] = useState<string | null>(isBraceletsByCrystals && !hasVariants ? '8mm' : null);
+
   const currentVariant = hasVariants ? product.variants[selectedVariantIdx] : null;
 
   const displayImage = currentVariant ? currentVariant.image : product.image;
@@ -92,7 +104,9 @@ export default function ProductDetailsClient({ product, children }: { product: a
 
         {hasVariants && (
           <div className="mt-4 mb-3">
-            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>Select Size:</h6>
+            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>
+              {isBraceletsByCrystals ? 'Select Bead Size:' : 'Select Size:'}
+            </h6>
             <div className="d-flex flex-wrap gap-2">
               {product.variants.map((v: any, i: number) => (
                 <button
@@ -115,13 +129,38 @@ export default function ProductDetailsClient({ product, children }: { product: a
             </div>
           </div>
         )}
+
+        {!hasVariants && isBraceletsByCrystals && (
+          <div className="mt-4 mb-3">
+            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>Select Bead Size: <span style={{ color: 'red' }}>*</span></h6>
+            <div className="d-flex flex-wrap gap-2">
+              <button
+                key="8mm"
+                onClick={() => setSelectedSize('8mm')}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  border: '2px solid var(--primary,#C8956C)',
+                  background: 'rgba(200, 149, 108, 0.1)',
+                  color: 'var(--primary-dark,#A7744D)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                8mm
+              </button>
+            </div>
+          </div>
+        )}
         
         {children}
 
         <ProductBuyPanel 
           productId={product.slug} 
           stock={product.stock} 
-          variant={currentVariant ? currentVariant.name : undefined}
+          variant={isBraceletsByCrystals ? (hasVariants ? currentVariant.name : (selectedSize || undefined)) : (currentVariant ? currentVariant.name : undefined)}
+          sizeMandatory={isBraceletsByCrystals && !hasVariants && !selectedSize}
         />
 
         <ul style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'grid', gap: 10, color: 'var(--text-light,#666)', fontSize: '0.9rem' }}>

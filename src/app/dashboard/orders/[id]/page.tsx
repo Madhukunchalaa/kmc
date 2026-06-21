@@ -420,7 +420,21 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
                         />
                         <div>
                           <div style={{ fontWeight: 600 }}>{i.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#888' }}>{i.productSlug}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#888', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <span>{i.productSlug}</span>
+                            {i.size && (
+                              <span style={{
+                                padding: '1px 6px',
+                                borderRadius: '4px',
+                                background: 'rgba(200, 149, 108, 0.12)',
+                                color: 'var(--primary,#C8956C)',
+                                fontWeight: 700,
+                                fontSize: '0.7rem'
+                              }}>
+                                Size: {i.size}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </td>
                       <td style={{ padding: 8, textAlign: 'right', color: '#888', verticalAlign: 'middle' }}>x{i.qty}</td>

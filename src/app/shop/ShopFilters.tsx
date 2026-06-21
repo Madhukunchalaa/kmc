@@ -27,6 +27,7 @@ const CATEGORIES: { key: string; label: string; icon: string }[] = [
   { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
   { key: 'raw-crystal',           label: 'Raw Crystals',          icon: 'fa-solid fa-cubes' },
   { key: 'designer-crystals',     label: 'Designer Crystals',     icon: 'fa-solid fa-wand-sparkles' },
+  { key: 'crystal-rings',         label: 'Crystal Rings',         icon: 'fa-solid fa-ring' },
   { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];
 
@@ -128,6 +129,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
           case 'pyramids':              return cat === 'pyramids';
           case 'raw-crystal':           return cat === 'raw-crystal';
           case 'designer-crystals':     return cat === 'designer-crystals';
+          case 'crystal-rings':         return cat === 'rings';
           case 'home-decor':            return cat === 'home-decor';
           case 'spell-jars':            return cat === 'spell-jars';
           default:                      return false;

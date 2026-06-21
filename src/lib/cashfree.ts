@@ -1,22 +1,23 @@
 import crypto from 'crypto';
 
-const CASHFREE_BASE_URL = process.env.CASHFREE_ENV === 'production'
-  ? 'https://api.cashfree.com/pg'
-  : 'https://sandbox.cashfree.com/pg';
+// TEST credentials — swap back to env vars when going live
+const CF_APP_ID  = 'TEST1110676869ebf44ae13ff5fb3c9b86760111';
+const CF_SECRET  = 'cfsk_ma_test_2d7a003fdaac33f85f3dc829ee99f8cd_10a0d511';
+const CASHFREE_BASE_URL = 'https://sandbox.cashfree.com/pg';
 
 const API_VERSION = '2023-08-01';
 
 function getHeaders() {
   return {
     'x-api-version': API_VERSION,
-    'x-client-id': process.env.CASHFREE_APP_ID ?? '',
-    'x-client-secret': process.env.CASHFREE_SECRET_KEY ?? '',
+    'x-client-id': CF_APP_ID,
+    'x-client-secret': CF_SECRET,
     'Content-Type': 'application/json',
   };
 }
 
 export function isCashfreeConfigured(): boolean {
-  return Boolean(process.env.CASHFREE_APP_ID && process.env.CASHFREE_SECRET_KEY);
+  return true;
 }
 
 export interface CashfreeOrderParams {
@@ -155,7 +156,7 @@ export function verifyCashfreeWebhook(
   signature: string,
   timestamp: string,
 ): boolean {
-  const secret = process.env.CASHFREE_SECRET_KEY;
+  const secret = CF_SECRET;
   if (!secret) return false;
   const message = timestamp + rawBody;
   const expected = crypto.createHmac('sha256', secret).update(message).digest('base64');

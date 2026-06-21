@@ -85,7 +85,7 @@ export default function ServiceVideoPlayer({
   if (!videoSrc) {
     return (
       <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6)', position: 'relative', width: '100%', flex: 1, background: '#0d041a' }}>
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'contain', objectPosition: 'center center' }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none' }} />
       </div>
     );
@@ -133,7 +133,7 @@ export default function ServiceVideoPlayer({
     <div ref={containerRef} style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(162,59,236,0.08)', position: 'relative', width: '100%', flex: 1, background: '#0d041a', cursor: 'pointer' }} onClick={toggle}>
       {/* Fallback image shows until video starts */}
       {(phase === 'idle' || phase === 'error') && (
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center' }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }} />
       )}
 
       <video
@@ -141,7 +141,7 @@ export default function ServiceVideoPlayer({
         preload="none"
         playsInline
         muted={muted}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none' }}
         onCanPlay={() => { if (phase === 'loading' || phase === 'buffering') videoRef.current?.play().catch(() => {}); }}
         onPlaying={() => setPhase('playing')}
         onPause={() => { if (phase === 'playing') setPhase('paused'); }}

@@ -2259,26 +2259,6 @@ export const products: Product[] = [
     "originalUsdPrice": null
   },
   {
-    "id": "clear-quartz-design-ring",
-    "name": "Clear Quartz Design Ring",
-    "category": "silver-jewelry",
-    "subcategory": "Design Rings",
-    "price": 950,
-    "originalPrice": 1140,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Clear%20quartz",
-    "badge": null,
-    "desc": "The Master Healer crystal that amplifies other stones' energy.",
-    "longDesc": "{\"purpose\":\"Clarity, focus, energy amplification, and intention setting.\",\"crystalsIncluded\":\"Clear Quartz\",\"associatedChakras\":\"Crown Chakra\",\"description\":\"Clear Quartz is often referred to as the “Master Crystal” and is traditionally associated with clarity, focus, and amplifying intentions. It is commonly used alongside other crystals and spiritual practices.\",\"benefits\":[\"Supports mental clarity\",\"Enhances focus and awareness\",\"Amplifies intentions and affirmations\",\"Suitable for meditation and mindfulness\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily, meditation, spiritual practices, and goal setting.\",\"howToEnergize\":\"Moonlight, sunlight (briefly), or selenite charging.\",\"affirmation\":\"My mind is clear, focused, and aligned with my intentions.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
-    "chakras": [
-      "Crown"
-    ],
-    "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Clear%20quartz"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
     "id": "white-agate-design-ring",
     "name": "White Agate Design Ring",
     "category": "silver-jewelry",
@@ -2920,48 +2900,6 @@ export const products: Product[] = [
     "originalUsdPrice": null
   },
   {
-    "id": "custom-rashi-bracelet",
-    "name": "Custom Rashi Zodiac Bracelet",
-    "category": "bracelets",
-    "subcategory": "Rashi Bracelets",
-    "price": 1550,
-    "originalPrice": 1860,
-    "image": "/images/products/bracelet.png",
-    "badge": null,
-    "desc": "Combines Tiger Eye, Hematite, and Black Obsidian for ultimate energetic shielding.",
-    "longDesc": "{\"purpose\":\"Combines Tiger Eye, Hematite, and Black Obsidian for ultimate energetic shielding.\",\"crystalsIncluded\":\"Rashi Zodiac\",\"associatedChakras\":\"Root, Solar Plexus\",\"description\":\"Custom Rashi Zodiac Bracelet is a premium quality, authentic spiritual item. Combines Tiger Eye, Hematite, and Black Obsidian for ultimate energetic shielding. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Combines Tiger Eye, Hematite, and Black Obsidian for ultimate energetic shielding.\",\"Aligns and energises the Root, Solar Plexus Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": [
-      "Root",
-      "Solar Plexus"
-    ],
-    "images": [
-      "/images/products/bracelet.png"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
-    "id": "custom-numerology-bracelet",
-    "name": "Custom Numerology Number Bracelet",
-    "category": "bracelets",
-    "subcategory": "Number Bracelets",
-    "price": 1550,
-    "originalPrice": 1860,
-    "image": "/images/products/bracelet.png",
-    "badge": null,
-    "desc": "Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.",
-    "longDesc": "{\"purpose\":\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"crystalsIncluded\":\"Numerology\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Custom Numerology Number Bracelet is a premium quality, authentic spiritual item. Powerful combination of pyrite, citrine, and green aventurine to draw prosperity. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"Aligns and energises the Solar Plexus, Heart Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": [
-      "Solar Plexus",
-      "Heart"
-    ],
-    "images": [
-      "/images/products/bracelet.png"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
     "id": "tree-of-life-keychain",
     "name": "Tree Of Life Keychain",
     "category": "home-decor",
@@ -3039,27 +2977,6 @@ export const products: Product[] = [
     ],
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Lapis%20lazuli"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
-    "id": "laxmi-pyramid",
-    "name": "Laxmi Aura Pyramid",
-    "category": "pyramids",
-    "subcategory": "Pyramids",
-    "price": 1800,
-    "originalPrice": 2160,
-    "image": "/images/products/silver.png",
-    "badge": null,
-    "desc": "Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.",
-    "longDesc": "{\"purpose\":\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"crystalsIncluded\":\"Aura\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Laxmi Aura Pyramid is a premium quality, authentic spiritual item. Powerful combination of pyrite, citrine, and green aventurine to draw prosperity. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"Aligns and energises the Solar Plexus, Heart Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
-    "chakras": [
-      "Solar Plexus",
-      "Heart"
-    ],
-    "images": [
-      "/images/products/silver.png"
     ],
     "usdPrice": 0,
     "originalUsdPrice": null
@@ -3556,26 +3473,6 @@ export const products: Product[] = [
     "originalUsdPrice": null
   },
   {
-    "id": "rose-quartz-earrings",
-    "name": "Rose Quartz Earrings",
-    "category": "silver-jewelry",
-    "subcategory": "Earrings",
-    "price": 850,
-    "originalPrice": 1020,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz",
-    "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"recommendedHand\":\"Left Hand\",\"whenToWear\":\"Daily wear, meditation, self-care practices, and relationship intentions.\",\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
-    "chakras": [
-      "Heart"
-    ],
-    "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
     "id": "green-eventurine-angel",
     "name": "Green Eventurine Guardian Angel",
     "category": "home-decor",
@@ -3845,26 +3742,6 @@ export const products: Product[] = [
     "images": [
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Black%20tourmaline%20pic%201",
       "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Black%20tourmaline%20pic%202"
-    ],
-    "usdPrice": 0,
-    "originalUsdPrice": null
-  },
-  {
-    "id": "rose-quartz-zibu-coin",
-    "name": "Rose Quartz Zibu Coin",
-    "category": "home-decor",
-    "subcategory": "Zibu Coins",
-    "price": 650,
-    "originalPrice": 780,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz",
-    "badge": null,
-    "desc": "The stone of unconditional love, compassion, and emotional healing.",
-    "longDesc": "{\"purpose\":\"Love, self-love, compassion, and emotional harmony.\",\"crystalsIncluded\":\"Rose Quartz\",\"associatedChakras\":\"Heart Chakra\",\"description\":\"Rose Quartz is one of the most popular crystals associated with love, compassion, and emotional well-being. It is often used to encourage self-love, kindness, and harmonious relationships.\",\"benefits\":[\"Encourages self-love and compassion\",\"Supports emotional balance\",\"Promotes harmony and understanding\",\"Inspires kindness and positivity\"],\"howToEnergize\":\"Moonlight charging is especially recommended.\",\"affirmation\":\"I am worthy of love, kindness, and emotional harmony.\",\"careInstructions\":[\"Avoid prolonged contact with water, perfumes, lotions, and harsh chemicals.\",\"Store in a clean, dry place when not in use.\",\"Cleanse and recharge regularly.\",\"Handle natural stones with care to preserve their beauty.\"],\"disclaimer\":\"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
-    "chakras": [
-      "Heart"
-    ],
-    "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/designer%20bracelates/Rose%20quartz"
     ],
     "usdPrice": 0,
     "originalUsdPrice": null
@@ -4670,28 +4547,6 @@ export const products: Product[] = [
     "longDesc": "{\"purpose\": \"Positivity, confidence, and motivation.\", \"crystalsIncluded\": \"Natural Yellow Calcite\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"The Yellow Calcite Pendant features warm golden tones and is traditionally associated with positivity and personal empowerment.\", \"benefits\": [\"Encourages optimism\", \"Supports confidence\", \"Promotes motivation\", \"Bright and elegant design\"], \"howToWear\": \"Wear daily or during goal-focused activities.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I welcome positivity, confidence, and success.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
     "chakras": [
       "Solar Plexus"
-    ]
-  },
-  {
-    "id": "designer-tiger-eye-pendant",
-    "name": "Tiger Eye Designer Pendant",
-    "category": "designer-pendants",
-    "subcategory": "Designer Pendants",
-    "price": 400,
-    "originalPrice": 480,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye1.webp",
-    "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye1.webp",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/others/designer-pendents/tiger-eye-pic25.webp"
-    ],
-    "usdPrice": 8,
-    "originalUsdPrice": 10,
-    "badge": "New",
-    "desc": "Focus, confidence, and determination.",
-    "longDesc": "{\"purpose\": \"Focus, confidence, and determination.\", \"crystalsIncluded\": \"Natural Tiger Eye\", \"associatedChakras\": \"Solar Plexus Chakra\", \"description\": \"A simple and elegant Tiger Eye pendant suitable for everyday wear.\", \"benefits\": [\"Encourages confidence\", \"Supports focus\", \"Promotes positivity\", \"Easy to wear daily\"], \"howToWear\": \"Wear throughout the day.\", \"howToEnergize\": \"Moonlight charging.\", \"affirmation\": \"I am confident, focused, and capable.\", \"careInstructions\": [\"Avoid water, perfumes, lotions, and harsh chemicals.\", \"Remove before sleeping, swimming, or exercising.\", \"Store in a clean and dry place.\", \"Cleanse and recharge periodically.\"], \"disclaimer\": \"Crystal healing is a complementary spiritual practice and is not intended to diagnose, treat, cure, or prevent any medical condition. Crystal properties are based on traditional and spiritual beliefs and may vary from person to person.\"}",
-    "chakras": [
-      "Solar Plexus",
-      "Root"
     ]
   },
   {

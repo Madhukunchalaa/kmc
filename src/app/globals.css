@@ -6176,7 +6176,7 @@ body.theme-rose .hero-v2-orb {
   }
   .services-card-image-col {
     order: 1 !important;
-    min-height: 280px;
+    min-height: 420px;
   }
   .services-card-content-col {
     order: 2 !important;
@@ -6190,7 +6190,7 @@ body.theme-rose .hero-v2-orb {
     border-radius: 20px;
   }
   .services-card-image-col {
-    min-height: 220px;
+    min-height: 380px;
   }
   .services-card-footer {
     flex-direction: column;

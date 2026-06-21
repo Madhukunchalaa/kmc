@@ -1,9 +1,9 @@
 if (process.env.NODE_ENV === 'production') {
   if (!process.env.AUTH_URL) {
-    process.env.AUTH_URL = 'https://krissmaagiiccrystals.com';
+    process.env.AUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://krissmaagiiccrystals.com';
   }
   if (!process.env.NEXTAUTH_URL) {
-    process.env.NEXTAUTH_URL = 'https://krissmaagiiccrystals.com';
+    process.env.NEXTAUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://krissmaagiiccrystals.com';
   }
 }
 

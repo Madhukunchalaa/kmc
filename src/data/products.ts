@@ -3724,7 +3724,7 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 1200,
     "originalPrice": 1440,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
+    "image": "/images/products/manifestation-mini.jpg",
     "badge": null,
     "desc": "Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.",
     "longDesc": "{\"purpose\":\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"crystalsIncluded\":\"Ritual Manifestation Spell Jar\",\"associatedChakras\":\"Solar Plexus, Heart\",\"description\":\"Ritual Manifestation Spell Jar is a premium quality, authentic spiritual item. Powerful combination of pyrite, citrine, and green aventurine to draw prosperity. Sourced carefully and ritually cleansed.\",\"benefits\":[\"Powerful combination of pyrite, citrine, and green aventurine to draw prosperity.\",\"Aligns and energises the Solar Plexus, Heart Chakra.\",\"Dissolves negative energies and builds a strong positive protective aura.\",\"Supports emotional healing, meditation, and mindfulness practices.\"],\"howToEnergize\":\"Moonlight or selenite charging.\",\"careInstructions\":[\"Avoid contact with water, soap, and cosmetic chemicals.\",\"Cleanse periodically by keeping it under overnight moonlight or smudge with incense smoke.\",\"Store in a dry, safe, clean velvet pouch or container when not in use.\"],\"disclaimer\":\"Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.\"}",
@@ -3733,8 +3733,9 @@ export const products: Product[] = [
       "Heart"
     ],
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%202"
+      "/images/products/manifestation-mini.jpg",
+      "/images/products/manifestation-medium.png",
+      "/images/products/manifestation-large.png"
     ],
     "usdPrice": 24,
     "originalUsdPrice": 29,
@@ -3745,7 +3746,7 @@ export const products: Product[] = [
         "usdPrice": 24,
         "originalPrice": 1440,
         "originalUsdPrice": 29,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/manifestation-mini.jpg"
       },
       {
         "name": "Medium (100ml)",
@@ -3753,15 +3754,15 @@ export const products: Product[] = [
         "usdPrice": 74,
         "originalPrice": 4560,
         "originalUsdPrice": 89,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/manifestation-medium.png"
       },
       {
-        "name": "Large (500ml)",
+        "name": "Large (250ml)",
         "price": 6300,
         "usdPrice": 124,
         "originalPrice": 7560,
         "originalUsdPrice": 149,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/manifestation-large.png"
       }
     ]
   },
@@ -4961,9 +4962,11 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 2200,
     "originalPrice": 2640,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Love%20Attraction%20Spell%20Jar",
+    "image": "/images/products/love-mini.jpg",
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Love%20Attraction%20Spell%20Jar"
+      "/images/products/love-mini.jpg",
+      "/images/products/love-medium.jpg",
+      "/images/products/love-large.jpg"
     ],
     "usdPrice": 44,
     "originalUsdPrice": 53,
@@ -4980,7 +4983,7 @@ export const products: Product[] = [
         "usdPrice": 44,
         "originalPrice": 2640,
         "originalUsdPrice": 53,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/love-mini.jpg"
       },
       {
         "name": "Medium (100ml)",
@@ -4988,7 +4991,7 @@ export const products: Product[] = [
         "usdPrice": 89,
         "originalPrice": 5400,
         "originalUsdPrice": 107,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/love-medium.jpg"
       },
       {
         "name": "Large (250ml)",
@@ -4996,7 +4999,7 @@ export const products: Product[] = [
         "usdPrice": 149,
         "originalPrice": 9000,
         "originalUsdPrice": 179,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/love-large.jpg"
       }
     ]
   },
@@ -5007,10 +5010,11 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 2200,
     "originalPrice": 2640,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%201",
+    "image": "/images/products/protection-mini.jpg",
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%201",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Protection%20Spell%20Jar%20pic%202"
+      "/images/products/protection-mini.jpg",
+      "/images/products/protection-medium.png",
+      "/images/products/protection-large.jpg"
     ],
     "usdPrice": 44,
     "originalUsdPrice": 53,
@@ -5027,7 +5031,7 @@ export const products: Product[] = [
         "usdPrice": 44,
         "originalPrice": 2640,
         "originalUsdPrice": 53,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/protection-mini.jpg"
       },
       {
         "name": "Medium (100ml)",
@@ -5035,7 +5039,7 @@ export const products: Product[] = [
         "usdPrice": 89,
         "originalPrice": 5400,
         "originalUsdPrice": 107,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/protection-medium.png"
       },
       {
         "name": "Large (250ml)",
@@ -5043,7 +5047,7 @@ export const products: Product[] = [
         "usdPrice": 149,
         "originalPrice": 9000,
         "originalUsdPrice": 179,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/protection-large.jpg"
       }
     ]
   },
@@ -5054,10 +5058,11 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 2200,
     "originalPrice": 2640,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
+    "image": "/images/products/success-mini.png",
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%201",
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/%20%20%20%20Success%20Manifestation%20Jar%20pic%202"
+      "/images/products/success-mini.png",
+      "/images/products/success-medium.jpg",
+      "/images/products/success-large.png"
     ],
     "usdPrice": 44,
     "originalUsdPrice": 53,
@@ -5074,7 +5079,7 @@ export const products: Product[] = [
         "usdPrice": 44,
         "originalPrice": 2640,
         "originalUsdPrice": 53,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/success-mini.png"
       },
       {
         "name": "Medium (100ml)",
@@ -5082,7 +5087,7 @@ export const products: Product[] = [
         "usdPrice": 89,
         "originalPrice": 5400,
         "originalUsdPrice": 107,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/success-medium.jpg"
       },
       {
         "name": "Large (250ml)",
@@ -5090,7 +5095,7 @@ export const products: Product[] = [
         "usdPrice": 149,
         "originalPrice": 9000,
         "originalUsdPrice": 179,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/success-large.png"
       }
     ]
   },
@@ -5101,9 +5106,11 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 2200,
     "originalPrice": 2640,
-    "image": "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/Abundance%20spell%20jar",
+    "image": "/images/products/abundance-mini.jpg",
     "images": [
-      "https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/Spell%20jar%20/Abundance%20spell%20jar"
+      "/images/products/abundance-mini.jpg",
+      "/images/products/abundance-medium.png",
+      "/images/products/abundance-large.png"
     ],
     "usdPrice": 44,
     "originalUsdPrice": 53,
@@ -5121,7 +5128,7 @@ export const products: Product[] = [
         "usdPrice": 44,
         "originalPrice": 2640,
         "originalUsdPrice": 53,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/abundance-mini.jpg"
       },
       {
         "name": "Medium (100ml)",
@@ -5129,7 +5136,7 @@ export const products: Product[] = [
         "usdPrice": 89,
         "originalPrice": 5400,
         "originalUsdPrice": 107,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/abundance-medium.png"
       },
       {
         "name": "Large (250ml)",
@@ -5137,7 +5144,7 @@ export const products: Product[] = [
         "usdPrice": 149,
         "originalPrice": 9000,
         "originalUsdPrice": 179,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/abundance-large.png"
       }
     ]
   },
@@ -5148,9 +5155,11 @@ export const products: Product[] = [
     "subcategory": "Spell Jars",
     "price": 2200,
     "originalPrice": 2640,
-    "image": "/images/products/pendant.png",
+    "image": "/images/products/goodluck-mini.jpg",
     "images": [
-      "/images/products/pendant.png"
+      "/images/products/goodluck-mini.jpg",
+      "/images/products/goodluck-medium.png",
+      "/images/products/goodluck-large.jpg"
     ],
     "usdPrice": 44,
     "originalUsdPrice": 53,
@@ -5167,7 +5176,7 @@ export const products: Product[] = [
         "usdPrice": 44,
         "originalPrice": 2640,
         "originalUsdPrice": 53,
-        "image": "/images/products/spelljar-mini.png"
+        "image": "/images/products/goodluck-mini.jpg"
       },
       {
         "name": "Medium (100ml)",
@@ -5175,7 +5184,7 @@ export const products: Product[] = [
         "usdPrice": 89,
         "originalPrice": 5400,
         "originalUsdPrice": 107,
-        "image": "/images/products/spelljar-medium.png"
+        "image": "/images/products/goodluck-medium.png"
       },
       {
         "name": "Large (250ml)",
@@ -5183,7 +5192,7 @@ export const products: Product[] = [
         "usdPrice": 149,
         "originalPrice": 9000,
         "originalUsdPrice": 179,
-        "image": "/images/products/spelljar-large.png"
+        "image": "/images/products/goodluck-large.jpg"
       }
     ]
   },

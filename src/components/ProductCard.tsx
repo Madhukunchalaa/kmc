@@ -101,7 +101,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 50vw, 33vw"
             style={{
               objectPosition: product.category === 'pyramids' ? 'center bottom' : 'center center',
-              transform: product.image.includes('Rose%20quartz') ? 'rotate(-90deg) scale(1.4)' : undefined,
             }}
           />
         </div>

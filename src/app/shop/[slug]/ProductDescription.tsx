@@ -52,13 +52,15 @@ function Field({ label, value }: { label: string; value?: string }) {
   );
 }
 
-function ListField({ label, items }: { label: string; items?: string[] }) {
-  if (!items || items.length === 0) return null;
+function ListField({ label, items }: { label: string; items?: string[] | string }) {
+  if (!items) return null;
+  const arr = Array.isArray(items) ? items : [items];
+  if (arr.length === 0) return null;
   return (
     <div className="mt-4">
       <h6 style={headingStyle}>{label}</h6>
       <ul style={{ listStyle: 'none', paddingLeft: 0, display: 'grid', gap: 6 }}>
-        {items.map((item, idx) => (
+        {arr.map((item, idx) => (
           <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
             <i className="fa-solid fa-diamond" style={{ color: 'var(--primary)', fontSize: '0.5rem', marginTop: '8px' }}></i>
             <span>{item}</span>

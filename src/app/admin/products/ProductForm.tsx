@@ -300,16 +300,52 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     setSaving(true);
 
     // Finalize category and subcategory values
-    const finalCategory = isCustomCategory ? customCategory : f.category;
-    const finalSubcategory = isCustomSubcategory ? customSubcategory : f.subcategory;
+    const finalCategory = isCustomCategory ? customCategory.trim() : f.category;
+    const finalSubcategory = isCustomSubcategory ? customSubcategory.trim() : f.subcategory;
 
+    // Client-side friendly validation
+    if (!f.name.trim()) {
+      setErr('Product name is required.');
+      setSaving(false);
+      return;
+    }
+    if (f.name.trim().length < 2) {
+      setErr('Product name must be at least 2 characters.');
+      setSaving(false);
+      return;
+    }
+    if (!f.slug.trim()) {
+      setErr('URL slug is required (e.g. amethyst-bracelet).');
+      setSaving(false);
+      return;
+    }
+    if (!/^[a-z0-9-]{2,}$/.test(f.slug)) {
+      setErr('URL slug must use lowercase letters, numbers, and dashes only (e.g. amethyst-bracelet).');
+      setSaving(false);
+      return;
+    }
     if (!finalCategory) {
-      setErr('Category is required');
+      setErr('Please select or enter a category.');
       setSaving(false);
       return;
     }
     if (!finalSubcategory) {
-      setErr('Subcategory is required');
+      setErr('Please select or enter a subcategory.');
+      setSaving(false);
+      return;
+    }
+    if (!f.price || f.price <= 0) {
+      setErr('Price (₹) is required and must be greater than 0.');
+      setSaving(false);
+      return;
+    }
+    if (!f.image) {
+      setErr('Please upload a product image before saving.');
+      setSaving(false);
+      return;
+    }
+    if (!f.desc.trim() || f.desc.trim().length < 5) {
+      setErr('Short description is required (at least 5 characters).');
       setSaving(false);
       return;
     }
@@ -350,7 +386,12 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
       });
       const data = await res.json();
       if (!data.ok) {
-        setErr(data.reason || 'Failed');
+        const reasonMap: Record<string, string> = {
+          'slug-exists': `A product with the slug "${f.slug}" already exists. Please use a different URL slug.`,
+          'bad-json': 'Something went wrong with the form data. Please refresh and try again.',
+          'server-error': 'Server error — please try again in a moment.',
+        };
+        setErr(reasonMap[data.reason] ?? data.reason ?? 'Failed to save product. Please try again.');
         setSaving(false);
         return;
       }
@@ -679,7 +720,26 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
         </div>
       </div>
 
-      {err && <p style={{ color: '#D95F5F', marginTop: 12 }}><i className="fa-solid fa-circle-exclamation me-2"></i>{err}</p>}
+      {err && (
+        <div
+          style={{
+            background: 'rgba(217,95,95,0.08)',
+            border: '1px solid rgba(217,95,95,0.3)',
+            borderRadius: 8,
+            padding: '10px 14px',
+            marginTop: 12,
+            color: '#C0392B',
+            fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 8,
+          }}
+          ref={(el) => el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
+        >
+          <i className="fa-solid fa-circle-exclamation" style={{ marginTop: 2, flexShrink: 0 }}></i>
+          <span>{err}</span>
+        </div>
+      )}
 
       <div className="d-flex gap-3 mt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1.25rem' }}>
         <button type="submit" disabled={saving || uploading} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>

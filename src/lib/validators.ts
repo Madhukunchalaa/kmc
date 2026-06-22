@@ -71,18 +71,29 @@ export const razorpayVerifySchema = z.object({
 });
 
 export const productInputSchema = z.object({
-  slug: z.string().min(2).max(120).regex(/^[a-z0-9-]+$/, 'lowercase letters, numbers and dashes only'),
-  name: z.string().min(2).max(200),
-  category: z.string().min(2).max(80),
-  subcategory: z.string().min(2).max(120),
-  price: z.number().min(0),
+  slug: z.string()
+    .min(2, 'URL slug is required (at least 2 characters).')
+    .max(120, 'URL slug is too long (max 120 characters).')
+    .regex(/^[a-z0-9-]+$/, 'URL slug must use lowercase letters, numbers, and dashes only.'),
+  name: z.string()
+    .min(2, 'Product name is required (at least 2 characters).')
+    .max(200, 'Product name is too long (max 200 characters).'),
+  category: z.string()
+    .min(2, 'Please select or enter a category.')
+    .max(80),
+  subcategory: z.string()
+    .min(2, 'Please select or enter a subcategory.')
+    .max(120),
+  price: z.number().min(1, 'Price (₹) is required and must be greater than 0.'),
   originalPrice: z.number().min(0).nullable().optional(),
   usdPrice: z.number().min(0).optional(),
   originalUsdPrice: z.number().min(0).nullable().optional(),
-  image: z.string().min(1),
+  image: z.string().min(1, 'Please upload a product image before saving.'),
   images: z.array(z.string()).default([]),
   badge: z.enum(['Popular', 'New', 'Sale', 'Bestseller']).nullable().optional(),
-  desc: z.string().min(5).max(600),
+  desc: z.string()
+    .min(5, 'Short description is required (at least 5 characters).')
+    .max(600, 'Short description is too long (max 600 characters).'),
   longDesc: z.string().max(4000).optional().or(z.literal('')),
   chakras: z.array(z.string()).default([]),
   shippingCharge: z.number().min(0).max(100000).nullable().optional(),
@@ -163,8 +174,16 @@ export const passwordChangeSchema = z.object({
 });
 
 const FRIENDLY_FIELD: Record<string, string> = {
+  // Product fields
+  name:        'Product name is required (at least 2 characters).',
+  slug:        'URL slug is required — use lowercase letters, numbers, and dashes only (e.g. amethyst-bracelet).',
+  category:    'Please select or enter a category.',
+  subcategory: 'Please select or enter a subcategory.',
+  price:       'Price (₹) is required and must be greater than 0.',
+  image:       'Please upload a product image before saving.',
+  desc:        'Short description is required (at least 5 characters).',
   // Booking fields
-  timeSlot:        'Please select a valid time slot before booking.',
+  timeSlot:    'Please select a valid time slot before booking.',
   date:            'Please select a valid booking date.',
   serviceId:       'Something went wrong — please refresh and try again.',
   question:        'Your question is too long (max 1000 characters).',

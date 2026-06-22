@@ -14,7 +14,7 @@ export async function connectMongoose(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn;
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(uri!, { bufferCommands: false })
+      .connect(uri!, { bufferCommands: false, dbName: 'krissmaagiic' })
       .then((m) => m);
   }
   try {

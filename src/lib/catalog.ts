@@ -100,9 +100,9 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
       usdPrice: d.usdPrice ?? 0,
       originalUsdPrice: d.originalUsdPrice ?? null,
       badge: d.badge ?? null,
-      desc: d.desc,
+      desc: d.desc ?? '',
       longDesc: d.longDesc ?? '',
-      chakras: d.chakras,
+      chakras: d.chakras ?? [],
       variants: (d.variants ?? []).map((v: any) => ({
         name: v.name,
         price: v.price,
@@ -137,9 +137,9 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
         usdPrice: d.usdPrice ?? 0,
         originalUsdPrice: d.originalUsdPrice ?? null,
         badge: d.badge ?? null,
-        desc: d.desc,
+        desc: d.desc ?? '',
         longDesc: d.longDesc ?? '',
-        chakras: d.chakras,
+        chakras: d.chakras ?? [],
         variants: (d.variants ?? []).map((v: any) => ({
           name: v.name,
           price: v.price,

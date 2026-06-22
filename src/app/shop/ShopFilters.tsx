@@ -147,7 +147,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       list = list.filter((p) =>
         p.name.toLowerCase().includes(q) ||
         p.subcategory.toLowerCase().includes(q) ||
-        p.desc.toLowerCase().includes(q),
+        (p.desc ?? '').toLowerCase().includes(q),
       );
     }
     switch (sort) {

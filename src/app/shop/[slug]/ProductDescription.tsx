@@ -28,6 +28,7 @@ interface ProductDescriptionProps {
   desc: string;
   longDesc?: string;
   category?: string;
+  chakras?: string[];
   subcategory?: string;
 }
 
@@ -72,8 +73,9 @@ function ListField({ label, items }: { label: string; items?: string[] | string 
   );
 }
 
-export default function ProductDescription({ descObj, desc, longDesc, category, subcategory }: ProductDescriptionProps) {
+export default function ProductDescription({ descObj, desc, longDesc, category, subcategory, chakras }: ProductDescriptionProps) {
   const isSignature = (subcategory || '').toLowerCase() === 'signature bracelets';
+  const hasAlignedChakras = (chakras || []).some((ch) => ch && ch.trim());
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No structured JSON → simple collapse on the long description.
@@ -118,7 +120,7 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
           {d.description && d.description !== desc && <p>{d.description}</p>}
           <Field label="Purpose" value={d.purpose} />
           <Field label="Crystals Included" value={d.crystalsIncluded} />
-          {!isSignature && <Field label="Associated Chakras" value={d.associatedChakras} />}
+          {!isSignature && !hasAlignedChakras && <Field label="Associated Chakras" value={d.associatedChakras} />}
           {zodiacLine && <Field label="Zodiac Sign" value={zodiacLine} />}
 
           <ListField label="Benefits" items={d.benefits} />

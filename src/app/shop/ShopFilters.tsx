@@ -126,7 +126,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
           case 'malas':                 return cat === 'malas';
           case 'pendants':              return cat === 'pendants';
           case 'designer-pendants':     return cat === 'designer-pendants';
-          case 'silver-jewelry':        return cat === 'silver-jewelry';
+          case 'silver-jewelry':        return cat === 'silver-jewelry' && sub === 'rudraksha';
           case 'anklets':               return cat === 'anklets';
           case 'glow-essentials':       return cat === 'glow-essentials';
           case 'crystal-towers':        return cat === 'crystal-towers';

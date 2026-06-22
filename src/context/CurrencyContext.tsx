@@ -40,6 +40,23 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
     const stored = localStorage.getItem('kmc_country');
     if (stored) {
       setTimeout(() => setCountryState(stored), 0);
+      return;
+    }
+
+    // Auto-detect country via API if not logged in and no stored country
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/detect-country')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.ok && data.country) {
+            const country = data.country;
+            setTimeout(() => {
+              setCountryState(country);
+              localStorage.setItem('kmc_country', country);
+            }, 0);
+          }
+        })
+        .catch((err) => console.error('Failed to auto-detect country:', err));
     }
   }, [session?.user?.country]);
 

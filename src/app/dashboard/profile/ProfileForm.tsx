@@ -37,18 +37,23 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
         <input value={f.name} onChange={(e) => setF((s) => ({ ...s, name: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} />
       </div>
       <div>
-        <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country</label>
-        <select value={f.country} onChange={(e) => setF((s) => ({ ...s, country: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
-          <option value="IN" style={{ color: '#000' }}>India</option>
-          <option value="US" style={{ color: '#000' }}>United States</option>
-          <option value="UK" style={{ color: '#000' }}>United Kingdom</option>
-          <option value="AU" style={{ color: '#000' }}>Australia</option>
-          <option value="CA" style={{ color: '#000' }}>Canada</option>
-          <option value="AE" style={{ color: '#000' }}>United Arab Emirates</option>
-          <option value="SG" style={{ color: '#000' }}>Singapore</option>
-          <option value="MY" style={{ color: '#000' }}>Malaysia</option>
-          <option value="Other" style={{ color: '#000' }}>Other</option>
-        </select>
+        <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country (auto-detected)</label>
+        <input 
+          value={
+            f.country === 'IN' ? 'India' :
+            f.country === 'US' ? 'United States' :
+            f.country === 'UK' || f.country === 'GB' ? 'United Kingdom' :
+            f.country === 'AU' ? 'Australia' :
+            f.country === 'CA' ? 'Canada' :
+            f.country === 'AE' ? 'United Arab Emirates' :
+            f.country === 'SG' ? 'Singapore' :
+            f.country === 'MY' ? 'Malaysia' :
+            f.country || 'Other'
+          } 
+          readOnly 
+          className="newsletter-input" 
+          style={{ width: '100%', opacity: 0.6 }} 
+        />
       </div>
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone</label>

@@ -697,13 +697,13 @@ export default function CheckoutPage() {
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country *</label>
-                    <select required value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))} className="checkout-form-input">
-                      <option value="" disabled style={{ color: '#000' }}>Select country</option>
-                      {Object.keys(COUNTRY_CURRENCY_MAP).filter(k => k !== 'Other').map(k => (
-                        <option key={k} value={k} style={{ color: '#000' }}>{k === 'IN' ? 'India (IN)' : k === 'US' ? 'United States (US)' : k === 'UK' ? 'United Kingdom (UK)' : k === 'AU' ? 'Australia (AU)' : k === 'CA' ? 'Canada (CA)' : k === 'AE' ? 'UAE (AE)' : k === 'SG' ? 'Singapore (SG)' : k === 'MY' ? 'Malaysia (MY)' : k}</option>
-                      ))}
-                      <option value="OT" style={{ color: '#000' }}>Other Country</option>
-                    </select>
+                    <input 
+                      readOnly 
+                      required 
+                      value={form.country} 
+                      className="checkout-form-input" 
+                      style={{ opacity: 0.7, cursor: 'not-allowed', background: '#e9ecef' }} 
+                    />
                   </div>
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Date of Birth (Optional)</label>

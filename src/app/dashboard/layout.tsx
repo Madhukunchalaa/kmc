@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { auth, signOut } from '@/auth';
 import DashboardNav from './DashboardNav';
 import { connectMongoose } from '@/lib/mongoose';
@@ -13,8 +14,22 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   if (!session?.user) redirect('/login?callbackUrl=/dashboard');
 
   await connectMongoose();
-  const dbUser = await User.findById(session.user.id, 'country').lean() as { country?: string } | null;
-  const hasCountry = !!(dbUser?.country);
+  let dbUser = await User.findById(session.user.id, 'country').lean() as { country?: string } | null;
+  let hasCountry = !!(dbUser?.country);
+
+  if (!hasCountry) {
+    try {
+      const reqHeaders = await headers();
+      let detectedCountry = reqHeaders.get('x-vercel-ip-country') || reqHeaders.get('cf-ipcountry') || 'IN';
+      detectedCountry = detectedCountry.toUpperCase();
+      
+      // Auto-assign detected country in DB
+      await User.findByIdAndUpdate(session.user.id, { country: detectedCountry });
+      hasCountry = true;
+    } catch (err) {
+      console.error('Failed to auto-detect and save country for user:', err);
+    }
+  }
 
   async function logout() {
     'use server';

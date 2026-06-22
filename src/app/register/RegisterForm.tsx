@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 
-import { COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
+import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -13,6 +13,7 @@ export default function RegisterForm() {
   const callbackUrl = params.get('callbackUrl') || '/';
 
   const { status } = useSession();
+  const { countryCode } = useCurrency();
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -22,6 +23,12 @@ export default function RegisterForm() {
 
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', country: '', otp: '' });
+
+  useEffect(() => {
+    if (countryCode) {
+      setForm((f) => ({ ...f, country: f.country || countryCode }));
+    }
+  }, [countryCode]);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
@@ -110,16 +117,7 @@ export default function RegisterForm() {
             <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone (optional)</label>
             <input type="tel" value={form.phone} onChange={set('phone')} className="newsletter-input" style={{ width: '100%' }} autoComplete="tel" />
           </div>
-          <div>
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Country</label>
-            <select required value={form.country} onChange={set('country')} className="newsletter-input" style={{ width: '100%' }}>
-              <option value="" disabled style={{ color: '#000' }}>Select your country</option>
-              {Object.keys(COUNTRY_CURRENCY_MAP).filter(k => k !== 'Other').map(k => (
-                <option key={k} value={k} style={{ color: '#000' }}>{k === 'IN' ? 'India (IN)' : k === 'US' ? 'United States (US)' : k === 'UK' ? 'United Kingdom (UK)' : k === 'AU' ? 'Australia (AU)' : k === 'CA' ? 'Canada (CA)' : k === 'AE' ? 'UAE (AE)' : k === 'SG' ? 'Singapore (SG)' : k === 'MY' ? 'Malaysia (MY)' : k}</option>
-              ))}
-              <option value="OT" style={{ color: '#000' }}>Other Country</option>
-            </select>
-          </div>
+
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Password (min 8 chars)</label>
             <input required minLength={8} type="password" value={form.password} onChange={set('password')} className="newsletter-input" style={{ width: '100%' }} autoComplete="new-password" />

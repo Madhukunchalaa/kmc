@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
     cpus: 1,
   },
   images: {
+    // Serve images straight from R2 (already compressed to WebP on upload) instead
+    // of routing through Vercel's optimizer, which returns 402 once the plan's
+    // image-optimization quota is hit (OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED).
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

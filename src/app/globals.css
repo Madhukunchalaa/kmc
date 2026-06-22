@@ -8844,6 +8844,18 @@ body.has-test-banner .navbar.navbar-custom {
 }
 
 /* ─── Spiritual Reels Section ─── */
+.reels-scroll-track {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 24px;
+  padding: 24px calc(50% - 16.67%) 32px calc(50% - 16.67%); /* Centering first and last cards on desktop */
+  scroll-behavior: smooth;
+}
+
 .reel-card-item {
   flex: 0 0 calc((100% - 48px) / 3);
   width: calc((100% - 48px) / 3);
@@ -8852,23 +8864,33 @@ body.has-test-banner .navbar.navbar-custom {
   border-radius: 24px;
   overflow: hidden;
   background: #0d041a;
-  border: 1px solid rgba(200,149,108,0.25);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.5);
-  scroll-snap-align: start;
+  border: 1px solid rgba(200,149,108,0.15);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  scroll-snap-align: center;
   cursor: pointer;
-  transform: scale(1);
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+  transform: scale(0.9) !important;
+  opacity: 0.45;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+  z-index: 1;
 }
 
-.reel-card-item:hover {
-  transform: translateY(-8px) scale(1.02) !important;
-  border-color: rgba(200, 149, 108, 0.5) !important;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 30px rgba(162,59,236,0.25) !important;
+.reel-card-item.active {
+  transform: scale(1.06) !important;
+  opacity: 1 !important;
+  border-color: rgba(200, 149, 108, 0.4) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 25px rgba(162,59,236,0.1) !important;
+  z-index: 5;
 }
 
-.reel-card-item.playing {
+.reel-card-item.active.playing {
   animation: cosmic-aura 3s infinite ease-in-out;
   border-color: rgba(200, 149, 108, 0.6) !important;
+}
+
+.reel-card-item.active:hover {
+  transform: scale(1.08) translateY(-4px) !important;
+  border-color: rgba(200, 149, 108, 0.6) !important;
+  box-shadow: 0 24px 50px rgba(0,0,0,0.7), 0 0 35px rgba(162,59,236,0.25) !important;
 }
 
 @keyframes cosmic-aura {
@@ -8909,6 +8931,9 @@ body.has-test-banner .navbar.navbar-custom {
 
 /* Tablet adjustments (2 items visible) */
 @media (max-width: 991px) {
+  .reels-scroll-track {
+    padding: 24px calc(50% - 25%) 32px calc(50% - 25%);
+  }
   .reel-card-item {
     flex: 0 0 calc((100% - 24px) / 2);
     width: calc((100% - 24px) / 2);
@@ -8917,6 +8942,9 @@ body.has-test-banner .navbar.navbar-custom {
 
 /* Mobile adjustments (1 item visible, centered or small) */
 @media (max-width: 576px) {
+  .reels-scroll-track {
+    padding: 24px calc(50% - 145px) 32px calc(50% - 145px);
+  }
   .reel-card-item {
     flex: 0 0 290px;
     width: 290px;

@@ -65,17 +65,19 @@ const REELS: Reel[] = [
 ];
 
 export default function SpiritualReels() {
-  const [playingId, setPlayingId] = useState<number | null>(null);
+  const [centerId, setCenterId] = useState<number | null>(7); // First card is active initially
+  const [playingId, setPlayingId] = useState<number | null>(7); // First card plays initially
   const [muted, setMuted] = useState(true);
   const [scrollIndex, setScrollIndex] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  
   const carouselRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Pause all other videos when a new one starts playing
-  const handlePlayState = (id: number) => {
-    setPlayingId(id);
+  // Helper to pause other HTML5 videos
+  const pauseOtherVideos = (id: number) => {
     Object.keys(videoRefs.current).forEach((key) => {
       const idx = Number(key);
       if (idx !== id) {
@@ -87,32 +89,58 @@ export default function SpiritualReels() {
     });
   };
 
+  const handlePlayState = (id: number) => {
+    setPlayingId(id);
+    pauseOtherVideos(id);
+  };
+
   const handleVideoClick = (id: number) => {
-    const reel = REELS.find((r) => r.id === id);
-    if (!reel) return;
-    const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
+    const el = carouselRef.current;
+    if (!el) return;
 
-    if (isYoutube) {
-      if (playingId === id) {
-        setPlayingId(null);
+    const cards = el.querySelectorAll('.reel-card-item');
+    const targetCard = Array.from(cards).find(
+      (card) => Number(card.getAttribute('data-id')) === id
+    ) as HTMLElement | undefined;
+
+    if (targetCard) {
+      const isCenter = centerId === id;
+      if (isCenter) {
+        // Toggle play/pause for the center card
+        const reel = REELS.find((r) => r.id === id);
+        if (!reel) return;
+        const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
+
+        if (isYoutube) {
+          if (playingId === id) {
+            setPlayingId(null);
+          } else {
+            setPlayingId(id);
+          }
+          return;
+        }
+
+        const v = videoRefs.current[id];
+        if (!v) return;
+
+        if (v.paused) {
+          v.muted = muted;
+          v.play()
+            .then(() => {
+              setPlayingId(id);
+              pauseOtherVideos(id);
+            })
+            .catch(() => {});
+        } else {
+          v.pause();
+          if (playingId === id) {
+            setPlayingId(null);
+          }
+        }
       } else {
-        handlePlayState(id);
-      }
-      return;
-    }
-
-    const v = videoRefs.current[id];
-    if (!v) return;
-
-    if (v.paused) {
-      v.muted = muted;
-      v.play()
-        .then(() => handlePlayState(id))
-        .catch(() => {});
-    } else {
-      v.pause();
-      if (playingId === id) {
-        setPlayingId(null);
+        // Scroll side card to center
+        const targetScrollLeft = targetCard.offsetLeft - el.clientWidth / 2 + targetCard.clientWidth / 2;
+        el.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
       }
     }
   };
@@ -130,14 +158,55 @@ export default function SpiritualReels() {
     const el = carouselRef.current;
     if (!el) return;
 
+    // Check arrow states
     setCanScrollLeft(el.scrollLeft > 5);
     setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 5);
 
-    const firstCard = el.querySelector('.reel-card-item');
-    if (firstCard) {
-      const cardWidth = firstCard.clientWidth + 24;
-      setScrollIndex(Math.round(el.scrollLeft / cardWidth));
+    // Debounce center card calculation to prevent lag during scroll
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
     }
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      const cards = el.querySelectorAll('.reel-card-item');
+      const containerCenter = el.scrollLeft + el.clientWidth / 2;
+
+      let closestId: number | null = null;
+      let minDistance = Infinity;
+      let closestIdx = 0;
+
+      cards.forEach((card, idx) => {
+        const cardId = Number(card.getAttribute('data-id'));
+        const cardElement = card as HTMLElement;
+        const cardCenter = cardElement.offsetLeft + cardElement.clientWidth / 2;
+        const distance = Math.abs(containerCenter - cardCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestId = cardId;
+          closestIdx = idx;
+        }
+      });
+
+      if (closestId !== null) {
+        setCenterId(closestId);
+        setPlayingId(closestId); // Autoplay the centered video
+        setScrollIndex(closestIdx);
+
+        // If it's a native video, ensure it starts playing and others pause
+        const reel = REELS.find((r) => r.id === closestId);
+        if (reel && !reel.src.includes('youtube.com') && !reel.src.includes('youtu.be')) {
+          pauseOtherVideos(closestId);
+          setTimeout(() => {
+            const v = videoRefs.current[closestId!];
+            if (v && v.paused) {
+              v.muted = muted;
+              v.play().catch(() => {});
+            }
+          }, 50);
+        }
+      }
+    }, 150);
   };
 
   const scroll = (direction: 'left' | 'right') => {
@@ -145,42 +214,30 @@ export default function SpiritualReels() {
     if (!el) return;
     const firstCard = el.querySelector('.reel-card-item');
     if (firstCard) {
-      const cardWidth = firstCard.clientWidth + 24;
-      const scrollAmount = direction === 'left' ? -cardWidth * 2 : cardWidth * 2;
+      const cardWidth = firstCard.clientWidth + 24; // Card width + gap
+      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
       el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
   useEffect(() => {
     handleScroll();
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Pause playing video if it scrolls out of view
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            const card = entry.target as HTMLElement;
-            const id = Number(card.dataset.id);
-            if (id && playingId === id) {
-              setPlayingId(null);
-            }
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    el.querySelectorAll('.reel-card-item').forEach((card) => {
-      observer.observe(card);
-    });
-
-    return () => observer.disconnect();
-  }, [playingId]);
+  // Helper to format YouTube URLs with correct mute state
+  const getEmbedUrl = (src: string, isMuted: boolean) => {
+    const muteVal = isMuted ? '1' : '0';
+    if (src.includes('mute=')) {
+      return src.replace(/mute=[01]/, `mute=${muteVal}`);
+    }
+    return `${src}&mute=${muteVal}`;
+  };
 
   return (
     <section className="section-pad reels-section" style={{ background: 'var(--light-2, #1c0a02)', position: 'relative', overflow: 'hidden' }}>
@@ -306,20 +363,10 @@ export default function SpiritualReels() {
           <div
             ref={carouselRef}
             onScroll={handleScroll}
-            style={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch',
-              gap: '24px',
-              padding: '12px 12px 24px 12px',
-              msOverflowStyle: 'none',
-              scrollbarWidth: 'none',
-            }}
             className="reels-scroll-track"
           >
             {REELS.map((reel) => {
+              const isCenter = centerId === reel.id;
               const isPlaying = playingId === reel.id;
               const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
 
@@ -327,15 +374,11 @@ export default function SpiritualReels() {
                 <div
                   key={reel.id}
                   data-id={reel.id}
-                  style={{
-                    scrollSnapAlign: 'start',
-                    cursor: 'pointer',
-                  }}
                   onClick={() => handleVideoClick(reel.id)}
-                  className={`reel-card-item${isPlaying ? ' playing' : ''}`}
+                  className={`reel-card-item${isCenter ? ' active' : ''}${isPlaying ? ' playing' : ''}`}
                 >
-                  {/* Close/Pause Button (only visible when playing) */}
-                  {isPlaying && (
+                  {/* Close/Pause Button (only visible when playing and centered) */}
+                  {isPlaying && isCenter && (
                     <button
                       type="button"
                       onClick={(e) => {
@@ -347,20 +390,23 @@ export default function SpiritualReels() {
                       }}
                       style={{
                         position: 'absolute',
-                        top: '12px',
-                        right: '12px',
+                        top: '16px',
+                        right: '16px',
                         zIndex: 10,
-                        width: '32px',
-                        height: '32px',
+                        width: '36px',
+                        height: '36px',
                         borderRadius: '50%',
-                        background: 'rgba(0, 0, 0, 0.6)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        background: 'rgba(0, 0, 0, 0.65)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.25)',
                         color: '#fff',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+                        transition: 'all 0.2s',
                       }}
+                      className="reel-close-btn"
                       aria-label="Close video"
                     >
                       <i className="fa-solid fa-xmark"></i>
@@ -387,7 +433,7 @@ export default function SpiritualReels() {
                   {isPlaying && (
                     isYoutube ? (
                       <iframe
-                        src={reel.src}
+                        src={getEmbedUrl(reel.src, muted)}
                         title={reel.title}
                         style={{
                           position: 'absolute',
@@ -427,8 +473,8 @@ export default function SpiritualReels() {
                   {/* Shimmer gradient overlay */}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 50%, rgba(0,0,0,0.85) 100%)', zIndex: 3, pointerEvents: 'none' }} />
 
-                  {/* Play Button Overlay */}
-                  {!isPlaying && (
+                  {/* Play Button Overlay (only shown when not playing and centered) */}
+                  {!isPlaying && isCenter && (
                     <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 4 }}>
                       <div style={{
                         width: 56,
@@ -463,6 +509,8 @@ export default function SpiritualReels() {
                     gap: '4px',
                     pointerEvents: 'none',
                     boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                    opacity: isCenter ? 1 : 0.6,
+                    transition: 'opacity 0.3s ease',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
                       <div style={{

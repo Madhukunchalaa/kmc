@@ -142,18 +142,20 @@ export default function SpiritualReels() {
   useEffect(() => {
     if (animating) return;
     const reel = REELS[activeIndex];
+    setPlayingId(reel.id);
+
     const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
     if (!isYoutube) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const v = videoRefs.current[reel.id];
         if (v) {
           v.muted = muted;
-          v.play().catch(() => {});
-          setPlayingId(reel.id);
+          v.play().catch((err) => {
+            console.warn("Autoplay failed:", err);
+          });
         }
       }, 400);
-    } else {
-      setPlayingId(reel.id);
+      return () => clearTimeout(timer);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, animating]);
@@ -397,17 +399,24 @@ export default function SpiritualReels() {
                   )}
 
                   {/* Video content */}
-                  {cardIsPlaying && (
-                    isYoutube ? (
-                      <YoutubePlayer src={reel.src} title={reel.title} muted={muted} />
-                    ) : (
-                      <video
-                        ref={(el) => { videoRefs.current[reel.id] = el; }}
-                        loop preload="auto" playsInline muted={muted} autoPlay
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 2 }}
-                        src={reel.src}
-                      />
-                    )
+                  {isCenter && !isYoutube && (
+                    <video
+                      ref={(el) => { videoRefs.current[reel.id] = el; }}
+                      loop preload="auto" playsInline muted={muted}
+                      style={{ 
+                        position: 'absolute', 
+                        inset: 0, 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover', 
+                        zIndex: 2,
+                        display: cardIsPlaying ? 'block' : 'none'
+                      }}
+                      src={reel.src}
+                    />
+                  )}
+                  {cardIsPlaying && isYoutube && (
+                    <YoutubePlayer src={reel.src} title={reel.title} muted={muted} />
                   )}
 
                   {/* Gradient overlay */}
@@ -432,23 +441,7 @@ export default function SpiritualReels() {
                     </div>
                   )}
 
-                  {/* Info bar */}
-                  <div style={{
-                    position: 'absolute', bottom: 14, left: 12, right: 12,
-                    background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(12px)',
-                    border: '1.5px solid rgba(255,255,255,0.08)', borderRadius: '14px',
-                    padding: '10px 12px', zIndex: 5, pointerEvents: 'none',
-                    opacity: isCenter ? 1 : 0.55, transition: 'opacity 0.4s ease',
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(200,149,108,0.4)', flexShrink: 0 }}>
-                        <img src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" alt="Kriss" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      </div>
-                      <span style={{ fontSize: '0.65rem', color: '#FFEFA6', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>KrissMaagiic</span>
-                    </div>
-                    <h4 style={{ fontSize: '0.82rem', color: '#fff', fontWeight: 700, margin: 0 }}>{reel.title}</h4>
-                    <p style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.65)', margin: 0, lineHeight: 1.3, marginTop: 2 }}>{reel.caption}</p>
-                  </div>
+
                 </div>
               );
             })}

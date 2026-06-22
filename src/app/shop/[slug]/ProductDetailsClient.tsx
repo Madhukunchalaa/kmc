@@ -87,6 +87,11 @@ export default function ProductDetailsClient({ product, children }: { product: a
           mainImage={displayImage}
           category={product.category}
           name={product.name}
+          onImageSelect={(url) => {
+            if (!hasVariants) return;
+            const idx = product.variants.findIndex((v: any) => v.image === url);
+            if (idx >= 0) setSelectedVariantIdx(idx);
+          }}
         />
       </div>
       <div className="col-lg-7">

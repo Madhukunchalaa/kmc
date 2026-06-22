@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { resolveProductImage } from '@/lib/resolveProductImage';
 
@@ -9,6 +9,7 @@ interface ProductImageGalleryProps {
   mainImage: string;
   category: string;
   name: string;
+  onImageSelect?: (imageUrl: string) => void;
 }
 
 export default function ProductImageGallery({
@@ -16,12 +17,20 @@ export default function ProductImageGallery({
   mainImage,
   category,
   name,
+  onImageSelect,
 }: ProductImageGalleryProps) {
-  // Combine main image with gallery images, ensuring unique non-empty values
-  const rawList = [mainImage, ...images];
+  // Put images first so thumbnail order stays fixed; mainImage appended only if not already present
+  const rawList = [...images, mainImage];
   const uniqueImages = Array.from(new Set(rawList.filter((img) => !!img)));
 
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // When the selected variant changes (mainImage prop updates), highlight the matching thumbnail
+  useEffect(() => {
+    const idx = uniqueImages.indexOf(mainImage);
+    setActiveIndex(idx >= 0 ? idx : 0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainImage]);
   const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({
     transform: 'scale(1)',
     transformOrigin: 'center',
@@ -122,7 +131,7 @@ export default function ProductImageGallery({
                 <button
                   key={idx}
                   type="button"
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={() => { setActiveIndex(idx); onImageSelect?.(imgUrl); }}
                   aria-label={`View image ${idx + 1}`}
                   style={{
                     width: '76px',
@@ -143,7 +152,7 @@ export default function ProductImageGallery({
                     transform: isActive ? 'scale(1.05)' : 'scale(1)',
                     flexShrink: 0,
                   }}
-                  onMouseEnter={() => setActiveIndex(idx)} // Optional hover activation
+                  onMouseEnter={() => { setActiveIndex(idx); onImageSelect?.(imgUrl); }}
                 >
                   <Image
                     src={resolvedThumb}

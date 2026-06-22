@@ -15,7 +15,7 @@ const CATEGORIES: { key: string; label: string; icon: string }[] = [
   { key: 'designer-bracelets',    label: 'Designer Bracelets',    icon: 'fa-solid fa-wand-magic-sparkles' },
   { key: 'signature',             label: 'Signature Crystals',    icon: 'fa-solid fa-crown' },
   { key: 'spell-jars',            label: 'Spell Jars',            icon: 'fa-solid fa-jar' },
-  { key: 'bracelets-by-crystals', label: 'Bracelets by Crystals', icon: 'fa-solid fa-circle-notch' },
+  { key: 'bracelets-by-crystals', label: 'Bracelets',             icon: 'fa-solid fa-circle-notch' },
   // --- New collections (from Drive folders) ---
   { key: 'malas',                 label: 'Malas',                 icon: 'fa-solid fa-om' },
   { key: 'pendants',              label: 'Pendants',              icon: 'fa-solid fa-gem' },
@@ -26,7 +26,6 @@ const CATEGORIES: { key: string; label: string; icon: string }[] = [
   { key: 'crystal-towers',        label: 'Crystal Towers',        icon: 'fa-solid fa-mountain' },
   { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
   { key: 'raw-crystal',           label: 'Raw Crystals',          icon: 'fa-solid fa-cubes' },
-  { key: 'designer-crystals',     label: 'Designer Crystals',     icon: 'fa-solid fa-wand-sparkles' },
   { key: 'crystal-rings',         label: 'Crystal Rings',         icon: 'fa-solid fa-ring' },
   { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];

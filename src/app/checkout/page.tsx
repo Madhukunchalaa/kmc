@@ -65,10 +65,12 @@ export default function CheckoutPage() {
       });
     }
   }, [session]);
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
+  const [isCod, setIsCod] = useState(false);
 
   // Delivery Animation States
   const [showAnimation, setShowAnimation] = useState(false);
@@ -122,7 +124,7 @@ export default function CheckoutPage() {
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items, customer: form, currency }),
+        body: JSON.stringify({ items, customer: form, currency, paymentMethod }),
       });
       const orderData = await orderRes.json();
       if (!orderRes.ok || !orderData.ok) {
@@ -133,6 +135,16 @@ export default function CheckoutPage() {
               ? 'Please sign in to checkout.'
               : (orderData.reason ?? 'Failed to place order. Please try again.');
         setError(msg);
+        setSubmitting(false);
+        return;
+      }
+
+      // COD flow — skip payment, confirm immediately
+      if (paymentMethod === 'cod') {
+        setIsCod(true);
+        setConfirmedOrder({ ...orderData, items: hydrated.map(it => ({ name: it.product.name, qty: it.qty, price: it.product.price })), subtotal: inrSubtotal, shipping: shippingInr, total: payableInr, currency });
+        setOrderNumber(orderData.orderNumber);
+        await clear();
         setSubmitting(false);
         return;
       }
@@ -174,7 +186,7 @@ export default function CheckoutPage() {
       }
 
       setConfirmedOrder(verifyData);
-      
+
       // Wait for the animation to complete
       await animPromise;
 
@@ -191,6 +203,37 @@ export default function CheckoutPage() {
       setSubmitting(false);
     }
   };
+
+  if (orderNumber && isCod) {
+    return (
+      <section className="section-pad" style={{ paddingTop: '160px' }}>
+        <div className="container text-center" style={{ maxWidth: 720 }}>
+          <div style={{ fontSize: '4.5rem', marginBottom: '1rem' }}>🚚</div>
+          <h1 className="section-title">Order <span style={{ color: '#2B7A5C' }}>Placed!</span></h1>
+          <p className="section-subtitle">
+            Thank you, {form.name || 'friend'}! Your order <strong>{orderNumber}</strong> has been placed successfully.
+          </p>
+          <div style={{ background: '#f0faf5', border: '1px solid #a8d5bc', borderRadius: 16, padding: '1.5rem 2rem', marginBottom: '2rem', textAlign: 'left' }}>
+            <h4 style={{ color: '#2B7A5C', marginBottom: '0.5rem' }}><i className="fa-solid fa-money-bill-wave me-2"></i>Cash on Delivery</h4>
+            <p style={{ margin: 0, color: '#444', lineHeight: 1.7, fontSize: '0.93rem' }}>
+              Please keep <strong>₹{payableInr.toLocaleString('en-IN')}</strong> ready at the time of delivery.
+              Our team will confirm your order shortly via WhatsApp or call.
+            </p>
+          </div>
+          <div className="d-flex flex-wrap gap-2 justify-content-center mt-3">
+            <Link href="/dashboard/orders" className="btn-primary-custom">
+              <i className="fa-solid fa-box"></i>
+              <span>View My Orders</span>
+            </Link>
+            <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', border: '2px solid var(--primary,#C8956C)', color: 'var(--primary,#C8956C)' }}>
+              <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)' }}></i>
+              <span style={{ color: 'var(--primary,#C8956C)' }}>Keep Shopping</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (orderNumber) {
     return (
@@ -672,6 +715,29 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {/* Payment Method */}
+                <div>
+                  <h3 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)', marginBottom: '0.75rem' }}>Payment Method</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.9rem 1.1rem', border: `1.5px solid ${paymentMethod === 'online' ? 'var(--primary,#C8956C)' : 'rgba(200,149,108,0.3)'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === 'online' ? 'rgba(200,149,108,0.06)' : 'transparent', transition: 'all 0.2s ease' }}>
+                      <input type="radio" name="paymentMethod" value="online" checked={paymentMethod === 'online'} onChange={() => setPaymentMethod('online')} style={{ accentColor: 'var(--primary,#C8956C)', width: 18, height: 18 }} />
+                      <div>
+                        <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text,#2D1B0E)' }}><i className="fa-solid fa-credit-card me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>Pay Online</div>
+                        <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>UPI, Cards, Netbanking & Wallets via Cashfree</div>
+                      </div>
+                    </label>
+                    {!destinationIsIntl && (
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.9rem 1.1rem', border: `1.5px solid ${paymentMethod === 'cod' ? 'var(--primary,#C8956C)' : 'rgba(200,149,108,0.3)'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === 'cod' ? 'rgba(200,149,108,0.06)' : 'transparent', transition: 'all 0.2s ease' }}>
+                        <input type="radio" name="paymentMethod" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} style={{ accentColor: 'var(--primary,#C8956C)', width: 18, height: 18 }} />
+                        <div>
+                          <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text,#2D1B0E)' }}><i className="fa-solid fa-money-bill-wave me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>Cash on Delivery (COD)</div>
+                          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>Pay in cash when your order arrives</div>
+                        </div>
+                      </label>
+                    )}
+                  </div>
+                </div>
+
                 {error && (
                   <p style={{ color: '#D95F5F', fontSize: '0.9rem' }}>
                     <i className="fa-solid fa-circle-exclamation me-2"></i>
@@ -680,8 +746,8 @@ export default function CheckoutPage() {
                 )}
 
                 <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
-                  {submitting ? <Spinner /> : <i className="fa-solid fa-lock"></i>}
-                  <span>{submitting ? 'Processing…' : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
+                  {submitting ? <Spinner /> : <i className={paymentMethod === 'cod' ? 'fa-solid fa-truck' : 'fa-solid fa-lock'}></i>}
+                  <span>{submitting ? 'Processing…' : paymentMethod === 'cod' ? `Place Order (COD) — ${formatPrice(payableInr, 0)}` : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
                 </button>
 
                 {destinationIsIntl && (
@@ -692,9 +758,11 @@ export default function CheckoutPage() {
                 )}
 
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
-                  Secure payment via Cashfree — UPI, cards, netbanking &amp; wallets accepted.
+                  {paymentMethod === 'online'
+                    ? 'Secure payment via Cashfree — UPI, cards, netbanking & wallets accepted.'
+                    : 'Cash on Delivery — pay when your order arrives at your doorstep.'}
                   <br /><br />
-                  <strong style={{ color: '#D95F5F' }}>Disclaimer:</strong> All products are strictly non-refundable. By proceeding with this payment, you agree to our Return Policy.
+                  <strong style={{ color: '#D95F5F' }}>Disclaimer:</strong> All products are strictly non-refundable. By proceeding, you agree to our Return Policy.
                 </p>
               </form>
             </div>

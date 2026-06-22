@@ -8924,3 +8924,18 @@ body.has-test-banner .navbar.navbar-custom {
   100% { transform: scale(1);    box-shadow: 0 0 0 0px rgba(200,149,108,0); }
 }
 
+/* Fix fullscreen video aspect ratio to prevent zoom-in/cropping */
+video:fullscreen {
+  object-fit: contain !important;
+}
+video:-webkit-full-screen {
+  object-fit: contain !important;
+}
+video:-moz-full-screen {
+  object-fit: contain !important;
+}
+video:-ms-fullscreen {
+  object-fit: contain !important;
+}
+
+

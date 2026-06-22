@@ -6,11 +6,11 @@ const BASE = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos';
 
 const SLUG_TO_VIDEO: Record<string, string> = {
   tarot:         'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos/Img%205371.mp4',
-  'tarot-video': `${BASE}/Video%203.mp4`,
   candle:        `${BASE}/Video%204.mp4`,
   spelljar:      `${BASE}/Video%205.mp4`,
   numerology:    `${BASE}/Video%206.mp4`,
 };
+
 
 type Phase = 'idle' | 'loading' | 'playing' | 'paused' | 'buffering' | 'error';
 

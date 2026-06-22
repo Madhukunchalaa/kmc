@@ -59,7 +59,7 @@ export default function CartPage() {
                         boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
                       }}
                     >
-                      <Link href={`/shop/${it.product.id}`}>
+                      <Link href={`/shop/${it.product.slug || it.product.id}`}>
                         <img
                           src={it.product.image}
                           alt={it.product.name}
@@ -69,7 +69,7 @@ export default function CartPage() {
                       <div>
                         <span className="product-category" style={{ fontSize: '0.75rem' }}>{it.product.subcategory}</span>
                         <h4 style={{ fontFamily: 'var(--font-heading)', margin: '0.25rem 0 0.5rem' }}>
-                          <Link href={`/shop/${it.product.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                          <Link href={`/shop/${it.product.slug || it.product.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                             {it.product.name}
                           </Link>
                         </h4>

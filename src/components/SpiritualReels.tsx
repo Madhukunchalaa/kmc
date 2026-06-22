@@ -522,7 +522,7 @@ export default function SpiritualReels() {
                         overflow: 'hidden',
                         flexShrink: 0,
                       }}>
-                        <img src="/uploads/founder-1781446863195.webp" alt="Kriss" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp" alt="Kriss" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       </div>
                       <span style={{ fontSize: '0.68rem', color: 'var(--gold-light, #FFEFA6)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                         KrissMaagiic

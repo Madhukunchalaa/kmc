@@ -8843,4 +8843,84 @@ body.has-test-banner .navbar.navbar-custom {
   .vg-content-caption { display: none; }
 }
 
+/* ─── Spiritual Reels Section ─── */
+.reel-card-item {
+  flex: 0 0 calc((100% - 48px) / 3);
+  width: calc((100% - 48px) / 3);
+  aspect-ratio: 9 / 16;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0d041a;
+  border: 1px solid rgba(200,149,108,0.25);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+  scroll-snap-align: start;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.reel-card-item:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  border-color: rgba(200, 149, 108, 0.5) !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 30px rgba(162,59,236,0.25) !important;
+}
+
+.reel-card-item.playing {
+  animation: cosmic-aura 3s infinite ease-in-out;
+  border-color: rgba(200, 149, 108, 0.6) !important;
+}
+
+@keyframes cosmic-aura {
+  0% {
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162, 59, 236, 0.2), 0 0 10px rgba(200, 149, 108, 0.1);
+  }
+  50% {
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 35px rgba(162, 59, 236, 0.45), 0 0 25px rgba(200, 149, 108, 0.25);
+  }
+  100% {
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162, 59, 236, 0.2), 0 0 10px rgba(200, 149, 108, 0.1);
+  }
+}
+
+@keyframes pulse-play {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 149, 108, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(200, 149, 108, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 149, 108, 0); }
+}
+
+.reel-play-btn {
+  animation: pulse-play 2s infinite;
+}
+
+.reels-arrow-left, .reels-arrow-right {
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+.reels-arrow-left:hover {
+  transform: translateY(-50%) scale(1.1) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 6px 20px rgba(200,149,108,0.4) !important;
+}
+.reels-arrow-right:hover {
+  transform: translateY(-50%) scale(1.1) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 6px 20px rgba(200,149,108,0.4) !important;
+}
+
+/* Tablet adjustments (2 items visible) */
+@media (max-width: 991px) {
+  .reel-card-item {
+    flex: 0 0 calc((100% - 24px) / 2);
+    width: calc((100% - 24px) / 2);
+  }
+}
+
+/* Mobile adjustments (1 item visible, centered or small) */
+@media (max-width: 576px) {
+  .reel-card-item {
+    flex: 0 0 290px;
+    width: 290px;
+  }
+}
+
 

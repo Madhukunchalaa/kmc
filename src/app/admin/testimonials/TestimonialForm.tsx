@@ -38,6 +38,8 @@ export default function TestimonialForm({ id, initial }: { id?: string; initial?
 
   const set = <K extends keyof Initial>(k: K, v: Initial[K]) => setF((s) => ({ ...s, [k]: v }));
 
+  const wordCount = f.text.trim() ? f.text.trim().split(/\s+/).length : 0;
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
@@ -134,15 +136,18 @@ export default function TestimonialForm({ id, initial }: { id?: string; initial?
             onChange={(e) => set('text', e.target.value)}
             className="newsletter-input"
             style={{ width: '100%' }}
-            placeholder="Write the client's review here..."
+            placeholder="Write the client's review here (up to 300 words)…"
           />
+          <div style={{ textAlign: 'right', fontSize: '0.75rem', marginTop: 4, color: wordCount > 300 ? '#D95F5F' : wordCount > 250 ? '#C8956C' : 'rgba(0,0,0,0.45)' }}>
+            {wordCount}/300 words
+          </div>
         </div>
       </div>
 
       {err && <p style={{ color: '#D95F5F', marginTop: 12 }}><i className="fa-solid fa-circle-exclamation me-2"></i>{err}</p>}
 
       <div className="d-flex gap-3 mt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1.25rem' }}>
-        <button type="submit" disabled={saving} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>
+        <button type="submit" disabled={saving || wordCount > 300} className="btn-primary-custom" style={{ justifyContent: 'center', minWidth: 150 }}>
           <i className="fa-solid fa-save me-2"></i>
           <span>{saving ? 'Saving…' : (id ? 'Save changes' : 'Add Testimonial')}</span>
         </button>

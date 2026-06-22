@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import ScrollFade from '@/components/ScrollFade';
@@ -9,6 +9,7 @@ import BookingModal, { BookingTier } from '@/components/BookingModal';
 import SignatureCarousel from '@/components/SignatureCarousel';
 import SpiritualReels from '@/components/SpiritualReels';
 import MobileSearchBar from '@/components/MobileSearchBar';
+import TestimonialText from '@/components/TestimonialText';
 import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
@@ -44,6 +45,25 @@ export default function Home() {
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [list, setList] = useState(testimonials);
+  // Size the carousel viewport to the *active* card so each testimonial shows at
+  // its own height (no empty space under short reviews). Tracks content changes
+  // (font load, Read more expansion, resize) via ResizeObserver.
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [viewportH, setViewportH] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const el = slideRefs.current[activeTestimonial];
+    if (!el) return;
+    const update = () => setViewportH(el.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [activeTestimonial, list]);
 
   useEffect(() => {
     fetch('/api/testimonials')
@@ -611,13 +631,13 @@ export default function Home() {
           </div>
 
           <div style={{ position: 'relative', width: '100%', maxWidth: '720px', margin: '0 auto', padding: '0 50px' }}>
-            <div style={{ overflow: 'hidden', width: '100%', borderRadius: 16 }}>
-              <div style={{ display: 'flex', transform: `translateX(-${activeTestimonial * 100}%)`, transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                {list.map((t) => (
-                  <div key={t.name} style={{ flex: '0 0 100%', width: '100%', boxSizing: 'border-box' }}>
-                    <div className="testimonial-card" style={{ margin: 0, height: '100%' }}>
+            <div style={{ overflow: 'hidden', width: '100%', borderRadius: 16, height: viewportH, transition: 'height 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', transform: `translateX(-${activeTestimonial * 100}%)`, transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                {list.map((t, i) => (
+                  <div key={t.name} ref={(el) => { slideRefs.current[i] = el; }} style={{ flex: '0 0 100%', width: '100%', boxSizing: 'border-box' }}>
+                    <div className="testimonial-card" style={{ margin: 0 }}>
                       <div className="testimonial-stars">{'★'.repeat(t.rating)}</div>
-                      <p className="testimonial-text">&quot;{t.text}&quot;</p>
+                      <TestimonialText text={t.text} />
                       <div className="testimonial-author">
                         <div className="testimonial-avatar">{t.avatar}</div>
                         <div>

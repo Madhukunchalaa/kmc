@@ -3033,6 +3033,10 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.85);
 }
 
+.testimonials-section .testimonial-readmore {
+  color: var(--accent, #E8C99A);
+}
+
 .testimonials-section .testimonial-name {
   color: var(--white);
 }
@@ -3088,6 +3092,10 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   z-index: 1;
   box-shadow: 0 6px 30px rgba(28, 10, 2, 0.07);
+  /* Flex column so the author row always pins to the bottom — keeps cards
+     visually consistent regardless of review length (reviews run up to 300 chars). */
+  display: flex;
+  flex-direction: column;
 }
 
 .testimonial-card:hover {
@@ -3099,15 +3107,51 @@ h1, h2, h3, h4, h5, h6 {
 
 .testimonial-stars { color: var(--gold); font-size: 1.25rem; margin-bottom: 1.25rem; letter-spacing: 4px; }
 
+/* The carousel sizes its viewport to the active card, so each testimonial
+   appears at its own natural height — no fixed floor that would leave empty
+   space under short reviews. */
+.testimonial-text-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
 .testimonial-text {
   font-family: var(--font-sub);
   font-size: 1.05rem;
   color: var(--text-light);
   font-style: italic;
   line-height: 1.8;
-  margin-bottom: 1.5rem;
   font-weight: 300;
+  margin: 0;
+  /* Long (up to 300-word) reviews are clamped for visual consistency; the full
+     text stays in the DOM and expands via the "Read more" toggle. */
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
+.testimonial-text.is-expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.testimonial-readmore {
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--primary, #C8956C);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.testimonial-readmore:hover { opacity: 0.7; }
 
 .testimonial-author { display: flex; align-items: center; gap: 14px; }
 
@@ -7961,7 +8005,7 @@ body.theme-rose .hero-v2-orb {
   .testimonial-text {
     font-size: 0.9rem !important;
   }
-  
+
   /* Shop Products Grid */
   .shop-products-grid .pc-overlay {
     padding: 1.5rem 0.6rem 0.6rem !important;

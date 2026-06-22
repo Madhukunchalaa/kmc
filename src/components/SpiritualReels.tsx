@@ -93,7 +93,15 @@ const REELS: Reel[] = [
     caption: 'Understand the hidden patterns and cosmic alignments behind your numbers.',
     image: '/service-numerology.png',
   },
+  {
+    id: 7,
+    src: `${BASE}/Video%207.mp4`,
+    title: 'Crystal Packing Process',
+    caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
+    image: '/crystal-hero.png',
+  },
 ];
+
 
 
 const N = REELS.length;

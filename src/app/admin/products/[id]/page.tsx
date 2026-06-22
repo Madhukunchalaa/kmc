@@ -35,6 +35,7 @@ export default async function EditProductPage(props: PageProps<'/admin/products/
           chakras: p.chakras,
           shippingCharge: p.shippingCharge ?? null,
           stock: p.stock,
+          sizes: p.sizes ?? [],
           active: p.active,
         }}
       />

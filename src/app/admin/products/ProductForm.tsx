@@ -20,12 +20,13 @@ interface Initial {
   chakras: string[];
   shippingCharge: number | null;
   stock: number;
+  sizes: string[];
   active: boolean;
 }
 
 const EMPTY: Initial = {
   slug: '', name: '', category: 'bracelets', subcategory: 'Bracelets', price: 0, originalPrice: null, usdPrice: 0, originalUsdPrice: null,
-  image: '', images: [], badge: null, desc: '', longDesc: '', chakras: [], shippingCharge: null, stock: 99, active: true,
+  image: '', images: [], badge: null, desc: '', longDesc: '', chakras: [], shippingCharge: null, stock: 99, sizes: [], active: true,
 };
 
 const STANDARD_CATEGORIES = [
@@ -78,6 +79,8 @@ const STANDARD_CHAKRAS = [
   'Crown'
 ];
 
+const STANDARD_SIZES = ['6mm', '8mm', '10mm', '12mm'];
+
 interface StructuredLongDesc {
   description: string;
   whoShouldWear: string[];
@@ -90,7 +93,7 @@ interface StructuredLongDesc {
 
 export default function ProductForm({ id, initial }: { id?: string; initial?: Initial }) {
   const router = useRouter();
-  const [f, setF] = useState<Initial>(initial ?? EMPTY);
+  const [f, setF] = useState<Initial>(initial ? { ...EMPTY, ...initial, sizes: initial.sizes ?? [] } : EMPTY);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -292,6 +295,18 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
       current.push(chakra);
     }
     set('chakras', current);
+  };
+
+  // Size toggle helper
+  const toggleSize = (size: string) => {
+    const current = [...(f.sizes || [])];
+    const index = current.indexOf(size);
+    if (index > -1) {
+      current.splice(index, 1);
+    } else {
+      current.push(size);
+    }
+    set('sizes', current);
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -616,6 +631,40 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
             })}
           </div>
         </div>
+
+        {((isCustomCategory ? customCategory.trim() : f.category)?.toLowerCase() === 'bracelets') && (
+          <div className="col-12 mt-3">
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: 8 }}>Available Bead Sizes</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+              {STANDARD_SIZES.map((sz) => {
+                const active = f.sizes?.includes(sz);
+                return (
+                  <button
+                    key={sz}
+                    type="button"
+                    onClick={() => toggleSize(sz)}
+                    className="crystal-tag"
+                    style={{
+                      background: active ? 'var(--primary,#C8956C)' : 'rgba(0,0,0,0.03)',
+                      color: active ? '#fff' : 'inherit',
+                      border: '1px solid',
+                      borderColor: active ? 'var(--primary,#C8956C)' : 'rgba(0,0,0,0.1)',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: '0.82rem',
+                      padding: '6px 12px',
+                      borderRadius: 999,
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    {sz}
+                  </button>
+                );
+              })}
+            </div>
+            <div style={{ fontSize: '0.72rem', color: '#999', marginTop: 4 }}>Select the bead sizes you want to make available for this bracelet.</div>
+          </div>
+        )}
       </div>
 
       <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '0.5rem', marginBottom: '1.25rem', color: 'var(--primary,#C8956C)' }}>

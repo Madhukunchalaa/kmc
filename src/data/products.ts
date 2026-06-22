@@ -22,6 +22,7 @@ export interface Product {
     originalUsdPrice?: number | null;
     image: string;
   }[];
+  sizes?: string[];
 }
 
 export const products: Product[] = [

@@ -20,7 +20,10 @@ export default function ProductDetailsClient({ product, children }: { product: a
     : 0;
 
   const [selectedVariantIdx, setSelectedVariantIdx] = useState<number>(defaultVariantIdx);
-  const [selectedSize, setSelectedSize] = useState<string | null>(isBraceletsByCrystals && !hasVariants ? '8mm' : null);
+  const defaultSize = isBraceletsByCrystals && !hasVariants
+    ? (Array.isArray(product.sizes) && product.sizes.length > 0 ? product.sizes[0] : '8mm')
+    : null;
+  const [selectedSize, setSelectedSize] = useState<string | null>(defaultSize);
 
   const currentVariant = hasVariants ? product.variants[selectedVariantIdx] : null;
 
@@ -139,22 +142,24 @@ export default function ProductDetailsClient({ product, children }: { product: a
           <div className="mt-4 mb-3">
             <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>Select Bead Size: <span style={{ color: 'red' }}>*</span></h6>
             <div className="d-flex flex-wrap gap-2">
-              <button
-                key="8mm"
-                onClick={() => setSelectedSize('8mm')}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  border: '2px solid var(--primary,#C8956C)',
-                  background: 'rgba(200, 149, 108, 0.1)',
-                  color: 'var(--primary-dark,#A7744D)',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-              >
-                8mm
-              </button>
+              {(Array.isArray(product.sizes) && product.sizes.length > 0 ? product.sizes : ['8mm']).map((sz: string) => (
+                <button
+                  key={sz}
+                  onClick={() => setSelectedSize(sz)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: selectedSize === sz ? '2px solid var(--primary,#C8956C)' : '1px solid rgba(0,0,0,0.1)',
+                    background: selectedSize === sz ? 'rgba(200, 149, 108, 0.1)' : 'transparent',
+                    color: selectedSize === sz ? 'var(--primary-dark,#A7744D)' : '#555',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {sz}
+                </button>
+              ))}
             </div>
           </div>
         )}

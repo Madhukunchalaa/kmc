@@ -98,6 +98,7 @@ export const productInputSchema = z.object({
   chakras: z.array(z.string()).default([]),
   shippingCharge: z.number().min(0).max(100000).nullable().optional(),
   stock: z.number().int().min(0).default(99),
+  sizes: z.array(z.string()).default([]),
   active: z.boolean().default(true),
 });
 
@@ -259,7 +260,8 @@ function getFriendlyFieldName(path: string): string {
 
 export function zodErrorMessage(err: z.ZodError): string {
   return err.issues
-    .map((i) => {
+    .map((issue) => {
+      const i = issue as any;
       const path = i.path.join('.');
       
       // If we have a custom friendly message mapped to the exact path, use it directly
@@ -296,7 +298,7 @@ export function zodErrorMessage(err: z.ZodError): string {
           msg = `must have at most ${i.maximum} items`;
         }
       } else if (i.code === 'invalid_enum_value') {
-        msg = `must be one of: ${i.options.map(o => `"${o}"`).join(', ')}`;
+        msg = `must be one of: ${i.options.map((o: any) => `"${o}"`).join(', ')}`;
       } else if (i.code === 'invalid_string') {
         if (i.validation === 'email') {
           msg = 'must be a valid email address';

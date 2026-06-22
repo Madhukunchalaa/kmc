@@ -11,8 +11,11 @@ export interface DescObj {
   birthDates?: string;
   description?: string;
   benefits?: string[];
+  designSymbolism?: string;
   recommendedHand?: string;
   recommendedAnkle?: string;
+  bestFinger?: string;
+  bestDayToWear?: string;
   whenToWear?: string;
   howToEnergize?: string;
   affirmation?: string;
@@ -75,6 +78,7 @@ function ListField({ label, items }: { label: string; items?: string[] | string 
 
 export default function ProductDescription({ descObj, desc, longDesc, category, subcategory, chakras }: ProductDescriptionProps) {
   const isSignature = (subcategory || '').toLowerCase() === 'signature bracelets';
+  const isRing = (category || '').toLowerCase() === 'rings';
   const hasAlignedChakras = (chakras || []).some((ch) => ch && ch.trim());
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -105,6 +109,7 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
     (d.benefits && d.benefits.length > 0) ||
     (d.whoShouldWear && d.whoShouldWear.length > 0) ||
     (d.howToWear && d.howToWear.length > 0) ||
+    !!d.designSymbolism || !!d.bestFinger || !!d.bestDayToWear ||
     !!d.recommendedHand || !!d.whenToWear || !!d.howToEnergize ||
     (d.careInstructions && d.careInstructions.length > 0) ||
     !!d.affirmation || !!d.disclaimer;
@@ -114,12 +119,19 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
       {/* Short description always shows first */}
       <p>{desc || d.description}</p>
 
+      {isRing && (
+        <p style={{ marginTop: 8, marginBottom: 0, fontSize: '0.85rem', color: 'var(--primary,#C8956C)', fontWeight: 600 }}>
+          <i className="fa-solid fa-circle-info" style={{ marginRight: 6 }}></i>All rings are adjustable.
+        </p>
+      )}
+
       {isExpanded && (
         <div style={{ animation: 'fadeInUp 0.3s ease-out' }}>
           {/* Long description in expanded section if different from short desc */}
           {d.description && d.description !== desc && <p>{d.description}</p>}
           <Field label="Purpose" value={d.purpose} />
           <Field label="Crystals Included" value={d.crystalsIncluded} />
+          <Field label="Design Symbolism" value={d.designSymbolism} />
           {!isSignature && !hasAlignedChakras && <Field label="Associated Chakras" value={d.associatedChakras} />}
           {zodiacLine && <Field label="Zodiac Sign" value={zodiacLine} />}
 
@@ -132,6 +144,8 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
           ) : (
             <Field label="Recommended Hand to Wear" value={d.recommendedHand} />
           )}
+          <Field label="Best Finger" value={d.bestFinger} />
+          <Field label="Best Day to Wear" value={d.bestDayToWear} />
           <Field label="When to Wear" value={d.whenToWear} />
           {/* legacy combined field */}
           <ListField label="How to Wear" items={d.howToWear} />

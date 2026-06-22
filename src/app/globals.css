@@ -13,6 +13,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Hide scrollbars globally (Windows shows them, Mac/iOS hides them by default) ── */
+/* This makes all scrollable areas behave like Mac — scrollable but no visible bar */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -4934,6 +4944,8 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
   justify-content: center;
   padding: clamp(1rem, 4vw, 3rem);
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   animation: kmcModalFade 0.25s ease-out;
 }
 @keyframes kmcModalFade {
@@ -5047,6 +5059,8 @@ textarea.form-control-custom { resize: vertical; min-height: 140px; }
   gap: 0.5rem;
   max-height: 240px;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   padding-right: 4px;
 }
 .kmc-date-card {
@@ -8331,7 +8345,10 @@ body.has-test-banner .navbar.navbar-custom {
   top: 60px;
   height: calc(100vh - 60px);
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.dashboard-sidebar::-webkit-scrollbar { display: none; }
 
 .dashboard-nav-link {
   display: flex;

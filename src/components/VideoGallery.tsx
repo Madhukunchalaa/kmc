@@ -7,37 +7,37 @@ const BASE = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos';
 const VIDEOS = [
   {
     id: 1,
-    src: `${BASE}/%231.mp4`,
+    src: `${BASE}/Video%201.mp4`,
     title: 'Introduction',
     caption: 'Welcome to KrissMaagiic Crystals — your gateway to healing energy, sacred rituals, and crystal wisdom.',
   },
   {
     id: 2,
-    src: `${BASE}/%232.mp4`,
+    src: `${BASE}/Video%202.mp4`,
     title: 'Candle Spell Rituals',
     caption: 'Ignite your intentions with sacred flame. Watch a real candle spell ritual designed for manifestation and transformation.',
   },
   {
     id: 3,
-    src: `${BASE}/%233.mp4`,
+    src: `${BASE}/Video%203.mp4`,
     title: 'Tarot Reading',
     caption: 'Every card carries a message from the universe. Experience the depth and insight of a live tarot session.',
   },
   {
     id: 4,
-    src: `${BASE}/%234.mp4`,
+    src: `${BASE}/Video%204.mp4`,
     title: 'Spell Jar',
     caption: 'Crafted with sacred herbs, crystals, and focused intention — each spell jar is a vessel of powerful energy.',
   },
   {
     id: 5,
-    src: `${BASE}/%235.mp4`,
+    src: `${BASE}/Video%205.mp4`,
     title: 'Crystal',
     caption: 'Handpicked with love and intention. Discover the crystals that resonate with your energy and carry healing vibrations.',
   },
   {
     id: 6,
-    src: `${BASE}/%236.mp4`,
+    src: `${BASE}/Video%206.mp4`,
     title: 'Numerology',
     caption: 'Numbers are the language of the universe. Uncover the hidden meaning and power behind yours.',
   },

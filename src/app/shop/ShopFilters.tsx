@@ -30,6 +30,23 @@ const CATEGORIES: { key: string; label: string; icon: string }[] = [
   { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];
 
+const STATIC_CATEGORY_IMAGES: Record<string, string> = {
+  'view-all': '/categories/all.png',
+  'designer-bracelets': '/categories/designer-bracelets.png',
+  'signature': '/categories/signature.png',
+  'spell-jars': '/categories/spell-jars.png',
+  'bracelets-by-crystals': '/categories/bracelets.png',
+  'malas': '/categories/malas.png',
+  'pendants': '/categories/pendants.png',
+  'designer-pendants': '/categories/designer-pendants.png',
+  'silver-jewelry': '/categories/silver-jewelry.png',
+  'anklets': '/categories/anklets.png',
+  'glow-essentials': '/categories/glow-essentials.png',
+  'crystal-towers': '/categories/crystal-towers.png',
+  'pyramids': '/categories/pyramids.png',
+  'raw-crystal': '/categories/raw-crystal.png',
+};
+
 const SORTS = [
   { key: 'featured', label: 'Featured' },
   { key: 'price-asc', label: 'Price: Low → High' },
@@ -173,28 +190,16 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
   }, []);
 
   const getCategoryImage = (catKey: string): string => {
-    if (catKey === 'view-all') {
-      return '/crystal-hero.png';
+    if (STATIC_CATEGORY_IMAGES[catKey]) {
+      return STATIC_CATEGORY_IMAGES[catKey];
     }
+    // Dynamic fallback for categories without static images (like rings and home-decor)
     const list = products.filter((p) => {
       const sub = (p.subcategory || '').toLowerCase();
       const cat = (p.category || '').toLowerCase();
       switch (catKey) {
-        case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
-        case 'designer-bracelets':    return sub === 'designer bracelets';
-        case 'signature':             return sub === 'signature bracelets';
-        case 'malas':                 return cat === 'malas';
-        case 'pendants':              return cat === 'pendants';
-        case 'designer-pendants':     return cat === 'designer-pendants';
-        case 'silver-jewelry':        return cat === 'silver-jewelry' && sub === 'rudraksha';
-        case 'anklets':               return cat === 'anklets';
-        case 'glow-essentials':       return cat === 'glow-essentials';
-        case 'crystal-towers':        return cat === 'crystal-towers';
-        case 'pyramids':              return cat === 'pyramids';
-        case 'raw-crystal':           return cat === 'raw-crystal';
         case 'crystal-rings':         return cat === 'rings';
         case 'home-decor':            return cat === 'home-decor';
-        case 'spell-jars':            return cat === 'spell-jars';
         default:                      return false;
       }
     });

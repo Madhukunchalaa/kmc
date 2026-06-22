@@ -202,11 +202,110 @@ const FRIENDLY_FIELD: Record<string, string> = {
   items:           'Your cart is empty — please add items before checking out.',
 };
 
+function getFriendlyFieldName(path: string): string {
+  const dictionary: Record<string, string> = {
+    // Product fields
+    slug: 'URL Slug',
+    name: 'Product Name',
+    category: 'Category',
+    subcategory: 'Subcategory',
+    price: 'Price (₹)',
+    originalPrice: 'Original Price (₹)',
+    usdPrice: 'Price (USD)',
+    originalUsdPrice: 'Original Price (USD)',
+    image: 'Product Image',
+    images: 'Gallery Images',
+    badge: 'Badge Overlay',
+    desc: 'Short Description',
+    longDesc: 'Long Description',
+    chakras: 'Chakras',
+    shippingCharge: 'Shipping Charge',
+    stock: 'Stock',
+    active: 'Status',
+    // Booking fields
+    serviceId: 'Service ID',
+    date: 'Booking Date',
+    timeSlot: 'Time Slot',
+    question: 'Question',
+    intention: 'Intention',
+    notes: 'Notes',
+    // Shared customer sub-object (bookings + orders)
+    'customer.name': 'Customer Name',
+    'customer.email': 'Customer Email',
+    'customer.phone': 'Customer Phone',
+    // Order-specific customer fields
+    'customer.address': 'Customer Address',
+    'customer.city': 'Customer City',
+    'customer.state': 'Customer State',
+    'customer.pincode': 'Customer Pincode',
+    'customer.country': 'Customer Country',
+  };
+
+  if (dictionary[path]) return dictionary[path];
+
+  // Fallback: convert camelCase or dot notation to friendly label
+  return path
+    .split('.')
+    .map((part) => {
+      if (/^\d+$/.test(part)) return `[Index ${part}]`;
+      return part
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/[-_]/g, ' ')
+        .trim()
+        .replace(/^\w/, (c) => c.toUpperCase());
+    })
+    .join(' -> ');
+}
+
 export function zodErrorMessage(err: z.ZodError): string {
   return err.issues
     .map((i) => {
       const path = i.path.join('.');
-      return FRIENDLY_FIELD[path] ?? i.message;
+      
+      // If we have a custom friendly message mapped to the exact path, use it directly
+      if (FRIENDLY_FIELD[path]) {
+        return FRIENDLY_FIELD[path];
+      }
+
+      const friendlyName = getFriendlyFieldName(path);
+
+      // Generate a friendly message based on the Zod issue type/code
+      let msg = i.message;
+      if (i.code === 'invalid_type') {
+        if (i.received === 'undefined' || i.received === 'null') {
+          msg = 'is required';
+        } else {
+          msg = `must be a ${i.expected} (received ${i.received})`;
+        }
+      } else if (i.code === 'too_small') {
+        if (i.type === 'string') {
+          msg = i.minimum === 1
+            ? 'is required (cannot be empty)'
+            : `must be at least ${i.minimum} characters`;
+        } else if (i.type === 'number') {
+          msg = `must be greater than or equal to ${i.minimum}`;
+        } else if (i.type === 'array') {
+          msg = `must have at least ${i.minimum} items`;
+        }
+      } else if (i.code === 'too_big') {
+        if (i.type === 'string') {
+          msg = `must be at most ${i.maximum} characters`;
+        } else if (i.type === 'number') {
+          msg = `must be less than or equal to ${i.maximum}`;
+        } else if (i.type === 'array') {
+          msg = `must have at most ${i.maximum} items`;
+        }
+      } else if (i.code === 'invalid_enum_value') {
+        msg = `must be one of: ${i.options.map(o => `"${o}"`).join(', ')}`;
+      } else if (i.code === 'invalid_string') {
+        if (i.validation === 'email') {
+          msg = 'must be a valid email address';
+        } else if (i.validation === 'url') {
+          msg = 'must be a valid URL';
+        }
+      }
+
+      return `${friendlyName} ${msg}.`;
     })
     .join(' ');
 }

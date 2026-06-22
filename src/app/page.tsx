@@ -593,14 +593,14 @@ export default function Home() {
                 tags: ['Love', 'Harmony', 'Healing'],
               },
               {
-                name: 'Celestite',
-                keyword: 'Peace & Angelic Connection',
-                desc: 'A high-vibration crystal that connects you to the angelic realm. Celestite promotes peace, uplifts the spirit and encourages divine communication.',
-                color: 'rgba(100,149,237,0.15)',
-                gradient: 'linear-gradient(135deg,#C8E6FA,#7EC8E3)',
-                emoji: '💎',
-                image: '/images/crystals/celestite.png',
-                tags: ['Angelic', 'Calm', 'Intuition'],
+                name: 'Citrine',
+                keyword: 'Abundance & Confidence',
+                desc: "The merchant's stone — Citrine draws prosperity, sharpens willpower and brightens your aura.",
+                color: 'rgba(255, 210, 127, 0.15)',
+                gradient: 'linear-gradient(135deg,#FFD27F,#E59500)',
+                emoji: '💛',
+                image: '/images/crystals/citrine.png',
+                tags: ['Wealth', 'Joy', 'Success'],
               },
             ].map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>

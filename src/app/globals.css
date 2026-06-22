@@ -6113,10 +6113,10 @@ body.theme-rose .hero-v2-orb {
 
 .services-galaxy-card {
   scroll-margin-top: 120px;
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 2.5rem;
-  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3.5rem;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(200,149,108,0.2);
   border-radius: 28px;
@@ -6138,12 +6138,18 @@ body.theme-rose .hero-v2-orb {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
+  width: 290px;
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .services-card-content-col {
   position: relative;
   z-index: 1;
+  flex: 1;
 }
 
 /* Alternating layout on desktop */
@@ -6170,16 +6176,20 @@ body.theme-rose .hero-v2-orb {
 /* Services page responsive adjustments */
 @media (max-width: 991px) {
   .services-galaxy-card {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 2rem;
     padding: 2rem;
+    align-items: center;
   }
   .services-card-image-col {
     order: 1 !important;
-    min-height: 420px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
   }
   .services-card-content-col {
     order: 2 !important;
+    width: 100%;
   }
 }
 
@@ -6190,7 +6200,7 @@ body.theme-rose .hero-v2-orb {
     border-radius: 20px;
   }
   .services-card-image-col {
-    min-height: 380px;
+    max-width: 270px;
   }
   .services-card-footer {
     flex-direction: column;

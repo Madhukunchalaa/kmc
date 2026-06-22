@@ -102,7 +102,7 @@ export default function ServiceVideoPlayer({
           }} 
         />
         {/* Foreground service image */}
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'contain', objectPosition: 'center center', zIndex: 1 }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center center', zIndex: 1 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none', zIndex: 2 }} />
       </div>
     );
@@ -167,7 +167,7 @@ export default function ServiceVideoPlayer({
 
       {/* Fallback image shows until video starts (foreground) */}
       {(phase === 'idle' || phase === 'error') && (
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', zIndex: 1 }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', zIndex: 1 }} />
       )}
 
       <video
@@ -175,7 +175,7 @@ export default function ServiceVideoPlayer({
         preload="none"
         playsInline
         muted={muted}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none', zIndex: 1 }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none', zIndex: 1 }}
         onCanPlay={() => { if (phase === 'loading' || phase === 'buffering') videoRef.current?.play().catch(() => {}); }}
         onPlaying={() => setPhase('playing')}
         onPause={() => { if (phase === 'playing') setPhase('paused'); }}

@@ -7,6 +7,7 @@ import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
 import BookingModal, { BookingTier } from '@/components/BookingModal';
 import SignatureCarousel from '@/components/SignatureCarousel';
+import SpiritualReels from '@/components/SpiritualReels';
 import MobileSearchBar from '@/components/MobileSearchBar';
 import SimplePrice from '@/components/SimplePrice';
 import { products } from '@/data/products';
@@ -94,6 +95,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         if (data.ok && Array.isArray(data.services) && data.services.length > 0) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const mapped: HomepageService[] = data.services.map((svc: any, idx: number) => ({
             path: PATHS[idx] ?? `PATH ${idx + 1}`,
             icon: svc.icon || 'fa-solid fa-sparkles',
@@ -334,8 +336,8 @@ export default function Home() {
                             const maxTier = svc.tiers.reduce((prev, curr) => prev.price > curr.price ? prev : curr);
                             return (
                               <>
-                                <SimplePrice price={minTier.price} usdPrice={(minTier as any).usdPrice} />
-                                {minTier.price !== maxTier.price && <>{' – '}<SimplePrice price={maxTier.price} usdPrice={(maxTier as any).usdPrice} /></>}
+                                <SimplePrice price={minTier.price} usdPrice={minTier.usdPrice} />
+                                {minTier.price !== maxTier.price && <>{' – '}<SimplePrice price={maxTier.price} usdPrice={maxTier.usdPrice} /></>}
                               </>
                             );
                           })() : <SimplePrice price={0} usdPrice={0} />}
@@ -378,6 +380,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===== SPIRITUAL REELS SECTIONS ===== */}
+      <SpiritualReels />
 
       {/* ===== SIGNATURE CRYSTALS CAROUSEL ===== */}
       <SignatureCarousel products={signatureProducts} />

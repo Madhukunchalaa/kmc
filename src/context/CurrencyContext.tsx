@@ -56,10 +56,9 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
           console.log('[CurrencyProvider] API detect-country response:', data);
           if (data.ok && data.country) {
             const country = data.country;
-            console.log('[CurrencyProvider] Successfully auto-detected and saving country:', country);
+            console.log('[CurrencyProvider] Successfully auto-detected country:', country);
             setTimeout(() => {
               setCountryState(country);
-              localStorage.setItem('kmc_country', country);
             }, 0);
           }
         })

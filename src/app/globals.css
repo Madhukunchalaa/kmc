@@ -8887,168 +8887,23 @@ body.has-test-banner .navbar.navbar-custom {
   .vg-content-caption { display: none; }
 }
 
+
 /* ─── Spiritual Reels Section ─── */
-.reels-scroll-track {
-  --card-width: 340px;
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  gap: 0px; /* Zero gap to allow 3D cards to overlap nicely */
-  padding: 24px calc(50% - var(--card-width) / 2) 32px calc(50% - var(--card-width) / 2); /* Dynamic centering padding */
-  scroll-behavior: smooth;
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
-  
-  /* 3D Perspective setup */
-  perspective: 1200px;
-  transform-style: preserve-3d;
-}
-.reels-scroll-track::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome/Safari */
-}
+/* 3D Coverflow — index-based, no scroll */
 
-.reel-card-item {
-  flex: 0 0 var(--card-width);
-  width: var(--card-width);
-  aspect-ratio: 9 / 16;
-  position: relative;
-  border-radius: 24px;
+.reels-section {
   overflow: hidden;
-  background: #0d041a;
-  border: 1px solid rgba(200,149,108,0.15);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-  scroll-snap-align: center;
-  cursor: pointer;
-  z-index: 1;
-  
-  /* 3D Transform transitions */
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
-}
-
-/* 3D Coverflow states */
-.reel-card-item.active {
-  transform: rotateY(0deg) translateZ(80px) scale(1.06) !important;
-  opacity: 1 !important;
-  border-color: rgba(200, 149, 108, 0.5) !important;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.7), 0 0 30px rgba(200, 149, 108, 0.2) !important;
-  z-index: 10 !important;
-}
-
-.reel-card-item.active.playing {
-  animation: cosmic-aura 3s infinite ease-in-out;
-  border-color: rgba(200, 149, 108, 0.6) !important;
-}
-
-.reel-card-item.active:hover {
-  transform: rotateY(0deg) translateZ(95px) scale(1.08) translateY(-4px) !important;
-  border-color: rgba(200, 149, 108, 0.6) !important;
-  box-shadow: 0 24px 50px rgba(0,0,0,0.75), 0 0 35px rgba(200, 149, 108, 0.3) !important;
-}
-
-.reel-card-item.left-1 {
-  transform: rotateY(25deg) translateZ(-60px) translateX(50px) scale(0.92) !important;
-  opacity: 0.65 !important;
-  z-index: 5 !important;
-}
-
-.reel-card-item.right-1 {
-  transform: rotateY(-25deg) translateZ(-60px) translateX(-50px) scale(0.92) !important;
-  opacity: 0.65 !important;
-  z-index: 5 !important;
-}
-
-.reel-card-item.left-far {
-  transform: rotateY(35deg) translateZ(-160px) translateX(90px) scale(0.82) !important;
-  opacity: 0.35 !important;
-  z-index: 2 !important;
-}
-
-.reel-card-item.right-far {
-  transform: rotateY(-35deg) translateZ(-160px) translateX(-90px) scale(0.82) !important;
-  opacity: 0.35 !important;
-  z-index: 2 !important;
-}
-
-.reel-card-item.left-hidden {
-  transform: rotateY(45deg) translateZ(-250px) translateX(120px) scale(0.7) !important;
-  opacity: 0.12 !important;
-  z-index: 1 !important;
-}
-
-.reel-card-item.right-hidden {
-  transform: rotateY(-45deg) translateZ(-250px) translateX(-120px) scale(0.7) !important;
-  opacity: 0.12 !important;
-  z-index: 1 !important;
 }
 
 @keyframes cosmic-aura {
-  0% {
-    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162, 59, 236, 0.2), 0 0 10px rgba(200, 149, 108, 0.1);
-  }
-  50% {
-    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 35px rgba(162, 59, 236, 0.45), 0 0 25px rgba(200, 149, 108, 0.25);
-  }
-  100% {
-    box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162, 59, 236, 0.2), 0 0 10px rgba(200, 149, 108, 0.1);
-  }
+  0%   { box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162,59,236,0.2), 0 0 10px rgba(200,149,108,0.1); }
+  50%  { box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 35px rgba(162,59,236,0.45), 0 0 25px rgba(200,149,108,0.25); }
+  100% { box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 20px rgba(162,59,236,0.2), 0 0 10px rgba(200,149,108,0.1); }
 }
 
 @keyframes pulse-play {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 149, 108, 0.4); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(200, 149, 108, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 149, 108, 0); }
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0px rgba(200,149,108,0.5); }
+  70%  { transform: scale(1.06); box-shadow: 0 0 0 18px rgba(200,149,108,0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0px rgba(200,149,108,0); }
 }
-
-.reel-play-btn {
-  animation: pulse-play 2s infinite;
-}
-
-.reels-arrow-left, .reels-arrow-right {
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-}
-.reels-arrow-left:hover {
-  transform: translateY(-50%) scale(1.1) !important;
-  border-color: var(--primary) !important;
-  box-shadow: 0 6px 20px rgba(200,149,108,0.4) !important;
-}
-.reels-arrow-right:hover {
-  transform: translateY(-50%) scale(1.1) !important;
-  border-color: var(--primary) !important;
-  box-shadow: 0 6px 20px rgba(200,149,108,0.4) !important;
-}
-
-/* Tablet adjustments */
-@media (max-width: 991px) {
-  .reels-scroll-track {
-    --card-width: 300px;
-    gap: 0px;
-  }
-  .reel-card-item.left-1 {
-    transform: rotateY(20deg) translateZ(-50px) translateX(35px) scale(0.92) !important;
-  }
-  .reel-card-item.right-1 {
-    transform: rotateY(-20deg) translateZ(-50px) translateX(-35px) scale(0.92) !important;
-  }
-}
-
-/* Mobile adjustments */
-@media (max-width: 576px) {
-  .reels-scroll-track {
-    --card-width: 280px;
-    gap: 0px;
-  }
-  .reel-card-item.left-1 {
-    transform: rotateY(15deg) translateZ(-40px) translateX(20px) scale(0.92) !important;
-    opacity: 0.5 !important;
-  }
-  .reel-card-item.right-1 {
-    transform: rotateY(-15deg) translateZ(-40px) translateX(-20px) scale(0.92) !important;
-    opacity: 0.5 !important;
-  }
-}
-
 

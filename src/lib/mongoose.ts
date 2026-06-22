@@ -17,6 +17,12 @@ export async function connectMongoose(): Promise<typeof mongoose> {
       .connect(uri!, { bufferCommands: false })
       .then((m) => m);
   }
-  cached.conn = await cached.promise;
+  try {
+    cached.conn = await cached.promise;
+  } catch (err) {
+    // Don't keep a rejected promise cached — let the next call retry.
+    cached.promise = null;
+    throw err;
+  }
   return cached.conn;
 }

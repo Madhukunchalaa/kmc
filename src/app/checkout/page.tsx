@@ -726,15 +726,6 @@ export default function CheckoutPage() {
                         <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>UPI, Cards, Netbanking & Wallets via Cashfree</div>
                       </div>
                     </label>
-                    {!destinationIsIntl && (
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.9rem 1.1rem', border: `1.5px solid ${paymentMethod === 'cod' ? 'var(--primary,#C8956C)' : 'rgba(200,149,108,0.3)'}`, borderRadius: 12, cursor: 'pointer', background: paymentMethod === 'cod' ? 'rgba(200,149,108,0.06)' : 'transparent', transition: 'all 0.2s ease' }}>
-                        <input type="radio" name="paymentMethod" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} style={{ accentColor: 'var(--primary,#C8956C)', width: 18, height: 18 }} />
-                        <div>
-                          <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text,#2D1B0E)' }}><i className="fa-solid fa-money-bill-wave me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>Cash on Delivery (COD)</div>
-                          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>Pay in cash when your order arrives</div>
-                        </div>
-                      </label>
-                    )}
                   </div>
                 </div>
 

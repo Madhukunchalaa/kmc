@@ -308,14 +308,14 @@ export default function SpiritualReels() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div className="text-center mb-5">
-          <span className="section-eyebrow" style={{ color: 'var(--gold-light, #FFEFA6)' }}>
+          <span className="section-eyebrow" style={{ color: 'var(--primary, #C8956C)' }}>
             <i className="fa-solid fa-wand-magic-sparkles me-2"></i>KrissMaagiic In Motion
           </span>
-          <h2 className="section-title text-white">
+          <h2 className="section-title" style={{ color: '#2D1B0E' }}>
             Watch the <span>Magic Align</span>
           </h2>
-          <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right" style={{ color: 'var(--gold-light, #FFEFA6)' }}></i></div>
-          <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 640, margin: '0 auto' }}>
+          <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right" style={{ color: 'var(--primary, #C8956C)' }}></i></div>
+          <p className="section-subtitle" style={{ color: 'rgba(45, 27, 14, 0.75)', maxWidth: 640, margin: '0 auto' }}>
             Get a behind-the-scenes look at how we handpick, cleanse, and ritually energise our crystals, along with guides to our tarot and candle spell sessions.
           </p>
         </div>
@@ -331,9 +331,9 @@ export default function SpiritualReels() {
               top: '-60px',
               right: '24px',
               zIndex: 10,
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: '#fff',
+              background: 'rgba(45, 27, 14, 0.05)',
+              border: '1px solid rgba(45, 27, 14, 0.18)',
+              color: '#2D1B0E',
               borderRadius: '30px',
               padding: '6px 16px',
               display: 'flex',
@@ -345,7 +345,7 @@ export default function SpiritualReels() {
             }}
             className="reels-mute-toggle"
           >
-            <i className={`fa-solid ${muted ? 'fa-volume-xmark' : 'fa-volume-high'}`}></i>
+            <i className={`fa-solid ${muted ? 'fa-volume-xmark' : 'fa-volume-high'}`} style={{ color: '#2D1B0E' }}></i>
             <span>{muted ? 'Unmute All' : 'Mute All'}</span>
           </button>
 

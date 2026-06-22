@@ -212,9 +212,10 @@ export default function SpiritualReels() {
   const scroll = (direction: 'left' | 'right') => {
     const el = carouselRef.current;
     if (!el) return;
-    const firstCard = el.querySelector('.reel-card-item');
+    const firstCard = el.querySelector('.reel-card-item') as HTMLElement;
     if (firstCard) {
-      const cardWidth = firstCard.clientWidth + 24; // Card width + gap
+      const computedGap = parseFloat(window.getComputedStyle(el).gap) || 24;
+      const cardWidth = firstCard.offsetWidth + computedGap;
       const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
       el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
@@ -561,9 +562,10 @@ export default function SpiritualReels() {
                 onClick={() => {
                   const el = carouselRef.current;
                   if (el) {
-                    const firstCard = el.querySelector('.reel-card-item');
+                    const firstCard = el.querySelector('.reel-card-item') as HTMLElement;
                     if (firstCard) {
-                      const cardWidth = firstCard.clientWidth + 24;
+                      const computedGap = parseFloat(window.getComputedStyle(el).gap) || 24;
+                      const cardWidth = firstCard.offsetWidth + computedGap;
                       el.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
                     }
                   }

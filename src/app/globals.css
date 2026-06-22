@@ -8845,6 +8845,7 @@ body.has-test-banner .navbar.navbar-custom {
 
 /* ─── Spiritual Reels Section ─── */
 .reels-scroll-track {
+  --card-width: 340px;
   position: relative;
   display: flex;
   flex-wrap: nowrap;
@@ -8852,13 +8853,18 @@ body.has-test-banner .navbar.navbar-custom {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   gap: 24px;
-  padding: 24px calc(50% - 16.67%) 32px calc(50% - 16.67%); /* Centering first and last cards on desktop */
+  padding: 24px calc(50% - var(--card-width) / 2) 32px calc(50% - var(--card-width) / 2); /* Dynamic centering padding */
   scroll-behavior: smooth;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+}
+.reels-scroll-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
 }
 
 .reel-card-item {
-  flex: 0 0 calc((100% - 48px) / 3);
-  width: calc((100% - 48px) / 3);
+  flex: 0 0 var(--card-width);
+  width: var(--card-width);
   aspect-ratio: 9 / 16;
   position: relative;
   border-radius: 24px;
@@ -8932,22 +8938,16 @@ body.has-test-banner .navbar.navbar-custom {
 /* Tablet adjustments (2 items visible) */
 @media (max-width: 991px) {
   .reels-scroll-track {
-    padding: 24px calc(50% - 25%) 32px calc(50% - 25%);
-  }
-  .reel-card-item {
-    flex: 0 0 calc((100% - 24px) / 2);
-    width: calc((100% - 24px) / 2);
+    --card-width: 300px;
+    gap: 20px;
   }
 }
 
 /* Mobile adjustments (1 item visible, centered or small) */
 @media (max-width: 576px) {
   .reels-scroll-track {
-    padding: 24px calc(50% - 145px) 32px calc(50% - 145px);
-  }
-  .reel-card-item {
-    flex: 0 0 290px;
-    width: 290px;
+    --card-width: 280px;
+    gap: 16px;
   }
 }
 

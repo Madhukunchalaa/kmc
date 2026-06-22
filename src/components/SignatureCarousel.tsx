@@ -3,9 +3,24 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function SignatureCarousel({ products }: { products: any[] }) {
+export default function SignatureCarousel({ products: seedProducts }: { products: any[] }) {
+  const [products, setProducts] = useState<any[]>(seedProducts);
   const [activeIdx, setActiveIdx] = useState(0);
+
+  // Fetch live DB products so we always show the latest signature images
+  useEffect(() => {
+    fetch('/api/products')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.products) {
+          const sig = data.products.filter(
+            (p: any) => p.subcategory?.toLowerCase() === 'signature bracelets'
+          );
+          if (sig.length > 0) setProducts(sig);
+        }
+      })
+      .catch(() => {}); // silently fallback to seed
+  }, []);
 
   useEffect(() => {
     if (products.length === 0) return;
@@ -38,13 +53,13 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
           {/* Left Column: Description & CTAs */}
           <div className="col-lg-5 text-center text-lg-start">
             <span className="section-eyebrow text-center text-lg-start d-block" style={{ color: '#D4AF37' }}>
-              <i className="fa-solid fa-crown me-2"></i>KrissMaagiic Exclusive
+              <i className="fa-solid fa-crown me-2" />KrissMaagiic Exclusive
             </span>
             <h2 className="section-title text-white text-center text-lg-start" style={{ margin: '0.5rem 0 1.5rem' }}>
               Signature <span>Crystals</span>
             </h2>
             <div className="divider-ornament d-lg-none" style={{ margin: '0 auto 1.5rem' }}>
-              <i className="fa-solid fa-diamond-turn-right" style={{ color: '#D4AF37' }}></i>
+              <i className="fa-solid fa-diamond-turn-right" style={{ color: '#D4AF37' }} />
             </div>
             
             <p className="text-center text-lg-start" style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
@@ -70,7 +85,9 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
               maxWidth: '360px',
               margin: '0 auto',
               borderRadius: '24px',
-              border: '1px solid rgba(200, 149, 108, 0.25)',
+              borderWidth: '1px',
+              borderStyle: 'solid',
+              borderColor: 'rgba(200, 149, 108, 0.25)',
               boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(200, 149, 108, 0.08)',
               overflow: 'hidden',
               background: 'rgba(255, 255, 255, 0.01)',
@@ -80,7 +97,7 @@ export default function SignatureCarousel({ products }: { products: any[] }) {
                 const active = idx === activeIdx;
                 return (
                   <div
-                    key={p.id}
+                    key={p.id || p._id || idx}
                     style={{
                       position: 'absolute',
                       inset: 0,

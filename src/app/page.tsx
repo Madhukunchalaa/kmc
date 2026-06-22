@@ -40,7 +40,7 @@ export default function Home() {
   const otherFeatured = products.slice(0, 5).filter(p => p.id !== 'rose-quartz-bracelet');
   const featuredProducts = roseQuartz ? [roseQuartz, ...otherFeatured] : products.slice(0, 5);
   // Signature Bracelets
-  const signatureProducts = products.filter(p => p.subcategory === 'Designer Bracelets');
+  const signatureProducts = products.filter(p => p.subcategory?.toLowerCase() === 'signature bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);

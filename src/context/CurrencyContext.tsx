@@ -30,33 +30,40 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
   const { data: session } = useSession();
 
   useEffect(() => {
+    console.log('[CurrencyProvider useEffect] session country:', session?.user?.country);
     // If logged in, prioritize user's saved country
     if (session?.user?.country) {
       const country = session.user.country;
+      console.log('[CurrencyProvider] Using logged-in user country:', country);
       setTimeout(() => setCountryState(country), 0);
       return;
     }
     // Otherwise fallback to local storage
     const stored = localStorage.getItem('kmc_country');
+    console.log('[CurrencyProvider] localStorage kmc_country:', stored);
     if (stored) {
+      console.log('[CurrencyProvider] Using cached country from localStorage:', stored);
       setTimeout(() => setCountryState(stored), 0);
       return;
     }
 
     // Auto-detect country via API if not logged in and no stored country
     if (typeof fetch !== 'undefined') {
+      console.log('[CurrencyProvider] Auto-detecting country from API...');
       fetch('/api/detect-country')
         .then((res) => res.json())
         .then((data) => {
+          console.log('[CurrencyProvider] API detect-country response:', data);
           if (data.ok && data.country) {
             const country = data.country;
+            console.log('[CurrencyProvider] Successfully auto-detected and saving country:', country);
             setTimeout(() => {
               setCountryState(country);
               localStorage.setItem('kmc_country', country);
             }, 0);
           }
         })
-        .catch((err) => console.error('Failed to auto-detect country:', err));
+        .catch((err) => console.error('[CurrencyProvider] Failed to auto-detect country:', err));
     }
   }, [session?.user?.country]);
 

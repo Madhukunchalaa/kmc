@@ -17,6 +17,7 @@ export interface DescObj {
   bestFinger?: string;
   bestDayToWear?: string;
   whenToWear?: string;
+  placement?: string;
   howToEnergize?: string;
   affirmation?: string;
   careInstructions?: string[];
@@ -110,7 +111,7 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
     (d.whoShouldWear && d.whoShouldWear.length > 0) ||
     (d.howToWear && d.howToWear.length > 0) ||
     !!d.designSymbolism || !!d.bestFinger || !!d.bestDayToWear ||
-    !!d.recommendedHand || !!d.whenToWear || !!d.howToEnergize ||
+    !!d.recommendedHand || !!d.whenToWear || !!d.placement || !!d.howToEnergize ||
     (d.careInstructions && d.careInstructions.length > 0) ||
     !!d.affirmation || !!d.disclaimer;
 
@@ -149,6 +150,7 @@ export default function ProductDescription({ descObj, desc, longDesc, category, 
           <Field label="When to Wear" value={d.whenToWear} />
           {/* legacy combined field */}
           <ListField label="How to Wear" items={d.howToWear} />
+          <Field label="Placement Recommendation" value={d.placement} />
           <Field label="How to Energize" value={d.howToEnergize} />
 
           {d.affirmation && (

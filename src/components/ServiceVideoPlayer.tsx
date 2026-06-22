@@ -85,8 +85,25 @@ export default function ServiceVideoPlayer({
   if (!videoSrc) {
     return (
       <div style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6)', position: 'relative', width: '100%', flex: 1, background: '#0d041a' }}>
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center center' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none' }} />
+        {/* Blurred background image matching the service colors */}
+        <img 
+          src={image} 
+          alt="" 
+          style={{ 
+            position: 'absolute', 
+            inset: 0, 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover', 
+            filter: 'blur(20px) brightness(0.4)', 
+            opacity: 0.5, 
+            transform: 'scale(1.15)',
+            pointerEvents: 'none',
+          }} 
+        />
+        {/* Foreground service image */}
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block', objectFit: 'contain', objectPosition: 'center center', zIndex: 1 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none', zIndex: 2 }} />
       </div>
     );
   }
@@ -131,9 +148,26 @@ export default function ServiceVideoPlayer({
 
   return (
     <div ref={containerRef} style={{ borderRadius: 20, overflow: 'hidden', border: '1px solid rgba(200,149,108,0.25)', boxShadow: '0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(162,59,236,0.08)', position: 'relative', width: '100%', flex: 1, background: '#0d041a', cursor: 'pointer' }} onClick={toggle}>
-      {/* Fallback image shows until video starts */}
+      {/* Blurred background image matching the service colors */}
+      <img 
+        src={image} 
+        alt="" 
+        style={{ 
+          position: 'absolute', 
+          inset: 0, 
+          width: '100%', 
+          height: '100%', 
+          objectFit: 'cover', 
+          filter: 'blur(20px) brightness(0.4)', 
+          opacity: 0.5, 
+          transform: 'scale(1.15)',
+          pointerEvents: 'none',
+        }} 
+      />
+
+      {/* Fallback image shows until video starts (foreground) */}
       {(phase === 'idle' || phase === 'error') && (
-        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }} />
+        <img src={image} alt={title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', zIndex: 1 }} />
       )}
 
       <video
@@ -141,7 +175,7 @@ export default function ServiceVideoPlayer({
         preload="none"
         playsInline
         muted={muted}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center center', display: started || phase === 'loading' ? 'block' : 'none', zIndex: 1 }}
         onCanPlay={() => { if (phase === 'loading' || phase === 'buffering') videoRef.current?.play().catch(() => {}); }}
         onPlaying={() => setPhase('playing')}
         onPause={() => { if (phase === 'playing') setPhase('paused'); }}
@@ -151,11 +185,11 @@ export default function ServiceVideoPlayer({
       />
 
       {/* Shimmer overlay */}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(162,59,236,0.08) 0%, transparent 60%, rgba(200,149,108,0.08) 100%)', pointerEvents: 'none', zIndex: 2 }} />
 
       {/* Play button (idle / error) */}
       {(phase === 'idle' || phase === 'error') && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3 }}>
           <div style={{
             width: 64, height: 64, borderRadius: '50%',
             background: 'rgba(200,149,108,0.85)',
@@ -170,14 +204,14 @@ export default function ServiceVideoPlayer({
 
       {/* Loading spinner */}
       {phase === 'loading' && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)' }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.4)', zIndex: 3 }}>
           <div style={{ width: 36, height: 36, border: '3px solid rgba(200,149,108,0.3)', borderTopColor: '#C8956C', borderRadius: '50%', animation: 'vgSpin 0.7s linear infinite' }} />
         </div>
       )}
 
       {/* Controls (playing / paused / buffering) */}
       {started && (
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)' }} onClick={e => e.stopPropagation()}>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)', zIndex: 3 }} onClick={e => e.stopPropagation()}>
           <button onClick={toggle} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.1rem', cursor: 'pointer', padding: 6 }} aria-label={phase === 'playing' ? 'Pause' : 'Play'}>
             <i className={`fa-solid ${phase === 'playing' ? 'fa-pause' : 'fa-play'}`} />
           </button>

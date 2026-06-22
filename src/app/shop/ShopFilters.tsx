@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
@@ -61,6 +61,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
   const [sort, setSort] = useState('featured');
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
+  const isLoaded = useRef(false);
 
   // Reset to page 1 whenever category, sort, or search query changes
   useEffect(() => {
@@ -71,6 +72,9 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
   // Load from sessionStorage on mount if URL does not have overrides
   useEffect(() => {
+    if (isLoaded.current) return;
+    isLoaded.current = true;
+
     const hasCategory = searchParams.has('category');
     const hasIntent = searchParams.has('intent');
     const hasSearch = searchParams.has('search');
@@ -83,6 +87,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
     }
     const storedSort = sessionStorage.getItem('last_shop_sort');
     if (storedSort) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSort(storedSort);
     }
     if (!hasIntent && !hasSearch) {

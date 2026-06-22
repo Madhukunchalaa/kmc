@@ -52,11 +52,11 @@ function YoutubePlayer({ src, title, muted }: YoutubePlayerProps) {
 
 const REELS: Reel[] = [
   {
-    id: 7,
-    src: 'https://www.youtube.com/embed/pVP0sCUp7V0?autoplay=1&enablejsapi=1&mute=1&playlist=pVP0sCUp7V0&loop=1',
-    title: 'Crystal Power & Manifestation',
-    caption: 'Learn how to program and align your crystals with your daily intentions.',
-    image: '/crystal-hero.png',
+    id: 2,
+    src: `${BASE}/Video%202.mp4`,
+    title: 'Candle Spell Rituals',
+    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
+    image: '/service-candle.png',
   },
   {
     id: 1,
@@ -64,13 +64,6 @@ const REELS: Reel[] = [
     title: 'Welcome to KrissMaagiic',
     caption: 'Discover healing energy, sacred rituals, and certified authentic crystals.',
     image: '/about-hero.png',
-  },
-  {
-    id: 2,
-    src: `${BASE}/Video%202.mp4`,
-    title: 'Candle Spell Rituals',
-    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
-    image: '/service-candle.png',
   },
   {
     id: 3,
@@ -101,6 +94,7 @@ const REELS: Reel[] = [
     image: '/service-numerology.png',
   },
 ];
+
 
 const N = REELS.length;
 

@@ -115,7 +115,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
     // Show the full catalog; each tab narrows by category / subcategory.
     let list = [...products];
-    if (activeCat !== 'all') {
+    if (activeCat !== 'all' && activeCat !== 'view-all') {
       list = products.filter((p) => {
         const sub = norm(p.subcategory);
         const cat = norm(p.category);
@@ -165,16 +165,51 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
 
 
-  return (
-    <div style={{ width: '100%' }}>
-      {/* Horizontal Collections Filter Bar on Top */}
-      <div className="shop-top-collections-bar">
+  const CARDS = useMemo(() => {
+    return [
+      { key: 'view-all', label: 'All Products', icon: 'fa-solid fa-gem' },
+      ...CATEGORIES.filter((c) => c.key !== 'all'),
+    ];
+  }, []);
+
+  const getCategoryImage = (catKey: string): string => {
+    if (catKey === 'view-all') {
+      return '/crystal-hero.png';
+    }
+    const list = products.filter((p) => {
+      const sub = (p.subcategory || '').toLowerCase();
+      const cat = (p.category || '').toLowerCase();
+      switch (catKey) {
+        case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
+        case 'designer-bracelets':    return sub === 'designer bracelets';
+        case 'signature':             return sub === 'signature bracelets';
+        case 'malas':                 return cat === 'malas';
+        case 'pendants':              return cat === 'pendants';
+        case 'designer-pendants':     return cat === 'designer-pendants';
+        case 'silver-jewelry':        return cat === 'silver-jewelry' && sub === 'rudraksha';
+        case 'anklets':               return cat === 'anklets';
+        case 'glow-essentials':       return cat === 'glow-essentials';
+        case 'crystal-towers':        return cat === 'crystal-towers';
+        case 'pyramids':              return cat === 'pyramids';
+        case 'raw-crystal':           return cat === 'raw-crystal';
+        case 'crystal-rings':         return cat === 'rings';
+        case 'home-decor':            return cat === 'home-decor';
+        case 'spell-jars':            return cat === 'spell-jars';
+        default:                      return false;
+      }
+    });
+    return list[0]?.image || '/crystal-hero.png';
+  };
+
+  if (activeCat === 'all') {
+    return (
+      <div style={{ width: '100%' }}>
         <h4 style={{
           fontFamily: 'var(--font-heading)',
-          fontSize: '1.25rem',
+          fontSize: '1.35rem',
           color: '#ffffff',
           fontWeight: 700,
-          margin: 0,
+          margin: '0 0 24px 0',
           paddingBottom: '12px',
           borderBottom: '2px solid rgba(200, 149, 108, 0.25)',
           display: 'flex',
@@ -182,43 +217,161 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
           gap: '10px',
           letterSpacing: '0.04em'
         }}>
-          <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '1.1rem' }}></i>
-          Collections
+          <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '1.15rem' }}></i>
+          Explore Our Collections
         </h4>
-        <div className="shop-top-categories-track">
-          {CATEGORIES.map((c) => {
-            const active = activeCat === c.key;
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: '24px',
+          marginTop: '20px'
+        }}>
+          {CARDS.map((c) => {
+            const img = getCategoryImage(c.key);
             return (
-              <button
+              <div
                 key={c.key}
-                onClick={() => router.replace(c.key === 'all' ? '/shop' : `/shop?category=${c.key}`, { scroll: false })}
-                className={`shop-top-category-btn${active ? ' active' : ''}`}
+                onClick={() => {
+                  setQuery('');
+                  router.replace(`/shop?category=${c.key}`, { scroll: true });
+                }}
+                className="category-card-premium"
+                style={{
+                  position: 'relative',
+                  aspectRatio: '3 / 4',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  border: '1.5px solid rgba(200, 149, 108, 0.15)',
+                  cursor: 'pointer',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+                }}
               >
-                <div 
-                  className="category-icon-wrapper"
+                {/* Background Image */}
+                <img
+                  src={img}
+                  alt={c.label}
+                  className="category-card-bg-img"
                   style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '10px',
-                    background: active 
-                      ? 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)' 
-                      : 'rgba(200, 149, 108, 0.08)',
-                    color: active ? '#fff' : 'var(--primary)',
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.5s ease',
+                    zIndex: 1,
+                  }}
+                />
+                {/* Gradient Overlay */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(12, 4, 2, 0.95) 0%, rgba(12, 4, 2, 0.45) 45%, transparent 100%)',
+                  zIndex: 2,
+                  pointerEvents: 'none',
+                }} />
+                {/* Icon Badging (top right) */}
+                <div style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#FFEFA6',
+                  zIndex: 3,
+                }}>
+                  <i className={c.icon} style={{ fontSize: '0.95rem' }}></i>
+                </div>
+                {/* Content (bottom) */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '0',
+                  left: '0',
+                  right: '0',
+                  padding: '24px 20px',
+                  zIndex: 3,
+                }}>
+                  <h3 style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.25rem',
+                    color: '#fff',
+                    fontWeight: 700,
+                    margin: '0 0 6px 0',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                  }}>{c.label}</h3>
+                  <span style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--primary, #C8956C)',
+                    fontWeight: 600,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: '12px',
-                    boxShadow: active ? '0 4px 12px rgba(200, 149, 108, 0.25)' : 'none',
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  <i className={c.icon} style={{ fontSize: '0.85rem' }}></i>
+                    gap: '6px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase'
+                  }}>
+                    Explore Collection <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem', transition: 'transform 0.3s' }}></i>
+                  </span>
                 </div>
-                <span>{c.label}</span>
-              </button>
+              </div>
             );
           })}
         </div>
+      </div>
+    );
+  }
+
+  const activeCategoryObj = CARDS.find((c) => c.key === activeCat);
+  const pageTitle = activeCategoryObj ? activeCategoryObj.label : 'Collection';
+
+  return (
+    <div style={{ width: '100%' }}>
+      {/* Category Header with Back Button */}
+      <div style={{ marginBottom: '28px' }}>
+        <button
+          onClick={() => {
+            setQuery('');
+            router.replace('/shop', { scroll: true });
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255, 255, 255, 0.65)',
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            padding: '0',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            marginBottom: '12px',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary,#C8956C)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)')}
+        >
+          <i className="fa-solid fa-arrow-left" style={{ fontSize: '0.78rem' }}></i> Back to Collections
+        </button>
+        <h2 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '2rem',
+          color: '#fff',
+          fontWeight: 700,
+          margin: 0,
+          letterSpacing: '0.02em',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
+          <i className={activeCategoryObj?.icon || 'fa-solid fa-gem'} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.4rem' }}></i>
+          {pageTitle}
+        </h2>
       </div>
 
       {/* Main Catalog Column */}

@@ -8938,4 +8938,21 @@ video:-ms-fullscreen {
   object-fit: contain !important;
 }
 
+/* Premium Category Cards Hover Effects */
+.category-card-premium {
+  transform: translateY(0);
+}
+.category-card-premium:hover {
+  transform: translateY(-8px) !important;
+  border-color: rgba(200, 149, 108, 0.45) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.65), 0 0 35px rgba(200,149,108,0.2) !important;
+}
+.category-card-premium:hover .category-card-bg-img {
+  transform: scale(1.08) !important;
+}
+.category-card-premium:hover span i {
+  transform: translateX(4px) !important;
+}
+
+
 

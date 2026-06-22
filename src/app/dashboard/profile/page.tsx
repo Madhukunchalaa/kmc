@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { connectMongoose } from '@/lib/mongoose';
 import { User } from '@/models/User';
 import ProfileForm from './ProfileForm';
@@ -11,8 +12,10 @@ export const metadata = { title: 'My Profile' };
 export default async function ProfilePage() {
   const session = (await auth())!;
   await connectMongoose();
-  const user = await User.findById(session.user.id).lean();
-  if (!user) return null;
+  const user = await User.findById(session?.user?.id).lean();
+  if (!user) {
+    redirect('/api/auth/force-logout');
+  }
 
   // If user has no country stored, detect it from geo headers
   let defaultCountry = user.country;

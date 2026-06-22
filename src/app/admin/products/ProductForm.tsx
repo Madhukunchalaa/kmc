@@ -98,6 +98,10 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
   const [err, setErr] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  // Drag and drop sorting states for sub-images
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
   // Category and Subcategory custom state
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customCategory, setCustomCategory] = useState('');
@@ -259,6 +263,44 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     const newImages = [...f.images];
     newImages.splice(index, 1);
     set('images', newImages);
+  };
+
+  // Drag and Drop sort event handlers for gallery images
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(index));
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    const list = [...(f.images || [])];
+    const draggedItem = list[draggedIndex];
+    
+    // Remove the dragged item and insert it at the target index
+    list.splice(draggedIndex, 1);
+    list.splice(targetIndex, 0, draggedItem);
+
+    set('images', list);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
   };
 
   // Structured field helpers
@@ -566,9 +608,30 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
           <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>Additional Gallery Images</label>
           <div className="d-flex flex-wrap gap-3 mb-2">
             {f.images.map((img, i) => (
-              <div key={i} style={{ position: 'relative', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 12, padding: 4, background: '#FAF6F1' }}>
-                <img src={img} alt={`Gallery ${i}`} style={{ width: '80px', height: '80px', objectFit: 'contain', borderRadius: 8 }} />
-                <button type="button" onClick={() => removeGalleryImage(i)} style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: '#D95F5F', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer' }}>
+              <div
+                key={i}
+                draggable
+                onDragStart={(e) => handleDragStart(e, i)}
+                onDragOver={(e) => handleDragOver(e, i)}
+                onDrop={(e) => handleDrop(e, i)}
+                onDragEnd={handleDragEnd}
+                onDragLeave={handleDragLeave}
+                title="Drag to reorder"
+                style={{
+                  position: 'relative',
+                  border: dragOverIndex === i ? '2px dashed var(--primary,#C8956C)' : '1px solid rgba(0,0,0,0.1)',
+                  borderRadius: 12,
+                  padding: 4,
+                  background: '#FAF6F1',
+                  cursor: draggedIndex === i ? 'grabbing' : 'grab',
+                  opacity: draggedIndex === i ? 0.4 : 1,
+                  transform: dragOverIndex === i ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'all 0.2s cubic-bezier(0.25, 1, 0.5, 1)',
+                  userSelect: 'none',
+                }}
+              >
+                <img src={img} alt={`Gallery ${i}`} style={{ width: '80px', height: '80px', objectFit: 'contain', borderRadius: 8, pointerEvents: 'none' }} />
+                <button type="button" onClick={() => removeGalleryImage(i)} style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: '#D95F5F', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer', zIndex: 10 }}>
                   <i className="fa-solid fa-xmark"></i>
                 </button>
               </div>
@@ -582,7 +645,7 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
               </label>
             </div>
           </div>
-          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload multiple images to display a thumbnail gallery on the product page.</p>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload multiple images to display a thumbnail gallery on the product page. <strong>Drag images to reorder them.</strong></p>
         </div>
 
         <div className="col-md-6">

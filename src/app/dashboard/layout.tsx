@@ -15,6 +15,9 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   await connectMongoose();
   let dbUser = await User.findById(session.user.id, 'country').lean() as { country?: string } | null;
+  if (!dbUser) {
+    redirect('/api/auth/force-logout');
+  }
   let hasCountry = !!(dbUser?.country);
 
   if (!hasCountry) {

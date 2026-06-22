@@ -1,9 +1,12 @@
 if (process.env.NODE_ENV === 'production') {
+  const isPreview = process.env.VERCEL_ENV === 'preview';
+  const canonicalDomain = 'https://krissmaagiicrystals.com';
+
   if (!process.env.AUTH_URL) {
-    process.env.AUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://krissmaagiiccrystals.com';
+    process.env.AUTH_URL = (isPreview && process.env.VERCEL_URL) ? `https://${process.env.VERCEL_URL}` : canonicalDomain;
   }
   if (!process.env.NEXTAUTH_URL) {
-    process.env.NEXTAUTH_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://krissmaagiiccrystals.com';
+    process.env.NEXTAUTH_URL = (isPreview && process.env.VERCEL_URL) ? `https://${process.env.VERCEL_URL}` : canonicalDomain;
   }
 }
 

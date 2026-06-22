@@ -1,8 +1,7 @@
 import ShopPageClient from './ShopPageClient';
 import { getAllProducts } from '@/lib/catalog';
 
-// ISR: Cache page for 60 seconds, then rebuild
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Shop · KrissMaagiic Crystals',

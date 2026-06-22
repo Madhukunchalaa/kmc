@@ -135,7 +135,7 @@ export default function Home() {
                     width: '100%',
                     maxWidth: '440px',
                     height: 'auto',
-                    aspectRatio: '3 / 4',
+                    aspectRatio: '3 / 4.2',
                     inset: 'auto',
                     margin: '0 auto',
                     overflow: 'hidden',
@@ -154,7 +154,7 @@ export default function Home() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        objectPosition: 'center 15%',
+                        objectPosition: 'center 30%',
                         borderRadius: '16px',
                         transition: 'transform 0.4s ease'
                       }}

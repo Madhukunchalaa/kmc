@@ -12,6 +12,55 @@ interface Reel {
   image: string;
 }
 
+interface YoutubePlayerProps {
+  src: string;
+  title: string;
+  muted: boolean;
+}
+
+function YoutubePlayer({ src, title, muted }: YoutubePlayerProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [initialSrc] = useState(() => {
+    const muteVal = muted ? '1' : '0';
+    if (src.includes('mute=')) {
+      return src.replace(/mute=[01]/, `mute=${muteVal}`);
+    }
+    return `${src}&mute=${muteVal}`;
+  });
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage(
+        JSON.stringify({
+          event: 'command',
+          func: muted ? 'mute' : 'unmute',
+          args: [],
+        }),
+        '*'
+      );
+    }
+  }, [muted]);
+
+  return (
+    <iframe
+      ref={iframeRef}
+      src={initialSrc}
+      title={title}
+      style={{
+        position: 'absolute',
+        inset: 0,
+        width: '100%',
+        height: '100%',
+        border: 'none',
+        zIndex: 2,
+      }}
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+    />
+  );
+}
+
 const REELS: Reel[] = [
   {
     id: 7,
@@ -231,14 +280,16 @@ export default function SpiritualReels() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Helper to format YouTube URLs with correct mute state
-  const getEmbedUrl = (src: string, isMuted: boolean) => {
-    const muteVal = isMuted ? '1' : '0';
-    if (src.includes('mute=')) {
-      return src.replace(/mute=[01]/, `mute=${muteVal}`);
-    }
-    return `${src}&mute=${muteVal}`;
-  };
+  // Sync native videos mute state
+  useEffect(() => {
+    Object.values(videoRefs.current).forEach((v) => {
+      if (v) {
+        v.muted = muted;
+      }
+    });
+  }, [muted, playingId]);
+
+
 
   return (
     <section className="section-pad reels-section" style={{ background: 'var(--light-2, #1c0a02)', position: 'relative', overflow: 'hidden' }}>
@@ -433,19 +484,10 @@ export default function SpiritualReels() {
                   {/* Video/Iframe Content */}
                   {isPlaying && (
                     isYoutube ? (
-                      <iframe
-                        src={getEmbedUrl(reel.src, muted)}
+                      <YoutubePlayer
+                        src={reel.src}
                         title={reel.title}
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                          zIndex: 2,
-                        }}
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
+                        muted={muted}
                       />
                     ) : (
                       <video

@@ -143,7 +143,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
         <div className="container">
           <ProductDetailsClient product={product}>
             {/* Product description / JSON layout rendering */}
-            <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} category={product.category} />
+            <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} category={product.category} subcategory={product.subcategory} />
 
             {product.chakras && product.chakras.filter((ch: string) => ch && ch.trim()).length > 0 && (
               <div className="mt-4">
@@ -167,7 +167,7 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
                 </div>
               </div>
             )}
-          </ProductDetailsClient>
+            </ProductDetailsClient>
         </div>
       </section>
 

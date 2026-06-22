@@ -28,6 +28,7 @@ interface ProductDescriptionProps {
   desc: string;
   longDesc?: string;
   category?: string;
+  subcategory?: string;
 }
 
 const headingStyle: React.CSSProperties = {
@@ -71,7 +72,8 @@ function ListField({ label, items }: { label: string; items?: string[] | string 
   );
 }
 
-export default function ProductDescription({ descObj, desc, longDesc, category }: ProductDescriptionProps) {
+export default function ProductDescription({ descObj, desc, longDesc, category, subcategory }: ProductDescriptionProps) {
+  const isSignature = (subcategory || '').toLowerCase() === 'signature bracelets';
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No structured JSON → simple collapse on the long description.
@@ -116,7 +118,7 @@ export default function ProductDescription({ descObj, desc, longDesc, category }
           {d.description && d.description !== desc && <p>{d.description}</p>}
           <Field label="Purpose" value={d.purpose} />
           <Field label="Crystals Included" value={d.crystalsIncluded} />
-          <Field label="Associated Chakras" value={d.associatedChakras} />
+          {!isSignature && <Field label="Associated Chakras" value={d.associatedChakras} />}
           {zodiacLine && <Field label="Zodiac Sign" value={zodiacLine} />}
 
           <ListField label="Benefits" items={d.benefits} />

@@ -110,6 +110,11 @@ export default function MobileSearchBar() {
             type="text"
             value={query}
             onChange={(e) => search(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && query.trim().length >= 2) {
+                go(`/shop?category=view-all&search=${encodeURIComponent(query.trim())}`);
+              }
+            }}
             onFocus={() => { setFocused(true); if (hasResults) setOpen(true); }}
             placeholder="Search crystals, bracelets, services…"
             style={{
@@ -200,9 +205,7 @@ export default function MobileSearchBar() {
                   </button>
                 ))}
                 <button type="button" onClick={() => {
-                  const firstProduct = results.products[0];
-                  const catSlug = firstProduct ? getCategorySlug(firstProduct.category, firstProduct.subcategory) : 'view-all';
-                  go(`/shop?category=${catSlug}`);
+                  go(`/shop?category=view-all&search=${encodeURIComponent(query.trim())}`);
                 }}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, width: '100%', padding: '10px 14px', background: 'rgba(200,149,108,0.07)', border: 'none', color: '#C8956C', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em' }}>
                   View all in Shop <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.65rem' }}></i>

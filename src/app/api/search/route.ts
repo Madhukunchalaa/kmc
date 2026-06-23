@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectMongoose } from '@/lib/mongoose';
 import { Service } from '@/models/Service';
+import { Product } from '@/models/Product';
 import { products as productSeed } from '@/data/products';
 
 export async function GET(req: Request) {
@@ -18,7 +19,7 @@ export async function GET(req: Request) {
   try {
     await connectMongoose();
 
-    const [services] = await Promise.all([
+    const [services, dbProducts] = await Promise.all([
       Service.find({
         active: true,
         isDeleted: { $ne: true },
@@ -27,20 +28,44 @@ export async function GET(req: Request) {
         .select('slug title tagline icon image price')
         .limit(5)
         .lean(),
+      Product.find({
+        active: true,
+        isDeleted: { $ne: true },
+        $or: [
+          { name: regex },
+          { category: regex },
+          { subcategory: regex },
+          { desc: regex },
+        ],
+      })
+        .select('_id name category subcategory image price slug')
+        .limit(8)
+        .lean(),
     ]);
 
-    // Search static product seed (fast, no DB)
-    const products = productSeed
-      .filter((p) => regex.test(p.name) || regex.test(p.category) || regex.test(p.subcategory) || regex.test(p.desc || ''))
-      .slice(0, 8)
-      .map((p) => ({
-        id: p.id,
-        name: p.name,
-        category: p.category,
-        subcategory: p.subcategory || '',
-        image: p.image,
-        price: p.price
-      }));
+    let products = dbProducts.map((p) => ({
+      id: p.slug || String(p._id),
+      name: p.name,
+      category: p.category,
+      subcategory: p.subcategory || '',
+      image: p.image,
+      price: p.price,
+    }));
+
+    // Fallback to static product seed if no products in DB
+    if (products.length === 0) {
+      products = productSeed
+        .filter((p) => regex.test(p.name) || regex.test(p.category) || regex.test(p.subcategory) || regex.test(p.desc || ''))
+        .slice(0, 8)
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          category: p.category,
+          subcategory: p.subcategory || '',
+          image: p.image,
+          price: p.price,
+        }));
+    }
 
     return NextResponse.json({ ok: true, products, services });
   } catch (err) {
@@ -48,3 +73,4 @@ export async function GET(req: Request) {
     return NextResponse.json({ ok: false, products: [], services: [] });
   }
 }
+

@@ -93,6 +93,8 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       const hasSearch = searchParams.has('search');
       if (!hasIntent && !hasSearch) {
         setQuery('');
+      } else {
+        setQuery(searchParams.get('intent') || searchParams.get('search') || '');
       }
       return;
     }
@@ -113,7 +115,9 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSort(storedSort);
     }
-    if (!hasIntent && !hasSearch) {
+    if (hasIntent || hasSearch) {
+      setQuery(searchParams.get('intent') || searchParams.get('search') || '');
+    } else {
       if (!hasCategory) {
         const storedQuery = sessionStorage.getItem('last_shop_query');
         if (storedQuery) {
@@ -173,6 +177,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       const q = query.trim().toLowerCase();
       list = list.filter((p) =>
         p.name.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
         p.subcategory.toLowerCase().includes(q) ||
         (p.desc ?? '').toLowerCase().includes(q),
       );

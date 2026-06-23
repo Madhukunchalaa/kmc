@@ -90,6 +90,11 @@ function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => search(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && query.trim().length >= 2) {
+              go(`/shop?category=view-all&search=${encodeURIComponent(query.trim())}`);
+            }
+          }}
           onFocus={() => {
             hasResults && setOpen(true);
             const pill = document.getElementById('search-pill');
@@ -179,9 +184,7 @@ function SearchBar() {
                 </button>
               ))}
               <button type="button" onClick={() => {
-                const firstProduct = results.products[0];
-                const catSlug = firstProduct ? getCategorySlug(firstProduct.category, firstProduct.subcategory) : 'view-all';
-                go(`/shop?category=${catSlug}`);
+                go(`/shop?category=view-all&search=${encodeURIComponent(query.trim())}`);
               }}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, width: '100%', padding: '10px 16px', background: 'rgba(200,149,108,0.08)', border: 'none', color: '#C8956C', fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em' }}>
                 View all in Shop <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>

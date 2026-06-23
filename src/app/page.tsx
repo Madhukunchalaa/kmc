@@ -48,10 +48,17 @@ export default function Home() {
       .catch((err) => console.error('Error fetching products:', err));
   }, []);
 
-  // Bestsellers: Rose Quartz first, then remaining top picks — one row of 5
-  const roseQuartz = dbProducts.find(p => p.id === 'rose-quartz-bracelet' || p.slug === 'rose-quartz-bracelet');
-  const otherFeatured = dbProducts.slice(0, 5).filter(p => p.id !== 'rose-quartz-bracelet' && p.slug !== 'rose-quartz-bracelet');
-  const featuredProducts = roseQuartz ? [roseQuartz, ...otherFeatured] : dbProducts.slice(0, 5);
+  // Bestsellers: Display the exact 5 products from the database list by id or slug
+  const FEATURED_IDS = [
+    'rose-quartz-bracelet',
+    'triple-protection-bracelet',
+    'money-magnet-bracelet',
+    'seven-chakra-bracelet',
+    'black-tourmaline-bracelet'
+  ];
+  const featuredProducts = FEATURED_IDS.map(id => 
+    dbProducts.find(p => p.id === id || p.slug === id)
+  ).filter(Boolean);
   // Signature Bracelets
   const signatureProducts = dbProducts.filter(p => p.subcategory?.toLowerCase() === 'signature bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);

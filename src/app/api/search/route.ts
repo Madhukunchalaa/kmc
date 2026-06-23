@@ -33,7 +33,14 @@ export async function GET(req: Request) {
     const products = productSeed
       .filter((p) => regex.test(p.name) || regex.test(p.category) || regex.test(p.subcategory) || regex.test(p.desc || ''))
       .slice(0, 8)
-      .map((p) => ({ id: p.id, name: p.name, category: p.category, image: p.image, price: p.price }));
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        subcategory: p.subcategory || '',
+        image: p.image,
+        price: p.price
+      }));
 
     return NextResponse.json({ ok: true, products, services });
   } catch (err) {

@@ -4,8 +4,30 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface SearchResult {
-  products: { id: string; name: string; category: string; image: string; price: number }[];
+  products: { id: string; name: string; category: string; subcategory?: string; image: string; price: number }[];
   services: { slug: string; title: string; tagline: string; icon: string; price: number }[];
+}
+
+function getCategorySlug(category: string, subcategory?: string): string {
+  const cat = (category || '').toLowerCase().trim();
+  const sub = (subcategory || '').toLowerCase().trim();
+  if (sub === 'designer bracelets') return 'designer-bracelets';
+  if (sub === 'signature bracelets') return 'signature';
+  if (cat === 'bracelets') return 'bracelets-by-crystals';
+  if (cat === 'malas') return 'malas';
+  if (cat === 'pendants') return 'pendants';
+  if (cat === 'designer-pendants') return 'designer-pendants';
+  if (cat === 'silver-jewelry') return 'silver-jewelry';
+  if (cat === 'anklets') return 'anklets';
+  if (cat === 'glow-essentials') return 'glow-essentials';
+  if (cat === 'crystal-towers') return 'crystal-towers';
+  if (cat === 'pyramids') return 'pyramids';
+  if (cat === 'raw-crystal') return 'raw-crystal';
+  if (cat === 'designer-crystals') return 'designer-crystals';
+  if (cat === 'rings') return 'crystal-rings';
+  if (cat === 'home-decor') return 'home-decor';
+  if (cat === 'spell-jars') return 'spell-jars';
+  return 'view-all';
 }
 
 export default function MobileSearchBar() {
@@ -164,7 +186,10 @@ export default function MobileSearchBar() {
                   <i className="fa-solid fa-gem me-1"></i> Products
                 </div>
                 {results.products.map((p) => (
-                  <button key={p.id} type="button" onClick={() => go(`/shop/${p.id}`)}
+                  <button key={p.id} type="button" onClick={() => {
+                    const catSlug = getCategorySlug(p.category, p.subcategory);
+                    go(`/shop?category=${catSlug}&search=${encodeURIComponent(p.name)}`);
+                  }}
                     style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '10px 14px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                     <img src={p.image} alt={p.name} style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid rgba(200,149,108,0.2)' }} />
                     <div style={{ flex: 1, minWidth: 0 }}>

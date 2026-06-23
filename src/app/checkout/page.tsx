@@ -172,6 +172,7 @@ export default function CheckoutPage() {
       await openCashfreeCheckout({
         paymentSessionId: payData.paymentSessionId,
         orderId: payData.orderId,
+        mode: payData.mode,
       });
 
       // Start the delivery animation and verify order simultaneously

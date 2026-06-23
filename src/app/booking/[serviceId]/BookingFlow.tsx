@@ -309,6 +309,7 @@ export default function BookingFlow({
       await openCashfreeCheckout({
         paymentSessionId: payData.paymentSessionId,
         orderId: payData.cfOrderId,
+        mode: payData.mode,
       });
 
       const verifyRes = await fetch('/api/payments/cashfree/booking/verify', {

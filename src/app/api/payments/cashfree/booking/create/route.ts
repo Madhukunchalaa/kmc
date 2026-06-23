@@ -81,6 +81,7 @@ export async function POST(req: Request) {
       amount: booking.servicePrice,
       currency: booking.currency || 'INR',
       bookingNumber: booking.bookingNumber,
+      mode: (process.env.CASHFREE_ENV || 'test').toLowerCase() === 'production' ? 'production' : 'sandbox',
       customer: {
         name: booking.customer.name,
         email: booking.customer.email,

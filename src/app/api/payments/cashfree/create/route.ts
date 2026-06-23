@@ -83,6 +83,7 @@ export async function POST(req: Request) {
       currency: order.currency || 'INR',
       orderNumber: order.orderNumber,
       orderId: String(order._id),
+      mode: (process.env.CASHFREE_ENV || 'test').toLowerCase() === 'production' ? 'production' : 'sandbox',
       customer: {
         name: order.customer.name,
         email: order.customer.email,

@@ -203,7 +203,28 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
               )}
               {orders.map((o) => (
                 <tr key={String(o._id)} style={{ borderTop: '1px solid rgba(0,0,0,0.05)', transition: 'background 0.15s' }}>
-                  <td style={{ padding: 12, fontWeight: 600 }}>{o.orderNumber}</td>
+                  <td style={{ padding: 12, fontWeight: 600 }}>
+                    <div>{o.orderNumber}</div>
+                    {o.customer?.giftMessage && (
+                      <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        color: '#D95F7A',
+                        background: 'rgba(217,95,122,0.1)',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        marginTop: '4px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                      }}>
+                        <i className="fa-solid fa-gift" style={{ fontSize: '0.65rem' }}></i>
+                        Gift Order
+                      </span>
+                    )}
+                  </td>
                   <td style={{ padding: 12 }}>
                     <div style={{ fontWeight: 600 }}>{o.customer.name}</div>
                     <div style={{ color: '#888', fontSize: '0.78rem' }}>{o.customer.email} · {o.customer.phone}</div>

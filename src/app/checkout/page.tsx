@@ -122,6 +122,21 @@ export default function CheckoutPage() {
     }
 
     try {
+      let giftMessage = '';
+      let giftRecipient = '';
+      if (typeof window !== 'undefined') {
+        giftMessage = localStorage.getItem('kmc_gift_message') || '';
+        const recStr = localStorage.getItem('kmc_gift_recipient');
+        if (recStr) {
+          try {
+            const rec = JSON.parse(recStr);
+            giftRecipient = rec.label || '';
+          } catch {
+            // ignore
+          }
+        }
+      }
+
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -129,6 +144,8 @@ export default function CheckoutPage() {
           items,
           customer: {
             ...form,
+            giftMessage: giftMessage || undefined,
+            giftRecipient: giftRecipient || undefined,
           },
           currency,
           paymentMethod
@@ -147,12 +164,20 @@ export default function CheckoutPage() {
         return;
       }
 
+      const clearGifting = () => {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('kmc_gift_message');
+          localStorage.removeItem('kmc_gift_recipient');
+        }
+      };
+
       // COD flow — skip payment, confirm immediately
       if (paymentMethod === 'cod') {
         setIsCod(true);
         setConfirmedOrder({ ...orderData, items: hydrated.map(it => ({ name: it.product.name, qty: it.qty, price: it.product.price })), subtotal: inrSubtotal, shipping: shippingInr, total: payableInr, currency });
         setOrderNumber(orderData.orderNumber);
         await clear();
+        clearGifting();
         setSubmitting(false);
         return;
       }
@@ -201,6 +226,7 @@ export default function CheckoutPage() {
 
       setOrderNumber(verifyData.orderNumber);
       await clear();
+      clearGifting();
     } catch (err) {
       setShowAnimation(false);
       if (err instanceof Error && err.message === 'payment-cancelled') {

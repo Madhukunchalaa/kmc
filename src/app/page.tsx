@@ -38,6 +38,7 @@ interface HomepageService {
 export default function Home() {
   const [dbProducts, setDbProducts] = useState<any[]>(seedProducts);
   const [activeCrystal, setActiveCrystal] = useState<any | null>(null);
+  const [founderImageUrl, setFounderImageUrl] = useState('https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp');
 
   useEffect(() => {
     fetch('/api/products')
@@ -48,6 +49,17 @@ export default function Home() {
         }
       })
       .catch((err) => console.error('Error fetching products:', err));
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok && data.settings && data.settings.founderImageUrl) {
+          setFounderImageUrl(data.settings.founderImageUrl);
+        }
+      })
+      .catch((err) => console.error('Error fetching settings:', err));
   }, []);
 
   // Bestsellers: Display the exact 5 products from the database list by id or slug
@@ -190,7 +202,7 @@ export default function Home() {
                     boxShadow: '0 24px 50px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0, 0, 0, 0.9)'
                   }}>
                     <img
-                      src="https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp"
+                      src={founderImageUrl}
                       alt="Kriss - Founder of KrissMaagiic"
                       style={{
                         width: '100%',

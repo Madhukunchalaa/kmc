@@ -15,6 +15,7 @@ const LINKS = [
   { href: '/admin/gifting', label: 'Gifting', icon: 'fa-solid fa-gift' },
   { href: '/admin/reels', label: 'Reels', icon: 'fa-solid fa-film' },
   { href: '/admin/messages', label: 'Messages', icon: 'fa-solid fa-envelope' },
+  { href: '/admin/settings', label: 'Settings', icon: 'fa-solid fa-sliders' },
   { href: '/admin/users', label: 'Users', icon: 'fa-solid fa-users' },
 ];
 

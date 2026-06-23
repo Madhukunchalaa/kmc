@@ -88,7 +88,14 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
 
   // Load from sessionStorage on mount if URL does not have overrides
   useEffect(() => {
-    if (isLoaded.current) return;
+    if (isLoaded.current) {
+      const hasIntent = searchParams.has('intent');
+      const hasSearch = searchParams.has('search');
+      if (!hasIntent && !hasSearch) {
+        setQuery('');
+      }
+      return;
+    }
     isLoaded.current = true;
 
     const hasCategory = searchParams.has('category');
@@ -107,12 +114,16 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       setSort(storedSort);
     }
     if (!hasIntent && !hasSearch) {
-      const storedQuery = sessionStorage.getItem('last_shop_query');
-      if (storedQuery) {
-        setQuery(storedQuery);
+      if (!hasCategory) {
+        const storedQuery = sessionStorage.getItem('last_shop_query');
+        if (storedQuery) {
+          setQuery(storedQuery);
+        }
+      } else {
+        setQuery('');
       }
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, activeCat]);
 
   // Persist category, sort, and query to sessionStorage when they change
   useEffect(() => {

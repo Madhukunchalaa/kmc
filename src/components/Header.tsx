@@ -165,7 +165,7 @@ function SearchBar() {
               {results.products.map((p) => (
                 <button key={p.id} type="button" onClick={() => {
                   const catSlug = getCategorySlug(p.category, p.subcategory);
-                  go(`/shop?category=${catSlug}&search=${encodeURIComponent(p.name)}`);
+                  go(`/shop?category=${catSlug}`);
                 }}
                   style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background 0.15s' }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,149,108,0.08)')}

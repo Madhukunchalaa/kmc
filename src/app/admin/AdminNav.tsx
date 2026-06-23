@@ -12,6 +12,7 @@ const LINKS = [
   { href: '/admin/home-services', label: 'Home Services', icon: 'fa-solid fa-layer-group' },
   { href: '/admin/blogs', label: 'Blogs', icon: 'fa-solid fa-pen-nib' },
   { href: '/admin/testimonials', label: 'Testimonials', icon: 'fa-solid fa-comment-dots' },
+  { href: '/admin/reviews', label: 'Reviews', icon: 'fa-solid fa-star' },
   { href: '/admin/gifting', label: 'Gifting', icon: 'fa-solid fa-gift' },
   { href: '/admin/reels', label: 'Reels', icon: 'fa-solid fa-film' },
   { href: '/admin/messages', label: 'Messages', icon: 'fa-solid fa-envelope' },

@@ -12,19 +12,29 @@ interface CrystalProductsModalProps {
 }
 
 function filterByCrystal(list: Product[], crystalName: string): Product[] {
-  const key = crystalName.toLowerCase();
+  let key = crystalName.toLowerCase();
+  
+  // Normalize "tiger's eye" to "tiger eye" for database product mapping
+  if (key.includes("tiger's eye")) {
+    key = key.replace("tiger's eye", "tiger eye");
+  }
+  const cleanKey = key.replace(/'s/g, '').replace(/'/g, '');
+
   return list.filter((p) => {
-    const nameMatch = p.name.toLowerCase().includes(key);
-    const descMatch = (p.desc || '').toLowerCase().includes(key);
+    const name = p.name.toLowerCase();
+    const desc = (p.desc || '').toLowerCase();
+    const nameMatch = name.includes(key) || name.includes(cleanKey);
+    const descMatch = desc.includes(key) || desc.includes(cleanKey);
 
     let longDescMatch = false;
     if (p.longDesc) {
       try {
         const parsed = JSON.parse(p.longDesc);
         const crystalsIncluded = (parsed.crystalsIncluded || '').toLowerCase();
-        longDescMatch = crystalsIncluded.includes(key);
+        longDescMatch = crystalsIncluded.includes(key) || crystalsIncluded.includes(cleanKey);
       } catch {
-        longDescMatch = p.longDesc.toLowerCase().includes(key);
+        const longDescLower = p.longDesc.toLowerCase();
+        longDescMatch = longDescLower.includes(key) || longDescLower.includes(cleanKey);
       }
     }
 

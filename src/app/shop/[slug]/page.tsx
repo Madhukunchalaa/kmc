@@ -4,6 +4,8 @@ import { getAllProducts, getProductBySlug, type CatalogProduct } from '@/lib/cat
 import ProductCard from '@/components/ProductCard';
 import ProductDescription, { type DescObj } from './ProductDescription';
 import ProductDetailsClient from './ProductDetailsClient';
+import ProductReviews from './ProductReviews';
+
 
 export const dynamic = 'force-dynamic';
 
@@ -168,6 +170,11 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
               </div>
             )}
             </ProductDetailsClient>
+
+            <div className="mt-5 pt-5" style={{ borderTop: '1px solid rgba(200, 149, 108, 0.15)' }}>
+              <ProductReviews productSlug={product.slug} />
+            </div>
+
         </div>
       </section>
 

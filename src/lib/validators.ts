@@ -59,6 +59,7 @@ export const createOrderSchema = z.object({
   items: z.array(cartItemSchema).min(1),
   customer: orderCustomerSchema,
   currency: z.string().min(2).max(5).optional().default('INR'),
+  customizationDetails: z.any().optional(),
 });
 
 export const razorpayCreateSchema = z.object({

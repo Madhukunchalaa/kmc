@@ -111,6 +111,133 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
             </table>
           </div>
 
+          {order.customizationDetails && (
+            <div className="mt-4" style={{
+              background: '#fff',
+              borderRadius: 14,
+              padding: 20,
+              boxShadow: '0 4px 14px rgba(0,0,0,0.04)',
+              border: '1.5px solid rgba(138, 63, 178, 0.25)'
+            }}>
+              <h4 style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '1.15rem',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#8A3FB2'
+              }}>
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
+                Custom Bracelet Specifications
+              </h4>
+
+              <div style={{ display: 'grid', gap: '16px', fontSize: '0.9rem' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase' }}>Preferred Wrist Size</span>
+                    <strong style={{ fontSize: '0.95rem', color: '#2D1B0E' }}>{(order.customizationDetails as any).wristSize || 'N/A'}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase' }}>Preferred Bead Size</span>
+                    <strong style={{ fontSize: '0.95rem', color: '#2D1B0E' }}>{(order.customizationDetails as any).beadSize || 'N/A'}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase' }}>Option Chosen</span>
+                    <strong style={{ fontSize: '0.95rem', color: '#2D1B0E' }}>{(order.customizationDetails as any).option || 'N/A'}</strong>
+                  </div>
+                </div>
+
+                <hr style={{ margin: '8px 0', borderColor: 'rgba(0,0,0,0.05)' }} />
+
+                {/* Option 1: Know my crystals details */}
+                {((order.customizationDetails as any).selectedCrystals && (order.customizationDetails as any).selectedCrystals.length > 0) ? (
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '6px' }}>Selected Crystals</span>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {((order.customizationDetails as any).selectedCrystals as string[]).map((c: string) => (
+                        <span key={c} style={{
+                          padding: '3px 10px',
+                          borderRadius: '20px',
+                          background: 'rgba(138, 63, 178, 0.08)',
+                          color: '#8A3FB2',
+                          fontWeight: 600,
+                          fontSize: '0.8rem'
+                        }}>
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Option 2: Help me choose details */}
+                {((order.customizationDetails as any).supportAreas && (order.customizationDetails as any).supportAreas.length > 0) ? (
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '6px' }}>Support Areas requested</span>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {((order.customizationDetails as any).supportAreas as string[]).map((s: string) => (
+                        <span key={s} style={{
+                          padding: '3px 10px',
+                          borderRadius: '20px',
+                          background: 'rgba(155, 89, 182, 0.08)',
+                          color: '#9B59B6',
+                          fontWeight: 600,
+                          fontSize: '0.8rem'
+                        }}>
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {((order.customizationDetails as any).highestPriority) ? (
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase' }}>Highest Priority Area</span>
+                    <strong style={{ fontSize: '0.95rem', color: '#2D1B0E' }}>{(order.customizationDetails as any).highestPriority}</strong>
+                  </div>
+                ) : null}
+
+                {((order.customizationDetails as any).intentionDescription) ? (
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '4px' }}>Described Intention</span>
+                    <p style={{ 
+                      margin: 0, 
+                      padding: '12px', 
+                      background: '#FAF6F1', 
+                      borderRadius: '8px', 
+                      fontStyle: 'italic', 
+                      color: '#2D1B0E',
+                      lineHeight: 1.6,
+                      borderLeft: '3px solid #8A3FB2'
+                    }}>
+                      "{(order.customizationDetails as any).intentionDescription}"
+                    </p>
+                  </div>
+                ) : null}
+
+                {((order.customizationDetails as any).additionalNotes) ? (
+                  <div>
+                    <span style={{ color: '#888', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '4px' }}>Additional Customization Notes</span>
+                    <p style={{ 
+                      margin: 0, 
+                      padding: '12px', 
+                      background: '#FAF6F1', 
+                      borderRadius: '8px', 
+                      fontStyle: 'italic', 
+                      color: '#2D1B0E',
+                      lineHeight: 1.6,
+                      borderLeft: '3px solid #8A3FB2'
+                    }}>
+                      "{(order.customizationDetails as any).additionalNotes}"
+                    </p>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          )}
+
           {order.international && (
             <div className="mt-4" style={{ 
               background: '#fff', 

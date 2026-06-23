@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import HeroSection from '@/components/HeroSection';
 import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
@@ -36,6 +39,148 @@ interface HomepageService {
 }
 
 export default function Home() {
+  const router = useRouter();
+  const { addItem } = useCart();
+  const { formatPrice } = useCurrency();
+  
+  // Custom Crystal Bracelet States
+  const [customOption, setCustomOption] = useState<'know' | 'help'>('know');
+  const [opt1Crystals, setOpt1Crystals] = useState<string[]>([]);
+  const [opt1Notes, setOpt1Notes] = useState<string>('');
+  const [opt2SupportAreas, setOpt2SupportAreas] = useState<string[]>([]);
+  const [opt2Priority, setOpt2Priority] = useState<string>('');
+  const [opt2Intention, setOpt2Intention] = useState<string>('');
+  const [wristSize, setWristSize] = useState<string>('');
+  const [customWristSize, setCustomWristSize] = useState<string>('');
+  const [beadSize, setBeadSize] = useState<string>('');
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmittingCustom, setIsSubmittingCustom] = useState<boolean>(false);
+
+  const CRYSTALS_LIST = [
+    { name: 'Rose Quartz', effect: 'Love & Self-Love' },
+    { name: 'Black Tourmaline', effect: 'Protection from Negative Energy' },
+    { name: 'Tiger Eye', effect: 'Confidence & Success' },
+    { name: 'Citrine', effect: 'Wealth & Abundance' },
+    { name: 'Amethyst', effect: 'Peace & Spiritual Growth' },
+    { name: 'Clear Quartz', effect: 'Clarity & Energy Amplification' },
+    { name: 'Green Aventurine', effect: 'Luck & Opportunities' },
+    { name: 'Pyrite', effect: 'Business Success & Prosperity' },
+    { name: 'Carnelian', effect: 'Motivation & Career Growth' },
+    { name: 'Moonstone', effect: 'Emotional Balance & New Beginnings' },
+    { name: 'Labradorite', effect: 'Transformation & Protection' },
+    { name: 'Lapis Lazuli', effect: 'Wisdom & Communication' },
+    { name: 'Smoky Quartz', effect: 'Grounding & Stability' },
+    { name: 'Garnet', effect: 'Passion, Relationships & Vitality' },
+    { name: 'Seven Chakra Crystal', effect: 'Overall Balance & Well-Being' }
+  ];
+
+  const SUPPORT_AREAS_LIST = [
+    'Love & Relationships',
+    'Marriage & Commitment',
+    'Self-Love',
+    'Emotional Healing',
+    'Protection from Negativity',
+    'Confidence & Courage',
+    'Career Growth',
+    'Business Success',
+    'Financial Abundance',
+    'Focus & Studies',
+    'Stress Relief',
+    'Anxiety Management',
+    'Better Sleep',
+    'Spiritual Growth',
+    'Family Harmony',
+    'Health & Wellness Support',
+    'Overall Balance'
+  ];
+
+  const PRIORITY_AREAS = [
+    'Personal Life',
+    'Relationships',
+    'Career',
+    'Business',
+    'Finance',
+    'Health & Wellness',
+    'Spiritual Growth'
+  ];
+
+  const handleCustomBraceletSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(null);
+
+    // Validation
+    if (customOption === 'know') {
+      if (opt1Crystals.length === 0) {
+        setSubmitError('Please select at least one crystal for your bracelet.');
+        return;
+      }
+    } else {
+      if (opt2SupportAreas.length === 0) {
+        setSubmitError('Please select at least one area you would like support with.');
+        return;
+      }
+      if (!opt2Priority) {
+        setSubmitError('Please select your highest priority area.');
+        return;
+      }
+      if (!opt2Intention.trim()) {
+        setSubmitError('Please describe your intention for the bracelet.');
+        return;
+      }
+    }
+
+    if (!wristSize) {
+      setSubmitError('Please select your preferred wrist size.');
+      return;
+    }
+    if (wristSize === 'Custom Size' && !customWristSize.trim()) {
+      setSubmitError('Please specify your custom wrist size.');
+      return;
+    }
+    if (!beadSize) {
+      setSubmitError('Please select your preferred bead size.');
+      return;
+    }
+
+    setIsSubmittingCustom(true);
+    try {
+      const details = {
+        option: customOption === 'know' ? 'I Know My Crystals' : 'Help Me Choose My Crystals',
+        selectedCrystals: customOption === 'know' ? opt1Crystals : null,
+        additionalNotes: customOption === 'know' ? opt1Notes : null,
+        supportAreas: customOption === 'help' ? opt2SupportAreas : null,
+        highestPriority: customOption === 'help' ? opt2Priority : null,
+        intentionDescription: customOption === 'help' ? opt2Intention : null,
+        wristSize: wristSize === 'Custom Size' ? `Custom: ${customWristSize}` : wristSize,
+        beadSize: beadSize,
+      };
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kmc_custom_bracelet', JSON.stringify(details));
+      }
+
+      await addItem('custom-bracelet', 1);
+      router.push('/checkout');
+    } catch (err) {
+      console.error('Error adding custom bracelet to cart:', err);
+      setSubmitError('Failed to add custom bracelet to cart. Please try again.');
+    } finally {
+      setIsSubmittingCustom(false);
+    }
+  };
+
+  const toggleCrystal = (name: string) => {
+    setOpt1Crystals((prev) =>
+      prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]
+    );
+  };
+
+  const toggleSupportArea = (area: string) => {
+    setOpt2SupportAreas((prev) =>
+      prev.includes(area) ? prev.filter((x) => x !== area) : [...prev, area]
+    );
+  };
+
   const [dbProducts, setDbProducts] = useState<any[]>(seedProducts);
   const [activeCrystal, setActiveCrystal] = useState<any | null>(null);
   const [founderImageUrl, setFounderImageUrl] = useState('https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp');
@@ -729,6 +874,472 @@ export default function Home() {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ===== CREATE YOUR PERSONALIZED CRYSTAL BRACELET ===== */}
+      <section className="section-pad" style={{
+        background: 'radial-gradient(circle at 50% 50%, #2D1B0E 0%, #150600 100%)',
+        color: '#fff',
+        borderTop: '1px solid rgba(232, 201, 154, 0.15)',
+        borderBottom: '1px solid rgba(232, 201, 154, 0.15)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Subtle cosmic background sparks/glow */}
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '10%',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(200, 149, 108, 0.08) 0%, transparent 70%)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '15%',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(155, 89, 182, 0.08) 0%, transparent 70%)',
+          pointerEvents: 'none'
+        }} />
+
+        <div className="container" style={{ maxWidth: '960px', position: 'relative', zIndex: 2 }}>
+          <div className="text-center mb-5">
+            <span className="section-eyebrow" style={{ color: 'var(--gold-light, #FFEFA6)' }}>
+              <i className="fa-solid fa-wand-sparkles me-2"></i>Unique Energy Journey
+            </span>
+            <h2 className="section-title" style={{ color: '#fff' }}>
+              Create Your <span>Personalized Crystal Bracelet</span>
+            </h2>
+            <div className="divider-ornament" style={{ color: 'var(--gold-light, #FFEFA6)' }}>
+              <i className="fa-solid fa-diamond-turn-right"></i>
+            </div>
+            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '720px', margin: '0 auto', fontSize: '1.05rem', lineHeight: '1.7' }}>
+              Every person is unique, and so is their energy journey. Our Custom Crystal Bracelet service allows you to create a bracelet tailored to your intentions, goals, and preferences.
+            </p>
+            <p className="section-subtitle mt-2" style={{ color: 'rgba(255,255,255,0.65)', maxWidth: '720px', margin: '0 auto', fontSize: '0.95rem' }}>
+              Whether you already know the crystals you want or need guidance selecting the perfect combination, we will handcraft a bracelet designed especially for you.
+            </p>
+          </div>
+
+          <form onSubmit={handleCustomBraceletSubmit} style={{
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(232, 201, 154, 0.2)',
+            borderRadius: '24px',
+            padding: '2.5rem 2rem',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+          }}>
+            {/* Customizer Mode Switcher Tabs */}
+            <div className="row g-3 mb-5 justify-content-center">
+              <div className="col-md-6">
+                <button
+                  type="button"
+                  className={`w-100 p-3 rounded-4 transition-all ${customOption === 'know' ? 'active' : ''}`}
+                  onClick={() => { setCustomOption('know'); setSubmitError(null); }}
+                  style={{
+                    background: customOption === 'know' ? 'var(--primary, #C8956C)' : 'rgba(255, 255, 255, 0.03)',
+                    color: customOption === 'know' ? '#fff' : 'rgba(255,255,255,0.7)',
+                    border: '1px solid',
+                    borderColor: customOption === 'know' ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.25)',
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    boxShadow: customOption === 'know' ? '0 8px 24px rgba(200, 149, 108, 0.3)' : 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase' }}>Option 1</span>
+                  <span>I Know My Crystals</span>
+                </button>
+              </div>
+              <div className="col-md-6">
+                <button
+                  type="button"
+                  className={`w-100 p-3 rounded-4 transition-all ${customOption === 'help' ? 'active' : ''}`}
+                  onClick={() => { setCustomOption('help'); setSubmitError(null); }}
+                  style={{
+                    background: customOption === 'help' ? 'var(--primary, #C8956C)' : 'rgba(255, 255, 255, 0.03)',
+                    color: customOption === 'help' ? '#fff' : 'rgba(255,255,255,0.7)',
+                    border: '1px solid',
+                    borderColor: customOption === 'help' ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.25)',
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    boxShadow: customOption === 'help' ? '0 8px 24px rgba(200, 149, 108, 0.3)' : 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <span style={{ fontSize: '0.8rem', opacity: 0.8, textTransform: 'uppercase' }}>Option 2</span>
+                  <span>Help Me Choose My Crystals</span>
+                </button>
+              </div>
+            </div>
+
+            {/* TAB 1 CONTENT: I Know My Crystals */}
+            {customOption === 'know' && (
+              <div className="mb-4">
+                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fa-solid fa-gem"></i>
+                  Select Your Preferred Crystals
+                  <span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'rgba(255,255,255,0.6)', marginLeft: '6px' }}>(Multiple selections allowed)</span>
+                </h4>
+
+                <div className="row g-3">
+                  {CRYSTALS_LIST.map((crystal) => {
+                    const selected = opt1Crystals.includes(crystal.name);
+                    return (
+                      <div className="col-sm-6 col-md-4" key={crystal.name}>
+                        <div
+                          onClick={() => toggleCrystal(crystal.name)}
+                          style={{
+                            padding: '12px 16px',
+                            background: selected ? 'rgba(200, 149, 108, 0.15)' : 'rgba(255, 255, 255, 0.02)',
+                            border: '1.5px solid',
+                            borderColor: selected ? 'var(--primary, #C8956C)' : 'rgba(255, 255, 255, 0.08)',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            transition: 'all 0.25s ease',
+                            boxShadow: selected ? '0 4px 12px rgba(200, 149, 108, 0.1)' : 'none'
+                          }}
+                          className="crystal-checkbox-item"
+                        >
+                          <div style={{
+                            width: '20px',
+                            height: '20px',
+                            border: '1.5px solid',
+                            borderColor: selected ? 'var(--primary, #C8956C)' : 'rgba(255, 255, 255, 0.4)',
+                            borderRadius: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: selected ? 'var(--primary, #C8956C)' : 'transparent',
+                            color: '#fff',
+                            fontSize: '0.75rem',
+                            flexShrink: 0
+                          }}>
+                            {selected && <i className="fa-solid fa-check"></i>}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontWeight: 600, fontSize: '0.9rem', color: selected ? '#FFEFA6' : '#fff' }}>{crystal.name}</span>
+                            <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>{crystal.effect}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-4">
+                  <label htmlFor="opt1Notes" className="form-label" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '8px', display: 'block' }}>
+                    Additional Notes
+                  </label>
+                  <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginBottom: '8px' }}>
+                    Tell us how you would like your bracelet customized.
+                  </p>
+                  <textarea
+                    id="opt1Notes"
+                    className="form-control"
+                    rows={3}
+                    value={opt1Notes}
+                    onChange={(e) => setOpt1Notes(e.target.value)}
+                    placeholder="E.g., Please add a silver spacers or combine these crystals in a symmetric sequence..."
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.2)',
+                      border: '1.5px solid rgba(232, 201, 154, 0.25)',
+                      borderRadius: '12px',
+                      color: '#fff',
+                      padding: '12px'
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2 CONTENT: Help Me Choose My Crystals */}
+            {customOption === 'help' && (
+              <div className="mb-4">
+                <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fa-solid fa-hand-holding-heart"></i>
+                  What would you like support with?
+                  <span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'rgba(255,255,255,0.6)', marginLeft: '6px' }}>(Multiple selections allowed)</span>
+                </h4>
+
+                <div className="row g-2 mb-4">
+                  {SUPPORT_AREAS_LIST.map((area) => {
+                    const selected = opt2SupportAreas.includes(area);
+                    return (
+                      <div className="col-6 col-sm-4 col-md-3" key={area}>
+                        <div
+                          onClick={() => toggleSupportArea(area)}
+                          style={{
+                            padding: '10px 12px',
+                            background: selected ? 'rgba(155, 89, 182, 0.2)' : 'rgba(255, 255, 255, 0.02)',
+                            border: '1.5px solid',
+                            borderColor: selected ? '#9B59B6' : 'rgba(255, 255, 255, 0.08)',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            transition: 'all 0.25s ease',
+                            textAlign: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.85rem'
+                          }}
+                        >
+                          <div style={{
+                            width: '16px',
+                            height: '16px',
+                            border: '1.5px solid',
+                            borderColor: selected ? '#9B59B6' : 'rgba(255, 255, 255, 0.4)',
+                            borderRadius: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: selected ? '#9B59B6' : 'transparent',
+                            color: '#fff',
+                            fontSize: '0.65rem',
+                            flexShrink: 0
+                          }}>
+                            {selected && <i className="fa-solid fa-check"></i>}
+                          </div>
+                          <span style={{ fontWeight: 600, color: selected ? '#FFEFA6' : '#fff' }}>{area}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="row g-3 mb-4">
+                  <div className="col-md-6">
+                    <label htmlFor="opt2Priority" className="form-label" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '8px', display: 'block' }}>
+                      Which area is your highest priority?
+                    </label>
+                    <select
+                      id="opt2Priority"
+                      className="form-select"
+                      value={opt2Priority}
+                      onChange={(e) => setOpt2Priority(e.target.value)}
+                      style={{
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        border: '1.5px solid rgba(232, 201, 154, 0.25)',
+                        borderRadius: '12px',
+                        color: '#fff',
+                        padding: '12px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <option value="" disabled style={{ background: '#1c0a02' }}>-- Select Priority Area --</option>
+                      {PRIORITY_AREAS.map(p => (
+                        <option key={p} value={p} style={{ background: '#1c0a02' }}>{p}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <label htmlFor="opt2Intention" className="form-label" style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '8px', display: 'block' }}>
+                    Describe Your Intention
+                  </label>
+                  <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', lineHeight: 1.5 }}>
+                    Please share what you are currently experiencing and what you wish to attract into your life. The more details you provide, the better we can recommend a personalized crystal combination.
+                  </p>
+                  <textarea
+                    id="opt2Intention"
+                    className="form-control"
+                    rows={4}
+                    value={opt2Intention}
+                    onChange={(e) => setOpt2Intention(e.target.value)}
+                    placeholder="Example: “I would like support with confidence in my career, financial growth, emotional balance, and protection from negative energy.”"
+                    style={{
+                      background: 'rgba(0, 0, 0, 0.2)',
+                      border: '1.5px solid rgba(232, 201, 154, 0.25)',
+                      borderRadius: '12px',
+                      color: '#fff',
+                      padding: '12px'
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* BRACELET DETAILS FOR BOTH OPTIONS */}
+            <div style={{ borderTop: '1px solid rgba(232, 201, 154, 0.15)', paddingTop: '2rem', marginTop: '2rem' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fa-solid fa-circle-info"></i>
+                Bracelet Details
+              </h4>
+
+              <div className="row g-4">
+                {/* Wrist Size Radio Buttons */}
+                <div className="col-md-6">
+                  <label className="form-label" style={{ fontWeight: 600, color: '#fff', marginBottom: '10px', display: 'block' }}>
+                    Preferred Wrist Size
+                  </label>
+                  <div className="d-flex flex-wrap gap-2">
+                    {['Small', 'Medium', 'Large', 'Custom Size'].map((size) => {
+                      const active = wristSize === size;
+                      return (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => { setWristSize(size); if (size !== 'Custom Size') setCustomWristSize(''); }}
+                          style={{
+                            padding: '10px 16px',
+                            background: active ? 'var(--primary, #C8956C)' : 'rgba(255,255,255,0.03)',
+                            color: '#fff',
+                            border: '1px solid',
+                            borderColor: active ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.2)',
+                            borderRadius: '10px',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          {size}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {wristSize === 'Custom Size' && (
+                    <div className="mt-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="E.g., 6.25 inches or 16 cm"
+                        value={customWristSize}
+                        onChange={(e) => setCustomWristSize(e.target.value)}
+                        style={{
+                          background: 'rgba(0, 0, 0, 0.2)',
+                          border: '1.5px solid rgba(232, 201, 154, 0.3)',
+                          borderRadius: '10px',
+                          color: '#fff',
+                          padding: '10px'
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Bead Size Radio Buttons */}
+                <div className="col-md-6">
+                  <label className="form-label" style={{ fontWeight: 600, color: '#fff', marginBottom: '10px', display: 'block' }}>
+                    Preferred Bead Size
+                  </label>
+                  <div className="d-flex flex-wrap gap-2">
+                    {['6 mm', '8 mm', '10 mm'].map((size) => {
+                      const active = beadSize === size;
+                      return (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => setBeadSize(size)}
+                          style={{
+                            padding: '10px 16px',
+                            background: active ? 'var(--primary, #C8956C)' : 'rgba(255,255,255,0.03)',
+                            color: '#fff',
+                            border: '1px solid',
+                            borderColor: active ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.2)',
+                            borderRadius: '10px',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          {size}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Personalized Crystal Recommendation Disclaimer */}
+            <div className="mt-5 p-3 rounded-4" style={{
+              background: 'rgba(200, 149, 108, 0.05)',
+              border: '1px dashed rgba(200, 149, 108, 0.25)',
+              fontSize: '0.85rem',
+              color: 'rgba(255,255,255,0.65)',
+              lineHeight: 1.6
+            }}>
+              <strong style={{ color: 'var(--gold-light, #FFEFA6)', display: 'block', marginBottom: '4px' }}>
+                ✦ Personalized Crystal Recommendation
+              </strong>
+              Our crystal recommendations are based on traditional crystal healing practices and your submitted preferences. Crystals are complementary spiritual tools and are not intended to replace medical, financial, psychological, or professional advice.
+            </div>
+
+            {/* Error Message Alert */}
+            {submitError && (
+              <div className="mt-4 p-3 rounded-3" style={{
+                background: 'rgba(231, 76, 60, 0.1)',
+                border: '1.5px solid rgba(231, 76, 60, 0.4)',
+                color: '#e74c3c',
+                fontWeight: 600,
+                fontSize: '0.9rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <i className="fa-solid fa-circle-exclamation"></i>
+                <span>{submitError}</span>
+              </div>
+            )}
+
+            {/* Checkout Pricing and Submit Button */}
+            <div className="mt-5 text-center">
+              <div style={{ marginBottom: '1.25rem' }}>
+                <span style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Price Exchange</span>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--gold-light, #FFEFA6)', fontFamily: 'var(--font-heading)' }}>
+                  {formatPrice(3200, 64)}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmittingCustom}
+                className="btn-primary-custom"
+                style={{
+                  padding: '14px 44px',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  borderRadius: '30px',
+                  boxShadow: '0 8px 30px rgba(200, 149, 108, 0.4)',
+                  cursor: isSubmittingCustom ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {isSubmittingCustom ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    CREATING...
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-wand-magic-sparkles me-2"></i>
+                    CREATE MY PERSONALIZED BRACELET
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
         </div>
       </section>
 

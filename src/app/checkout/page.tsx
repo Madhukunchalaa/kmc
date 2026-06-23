@@ -71,6 +71,27 @@ export default function CheckoutPage() {
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
   const [isCod, setIsCod] = useState(false);
+  const [showCustomSuccessModal, setShowCustomSuccessModal] = useState(false);
+
+  const [giftMessageState, setGiftMessageState] = useState<string>('');
+  const [giftRecipientState, setGiftRecipientState] = useState<string>('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const msg = localStorage.getItem('kmc_gift_message') || '';
+      setGiftMessageState(msg);
+      
+      const recStr = localStorage.getItem('kmc_gift_recipient');
+      if (recStr) {
+        try {
+          const rec = JSON.parse(recStr);
+          setGiftRecipientState(rec.label || '');
+        } catch {
+          // ignore
+        }
+      }
+    }
+  }, []);
 
 
   // Delivery Animation States
@@ -137,6 +158,18 @@ export default function CheckoutPage() {
         }
       }
 
+      let customizationDetails = null;
+      if (typeof window !== 'undefined') {
+        const custStr = localStorage.getItem('kmc_custom_bracelet');
+        if (custStr) {
+          try {
+            customizationDetails = JSON.parse(custStr);
+          } catch {
+            // ignore
+          }
+        }
+      }
+
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -148,7 +181,8 @@ export default function CheckoutPage() {
             giftRecipient: giftRecipient || undefined,
           },
           currency,
-          paymentMethod
+          paymentMethod,
+          customizationDetails: customizationDetails || undefined,
         }),
       });
       const orderData = await orderRes.json();
@@ -168,14 +202,20 @@ export default function CheckoutPage() {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('kmc_gift_message');
           localStorage.removeItem('kmc_gift_recipient');
+          localStorage.removeItem('kmc_custom_bracelet');
         }
       };
+
+      const isCustomOrder = !!customizationDetails;
 
       // COD flow — skip payment, confirm immediately
       if (paymentMethod === 'cod') {
         setIsCod(true);
         setConfirmedOrder({ ...orderData, items: hydrated.map(it => ({ name: it.product.name, qty: it.qty, price: it.product.price })), subtotal: inrSubtotal, shipping: shippingInr, total: payableInr, currency });
         setOrderNumber(orderData.orderNumber);
+        if (isCustomOrder) {
+          setShowCustomSuccessModal(true);
+        }
         await clear();
         clearGifting();
         setSubmitting(false);
@@ -225,6 +265,9 @@ export default function CheckoutPage() {
       await animPromise;
 
       setOrderNumber(verifyData.orderNumber);
+      if (isCustomOrder) {
+        setShowCustomSuccessModal(true);
+      }
       await clear();
       clearGifting();
     } catch (err) {
@@ -821,6 +864,36 @@ export default function CheckoutPage() {
                     </div>
                   ))}
                 </div>
+                {giftMessageState && (
+                  <div style={{
+                    marginTop: '1.5rem',
+                    padding: '12px 14px',
+                    background: 'rgba(217, 95, 122, 0.05)',
+                    border: '1.5px dashed rgba(217, 95, 122, 0.35)',
+                    borderRadius: '12px'
+                  }}>
+                    <div style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px', color: '#D95F7A', fontSize: '0.85rem' }}>
+                      <i className="fa-solid fa-gift"></i>
+                      <span>Sacred Gift Order Details</span>
+                    </div>
+                    {giftRecipientState && (
+                      <div style={{ fontSize: '0.78rem', color: '#666', marginTop: '4px' }}>
+                        Recipient: <strong>{giftRecipientState}</strong>
+                      </div>
+                    )}
+                    <div style={{
+                      fontStyle: 'italic',
+                      fontSize: '0.82rem',
+                      color: 'var(--text, #2D1B0E)',
+                      marginTop: '8px',
+                      whiteSpace: 'pre-wrap',
+                      borderLeft: '2px solid rgba(217, 95, 122, 0.25)',
+                      paddingLeft: '8px'
+                    }}>
+                      "{giftMessageState}"
+                    </div>
+                  </div>
+                )}
                 <hr style={{ margin: '1rem 0' }} />
                 <div className="d-flex justify-content-between"><span>Subtotal</span><strong>{formatPrice(inrSubtotal, usdSubtotal)}</strong></div>
                 <div className="d-flex justify-content-between" style={{ color: '#777', fontSize: '0.9rem' }}>
@@ -852,6 +925,119 @@ export default function CheckoutPage() {
           </div>
         </div>
       </section>
+
+      {showCustomSuccessModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 99999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: 'radial-gradient(circle at 50% 50%, #2D1B0E 0%, #150600 100%)',
+            border: '2px solid rgba(232, 201, 154, 0.45)',
+            outline: '1px solid rgba(232, 201, 154, 0.15)',
+            outlineOffset: '-8px',
+            borderRadius: '24px',
+            maxWidth: '580px',
+            width: '100%',
+            padding: '2.5rem 2rem',
+            textAlign: 'center',
+            boxShadow: '0 24px 50px rgba(0,0,0,0.8)',
+            color: '#fff',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {/* Cosmic background effects inside modal */}
+            <div style={{
+              position: 'absolute',
+              top: '-50px',
+              left: '-50px',
+              width: '150px',
+              height: '150px',
+              background: 'radial-gradient(circle, rgba(200, 149, 108, 0.1) 0%, transparent 70%)',
+              pointerEvents: 'none'
+            }} />
+            <div style={{
+              position: 'absolute',
+              bottom: '-50px',
+              right: '-50px',
+              width: '150px',
+              height: '150px',
+              background: 'radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%)',
+              pointerEvents: 'none'
+            }} />
+
+            <div style={{ fontSize: '3.5rem', marginBottom: '1.25rem' }}>✨🔮✨</div>
+            
+            <h2 style={{
+              fontFamily: 'var(--font-heading, Cinzel)',
+              fontSize: '1.8rem',
+              color: 'var(--gold-light, #FFEFA6)',
+              marginBottom: '1rem',
+              letterSpacing: '0.05em'
+            }}>
+              Your Custom Energy Bracelet is Manifesting!
+            </h2>
+            
+            <div className="divider-ornament" style={{ color: 'var(--gold-light, #FFEFA6)', margin: '0.75rem auto 1.5rem auto' }}>
+              <i className="fa-solid fa-diamond-turn-right"></i>
+            </div>
+            
+            <p style={{
+              fontSize: '0.98rem',
+              lineHeight: 1.7,
+              color: 'rgba(255,255,255,0.85)',
+              marginBottom: '1.5rem'
+            }}>
+              Thank you for choosing KrissMaagiic for your energy journey!
+              <br /><br />
+              Our founder, <strong>Kriss</strong>, will intuitively hand-select and energise your chosen crystals under the moon's guidance to align perfectly with your intentions. Every custom bracelet is crafted with love and charged with sacred prayers just for you.
+            </p>
+
+            <div style={{
+              background: 'rgba(200, 149, 108, 0.08)',
+              border: '1px dashed rgba(200, 149, 108, 0.35)',
+              borderRadius: '12px',
+              padding: '12px 16px',
+              fontSize: '0.88rem',
+              color: 'var(--gold-light, #FFEFA6)',
+              marginBottom: '2rem',
+              lineHeight: 1.5
+            }}>
+              <i className="fa-brands fa-whatsapp me-2" style={{ fontSize: '1rem' }}></i>
+              We will contact you shortly on <strong>WhatsApp</strong> to confirm and share details of your personalized design.
+            </div>
+
+            <div className="d-flex justify-content-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowCustomSuccessModal(false)}
+                className="btn-primary-custom"
+                style={{
+                  padding: '12px 30px',
+                  borderRadius: '25px',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.05em',
+                  boxShadow: '0 6px 20px rgba(200, 149, 108, 0.35)',
+                  cursor: 'pointer'
+                }}
+              >
+                Blessed Be
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

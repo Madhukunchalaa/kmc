@@ -198,6 +198,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const hydrated: CartItemHydrated[] = items
     .map((it) => {
+      if (it.productId === 'custom-bracelet') {
+        return {
+          ...it,
+          product: {
+            id: 'custom-bracelet',
+            slug: 'custom-bracelet',
+            name: 'Custom Crystal Bracelet',
+            price: 3200,
+            usdPrice: 64,
+            category: 'bracelets',
+            image: '/categories/bracelets.png',
+            desc: 'A handcrafted bracelet tailored to your energy intentions.',
+            chakras: [],
+            stock: 99,
+          } as any,
+          lineTotal: 3200 * it.qty,
+        };
+      }
+
       const activeProducts = catalog.length > 0 ? catalog : products;
 
       // Support variant-encoded keys like "custom-spell-jar::Mini"

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: zodErrorMessage(parsed.error) }, { status: 400 });
   }
 
-  const { items, customer, currency } = parsed.data;
+  const { items, customer, currency, customizationDetails } = parsed.data;
   const sid = (await cookies()).get(CART_COOKIE)?.value ?? null;
   const session = await auth();
 
@@ -75,6 +75,7 @@ export async function POST(req: Request) {
       status: 'pending',
       paymentStatus: 'unpaid',
       customer,
+      customizationDetails: customizationDetails || null,
     });
 
     return NextResponse.json({

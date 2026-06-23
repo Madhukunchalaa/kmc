@@ -57,6 +57,7 @@ export interface OrderDoc {
     giftRecipient?: string | null;
   };
   adminNote?: string;
+  customizationDetails?: any;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -128,6 +129,7 @@ const OrderSchema = new Schema<OrderDoc>(
       giftRecipient: { type: String, default: null },
     },
     adminNote: { type: String, default: '' },
+    customizationDetails: { type: Schema.Types.Mixed, default: null },
   },
   { timestamps: true },
 );

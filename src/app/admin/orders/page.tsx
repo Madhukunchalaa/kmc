@@ -11,6 +11,8 @@ interface SP {
   status?: string;
   q?: string;
   delivery?: string; // 'india' | 'abroad'
+  customized?: string; // 'true'
+  gifting?: string; // 'true'
 }
 
 const SP_LABEL: Record<string, string> = {
@@ -22,6 +24,8 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
   const status = sp.status;
   const delivery = sp.delivery === 'india' || sp.delivery === 'abroad' ? sp.delivery : '';
   const q = sp.q || '';
+  const customized = sp.customized === 'true';
+  const gifting = sp.gifting === 'true';
 
   await connectMongoose();
 
@@ -30,6 +34,8 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
   if (status) filter.status = status;
   if (delivery === 'abroad') filter.international = true;
   if (delivery === 'india') filter.international = { $ne: true };
+  if (customized) filter.customizationDetails = { $ne: null };
+  if (gifting) filter['customer.giftMessage'] = { $nin: [null, ''] };
   if (q) {
     filter.$or = [
       { orderNumber: { $regex: q, $options: 'i' } },
@@ -40,13 +46,15 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
   }
 
   // 2. Fetch Orders & aggregate summary metrics
-  const [orders, countAgg, abroadCount, indiaCount] = await Promise.all([
+  const [orders, countAgg, abroadCount, indiaCount, customizedCount, giftingCount] = await Promise.all([
     Order.find(filter).sort({ createdAt: -1 }).lean(),
     Order.aggregate([
       { $group: { _id: '$status', count: { $sum: 1 } } }
     ]),
     Order.countDocuments({ international: true }),
     Order.countDocuments({ international: { $ne: true } }),
+    Order.countDocuments({ customizationDetails: { $ne: null } }),
+    Order.countDocuments({ 'customer.giftMessage': { $nin: [null, ''] } }),
   ]);
 
   const counts = countAgg.reduce((acc, curr) => {
@@ -60,6 +68,8 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
     if (q) params.set('q', q);
     if (status) params.set('status', status);
     if (delivery) params.set('delivery', delivery);
+    if (customized) params.set('customized', 'true');
+    if (gifting) params.set('gifting', 'true');
     for (const [k, v] of Object.entries(extra)) { if (v) params.set(k, v); else params.delete(k); }
     const s = params.toString();
     return s ? `/admin/orders?${s}` : '/admin/orders';
@@ -146,11 +156,45 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
         })}
       </div>
 
+      {/* Customization & Gifting Filter Tabs */}
+      <div className="d-flex gap-2 flex-wrap mb-3">
+        {[
+          { key: 'all', label: '📋 All Orders', count: totalCount },
+          { key: 'customized', label: '✨ Customized Bracelet Orders', count: customizedCount },
+          { key: 'gifting', label: '🎁 Gift Orders', count: giftingCount },
+        ].map((c) => {
+          const active = (c.key === 'customized' && customized) || (c.key === 'gifting' && gifting) || (c.key === 'all' && !customized && !gifting);
+          
+          let href = qs({ customized: '', gifting: '' });
+          if (c.key === 'customized') href = qs({ customized: 'true', gifting: '' });
+          if (c.key === 'gifting') href = qs({ customized: '', gifting: 'true' });
+          
+          let bg = 'transparent';
+          let border = 'rgba(0,0,0,0.12)';
+          if (active) {
+            if (c.key === 'customized') { bg = '#8A3FB2'; border = '#8A3FB2'; }
+            else if (c.key === 'gifting') { bg = '#D95F7A'; border = '#D95F7A'; }
+            else { bg = '#2D1B0E'; border = '#2D1B0E'; }
+          }
+          
+          return (
+            <Link key={c.key} href={href} className="crystal-tag" style={{
+              background: bg,
+              color: active ? '#fff' : 'inherit',
+              border: '1px solid', borderColor: border,
+              textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', padding: '6px 14px',
+            }}>{c.label} ({c.count})</Link>
+          );
+        })}
+      </div>
+
       {/* Search Bar */}
       <div style={{ background: '#fff', padding: '1rem', borderRadius: 14, marginBottom: '1rem', boxShadow: '0 4px 14px rgba(0,0,0,0.02)' }}>
         <form method="GET" action="/admin/orders" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
           {status && <input type="hidden" name="status" value={status} />}
           {delivery && <input type="hidden" name="delivery" value={delivery} />}
+          {customized && <input type="hidden" name="customized" value="true" />}
+          {gifting && <input type="hidden" name="gifting" value="true" />}
           <div style={{ flex: '1 1 300px', position: 'relative' }}>
             <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: '0.9rem' }}></i>
             <input
@@ -222,6 +266,25 @@ export default async function AdminOrders(props: PageProps<'/admin/orders'>) {
                       }}>
                         <i className="fa-solid fa-gift" style={{ fontSize: '0.65rem' }}></i>
                         Gift Order
+                      </span>
+                    )}
+                    {o.customizationDetails && (
+                      <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        color: '#8A3FB2',
+                        background: 'rgba(138,63,178,0.1)',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        marginTop: '4px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                      }}>
+                        <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: '0.65rem' }}></i>
+                        Custom Bracelet
                       </span>
                     )}
                   </td>

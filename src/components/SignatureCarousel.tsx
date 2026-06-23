@@ -7,19 +7,56 @@ export default function SignatureCarousel({ products: seedProducts }: { products
   const [products, setProducts] = useState<any[]>(seedProducts);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  // Fetch live DB products so we always show the latest signature images
+  // Fetch settings to check for custom carousel images, fallback to live DB products
   useEffect(() => {
-    fetch('/api/products')
-      .then((r) => r.json())
+    fetch('/api/settings')
+      .then((res) => res.json())
       .then((data) => {
-        if (data.products) {
-          const sig = data.products.filter(
-            (p: any) => p.subcategory?.toLowerCase() === 'signature bracelets'
-          );
-          if (sig.length > 0) setProducts(sig);
+        if (data.ok && data.settings && data.settings.signatureCarouselImages) {
+          try {
+            const parsed = JSON.parse(data.settings.signatureCarouselImages);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              // Convert to mock product objects
+              const mockProducts = parsed.map((url: string, index: number) => ({
+                id: `custom-carousel-${index}`,
+                image: url,
+                name: `Signature Carousel Slide ${index + 1}`
+              }));
+              setProducts(mockProducts);
+              return;
+            }
+          } catch {
+            // ignore
+          }
         }
+        
+        // Fallback to product subcategory fetch if no settings or parse failed
+        fetch('/api/products')
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.products) {
+              const sig = data.products.filter(
+                (p: any) => p.subcategory?.toLowerCase() === 'signature bracelets'
+              );
+              if (sig.length > 0) setProducts(sig);
+            }
+          })
+          .catch(() => {});
       })
-      .catch(() => {}); // silently fallback to seed
+      .catch(() => {
+        // Fallback to product fetch on settings error
+        fetch('/api/products')
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.products) {
+              const sig = data.products.filter(
+                (p: any) => p.subcategory?.toLowerCase() === 'signature bracelets'
+              );
+              if (sig.length > 0) setProducts(sig);
+            }
+          })
+          .catch(() => {});
+      });
   }, []);
 
   useEffect(() => {

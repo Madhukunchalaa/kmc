@@ -4,13 +4,16 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function AdminSettingsPage() {
   const [founderImageUrl, setFounderImageUrl] = useState('');
+  const [signatureCarouselImages, setSignatureCarouselImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingCarousel, setUploadingCarousel] = useState(false);
   const [success, setSuccess] = useState('');
   const [err, setErr] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const carouselFileInputRef = useRef<HTMLInputElement>(null);
 
   // Load current settings
   const loadSettings = async () => {
@@ -21,6 +24,15 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (data.ok && data.settings) {
         setFounderImageUrl(data.settings.founderImageUrl || '');
+        if (data.settings.signatureCarouselImages) {
+          try {
+            setSignatureCarouselImages(JSON.parse(data.settings.signatureCarouselImages));
+          } catch {
+            setSignatureCarouselImages([]);
+          }
+        } else {
+          setSignatureCarouselImages([]);
+        }
       } else {
         setErr('Failed to load settings.');
       }
@@ -68,6 +80,44 @@ export default function AdminSettingsPage() {
     }
   };
 
+  // Handle Carousel Image Upload to Cloudflare R2
+  const handleCarouselImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setErr('');
+    setSuccess('');
+    setUploadingCarousel(true);
+
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: fd,
+      });
+
+      const data = await res.json();
+      if (!data.ok) {
+        setErr(data.reason || 'Carousel image upload failed.');
+      } else {
+        setSignatureCarouselImages(prev => [...prev, data.url]);
+        setSuccess('Carousel image uploaded successfully. Don\'t forget to click Save Settings.');
+      }
+    } catch {
+      setErr('Carousel image upload failed. Please try again.');
+    } finally {
+      setUploadingCarousel(false);
+      if (carouselFileInputRef.current) carouselFileInputRef.current.value = '';
+    }
+  };
+
+  const removeCarouselImage = (index: number) => {
+    setSignatureCarouselImages(prev => prev.filter((_, i) => i !== index));
+    setSuccess('Image removed from list. Remember to save changes.');
+  };
+
   // Handle Save
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,8 +132,10 @@ export default function AdminSettingsPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          key: 'founderImageUrl',
-          value: founderImageUrl,
+          settings: {
+            founderImageUrl: founderImageUrl,
+            signatureCarouselImages: JSON.stringify(signatureCarouselImages)
+          }
         }),
       });
 
@@ -283,6 +335,92 @@ export default function AdminSettingsPage() {
                     }}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Autoplay Carousel Section */}
+          <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '2rem', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.15rem', color: '#2D1B0E', fontWeight: 600, margin: '0 0 1rem' }}>
+              <i className="fa-solid fa-images me-2" style={{ color: '#C8956C', fontSize: '1rem' }} />
+              Homepage Signature Carousel Images
+            </h3>
+            <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.4 }}>
+              Upload and manage custom images displayed in the Signature Crystals autoplay carousel on the homepage. If no custom images are uploaded here, the carousel will automatically fall back to displaying the products from the <strong>Signature Bracelets</strong> subcategory.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '16px', marginBottom: '1.5rem' }}>
+              {signatureCarouselImages.map((url, index) => (
+                <div key={index} style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1.5px solid rgba(200, 149, 108, 0.2)',
+                  boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
+                  background: '#fafafa'
+                }}>
+                  <img src={url} alt={`Carousel ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <button
+                    type="button"
+                    onClick={() => removeCarouselImage(index)}
+                    title="Remove image"
+                    style={{
+                      position: 'absolute',
+                      top: '6px',
+                      right: '6px',
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      background: 'rgba(231, 76, 60, 0.9)',
+                      border: 'none',
+                      color: '#fff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                      transition: 'background 0.2s'
+                    }}
+                  >
+                    <i className="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              ))}
+
+              {/* Upload Button Box */}
+              <div
+                onClick={() => !uploadingCarousel && carouselFileInputRef.current?.click()}
+                style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '12px',
+                  border: '2px dashed rgba(200, 149, 108, 0.35)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: uploadingCarousel ? 'not-allowed' : 'pointer',
+                  color: 'var(--primary,#C8956C)',
+                  background: 'rgba(200, 149, 108, 0.02)',
+                  transition: 'all 0.2s',
+                  textAlign: 'center',
+                  padding: '10px'
+                }}
+              >
+                <i className={`fa-solid ${uploadingCarousel ? 'fa-spinner fa-spin' : 'fa-plus'}`} style={{ fontSize: '1.5rem', marginBottom: '8px' }}></i>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+                  {uploadingCarousel ? 'Uploading…' : 'Add Image'}
+                </span>
+                <input
+                  type="file"
+                  ref={carouselFileInputRef}
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                  style={{ display: 'none' }}
+                  onChange={handleCarouselImageUpload}
+                />
               </div>
             </div>
           </div>

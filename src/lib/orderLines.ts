@@ -77,6 +77,18 @@ export async function resolveOrderLines(items: CartLineInput[], currency: string
     }
   }
 
+  // Add virtual custom-bracelet product mapping
+  productMap.set('custom-bracelet', {
+    _id: 'custom-bracelet',
+    slug: 'custom-bracelet',
+    name: 'Custom Crystal Bracelet',
+    price: useIntlPrice ? 64 : 3200,
+    stock: null,
+    category: 'bracelets',
+    subcategory: '',
+    shippingCharge: null,
+  });
+
   // Stock check
   for (const it of items) {
     const [baseId] = it.productId.split('::');

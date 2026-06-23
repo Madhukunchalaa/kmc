@@ -59,11 +59,19 @@ export default function CartPage() {
                         boxShadow: '0 6px 20px rgba(0,0,0,0.05)',
                       }}
                     >
-                      <Link href={`/shop/${it.product.slug || it.product.id}`}>
+                      <Link href={`/shop/${it.product.slug || it.product.id}`} style={{ display: 'block', overflow: 'hidden', borderRadius: '12px' }}>
                         <img
                           src={it.product.image}
                           alt={it.product.name}
-                          style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', borderRadius: '12px' }}
+                          style={{
+                            width: '100%',
+                            aspectRatio: '1/1',
+                            objectFit: 'cover',
+                            borderRadius: '12px',
+                            transform: (it.product.image.includes('Rose%20quartz') || it.product.image.includes('Rose quartz'))
+                              ? 'rotate(-90deg)'
+                              : undefined,
+                          }}
                         />
                       </Link>
                       <div>

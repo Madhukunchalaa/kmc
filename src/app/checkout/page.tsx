@@ -773,7 +773,20 @@ export default function CheckoutPage() {
                 <div style={{ display: 'grid', gap: '0.85rem', marginTop: '1rem' }}>
                   {hydrated.map((it) => (
                     <div key={it.productId} className="d-flex gap-3 align-items-center">
-                      <img src={it.product.image} alt={it.product.name} style={{ width: 56, height: 56, borderRadius: 10, objectFit: 'cover' }} />
+                      <div style={{ width: 56, height: 56, borderRadius: 10, overflow: 'hidden', flexShrink: 0 }}>
+                        <img
+                          src={it.product.image}
+                          alt={it.product.name}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            transform: (it.product.image.includes('Rose%20quartz') || it.product.image.includes('Rose quartz'))
+                              ? 'rotate(-90deg)'
+                              : undefined,
+                          }}
+                        />
+                      </div>
                       <div style={{ flex: 1, fontSize: '0.85rem' }}>
                         <div style={{ fontWeight: 600 }}>{it.product.name}</div>
                         <div style={{ color: 'var(--text-light,#777)' }}>Qty {it.qty}</div>

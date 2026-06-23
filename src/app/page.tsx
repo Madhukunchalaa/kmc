@@ -11,7 +11,7 @@ import SpiritualReels from '@/components/SpiritualReels';
 import MobileSearchBar from '@/components/MobileSearchBar';
 import TestimonialText from '@/components/TestimonialText';
 import SimplePrice from '@/components/SimplePrice';
-import { products } from '@/data/products';
+import { products as seedProducts } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
 import CrystalCard from './crystal-strength/CrystalCard';
 
@@ -35,12 +35,25 @@ interface HomepageService {
 }
 
 export default function Home() {
+  const [dbProducts, setDbProducts] = useState<any[]>(seedProducts);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+          setDbProducts(data.products);
+        }
+      })
+      .catch((err) => console.error('Error fetching products:', err));
+  }, []);
+
   // Bestsellers: Rose Quartz first, then remaining top picks — one row of 5
-  const roseQuartz = products.find(p => p.id === 'rose-quartz-bracelet');
-  const otherFeatured = products.slice(0, 5).filter(p => p.id !== 'rose-quartz-bracelet');
-  const featuredProducts = roseQuartz ? [roseQuartz, ...otherFeatured] : products.slice(0, 5);
+  const roseQuartz = dbProducts.find(p => p.id === 'rose-quartz-bracelet' || p.slug === 'rose-quartz-bracelet');
+  const otherFeatured = dbProducts.slice(0, 5).filter(p => p.id !== 'rose-quartz-bracelet' && p.slug !== 'rose-quartz-bracelet');
+  const featuredProducts = roseQuartz ? [roseQuartz, ...otherFeatured] : dbProducts.slice(0, 5);
   // Signature Bracelets
-  const signatureProducts = products.filter(p => p.subcategory?.toLowerCase() === 'signature bracelets');
+  const signatureProducts = dbProducts.filter(p => p.subcategory?.toLowerCase() === 'signature bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
   const [activeSessionIdx, setActiveSessionIdx] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);

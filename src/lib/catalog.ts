@@ -28,6 +28,7 @@ export interface CatalogProduct {
     originalUsdPrice?: number | null;
     image: string;
   }[];
+  shippingCharge?: number | null;
 }
 
 export interface ServiceTier {
@@ -79,6 +80,7 @@ function fromSeed(p: SeedProduct): CatalogProduct {
     chakras: p.chakras,
     variants: p.variants,
     stock: 99,
+    shippingCharge: (p as any).shippingCharge ?? null,
   };
 }
 
@@ -112,6 +114,7 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
         image: v.image,
       })),
       stock: d.stock,
+      shippingCharge: d.shippingCharge ?? null,
     }));
   } catch (err) {
     console.error('getAllProducts: falling back to seed', err);
@@ -149,6 +152,7 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
           image: v.image,
         })),
         stock: d.stock,
+        shippingCharge: d.shippingCharge ?? null,
       };
     }
   } catch (err) {

@@ -19,13 +19,15 @@ export interface ShippableProduct {
   shippingCharge?: number | null;
 }
 
-/** Per-product India shipping charge (₹). Admin override wins, else computed by category/type. */
 export function getShippingCharge(p: ShippableProduct): number {
   if (typeof p.shippingCharge === 'number' && p.shippingCharge >= 0) return p.shippingCharge;
 
   const c = (p.category || '').toLowerCase();
   const s = (p.subcategory || '').toLowerCase();
   const n = (p.name || '').toLowerCase();
+
+  // Test / sample products ship free
+  if (n.includes('sample')) return 0;
 
   // ₹120 — jewellery & light wearables, keychains, yantra
   if (['bracelets', 'malas', 'pendants', 'designer-pendants', 'silver-jewelry', 'anklets'].includes(c)) return 120;

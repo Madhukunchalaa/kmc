@@ -603,6 +603,7 @@ export default function Home() {
                 emoji: '🔮',
                 image: '/images/crystals/amethyst.png',
                 tags: ['Peace', 'Clarity', 'Protection'],
+                chakras: ['Third Eye', 'Crown'],
               },
               {
                 name: 'Rose Quartz',
@@ -613,6 +614,7 @@ export default function Home() {
                 emoji: '🩷',
                 image: '/images/crystals/rosequartz.png',
                 tags: ['Love', 'Harmony', 'Healing'],
+                chakras: ['Heart'],
               },
               {
                 name: 'Citrine',
@@ -623,6 +625,7 @@ export default function Home() {
                 emoji: '💛',
                 image: '/images/crystals/citrine.png',
                 tags: ['Wealth', 'Joy', 'Success'],
+                chakras: ['Solar Plexus', 'Sacral'],
               },
             ].map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>

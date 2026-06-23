@@ -346,3 +346,29 @@ export function adminBookingReceivedEmail(
     ),
   };
 }
+
+export function contactFormSubmissionEmail(
+  name: string,
+  email: string,
+  phone: string,
+  message: string
+): EmailMessage {
+  return {
+    to: 'krissmaagiicrystals@gmail.com',
+    subject: `✉️ New Contact Message from ${name}`,
+    html: shell(
+      `New Message Received`,
+      `<p>You have received a new contact message from the website contact form.</p>
+       <p><strong>Contact Details:</strong></p>
+       <ul style="padding-left:20px;margin-bottom:20px">
+         <li>Name: <strong>${name}</strong></li>
+         <li>Email: <strong>${email}</strong></li>
+         <li>Phone: <strong>${phone || 'N/A'}</strong></li>
+       </ul>
+       <p><strong>Message:</strong></p>
+       <div style="background:#FAF6F1;padding:16px;border-radius:12px;border:1px solid rgba(200,149,108,0.15);font-style:italic;white-space:pre-wrap;color:#2D1B0E">
+         ${message}
+       </div>`
+    )
+  };
+}

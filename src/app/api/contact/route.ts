@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
 import { contactSchema, zodErrorMessage } from '@/lib/validators';
+import { sendEmail, contactFormSubmissionEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -16,6 +17,10 @@ export async function POST(req: Request) {
   try {
     const db = await getDb();
     await db.collection('contact_messages').insertOne(data);
+
+    // Send email notification to KrissMaagiic Crystals email
+    await sendEmail(contactFormSubmissionEmail(data.name, data.email, data.phone || '', data.message));
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('contact POST failed', err);

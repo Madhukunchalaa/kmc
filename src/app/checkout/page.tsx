@@ -153,8 +153,8 @@ export default function CheckoutPage() {
           items,
           customer: {
             ...form,
-            giftMessage: isGift ? giftMessage : null,
-            giftRecipient: isGift ? giftRecipient : null,
+            giftMessage: isGift ? giftMessage : undefined,
+            giftRecipient: isGift ? giftRecipient : undefined,
           },
           currency,
           paymentMethod

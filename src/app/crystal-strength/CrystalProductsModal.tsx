@@ -1,6 +1,7 @@
 'use client';
 
-import { products } from '@/data/products';
+import { useRef, useEffect, useState, useMemo } from 'react';
+import { products as staticProducts, type Product } from '@/data/products';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useRouter } from 'next/navigation';
 import type { CrystalCardData } from './CrystalCard';
@@ -10,31 +11,65 @@ interface CrystalProductsModalProps {
   onClose: () => void;
 }
 
-export default function CrystalProductsModal({ crystal, onClose }: CrystalProductsModalProps) {
-  const router = useRouter();
-  const { formatPrice } = useCurrency();
+function filterByCrystal(list: Product[], crystalName: string): Product[] {
+  const key = crystalName.toLowerCase();
+  return list.filter((p) => {
+    const nameMatch = p.name.toLowerCase().includes(key);
+    const descMatch = (p.desc || '').toLowerCase().includes(key);
 
-  // Find products that contain this crystal
-  const matchingProducts = products.filter((p) => {
-    const nameMatch = p.name.toLowerCase().includes(crystal.name.toLowerCase());
-    const descMatch = (p.desc || '').toLowerCase().includes(crystal.name.toLowerCase());
-    
     let longDescMatch = false;
     if (p.longDesc) {
       try {
         const parsed = JSON.parse(p.longDesc);
         const crystalsIncluded = (parsed.crystalsIncluded || '').toLowerCase();
-        longDescMatch = crystalsIncluded.includes(crystal.name.toLowerCase());
+        longDescMatch = crystalsIncluded.includes(key);
       } catch {
-        longDescMatch = p.longDesc.toLowerCase().includes(crystal.name.toLowerCase());
+        longDescMatch = p.longDesc.toLowerCase().includes(key);
       }
     }
-    
+
     return nameMatch || descMatch || longDescMatch;
   });
+}
+
+export default function CrystalProductsModal({ crystal, onClose }: CrystalProductsModalProps) {
+  const router = useRouter();
+  const { formatPrice } = useCurrency();
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  // Start with the static list so the modal renders instantly
+  const [allProducts, setAllProducts] = useState<Product[]>(staticProducts);
+  const [loadingDb, setLoadingDb] = useState(true);
+
+  // Fetch live products from DB in the background
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/products')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!cancelled && Array.isArray(d.products) && d.products.length > 0) {
+          setAllProducts(d.products as Product[]);
+        }
+      })
+      .catch(() => { /* keep static fallback */ })
+      .finally(() => { if (!cancelled) setLoadingDb(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Always scroll overlay to top when crystal changes
+  useEffect(() => {
+    if (overlayRef.current) {
+      overlayRef.current.scrollTop = 0;
+    }
+  }, [crystal]);
+
+  const matchingProducts = useMemo(
+    () => filterByCrystal(allProducts, crystal.name),
+    [allProducts, crystal.name]
+  );
 
   return (
-    <div className="crystal-modal-overlay" onClick={onClose}>
+    <div ref={overlayRef} className="crystal-modal-overlay" onClick={onClose}>
       <div className="crystal-modal-container" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
@@ -43,7 +78,7 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
           className="crystal-modal-close-btn"
           aria-label="Close modal"
         >
-          <i className="fa-solid fa-xmark"></i>
+          <i className="fa-solid fa-xmark" />
         </button>
 
         {/* Header */}
@@ -65,12 +100,24 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
 
         {/* Products List */}
         <div className="crystal-modal-body">
+          {/* Live DB loading indicator (subtle) */}
+          {loadingDb && matchingProducts.length > 0 && (
+            <p style={{ fontSize: '0.72rem', color: 'rgba(200,149,108,0.5)', margin: '0 0 14px', textAlign: 'right' }}>
+              <i className="fa-solid fa-circle-notch fa-spin me-1" />
+              Syncing live prices…
+            </p>
+          )}
+
           {matchingProducts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.45)' }}>
-              <i className="fa-solid fa-hourglass-empty" style={{ fontSize: '2.5rem', color: '#C8956C', marginBottom: '16px', display: 'block' }}></i>
+              <i className="fa-solid fa-hourglass-empty" style={{ fontSize: '2.5rem', color: '#C8956C', marginBottom: '16px', display: 'block' }} />
               <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#fff', margin: '0 0 6px' }}>No direct products found</p>
-              <p style={{ fontSize: '0.85rem', margin: 0, color: 'rgba(255,255,255,0.5)' }}>We don't have standard {crystal.name} products in stock right now.</p>
-              <p style={{ fontSize: '0.8rem', color: '#C8956C', marginTop: '12px' }}>Please contact us for custom crystal healing orders!</p>
+              <p style={{ fontSize: '0.85rem', margin: 0, color: 'rgba(255,255,255,0.5)' }}>
+                We don&apos;t have standard {crystal.name} products in stock right now.
+              </p>
+              <p style={{ fontSize: '0.8rem', color: '#C8956C', marginTop: '12px' }}>
+                Please contact us for custom crystal healing orders!
+              </p>
             </div>
           ) : (
             <div className="crystal-modal-grid">
@@ -98,7 +145,7 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
                       {formatPrice(p.price, p.usdPrice)}
                     </span>
                     <span className="crystal-modal-product-view-btn">
-                      View <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.55rem' }}></i>
+                      View <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.55rem' }} />
                     </span>
                   </div>
                 </div>

@@ -226,11 +226,72 @@ export default function BookingFlow({
   const callLabel = isVideoType ? 'Video Call' : 'Audio Call';
   const callIcon = isVideoType ? '📹' : '📞';
   const callMedium = isVideoType ? 'WhatsApp Video Call' : 'WhatsApp Audio';
-  const callTiers = isVideoType ? VIDEO_TIERS : AUDIO_TIERS;
+  const callTiers = useMemo(() => {
+    const baseTiers = isVideoType ? VIDEO_TIERS : AUDIO_TIERS;
+    if (serviceSlug !== 'tarot' || !tiers || tiers.length === 0) return baseTiers;
+
+    if (isVideoType) {
+      return baseTiers.map((opt, idx) => {
+        if (idx < tiers.length) {
+          const dbTier = tiers[idx];
+          return {
+            ...opt,
+            label: dbTier.label,
+            price: dbTier.price,
+            usdPrice: dbTier.usdPrice ?? opt.usdPrice,
+          };
+        }
+        return opt;
+      });
+    } else {
+      return baseTiers.map((opt, idx) => {
+        const dbIdx = 9 + idx;
+        if (dbIdx < tiers.length) {
+          const dbTier = tiers[dbIdx];
+          return {
+            ...opt,
+            label: dbTier.label,
+            price: dbTier.price,
+            usdPrice: dbTier.usdPrice ?? opt.usdPrice,
+          };
+        }
+        return opt;
+      });
+    }
+  }, [serviceSlug, tiers, isVideoType]);
 
   const selectedTier = tiers && tiers[tierIdx];
   
-  const voiceOptions = options && options.length > 0 ? options : VOICE_OPTIONS;
+  const voiceOptions = useMemo(() => {
+    if (serviceSlug !== 'tarot') {
+      return options && options.length > 0 ? options : VOICE_OPTIONS;
+    }
+    if (!tiers || tiers.length === 0) return VOICE_OPTIONS;
+
+    return VOICE_OPTIONS.map((opt, idx) => {
+      const matchByLabel = tiers.find(
+        (t) => t.label.trim().toUpperCase() === opt.label.trim().toUpperCase()
+      );
+      if (matchByLabel) {
+        return {
+          ...opt,
+          label: matchByLabel.label,
+          price: matchByLabel.price,
+          usdPrice: matchByLabel.usdPrice ?? opt.usdPrice,
+        };
+      }
+      if (idx < tiers.length) {
+        const dbTier = tiers[idx];
+        return {
+          ...opt,
+          label: dbTier.label,
+          price: dbTier.price,
+          usdPrice: dbTier.usdPrice ?? opt.usdPrice,
+        };
+      }
+      return opt;
+    });
+  }, [serviceSlug, tiers, options]);
 
   const activePrice = isTarot
     ? (tarotType === 'voice'
@@ -269,7 +330,7 @@ export default function BookingFlow({
           notes,
           tierLabel: isTarot
             ? (tarotType === 'voice'
-                ? `Voice Chat (${selectedVoiceOptions.map(id => VOICE_OPTIONS.find(o => o.id === id)?.label).join(', ')})`
+                ? `Voice Chat (${selectedVoiceOptions.map(id => voiceOptions.find(o => o.id === id)?.label).join(', ')})`
                 : `${callLabel} (${callTiers[tierIdx]?.label})`)
             : selectedTier?.label,
           tierPrice: activePrice,

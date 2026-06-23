@@ -14,11 +14,22 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
   const session = await auth();
   if (!session?.user) redirect(`/login?callbackUrl=/booking/${serviceId}`);
 
-  const service = await getServiceById(serviceId);
+  let service = await getServiceById(serviceId);
   if (!service) notFound();
 
   // tarot-video is a view alias — serve through the unified tarot booking with ?type=video
   if (service.slug === 'tarot-video') redirect('/booking/tarot?type=video');
+
+  // If tarot and type is video, fetch tarot-video tiers
+  if (service.slug === 'tarot' && initialType === 'video') {
+    const videoService = await getServiceById('tarot-video');
+    if (videoService && videoService.tiers) {
+      service = {
+        ...service,
+        tiers: videoService.tiers,
+      };
+    }
+  }
 
   return (
     <>

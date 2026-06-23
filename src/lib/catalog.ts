@@ -297,12 +297,25 @@ export async function getAllServices(): Promise<CatalogService[]> {
 
     return docs.map((d) => {
       // Use tiers stored in DB if present, otherwise fall back to hardcoded
-      const tiers: ServiceTier[] = (d.tiers && d.tiers.length > 0)
-        ? (d.tiers as ServiceTier[])
+      const rawTiers = (d.tiers && d.tiers.length > 0)
+        ? d.tiers
         : (SERVICE_TIERS[d.slug] || []);
+      const tiers: ServiceTier[] = rawTiers.map(t => ({
+        label: t.label,
+        price: t.price,
+        usdPrice: t.usdPrice,
+      }));
       const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : d.price;
       const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
       const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : ((d as any).usdPrice || Math.round(basePrice / 50));
+
+      const rawOptions = (d as { options?: ServiceOption[] }).options ?? [];
+      const options: ServiceOption[] = rawOptions.map(o => ({
+        id: o.id,
+        label: o.label,
+        price: o.price,
+        usdPrice: o.usdPrice,
+      }));
 
       return {
         id: String(d._id),
@@ -317,7 +330,7 @@ export async function getAllServices(): Promise<CatalogService[]> {
         durationMins: d.durationMins,
         bullets: d.bullets,
         tiers,
-        options: ((d as { options?: ServiceOption[] }).options ?? []),
+        options,
         videoUrl: (d as { videoUrl?: string }).videoUrl || '',
       };
     });
@@ -355,8 +368,19 @@ export async function getServiceById(id: string): Promise<CatalogService | null>
     }
     if (doc) {
       // Prefer tiers/options saved in the DB (admin-editable); fall back to hardcoded only if none.
-      const tiers = (doc.tiers && doc.tiers.length > 0) ? doc.tiers : (SERVICE_TIERS[doc.slug] || []);
-      const options = doc.options ?? [];
+      const rawTiers = (doc.tiers && doc.tiers.length > 0) ? doc.tiers : (SERVICE_TIERS[doc.slug] || []);
+      const tiers: ServiceTier[] = rawTiers.map(t => ({
+        label: t.label,
+        price: t.price,
+        usdPrice: t.usdPrice,
+      }));
+      const rawOptions = doc.options ?? [];
+      const options: ServiceOption[] = rawOptions.map(o => ({
+        id: o.id,
+        label: o.label,
+        price: o.price,
+        usdPrice: o.usdPrice,
+      }));
       const basePrice = tiers.length > 0 ? Math.min(...tiers.map(t => t.price)) : doc.price;
       const usdPrices = tiers.map(t => t.usdPrice).filter((p): p is number => p !== undefined && p !== null);
       const baseUsdPrice = usdPrices.length > 0 ? Math.min(...usdPrices) : (doc.usdPrice || Math.round(basePrice / 50));

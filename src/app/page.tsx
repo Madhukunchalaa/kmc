@@ -14,6 +14,7 @@ import SimplePrice from '@/components/SimplePrice';
 import { products as seedProducts } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
 import CrystalCard from './crystal-strength/CrystalCard';
+import CrystalProductsModal from './crystal-strength/CrystalProductsModal';
 
 interface SelectedSession {
   serviceSlug: string;
@@ -36,6 +37,7 @@ interface HomepageService {
 
 export default function Home() {
   const [dbProducts, setDbProducts] = useState<any[]>(seedProducts);
+  const [activeCrystal, setActiveCrystal] = useState<any | null>(null);
 
   useEffect(() => {
     fetch('/api/products')
@@ -625,7 +627,9 @@ export default function Home() {
             ].map((c, idx) => (
               <div className="col-sm-6 col-lg-4" key={c.name}>
                 <ScrollFade delay={idx * 80}>
-                  <CrystalCard crystal={c} />
+                  <div onClick={() => setActiveCrystal(c)} style={{ height: '100%', cursor: 'pointer' }}>
+                    <CrystalCard crystal={c} />
+                  </div>
                 </ScrollFade>
               </div>
             ))}
@@ -751,6 +755,14 @@ export default function Home() {
           serviceSlug={activeSession.serviceSlug}
           title={activeSession.title}
           tiers={activeSession.tiers}
+        />
+      )}
+
+      {/* ===== CRYSTAL PRODUCTS MODAL ===== */}
+      {activeCrystal && (
+        <CrystalProductsModal
+          crystal={activeCrystal}
+          onClose={() => setActiveCrystal(null)}
         />
       )}
     </>

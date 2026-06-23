@@ -50,7 +50,7 @@ function YoutubePlayer({ src, title, muted }: YoutubePlayerProps) {
   );
 }
 
-const REELS: Reel[] = [
+const FALLBACK_REELS: Reel[] = [
   {
     id: 2,
     src: `${BASE}/Video%202.mp4`,
@@ -104,21 +104,42 @@ const REELS: Reel[] = [
 
 
 
-const N = REELS.length;
-
 // Returns the modular distance (with direction) of index from center
-function getRelativePos(index: number, center: number): number {
-  let rel = ((index - center) % N + N) % N;
-  if (rel > N / 2) rel -= N; // negative = left side
+function getRelativePos(index: number, center: number, n: number): number {
+  let rel = ((index - center) % n + n) % n;
+  if (rel > n / 2) rel -= n; // negative = left side
   return rel;
 }
 
 export default function SpiritualReels() {
+  const [reels, setReels] = useState<Reel[]>(FALLBACK_REELS);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [playingId, setPlayingId] = useState<number | null>(REELS[0].id);
+  const [playingId, setPlayingId] = useState<number | null>(FALLBACK_REELS[0].id);
   const [muted, setMuted] = useState(true);
   const [animating, setAnimating] = useState(false);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
+
+  // Load reels from DB on mount; fall back to hardcoded list if none returned
+  useEffect(() => {
+    fetch('/api/reels')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.ok && Array.isArray(d.reels) && d.reels.length > 0) {
+          // Map DB reels (MongoDB _id as string) to our Reel interface (numeric id)
+          const mapped: Reel[] = d.reels.map((r: { _id: string; title: string; caption: string; src: string; image: string }, i: number) => ({
+            id: i + 1000, // offset avoids collision with fallback ids
+            title: r.title,
+            caption: r.caption,
+            src: r.src,
+            image: r.image,
+          }));
+          setReels(mapped);
+          setPlayingId(mapped[0].id);
+          setActiveIndex(0);
+        }
+      })
+      .catch(() => { /* keep fallback */ });
+  }, []);
 
   const pauseAllVideos = useCallback(() => {
     Object.values(videoRefs.current).forEach((v) => { if (v && !v.paused) v.pause(); });
@@ -131,7 +152,8 @@ export default function SpiritualReels() {
     pauseAllVideos();
 
     setActiveIndex((prev) => {
-      const next = dir === 'right' ? (prev + 1) % N : (prev - 1 + N) % N;
+      const n = reels.length;
+      const next = dir === 'right' ? (prev + 1) % n : (prev - 1 + n) % n;
       return next;
     });
 
@@ -143,7 +165,8 @@ export default function SpiritualReels() {
   // Autoplay center video when active index changes
   useEffect(() => {
     if (animating) return;
-    const reel = REELS[activeIndex];
+    const reel = reels[activeIndex];
+    if (!reel) return;
     setPlayingId(reel.id);
 
     const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
@@ -186,10 +209,10 @@ export default function SpiritualReels() {
   };
 
   const handleCardClick = (index: number) => {
-    const rel = getRelativePos(index, activeIndex);
+    const rel = getRelativePos(index, activeIndex, reels.length);
     if (rel === 0) {
       // Center card: toggle play/pause
-      const reel = REELS[activeIndex];
+      const reel = reels[activeIndex];
       const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
       if (isYoutube) {
         setPlayingId((prev) => (prev === reel.id ? null : reel.id));
@@ -213,7 +236,7 @@ export default function SpiritualReels() {
 
   // Compute 3D transform style for each card based on relative position
   const getCardStyle = (index: number): React.CSSProperties => {
-    const rel = getRelativePos(index, activeIndex);
+    const rel = getRelativePos(index, activeIndex, reels.length);
 
     // Only show cards within ±2 positions
     if (Math.abs(rel) > 2) {
@@ -269,8 +292,8 @@ export default function SpiritualReels() {
     };
   };
 
-  const centerReel = REELS[activeIndex];
-  const isPlaying = playingId === centerReel.id;
+  const centerReel = reels[activeIndex];
+  const isPlaying = !!centerReel && playingId === centerReel.id;
 
   return (
     <section
@@ -344,8 +367,8 @@ export default function SpiritualReels() {
             justifyContent: 'center',
             transformStyle: 'preserve-3d',
           }}>
-            {REELS.map((reel, index) => {
-              const rel = getRelativePos(index, activeIndex);
+            {reels.map((reel, index) => {
+              const rel = getRelativePos(index, activeIndex, reels.length);
               const cardIsPlaying = playingId === reel.id;
               const isCenter = rel === 0;
               const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
@@ -492,7 +515,7 @@ export default function SpiritualReels() {
 
         {/* Dots */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 20 }}>
-          {REELS.map((_, idx) => (
+          {reels.map((_, idx) => (
             <button
               key={idx}
               type="button"

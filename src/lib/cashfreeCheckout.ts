@@ -3,6 +3,7 @@
 export interface CashfreeCheckoutParams {
   paymentSessionId: string;
   orderId: string;       // our internal reference
+  mode?: 'production' | 'sandbox';
 }
 
 export interface CashfreeCheckoutResult {
@@ -60,7 +61,7 @@ export async function openCashfreeCheckout(
 ): Promise<CashfreeCheckoutResult> {
   await loadCashfreeScript();
 
-  const mode = 'sandbox'; // Force sandbox mode during testing phase
+  const mode = params.mode || (process.env.NEXT_PUBLIC_CASHFREE_ENV === 'production' ? 'production' : 'sandbox');
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cashfree = (window as any).Cashfree({ mode });

@@ -42,6 +42,48 @@ export default function GiftingExperience() {
   const [giftMsg, setGiftMsg] = useState('');
   const [msgOpen, setMsgOpen] = useState(false);
 
+  // Load from localStorage on mount (since localStorage is client-only)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedMsg = localStorage.getItem('kmc_gift_message') || '';
+      setGiftMsg(savedMsg);
+      if (savedMsg) {
+        setMsgOpen(true);
+      }
+      
+      const savedRec = localStorage.getItem('kmc_gift_recipient');
+      if (savedRec) {
+        try {
+          const parsed = JSON.parse(savedRec);
+          setRecipient(parsed);
+        } catch {
+          // ignore
+        }
+      }
+    }
+  }, []);
+
+  // Save to localStorage when changed
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (recipient) {
+        localStorage.setItem('kmc_gift_recipient', JSON.stringify(recipient));
+      } else {
+        localStorage.removeItem('kmc_gift_recipient');
+      }
+    }
+  }, [recipient]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (giftMsg) {
+        localStorage.setItem('kmc_gift_message', giftMsg);
+      } else {
+        localStorage.removeItem('kmc_gift_message');
+      }
+    }
+  }, [giftMsg]);
+
   // Load recipients from DB when drawer first opens
   useEffect(() => {
     if (!open || loaded) return;
@@ -58,7 +100,6 @@ export default function GiftingExperience() {
 
   const handleClose = useCallback(() => {
     setOpen(false);
-    setTimeout(() => { setRecipient(null); setMsgOpen(false); setGiftMsg(''); }, 400);
   }, []);
 
   useEffect(() => {

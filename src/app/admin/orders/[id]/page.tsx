@@ -153,6 +153,32 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
               {order.customer.city}, {order.customer.state} {order.customer.pincode}
               {order.customer.dob && (<><br /><br /><em>Date of Birth:</em> {order.customer.dob}</>)}
               {order.customer.notes && (<><br /><br /><em>Notes:</em> {order.customer.notes}</>)}
+              {(order.customer as any).giftMessage && (
+                <>
+                  <br /><br />
+                  <span style={{ 
+                    display: 'block',
+                    padding: '12px 14px', 
+                    background: 'rgba(200, 149, 108, 0.06)', 
+                    border: '1.5px dashed rgba(200, 149, 108, 0.45)', 
+                    borderRadius: 10,
+                    marginTop: '10px'
+                  }}>
+                    <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>
+                      <i className="fa-solid fa-gift"></i>
+                      <span>Sacred Gift Order</span>
+                    </span>
+                    { (order.customer as any).giftRecipient && (
+                      <span style={{ display: 'block', fontSize: '0.78rem', color: '#666', marginTop: 4 }}>
+                        Recipient: <strong>{(order.customer as any).giftRecipient}</strong>
+                      </span>
+                    )}
+                    <span style={{ display: 'block', fontStyle: 'italic', marginTop: 8, fontSize: '0.85rem', color: '#2D1B0E', whiteSpace: 'pre-wrap', borderLeft: '2px solid rgba(200,149,108,0.3)', paddingLeft: '8px' }}>
+                      "{(order.customer as any).giftMessage}"
+                    </span>
+                  </span>
+                </>
+              )}
             </p>
           </div>
 

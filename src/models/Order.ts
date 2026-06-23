@@ -53,6 +53,8 @@ export interface OrderDoc {
     country: string;
     dob?: string;
     notes?: string;
+    giftMessage?: string | null;
+    giftRecipient?: string | null;
   };
   adminNote?: string;
   createdAt: Date;
@@ -122,6 +124,8 @@ const OrderSchema = new Schema<OrderDoc>(
       country: { type: String, required: true },
       dob: { type: String, default: '' },
       notes: { type: String, default: '' },
+      giftMessage: { type: String, default: null },
+      giftRecipient: { type: String, default: null },
     },
     adminNote: { type: String, default: '' },
   },

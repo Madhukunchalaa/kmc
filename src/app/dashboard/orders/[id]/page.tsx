@@ -458,6 +458,28 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
           <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', fontSize: '0.9rem' }}>
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Shipping</h4>
             <p>{o.customer.name}<br />{o.customer.address}<br />{o.customer.city}, {o.customer.state} {o.customer.pincode}<br />{o.customer.phone}</p>
+            {(o.customer as any).giftMessage && (
+              <div style={{ 
+                padding: '12px 14px', 
+                background: 'rgba(200, 149, 108, 0.05)', 
+                border: '1.5px dashed rgba(200, 149, 108, 0.4)', 
+                borderRadius: 10,
+                marginTop: '12px'
+              }}>
+                <div style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, color: 'var(--primary,#C8956C)', fontSize: '0.82rem' }}>
+                  <i className="fa-solid fa-gift"></i>
+                  <span>Sacred Gift Message</span>
+                </div>
+                { (o.customer as any).giftRecipient && (
+                  <div style={{ fontSize: '0.78rem', color: '#666', marginTop: 4 }}>
+                    Recipient: <strong>{(o.customer as any).giftRecipient}</strong>
+                  </div>
+                )}
+                <div style={{ fontStyle: 'italic', marginTop: 8, fontSize: '0.85rem', color: '#2D1B0E', whiteSpace: 'pre-wrap', borderLeft: '2px solid rgba(200,149,108,0.3)', paddingLeft: '8px' }}>
+                  "{(o.customer as any).giftMessage}"
+                </div>
+              </div>
+            )}
             {o.adminNote && (
               <>
                 <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Note from Kriss</h5>

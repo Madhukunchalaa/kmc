@@ -1,7 +1,7 @@
 import ScrollFade from '@/components/ScrollFade';
 import { crystals } from '@/data/crystals';
 import CrystalQuiz from './CrystalQuiz';
-import CrystalCard from './CrystalCard';
+import CrystalStrengthGrid from './CrystalStrengthGrid';
 
 export const metadata = {
   title: 'Crystal Strength Guide · KrissMaagiic Crystals',
@@ -47,15 +47,7 @@ export default function CrystalStrengthPage() {
           <div className="celestial-orbit-2"></div>
         </div>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div className="row g-4">
-            {crystals.map((c, idx) => (
-              <div className="col-sm-6 col-lg-4" key={c.name}>
-                <ScrollFade delay={Math.min(idx, 6) * 60}>
-                  <CrystalCard crystal={c} />
-                </ScrollFade>
-              </div>
-            ))}
-          </div>
+          <CrystalStrengthGrid crystals={crystals} />
         </div>
       </section>
 

@@ -72,6 +72,31 @@ export default function CheckoutPage() {
   const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
   const [isCod, setIsCod] = useState(false);
 
+  const [isGift, setIsGift] = useState(false);
+  const [giftRecipient, setGiftRecipient] = useState('');
+  const [giftMessage, setGiftMessage] = useState('');
+
+  // Load gifting options from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedMsg = localStorage.getItem('kmc_gift_message') || '';
+      const savedRec = localStorage.getItem('kmc_gift_recipient') || '';
+      
+      if (savedMsg || savedRec) {
+        setIsGift(true);
+        setGiftMessage(savedMsg);
+        if (savedRec) {
+          try {
+            const parsed = JSON.parse(savedRec);
+            setGiftRecipient(parsed.label || parsed.key || '');
+          } catch {
+            setGiftRecipient(savedRec);
+          }
+        }
+      }
+    }
+  }, []);
+
   // Delivery Animation States
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationPhase, setAnimationPhase] = useState<'arriving' | 'collecting' | 'driving' | 'fadeout'>('arriving');
@@ -124,7 +149,16 @@ export default function CheckoutPage() {
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items, customer: form, currency, paymentMethod }),
+        body: JSON.stringify({
+          items,
+          customer: {
+            ...form,
+            giftMessage: isGift ? giftMessage : null,
+            giftRecipient: isGift ? giftRecipient : null,
+          },
+          currency,
+          paymentMethod
+        }),
       });
       const orderData = await orderRes.json();
       if (!orderRes.ok || !orderData.ok) {
@@ -139,12 +173,21 @@ export default function CheckoutPage() {
         return;
       }
 
+      // Helper to clear localStorage gifting data
+      const clearLocalStorageGifting = () => {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('kmc_gift_message');
+          localStorage.removeItem('kmc_gift_recipient');
+        }
+      };
+
       // COD flow — skip payment, confirm immediately
       if (paymentMethod === 'cod') {
         setIsCod(true);
         setConfirmedOrder({ ...orderData, items: hydrated.map(it => ({ name: it.product.name, qty: it.qty, price: it.product.price })), subtotal: inrSubtotal, shipping: shippingInr, total: payableInr, currency });
         setOrderNumber(orderData.orderNumber);
         await clear();
+        clearLocalStorageGifting();
         setSubmitting(false);
         return;
       }
@@ -192,6 +235,7 @@ export default function CheckoutPage() {
 
       setOrderNumber(verifyData.orderNumber);
       await clear();
+      clearLocalStorageGifting();
     } catch (err) {
       setShowAnimation(false);
       if (err instanceof Error && err.message === 'payment-cancelled') {
@@ -712,6 +756,66 @@ export default function CheckoutPage() {
                   <div className="col-12">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Order Notes (optional)</label>
                     <textarea value={form.notes} onChange={update('notes')} rows={3} className="checkout-form-input" placeholder="Any special instructions or intentions for your order…" />
+                  </div>
+                  {/* Sacred Gifting Section */}
+                  <div className="col-12" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                    <div style={{
+                      background: 'rgba(200, 149, 108, 0.04)',
+                      border: '1.5px dashed rgba(200, 149, 108, 0.3)',
+                      borderRadius: '16px',
+                      padding: '20px',
+                      boxShadow: '0 4px 12px rgba(45, 27, 14, 0.02)'
+                    }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', userSelect: 'none', margin: 0 }}>
+                        <input
+                          type="checkbox"
+                          checked={isGift}
+                          onChange={(e) => setIsGift(e.target.checked)}
+                          style={{ accentColor: 'var(--primary,#C8956C)', width: 18, height: 18 }}
+                        />
+                        <div>
+                          <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <i className="fa-solid fa-gift" style={{ color: 'var(--primary,#C8956C)' }}></i>
+                            Send this as a Sacred Gift
+                          </span>
+                          <p style={{ margin: '2px 0 0', fontSize: '0.78rem', color: '#888' }}>
+                            Add a personal blessing or gift message for the recipient
+                          </p>
+                        </div>
+                      </label>
+
+                      {isGift && (
+                        <div style={{ marginTop: '16px', display: 'grid', gap: '12px', borderTop: '1px solid rgba(200, 149, 108, 0.15)', paddingTop: '16px' }}>
+                          <div>
+                            <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text,#2D1B0E)', marginBottom: '6px', display: 'block' }}>
+                              Recipient (e.g. Mother, Friend, Name)
+                            </label>
+                            <input
+                              type="text"
+                              value={giftRecipient}
+                              onChange={(e) => setGiftRecipient(e.target.value)}
+                              className="checkout-form-input"
+                              placeholder="Who is this blessed gift for?"
+                            />
+                          </div>
+                          <div>
+                            <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text,#2D1B0E)', marginBottom: '6px', display: 'block' }}>
+                              Personal Gift Message (max 160 characters)
+                            </label>
+                            <textarea
+                              value={giftMessage}
+                              onChange={(e) => setGiftMessage(e.target.value.slice(0, 160))}
+                              rows={3}
+                              className="checkout-form-input"
+                              placeholder="Write a beautiful note or intention to be included with their crystals..."
+                            />
+                            <span style={{ display: 'block', textAlign: 'right', fontSize: '0.72rem', color: '#888', marginTop: '4px' }}>
+                              {giftMessage.length}/160
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 

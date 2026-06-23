@@ -51,6 +51,8 @@ export const orderCustomerSchema = z.object({
   country: z.string().min(2, 'Please select your country.').max(80),
   dob: z.string().max(100).optional().or(z.literal('')),
   notes: z.string().max(600).optional().or(z.literal('')),
+  giftMessage: z.string().max(300).optional().or(z.literal('')),
+  giftRecipient: z.string().max(120).optional().or(z.literal('')),
 });
 
 export const createOrderSchema = z.object({

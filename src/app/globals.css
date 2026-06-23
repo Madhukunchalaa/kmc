@@ -8954,16 +8954,261 @@ video:-ms-fullscreen {
   transform: translateX(4px) !important;
 }
 
-/* Crystal Strength Modal Product Card Styles */
-.crystal-modal-product-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(200, 149, 108, 0.45) !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45) !important;
+/* Crystal Strength Modal - Premium Redesign */
+.crystal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(12, 4, 2, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.crystal-modal-product-card:hover .product-image-hover {
-  transform: scale(1.06);
+@keyframes modalFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.crystal-modal-container {
+  max-width: 720px;
+  width: 100%;
+  background: radial-gradient(circle at top left, rgba(45, 27, 14, 0.98) 0%, rgba(21, 6, 0, 0.99) 100%);
+  border: 1px solid rgba(200, 149, 108, 0.35);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-height: 85vh;
+  transform: scale(0.96);
+  opacity: 0;
+  animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+  overflow: hidden;
+}
+
+@keyframes modalScaleUp {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.crystal-modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(200, 149, 108, 0.2);
+  color: #C8956C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 10;
+}
+
+.crystal-modal-close-btn:hover {
+  background-color: #C8956C;
+  color: #1C0A02;
+  transform: rotate(90deg) scale(1.05);
+  border-color: #C8956C;
+  box-shadow: 0 0 15px rgba(200, 149, 108, 0.4);
+}
+
+.crystal-modal-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid rgba(200, 149, 108, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.crystal-modal-header-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(200, 149, 108, 0.25);
+  padding: 6px;
+  box-shadow: inset 0 1px 5px rgba(255, 255, 255, 0.05);
+}
+
+.crystal-modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: #fff;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: linear-gradient(to right, #ffffff 30%, #FFEFA6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.crystal-modal-subtitle {
+  font-size: 0.78rem;
+  color: #C8956C;
+  margin: 4px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.crystal-modal-body {
+  overflow-y: auto;
+  padding: 28px;
+  flex: 1;
+}
+
+/* Custom Scrollbar for Modal Body */
+.crystal-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.crystal-modal-body::-webkit-scrollbar-track {
+  background: rgba(28, 10, 2, 0.3);
+}
+.crystal-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(200, 149, 108, 0.25);
+  border-radius: 3px;
+}
+.crystal-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 149, 108, 0.45);
+}
+
+.crystal-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.crystal-modal-product-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(200, 149, 108, 0.15);
+  border-radius: 18px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.crystal-modal-product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(200, 149, 108, 0.4), transparent, rgba(200, 149, 108, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.crystal-modal-product-card:hover {
+  transform: translateY(-6px);
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(200, 149, 108, 0.3) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(200, 149, 108, 0.1) !important;
+}
+
+.crystal-modal-product-card:hover::after {
+  opacity: 1;
+}
+
+.crystal-modal-product-image-wrapper {
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(200, 149, 108, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.crystal-modal-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.crystal-modal-product-card:hover .crystal-modal-product-image {
+  transform: scale(1.08);
+}
+
+.crystal-modal-product-name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #F5EDD8;
+  margin: 0 0 8px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 38px;
+  transition: color 0.3s ease;
+}
+
+.crystal-modal-product-card:hover .crystal-modal-product-name {
+  color: #ffffff;
+}
+
+.crystal-modal-product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(200, 149, 108, 0.12);
+  padding-top: 8px;
+  margin-top: auto;
+}
+
+.crystal-modal-product-price {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: #FFEFA6;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.crystal-modal-product-view-btn {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: #C8956C;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.crystal-modal-product-card:hover .crystal-modal-product-view-btn {
+  color: #FFEFA6;
+  transform: translateX(2px);
 }
 
 

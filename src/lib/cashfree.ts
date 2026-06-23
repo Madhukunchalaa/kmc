@@ -1,9 +1,12 @@
 import crypto from 'crypto';
 
-// TEST credentials — swap back to env vars when going live
-const CF_APP_ID  = 'TEST1110676869ebf44ae13ff5fb3c9b86760111';
-const CF_SECRET  = 'cfsk_ma_test_2d7a003fdaac33f85f3dc829ee99f8cd_10a0d511';
-const CASHFREE_BASE_URL = 'https://sandbox.cashfree.com/pg';
+const CF_APP_ID  = process.env.CASHFREE_APP_ID || 'TEST1110676869ebf44ae13ff5fb3c9b86760111';
+const CF_SECRET  = process.env.CASHFREE_SECRET_KEY || 'cfsk_ma_test_2d7a003fdaac33f85f3dc829ee99f8cd_10a0d511';
+const CASHFREE_ENV = process.env.CASHFREE_ENV || 'test';
+
+const CASHFREE_BASE_URL = CASHFREE_ENV.toLowerCase() === 'production'
+  ? 'https://api.cashfree.com/pg'
+  : 'https://sandbox.cashfree.com/pg';
 
 const API_VERSION = '2023-08-01';
 
@@ -17,7 +20,7 @@ function getHeaders() {
 }
 
 export function isCashfreeConfigured(): boolean {
-  return true;
+  return !!CF_APP_ID && !!CF_SECRET;
 }
 
 export interface CashfreeOrderParams {

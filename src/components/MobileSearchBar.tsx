@@ -199,7 +199,11 @@ export default function MobileSearchBar() {
                     <span style={{ fontSize: '0.76rem', color: '#E8C99A', fontWeight: 700, flexShrink: 0 }}>₹{p.price.toLocaleString('en-IN')}</span>
                   </button>
                 ))}
-                <button type="button" onClick={() => go('/shop')}
+                <button type="button" onClick={() => {
+                  const firstProduct = results.products[0];
+                  const catSlug = firstProduct ? getCategorySlug(firstProduct.category, firstProduct.subcategory) : 'view-all';
+                  go(`/shop?category=${catSlug}`);
+                }}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, width: '100%', padding: '10px 14px', background: 'rgba(200,149,108,0.07)', border: 'none', color: '#C8956C', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em' }}>
                   View all in Shop <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.65rem' }}></i>
                 </button>

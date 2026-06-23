@@ -10,6 +10,7 @@ import { Service } from '../src/models/Service';
 import Testimonial from '../src/models/Testimonial';
 import { products as productSeed } from '../src/data/products';
 import { testimonials as testimonialSeed } from '../src/data/testimonials';
+import { SERVICE_TIERS } from '../src/lib/catalog';
 
 async function main() {
   const uri = process.env.MONGODB_URI;
@@ -83,6 +84,7 @@ async function main() {
       price: 199,
       durationMins: 30,
       bullets: ['Voice notes or live 1-on-1 audio', 'Audio recorded directly by the founder', 'Ask unlimited questions during live sessions'],
+      tiers: SERVICE_TIERS.tarot,
       active: true,
     },
     {
@@ -95,6 +97,7 @@ async function main() {
       price: 1800,
       durationMins: 45,
       bullets: ['Custom-dressed candle', 'Spell performed on your behalf', 'Burn photo + ritual notes sent'],
+      tiers: SERVICE_TIERS.candle,
       active: true,
     },
     {
@@ -107,6 +110,7 @@ async function main() {
       price: 2200,
       durationMins: 60,
       bullets: ['Tailored to your intention', 'Includes care + activation guide', 'Mini, Medium, and Large sizes'],
+      tiers: SERVICE_TIERS.spelljar,
       active: true,
     },
     {
@@ -119,6 +123,7 @@ async function main() {
       price: 1999,
       durationMins: 40,
       bullets: ['Detailed PDF chart report', '5-10 mins WhatsApp explanation', 'Tailored crystal recommendations'],
+      tiers: SERVICE_TIERS.numerology,
       active: true,
     },
     {
@@ -132,10 +137,7 @@ async function main() {
       usdPrice: 70,
       durationMins: 30,
       bullets: ['Live WhatsApp Video Call', 'See every card drawn in real time', '30 min or 60 min sessions available'],
-      tiers: [
-        { label: 'Video Call (30 min)', price: 3499, usdPrice: 70 },
-        { label: 'Video Call (1 hour)', price: 6999, usdPrice: 140 },
-      ],
+      tiers: SERVICE_TIERS['tarot-video'],
       active: true,
     },
   ];

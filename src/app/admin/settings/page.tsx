@@ -25,10 +25,15 @@ export default function AdminSettingsPage() {
       if (data.ok && data.settings) {
         setFounderImageUrl(data.settings.founderImageUrl || '');
         if (data.settings.signatureCarouselImages) {
-          try {
-            setSignatureCarouselImages(JSON.parse(data.settings.signatureCarouselImages));
-          } catch {
-            setSignatureCarouselImages([]);
+          if (Array.isArray(data.settings.signatureCarouselImages)) {
+            setSignatureCarouselImages(data.settings.signatureCarouselImages);
+          } else if (typeof data.settings.signatureCarouselImages === 'string') {
+            try {
+              const parsed = JSON.parse(data.settings.signatureCarouselImages);
+              setSignatureCarouselImages(Array.isArray(parsed) ? parsed : []);
+            } catch {
+              setSignatureCarouselImages([]);
+            }
           }
         } else {
           setSignatureCarouselImages([]);
@@ -414,14 +419,16 @@ export default function AdminSettingsPage() {
                 <span style={{ fontSize: '0.78rem', fontWeight: 600 }}>
                   {uploadingCarousel ? 'Uploading…' : 'Add Image'}
                 </span>
-                <input
-                  type="file"
-                  ref={carouselFileInputRef}
-                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                  style={{ display: 'none' }}
-                  onChange={handleCarouselImageUpload}
-                />
               </div>
+              <input
+                type="file"
+                ref={carouselFileInputRef}
+                accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                style={{ display: 'none' }}
+                onChange={handleCarouselImageUpload}
+                onClick={(e) => e.stopPropagation()}
+              />
+
             </div>
           </div>
 

@@ -84,29 +84,8 @@ function BookingSuccessContent() {
           Thank you! Your booking <strong>{bookingNumber}</strong> is confirmed.
         </p>
 
-        {/* Beautiful Simulated Test Booking Notice */}
-        <div className="test-success-card">
-          <h4 className="test-success-card-title">
-            🔮 Healing Portal & Sandbox Phase 🔮
-          </h4>
-          <p className="test-success-card-text">
-            KrissMaagiic is undergoing its final spiritual digital alignment. This session booking was completed in <strong>Testing Mode</strong> (no real money was charged).
-            <br /><br />
-            To coordinate, schedule, and finalize your actual healing session, please connect with Kriss directly on WhatsApp:
-          </p>
-          <a 
-            href="https://wa.me/918096223929?text=Hi%20Kriss,%20I%20just%20placed%20a%20test%20booking%20and%20would%20like%20to%20confirm%20my%20slot."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="whatsapp-cta-button"
-          >
-            <i className="fa-brands fa-whatsapp"></i>
-            <span>Confirm Healing Slot via WhatsApp (+91 80962 23929)</span>
-          </a>
-        </div>
-
-        <p style={{ color: 'var(--text-light,#666)' }}>
-          We&apos;ve logged your test session booking. You&apos;ll receive confirmation details and session updates by email.
+        <p style={{ color: 'var(--text-light,#666)', marginBottom: '2rem' }}>
+          We&apos;ve registered your session booking. You&apos;ll receive confirmation details and session updates by email.
         </p>
         <div className="d-flex flex-wrap gap-2 justify-content-center mt-4">
           <Link href="/dashboard/orders" className="btn-primary-custom">

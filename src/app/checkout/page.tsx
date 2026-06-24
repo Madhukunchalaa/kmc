@@ -240,36 +240,13 @@ export default function CheckoutPage() {
         mode: payData.mode,
       });
 
-      // Start the delivery animation and verify order simultaneously
-      const animPromise = runDeliveryAnimation();
-
-      const verifyRes = await fetch('/api/payments/cashfree/verify', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          orderId: orderData.orderId,
-          cfOrderId: payData.cfOrderId,
-        }),
-      });
-      const verifyData = await verifyRes.json();
-      if (!verifyRes.ok || !verifyData.ok) {
-        setShowAnimation(false);
-        setError(verifyData.reason ?? 'Payment verification failed. Contact us with your order number.');
-        setSubmitting(false);
-        return;
-      }
-
-      setConfirmedOrder(verifyData);
-
-      // Wait for the animation to complete
-      await animPromise;
-
-      setOrderNumber(verifyData.orderNumber);
-      if (isCustomOrder) {
-        setShowCustomSuccessModal(true);
-      }
+      // Payment dialog closed — clear cart then redirect to /checkout/success for animation + confirmation
       await clear();
       clearGifting();
+
+      // The success page will re-verify and show the full confirmation with animation
+      const merchantOrderId = payData.cfOrderId || `KMC-${orderData.orderNumber}`;
+      router.replace(`/checkout/success?order_id=${encodeURIComponent(merchantOrderId)}`);
     } catch (err) {
       setShowAnimation(false);
       if (err instanceof Error && err.message === 'payment-cancelled') {
@@ -313,102 +290,6 @@ export default function CheckoutPage() {
     );
   }
 
-  if (orderNumber) {
-    return (
-      <section className="section-pad" style={{ paddingTop: '160px' }}>
-        <div className="container text-center" style={{ maxWidth: 720 }}>
-          <div style={{ fontSize: '4.5rem', marginBottom: '1rem' }}>✨</div>
-          <h1 className="section-title">Payment <span style={{ color: '#2B7A5C' }}>Confirmed!</span></h1>
-          <p className="section-subtitle">
-            Thank you, {form.name || 'friend'}. Your order <strong>{orderNumber}</strong> is confirmed.
-          </p>
-
-          <p style={{ color: 'var(--text-light,#666)', marginBottom: '2.5rem' }}>
-            We&apos;ve registered your order. You&apos;ll receive confirmation details by email.
-          </p>
-
-          {/* Confirmed Products Summary */}
-          {confirmedOrder?.items && (
-            <div style={{
-              background: '#fff',
-              border: '1px solid rgba(200, 149, 108, 0.15)',
-              borderRadius: '24px',
-              padding: '2.5rem',
-              textAlign: 'left',
-              marginBottom: '2.5rem',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.04)'
-            }}>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', marginBottom: '1.5rem', color: '#2D1B0E', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '0.75rem' }}>
-                Order Summary
-              </h3>
-              <div style={{ display: 'grid', gap: '1.25rem' }}>
-                {confirmedOrder.items.map((it: any, index: number) => {
-                  const isInr = (confirmedOrder.currency || 'INR') === 'INR';
-                  return (
-                  <div key={index} className="d-flex justify-content-between align-items-center" style={{ fontSize: '0.95rem' }}>
-                    <div>
-                      <strong style={{ color: '#2D1B0E' }}>{it.name}</strong>
-                      <div style={{ color: '#666', fontSize: '0.85rem', marginTop: '2px' }}>
-                        Qty: {it.qty} × {formatPrice(isInr ? it.price : 0, isInr ? null : it.price)}
-                      </div>
-                    </div>
-                    <strong style={{ color: '#2D1B0E' }}>
-                      {formatPrice(isInr ? it.price * it.qty : 0, isInr ? null : it.price * it.qty)}
-                    </strong>
-                  </div>
-                  );
-                })}
-
-                <hr style={{ margin: '1rem 0', borderColor: 'rgba(0,0,0,0.08)' }} />
-
-                {(() => {
-                  const isInr = (confirmedOrder.currency || 'INR') === 'INR';
-                  const ship = confirmedOrder.shipping ?? 0;
-                  const total = confirmedOrder.total && confirmedOrder.total > 0 ? confirmedOrder.total : confirmedOrder.subtotal;
-                  const isIntl = !!confirmedOrder.international;
-                  const fmt = (n: number) => formatPrice(isInr ? n : 0, isInr ? null : n);
-                  return (
-                    <>
-                      <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666' }}>
-                        <span>Subtotal</span>
-                        <span>{fmt(confirmedOrder.subtotal)}</span>
-                      </div>
-                      <div className="d-flex justify-content-between" style={{ fontSize: '0.9rem', color: '#666', marginTop: '-0.5rem' }}>
-                        <span>Shipping</span>
-                        <span style={{ color: isIntl || ship === 0 ? 'var(--primary,#C8956C)' : '#2D1B0E', fontWeight: 600 }}>
-                          {isIntl ? 'Billed separately' : ship === 0 ? 'Free' : fmt(ship)}
-                        </span>
-                      </div>
-                      <div className="d-flex justify-content-between" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#2D1B0E', marginTop: '0.5rem' }}>
-                        <span>Total Paid</span>
-                        <span>{fmt(total)}</span>
-                      </div>
-                      {isIntl && (
-                        <p style={{ fontSize: '0.8rem', color: '#888', marginTop: 8, marginBottom: 0 }}>
-                          Shipping for your location will be calculated and sent separately via a payment link.
-                        </p>
-                      )}
-                    </>
-                  );
-                })()}
-              </div>
-            </div>
-          )}
-
-          <div className="d-flex flex-wrap gap-2 justify-content-center mt-3">
-            <Link href="/dashboard/orders" className="btn-primary-custom">
-              <i className="fa-solid fa-box"></i>
-              <span>View My Orders</span>
-            </Link>
-            <Link href="/shop" className="btn-primary-custom" style={{ background: 'transparent', border: '2px solid var(--primary,#C8956C)', color: 'var(--primary,#C8956C)' }}>
-              <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)' }}></i>
-              <span style={{ color: 'var(--primary,#C8956C)' }}>Keep Shopping</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   if (!loading && hydrated.length === 0) {
     return (

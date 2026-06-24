@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { isCashfreeConfigured, createCashfreeOrder } from '@/lib/cashfree';
+import { resolveOrderLines } from '@/lib/orderLines';
 import { z } from 'zod';
 import { zodErrorMessage } from '@/lib/validators';
 
@@ -40,6 +41,20 @@ export async function POST(req: Request) {
   }
 
   try {
+    // Cashfree India only accepts INR. For non-INR orders (US/UK etc.)
+    // re-resolve prices in INR from the product catalog.
+    let inrAmount: number;
+    if (!order.currency || order.currency === 'INR') {
+      inrAmount = order.total && order.total > 0 ? order.total : order.subtotal;
+    } else {
+      const cartItems = order.items.map((l: any) => ({
+        productId: l.size ? `${l.productSlug}::${l.size}` : l.productSlug,
+        qty: l.qty,
+      }));
+      const { subtotal: inrSubtotal } = await resolveOrderLines(cartItems, 'INR');
+      inrAmount = inrSubtotal + (order.shipping || 0);
+    }
+
     // Reuse existing Cashfree order if already created
     let cfOrderId = order.cfOrderId;
     let paymentSessionId: string | undefined;
@@ -55,10 +70,11 @@ export async function POST(req: Request) {
       } catch (e) {
         // fallback to NEXTAUTH_URL
       }
+
       const result = await createCashfreeOrder({
         orderId: `KMC-${order.orderNumber}`,
-        amount: order.total && order.total > 0 ? order.total : order.subtotal,
-        currency: order.currency || 'INR',
+        amount: inrAmount,
+        currency: 'INR',
         customerId: session.user.id,
         customerName: order.customer.name,
         customerEmail: order.customer.email,
@@ -79,8 +95,8 @@ export async function POST(req: Request) {
       ok: true,
       cfOrderId,
       paymentSessionId,
-      amount: order.total && order.total > 0 ? order.total : order.subtotal,
-      currency: order.currency || 'INR',
+      amount: inrAmount,
+      currency: 'INR',
       orderNumber: order.orderNumber,
       orderId: String(order._id),
       mode: (process.env.CASHFREE_ENV || 'test').toLowerCase() === 'production' ? 'production' : 'sandbox',
@@ -92,18 +108,6 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error('[cashfree] order create failed', err);
-    
-    const appId = process.env.CASHFREE_APP_ID || '';
-    const secret = process.env.CASHFREE_SECRET_KEY || '';
-    const envType = process.env.CASHFREE_ENV || '';
-    
-    console.log(`[CASHFREE DEBUG] AppId: Length ${appId.length}, Starts with: "${appId.substring(0, 8)}...", Ends with: "...${appId.substring(appId.length - 4)}"`);
-    console.log(`[CASHFREE DEBUG] Secret: Length ${secret.length}, Starts with: "${secret.substring(0, 25)}...", Ends with: "...${secret.substring(secret.length - 8)}"`);
-    console.log(`[CASHFREE DEBUG] Env: "${envType}"`);
-    if (err instanceof Error) {
-      console.log(`[CASHFREE DEBUG] Error message: "${err.message}"`);
-    }
-    
     return NextResponse.json({ ok: false, reason: 'cashfree-error' }, { status: 502 });
   }
 }

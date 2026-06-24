@@ -79,7 +79,7 @@ export async function POST(req: Request) {
         customerName: order.customer.name,
         customerEmail: order.customer.email,
         customerPhone: order.customer.phone,
-        returnUrl: `${baseUrl}/checkout/success?order_id={order_id}`,
+        returnUrl: `${baseUrl}/checkout/success?order_id=KMC-${order.orderNumber}`,
         meta: {
           kmcOrderId: String(order._id),
           orderNumber: order.orderNumber,

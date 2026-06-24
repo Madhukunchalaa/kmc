@@ -45,17 +45,15 @@ export async function POST(req: Request) {
   }
 
   if (!order && merchantOrderId) {
-    let orderNumber = merchantOrderId;
-    if (orderNumber.startsWith('KMC-')) {
-      orderNumber = orderNumber.substring(4);
+    // If it's purely numeric, Cashfree sent their cf_order_id — look up by that
+    if (/^\d+$/.test(merchantOrderId)) {
+      order = await Order.findOne({ cfOrderId: merchantOrderId, user: session.user.id });
+    } else {
+      let orderNumber = merchantOrderId;
+      if (orderNumber.startsWith('KMC-')) orderNumber = orderNumber.substring(4);
+      if (orderNumber.startsWith('KMC-')) orderNumber = orderNumber.substring(4);
+      order = await Order.findOne({ orderNumber: `KMC-${orderNumber}`, user: session.user.id });
     }
-    if (orderNumber.startsWith('KMC-')) {
-      orderNumber = orderNumber.substring(4);
-    }
-    order = await Order.findOne({
-      orderNumber: `KMC-${orderNumber}`,
-      user: session.user.id,
-    });
   }
 
   if (!order && cfOrderId) {

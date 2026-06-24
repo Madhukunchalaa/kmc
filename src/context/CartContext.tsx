@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { useSession } from 'next-auth/react';
-import { products, Product } from '@/data/products';
+import type { Product } from '@/data/products';
 import { getOrCreateClientSessionId, CART_COOKIE } from '@/lib/cartSession';
 
 export interface CartItem {
@@ -217,7 +217,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         };
       }
 
-      const activeProducts = catalog.length > 0 ? catalog : products;
+      const activeProducts = catalog;
 
       // Support variant-encoded keys like "custom-spell-jar::Mini"
       const [baseId, variantName] = it.productId.includes('::')

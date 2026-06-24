@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { products as staticProducts, type Product } from '@/data/products';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useRouter } from 'next/navigation';
 import type { CrystalCardData } from './CrystalCard';
@@ -12,7 +11,9 @@ interface CrystalProductsModalProps {
   onClose: () => void;
 }
 
-function filterByCrystal(list: Product[], crystalName: string): Product[] {
+type LiveProduct = { name: string; desc?: string; longDesc?: string; slug?: string; id?: string; price?: number; originalPrice?: number; usdPrice?: number; image?: string; badge?: string | null; category?: string };
+
+function filterByCrystal(list: LiveProduct[], crystalName: string): LiveProduct[] {
   let key = crystalName.toLowerCase();
   
   // Normalize "tiger's eye" to "tiger eye" for database product mapping
@@ -48,21 +49,19 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
   const { formatPrice } = useCurrency();
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Start with the static list so the modal renders instantly
-  const [allProducts, setAllProducts] = useState<Product[]>(staticProducts);
+  const [allProducts, setAllProducts] = useState<LiveProduct[]>([]);
   const [loadingDb, setLoadingDb] = useState(true);
 
-  // Fetch live products from DB in the background
   useEffect(() => {
     let cancelled = false;
     fetch('/api/products')
       .then((r) => r.json())
       .then((d) => {
-        if (!cancelled && Array.isArray(d.products) && d.products.length > 0) {
-          setAllProducts(d.products as Product[]);
+        if (!cancelled && Array.isArray(d.products)) {
+          setAllProducts(d.products);
         }
       })
-      .catch(() => { /* keep static fallback */ })
+      .catch(() => {})
       .finally(() => { if (!cancelled) setLoadingDb(false); });
     return () => { cancelled = true; };
   }, []);
@@ -160,7 +159,7 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
                   </h5>
                   <div className="crystal-modal-product-footer">
                     <span className="crystal-modal-product-price">
-                      {formatPrice(p.price, p.usdPrice)}
+                      {formatPrice(p.price ?? 0, p.usdPrice ?? 0)}
                     </span>
                     <span className="crystal-modal-product-view-btn">
                       View <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.55rem' }} />

@@ -14,7 +14,6 @@ import SpiritualReels from '@/components/SpiritualReels';
 import MobileSearchBar from '@/components/MobileSearchBar';
 import TestimonialText from '@/components/TestimonialText';
 import SimplePrice from '@/components/SimplePrice';
-import { products as seedProducts } from '@/data/products';
 import { testimonials } from '@/data/testimonials';
 import CrystalCard from './crystal-strength/CrystalCard';
 import CrystalProductsModal from './crystal-strength/CrystalProductsModal';
@@ -181,7 +180,7 @@ export default function Home() {
     );
   };
 
-  const [dbProducts, setDbProducts] = useState<any[]>(seedProducts);
+  const [dbProducts, setDbProducts] = useState<any[]>([]);
   const [activeCrystal, setActiveCrystal] = useState<any | null>(null);
   const [founderImageUrl, setFounderImageUrl] = useState('https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/uploads/founder-1781446863195.webp');
 

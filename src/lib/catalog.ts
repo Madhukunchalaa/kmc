@@ -1,7 +1,6 @@
 import { connectMongoose } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import { Service } from '@/models/Service';
-import { products as productSeed, Product as SeedProduct } from '@/data/products';
 
 export interface CatalogProduct {
   id: string;
@@ -61,28 +60,6 @@ export interface CatalogService {
   videoUrl?: string;
 }
 
-function fromSeed(p: SeedProduct): CatalogProduct {
-  return {
-    id: p.id,
-    slug: p.id,
-    name: p.name,
-    category: p.category,
-    subcategory: p.subcategory,
-    price: p.price,
-    originalPrice: p.originalPrice ?? null,
-    image: p.image,
-    images: p.images ?? [],
-    usdPrice: p.usdPrice ?? 0,
-    originalUsdPrice: p.originalUsdPrice ?? null,
-    badge: p.badge,
-    desc: p.desc,
-    longDesc: p.longDesc ?? '',
-    chakras: p.chakras,
-    variants: p.variants,
-    stock: 99,
-    shippingCharge: (p as any).shippingCharge ?? null,
-  };
-}
 
 export async function getAllProducts(): Promise<CatalogProduct[]> {
   try {

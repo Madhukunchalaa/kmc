@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { products, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 
 const FALLBACK_RECIPIENTS = [
@@ -20,16 +19,17 @@ const FALLBACK_RECIPIENTS = [
 ];
 
 type Recipient = typeof FALLBACK_RECIPIENTS[0];
+type AnyProduct = { name: string; desc?: string; category?: string; [key: string]: any };
 
-function getGiftProducts(recipient: Recipient): Product[] {
-  if (recipient.keywords.length === 0) return products.slice(0, 8);
-  const matched = products.filter((p) =>
+function getGiftProducts(recipient: Recipient, liveProducts: AnyProduct[]): AnyProduct[] {
+  if (recipient.keywords.length === 0) return liveProducts.slice(0, 8);
+  const matched = liveProducts.filter((p) =>
     recipient.keywords.some(
-      (kw) => p.name.toLowerCase().includes(kw) || p.desc.toLowerCase().includes(kw),
+      (kw) => p.name.toLowerCase().includes(kw) || (p.desc || '').toLowerCase().includes(kw),
     ),
   );
   if (matched.length >= 4) return matched.slice(0, 8);
-  return products.filter((p) => p.category === recipient.fallback).slice(0, 8);
+  return liveProducts.filter((p) => p.category === recipient.fallback).slice(0, 8);
 }
 
 const CONFETTI_COLORS = ['#F7C948','#E8647A','#C8956C','#9B59B6','#27AE60','#2E86AB','#F0D080'];
@@ -38,6 +38,7 @@ export default function GiftingExperience() {
   const [open, setOpen] = useState(false);
   const [recipients, setRecipients] = useState<Recipient[]>(FALLBACK_RECIPIENTS);
   const [loaded, setLoaded] = useState(false);
+  const [liveProducts, setLiveProducts] = useState<AnyProduct[]>([]);
   const [recipient, setRecipient] = useState<Recipient | null>(null);
   const [giftMsg, setGiftMsg] = useState('');
   const [msgOpen, setMsgOpen] = useState(false);
@@ -84,19 +85,19 @@ export default function GiftingExperience() {
     }
   }, [giftMsg]);
 
-  // Load recipients from DB when drawer first opens
+  // Load recipients + live products from DB when drawer first opens
   useEffect(() => {
     if (!open || loaded) return;
-    fetch('/api/gifting')
-      .then((r) => r.json())
-      .then((data: Recipient[]) => {
-        if (Array.isArray(data) && data.length > 0) setRecipients(data);
-      })
-      .catch(() => {})
-      .finally(() => setLoaded(true));
+    Promise.all([
+      fetch('/api/gifting').then((r) => r.json()).catch(() => []),
+      fetch('/api/products').then((r) => r.json()).catch(() => ({ products: [] })),
+    ]).then(([giftingData, productsData]) => {
+      if (Array.isArray(giftingData) && giftingData.length > 0) setRecipients(giftingData);
+      if (Array.isArray(productsData.products)) setLiveProducts(productsData.products);
+    }).finally(() => setLoaded(true));
   }, [open, loaded]);
 
-  const giftProducts = recipient ? getGiftProducts(recipient) : [];
+  const giftProducts = recipient ? getGiftProducts(recipient, liveProducts) : [];
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -232,7 +233,7 @@ export default function GiftingExperience() {
                       <span className="gift-product-label">
                         <i className="fa-solid fa-gift me-1" /> Perfect Gift
                       </span>
-                      <ProductCard product={p} />
+                      <ProductCard product={p as any} />
                     </div>
                   </div>
                 ))}

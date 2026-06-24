@@ -49,9 +49,7 @@ export default function Home() {
   const [opt2SupportAreas, setOpt2SupportAreas] = useState<string[]>([]);
   const [opt2Priority, setOpt2Priority] = useState<string>('');
   const [opt2Intention, setOpt2Intention] = useState<string>('');
-  const [wristSize, setWristSize] = useState<string>('');
-  const [customWristSize, setCustomWristSize] = useState<string>('');
-  const [beadSize, setBeadSize] = useState<string>('');
+
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmittingCustom, setIsSubmittingCustom] = useState<boolean>(false);
 
@@ -128,19 +126,6 @@ export default function Home() {
       }
     }
 
-    if (!wristSize) {
-      setSubmitError('Please select your preferred wrist size.');
-      return;
-    }
-    if (wristSize === 'Custom Size' && !customWristSize.trim()) {
-      setSubmitError('Please specify your custom wrist size.');
-      return;
-    }
-    if (!beadSize) {
-      setSubmitError('Please select your preferred bead size.');
-      return;
-    }
-
     setIsSubmittingCustom(true);
     try {
       const details = {
@@ -150,8 +135,6 @@ export default function Home() {
         supportAreas: customOption === 'help' ? opt2SupportAreas : null,
         highestPriority: customOption === 'help' ? opt2Priority : null,
         intentionDescription: customOption === 'help' ? opt2Intention : null,
-        wristSize: wristSize === 'Custom Size' ? `Custom: ${customWristSize}` : wristSize,
-        beadSize: beadSize,
       };
 
       if (typeof window !== 'undefined') {
@@ -1112,100 +1095,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* BRACELET DETAILS FOR BOTH OPTIONS */}
-            <div style={{ borderTop: '1px solid rgba(232, 201, 154, 0.15)', paddingTop: '2rem', marginTop: '2rem' }}>
-              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'var(--gold-light, #FFEFA6)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fa-solid fa-circle-info"></i>
-                Bracelet Details
-              </h4>
-
-              <div className="row g-4">
-                {/* Wrist Size Radio Buttons */}
-                <div className="col-md-6">
-                  <label className="form-label" style={{ fontWeight: 600, color: '#fff', marginBottom: '10px', display: 'block' }}>
-                    Preferred Wrist Size
-                  </label>
-                  <div className="d-flex flex-wrap gap-2">
-                    {['Small', 'Medium', 'Large', 'Custom Size'].map((size) => {
-                      const active = wristSize === size;
-                      return (
-                        <button
-                          key={size}
-                          type="button"
-                          onClick={() => { setWristSize(size); if (size !== 'Custom Size') setCustomWristSize(''); }}
-                          style={{
-                            padding: '10px 16px',
-                            background: active ? 'var(--primary, #C8956C)' : 'rgba(255,255,255,0.03)',
-                            color: '#fff',
-                            border: '1px solid',
-                            borderColor: active ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.2)',
-                            borderRadius: '10px',
-                            fontSize: '0.9rem',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          {size}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {wristSize === 'Custom Size' && (
-                    <div className="mt-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="E.g., 6.25 inches or 16 cm"
-                        value={customWristSize}
-                        onChange={(e) => setCustomWristSize(e.target.value)}
-                        style={{
-                          background: 'rgba(0, 0, 0, 0.2)',
-                          border: '1.5px solid rgba(232, 201, 154, 0.3)',
-                          borderRadius: '10px',
-                          color: '#fff',
-                          padding: '10px'
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* Bead Size Radio Buttons */}
-                <div className="col-md-6">
-                  <label className="form-label" style={{ fontWeight: 600, color: '#fff', marginBottom: '10px', display: 'block' }}>
-                    Preferred Bead Size
-                  </label>
-                  <div className="d-flex flex-wrap gap-2">
-                    {['6 mm', '8 mm', '10 mm'].map((size) => {
-                      const active = beadSize === size;
-                      return (
-                        <button
-                          key={size}
-                          type="button"
-                          onClick={() => setBeadSize(size)}
-                          style={{
-                            padding: '10px 16px',
-                            background: active ? 'var(--primary, #C8956C)' : 'rgba(255,255,255,0.03)',
-                            color: '#fff',
-                            border: '1px solid',
-                            borderColor: active ? 'var(--primary, #C8956C)' : 'rgba(232, 201, 154, 0.2)',
-                            borderRadius: '10px',
-                            fontSize: '0.9rem',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                          }}
-                        >
-                          {size}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* Personalized Crystal Recommendation Disclaimer */}
             <div className="mt-5 p-3 rounded-4" style={{

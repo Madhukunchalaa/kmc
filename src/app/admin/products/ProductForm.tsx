@@ -101,6 +101,7 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
   // Drag and drop sorting states for sub-images
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [dragOverMain, setDragOverMain] = useState(false);
 
   // Category and Subcategory custom state
   const [isCustomCategory, setIsCustomCategory] = useState(false);
@@ -300,6 +301,23 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
   };
 
   const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  // Drop a gallery image onto the main image slot — swaps them
+  const handleDropOnMain = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOverMain(false);
+    if (draggedIndex === null) return;
+    const galleryImg = f.images[draggedIndex];
+    if (!galleryImg) return;
+    const oldMain = f.image;
+    const newGallery = [...f.images];
+    newGallery.splice(draggedIndex, 1);
+    if (oldMain) newGallery.splice(draggedIndex, 0, oldMain); // put old main in same slot
+    set('image', galleryImg);
+    set('images', newGallery);
+    setDraggedIndex(null);
     setDragOverIndex(null);
   };
 
@@ -588,19 +606,45 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
           <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Select a high-quality local image file.</p>
         </div>
         <div className="col-md-4 d-flex justify-content-center align-items-center">
-          {f.image ? (
-            <div style={{ position: 'relative', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 12, padding: 4, background: '#FAF6F1' }}>
-              <img src={f.image} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain', borderRadius: 8 }} />
-              <button type="button" onClick={() => set('image', '')} style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: '#D95F5F', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer' }}>
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          ) : (
-            <div style={{ width: 100, height: 100, borderRadius: 12, border: '2px dashed rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: '0.75rem' }}>
-              <i className="fa-regular fa-image" style={{ fontSize: '1.5rem', marginBottom: 6 }}></i>
-              No image
-            </div>
-          )}
+          <div
+            onDragOver={(e) => { e.preventDefault(); if (draggedIndex !== null) setDragOverMain(true); }}
+            onDragLeave={() => setDragOverMain(false)}
+            onDrop={handleDropOnMain}
+            title="Drag a gallery image here to set it as the main image"
+            style={{
+              position: 'relative',
+              borderRadius: 12,
+              padding: 4,
+              background: dragOverMain ? 'rgba(200,149,108,0.12)' : '#FAF6F1',
+              border: dragOverMain ? '2px dashed var(--primary,#C8956C)' : '1px solid rgba(0,0,0,0.1)',
+              transition: 'all 0.2s',
+              minWidth: 100,
+              minHeight: 100,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {f.image ? (
+              <>
+                <img src={f.image} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain', borderRadius: 8 }} />
+                <button type="button" onClick={() => set('image', '')} style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: '#D95F5F', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer' }}>
+                  <i className="fa-solid fa-xmark"></i>
+                </button>
+                {dragOverMain && (
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(200,149,108,0.55)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 4, color: '#fff', fontSize: '0.72rem', fontWeight: 700, pointerEvents: 'none' }}>
+                    <i className="fa-solid fa-arrow-down" style={{ fontSize: '1.3rem' }}></i>
+                    Set as Main
+                  </div>
+                )}
+              </>
+            ) : (
+              <div style={{ width: 100, height: 100, borderRadius: 8, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: dragOverMain ? 'var(--primary,#C8956C)' : '#999', fontSize: '0.75rem' }}>
+                <i className={`fa-solid ${dragOverMain ? 'fa-arrow-down' : 'fa-image'}`} style={{ fontSize: '1.5rem', marginBottom: 6 }}></i>
+                {dragOverMain ? 'Drop to set main' : 'No image'}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Gallery Upload */}
@@ -645,7 +689,7 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
               </label>
             </div>
           </div>
-          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload multiple images to display a thumbnail gallery on the product page. <strong>Drag images to reorder them.</strong></p>
+          <p style={{ margin: 0, fontSize: '0.78rem', color: '#888' }}>Upload multiple images to display a thumbnail gallery on the product page. <strong>Drag images to reorder them.</strong> Drag any gallery image onto the main image box above to set it as the main image.</p>
         </div>
 
         <div className="col-md-6">

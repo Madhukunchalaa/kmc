@@ -45,6 +45,8 @@ const STATIC_CATEGORY_IMAGES: Record<string, string> = {
   'crystal-towers': '/categories/crystal-towers.png',
   'pyramids': '/categories/pyramids.png',
   'raw-crystal': '/categories/raw-crystal.png',
+  'crystal-rings': '/categories/crystal-rings.png',
+  'home-decor': '/categories/home-decor.png',
 };
 
 const SORTS = [

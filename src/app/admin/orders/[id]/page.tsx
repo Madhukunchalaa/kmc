@@ -7,6 +7,7 @@ import { resolveProductImage } from '@/lib/resolveProductImage';
 import OrderStatusForm from './OrderStatusForm';
 import ShippingPaymentForm from './ShippingPaymentForm';
 import MarkAbroadButton from './MarkAbroadButton';
+import MarkPaymentPaidButton from './MarkPaymentPaidButton';
 import { formatMoney, currencySymbol } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
@@ -313,6 +314,18 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
             <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Update status</h4>
             <OrderStatusForm orderId={String(order._id)} current={order.status} note={order.adminNote || ''} />
           </div>
+
+          {order.paymentStatus !== 'paid' && (
+            <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(43,122,92,0.2)' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', color: '#2B7A5C', marginBottom: 12 }}>
+                <i className="fa-solid fa-circle-check me-2"></i>Payment
+              </h4>
+              <p style={{ fontSize: '0.82rem', color: '#666', marginBottom: 16 }}>
+                If the customer paid but webhook failed, manually mark this order as paid to trigger the confirmation email.
+              </p>
+              <MarkPaymentPaidButton orderId={String(order._id)} />
+            </div>
+          )}
 
           {!order.international && (
             <div className="mt-3" style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>

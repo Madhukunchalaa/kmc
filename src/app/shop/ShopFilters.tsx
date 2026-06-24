@@ -430,21 +430,25 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
         ) : (
           <div className="shop-products-grid">
             {paginatedProducts.map((p, idx) => (
-              <ScrollFade key={p.id} delay={Math.min(idx, 6) * 50}>
-                <ProductCard product={toLegacy(p)} />
-              </ScrollFade>
+              <>
+                <ScrollFade key={p.id} delay={Math.min(idx, 6) * 50}>
+                  <ProductCard product={toLegacy(p)} />
+                </ScrollFade>
+                {/* Mobile-only View All card — inserted after the 8th product */}
+                {idx === 7 && (
+                  <Link key="view-all" href="/shop" className="shop-view-all-card">
+                    <div className="shop-view-all-inner">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✨</div>
+                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', marginBottom: '0.3rem' }}>View All</div>
+                      <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.75rem' }}>Explore all collections</div>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'var(--primary,#C8956C)', color: '#fff', borderRadius: 20, padding: '0.35rem 0.9rem', fontSize: '0.78rem', fontWeight: 600 }}>
+                        Shop All <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>
+                      </span>
+                    </div>
+                  </Link>
+                )}
+              </>
             ))}
-            {/* Mobile-only: View All card — shown when browsing a category or when more products exist */}
-            <Link href="/shop" className="shop-view-all-card">
-              <div className="shop-view-all-inner">
-                <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✨</div>
-                <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', marginBottom: '0.3rem' }}>View All</div>
-                <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.75rem' }}>Explore all collections</div>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'var(--primary,#C8956C)', color: '#fff', borderRadius: 20, padding: '0.35rem 0.9rem', fontSize: '0.78rem', fontWeight: 600 }}>
-                  Shop All <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>
-                </span>
-              </div>
-            </Link>
           </div>
         )}
 

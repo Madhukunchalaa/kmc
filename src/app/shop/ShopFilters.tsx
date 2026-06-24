@@ -9,6 +9,59 @@ import type { CatalogProduct } from '@/lib/catalog';
 
 const ITEMS_PER_PAGE = 30;
 
+// Curated display order for the "All Collections" view (featured sort).
+// Products are matched by name prefix (case-insensitive).
+const FEATURED_ORDER: string[] = [
+  // ── Priority 1 ──────────────────────────────────────────────────────────
+  'Triple Protection Bracelet',
+  'Money Magnet Bracelet',
+  'Black Tourmaline Bracelet',
+  'Pyrite Bracelet',
+  'Tiger Eye Bracelet',
+  'Rose Quartz Bracelet',
+  'Seven Chakra Bracelet',
+  'Green Aventurine Bracelet',
+  'Citrine Bracelet',
+  'Amethyst Bracelet',
+  'Seven Chakra + Om Mani Padme Hum Bracelet',
+  'Rudraksha Bracelet',
+  'Silver Evil Eye Pendant',
+  'Lakshmi Pyramid',
+  'Pyrite raw crystal',
+  'Selenite Lamp',
+  'Amethyst Water Bottle',
+  'Black Tourmaline Mala',
+  'Rhodonite Tower',
+  'Selenite Bowl',
+  // ── Priority 2 ──────────────────────────────────────────────────────────
+  'Angel Aura Bracelet',
+  'Clear Quartz Bracelet',
+  'Moonstone Bracelet',
+  'Smoky Quartz Bracelet',
+  'Rhodonite Bracelet',
+  'Kunzite Bracelet',
+  'Malachite Bracelet',
+  'Evil Eye Bracelet',
+  'Golden Pyrite Bracelet',
+  'Jade Designer Bracelet',
+  'Pyrite Designer Bracelet',
+  'Red Jasper Designer Bracelet',
+  'Rose Quartz Designer Bracelet',
+  'Selenite Designer Bracelet',
+  'Rock Crystal Pyramid',
+  'Seven Chakra Mala',
+  'Green Aventurine Face Roller & Gua Sha',
+  'Amethyst Face Roller & Gua Sha',
+  'Green Aventurine Gua Sha',
+  'Swan Pair',
+];
+
+function featuredIndex(name: string): number {
+  const n = name.toLowerCase();
+  const idx = FEATURED_ORDER.findIndex((pn) => n.startsWith(pn.toLowerCase()));
+  return idx === -1 ? FEATURED_ORDER.length : idx;
+}
+
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
   // --- Original 5 collections (kept together as a group) ---
   { key: 'all',                   label: 'All Collections',       icon: 'fa-solid fa-gem' },
@@ -185,9 +238,15 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
       );
     }
     switch (sort) {
-      case 'price-asc': list.sort((a, b) => a.price - b.price); break;
+      case 'price-asc':  list.sort((a, b) => a.price - b.price); break;
       case 'price-desc': list.sort((a, b) => b.price - a.price); break;
-      case 'name': list.sort((a, b) => a.name.localeCompare(b.name)); break;
+      case 'name':       list.sort((a, b) => a.name.localeCompare(b.name)); break;
+      case 'featured':
+        // On "All Collections" apply curated priority order; other categories keep DB order.
+        if (activeCat === 'all' || activeCat === 'view-all') {
+          list.sort((a, b) => featuredIndex(a.name) - featuredIndex(b.name));
+        }
+        break;
     }
     return list;
   }, [products, activeCat, sort, query]);

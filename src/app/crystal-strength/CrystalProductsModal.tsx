@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { products as staticProducts, type Product } from '@/data/products';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useRouter } from 'next/navigation';
@@ -78,7 +79,14 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
     [allProducts, crystal.name]
   );
 
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div ref={overlayRef} className="crystal-modal-overlay" onClick={onClose}>
       <div className="crystal-modal-container" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
@@ -164,6 +172,7 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

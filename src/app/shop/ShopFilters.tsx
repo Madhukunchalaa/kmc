@@ -132,6 +132,11 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
   const [sort, setSort] = useState('featured');
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const isLoaded = useRef(false);
 
   // Reset to page 1 whenever category, sort, or search query changes
@@ -511,7 +516,7 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
             }}>
             {/* Prev Button */}
             <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() => goToPage(Math.max(currentPage - 1, 1))}
               disabled={currentPage === 1}
               style={{
                 display: 'inline-flex',
@@ -551,7 +556,7 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
               return (
                 <button
                   key={pageNum}
-                  onClick={() => setCurrentPage(pageNum)}
+                  onClick={() => goToPage(pageNum)}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -579,7 +584,7 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
 
             {/* Next Button */}
             <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() => goToPage(Math.min(currentPage + 1, totalPages))}
               disabled={currentPage === totalPages}
               style={{
                 display: 'inline-flex',

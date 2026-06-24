@@ -598,9 +598,23 @@ export default function Home() {
 
           <div className="shop-products-grid">
             {featuredProducts.map((product, idx) => (
-              <ScrollFade key={product.id} delay={idx * 80}>
-                <ProductCard product={product} />
-              </ScrollFade>
+              <>
+                <ScrollFade key={product.id} delay={idx * 80}>
+                  <ProductCard product={product} />
+                </ScrollFade>
+                {idx === featuredProducts.length - 1 && (
+                  <Link key="view-all-home" href="/shop" className="shop-view-all-card">
+                    <div className="shop-view-all-inner">
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✨</div>
+                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', marginBottom: '0.3rem' }}>View All</div>
+                      <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.75rem' }}>Explore all collections</div>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'var(--primary,#C8956C)', color: '#fff', borderRadius: 20, padding: '0.35rem 0.9rem', fontSize: '0.78rem', fontWeight: 600 }}>
+                        Shop All <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>
+                      </span>
+                    </div>
+                  </Link>
+                )}
+              </>
             ))}
           </div>
 

@@ -803,80 +803,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS ===== */}
-      <section className="testimonials-section section-pad" style={{ overflow: 'hidden' }}>
-        <div className="container">
-          <div className="text-center mb-5">
-            <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>Client Love</span>
-            <h2 className="section-title">
-              What Our <span>Clients Say</span>
-            </h2>
-            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
-          </div>
-
-          <div style={{ position: 'relative', width: '100%', maxWidth: '720px', margin: '0 auto', padding: '0 50px' }}>
-            <div style={{ overflow: 'hidden', width: '100%', borderRadius: 16, height: viewportH, transition: 'height 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', transform: `translateX(-${activeTestimonial * 100}%)`, transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
-                {list.map((t, i) => (
-                  <div key={t.name} ref={(el) => { slideRefs.current[i] = el; }} style={{ flex: '0 0 100%', width: '100%', boxSizing: 'border-box' }}>
-                    <div className="testimonial-card" style={{ margin: 0 }}>
-                      <div className="testimonial-stars">{'★'.repeat(t.rating)}</div>
-                      <TestimonialText text={t.text} />
-                      <div className="testimonial-author">
-                        <div className="testimonial-avatar">{t.avatar}</div>
-                        <div>
-                          <p className="testimonial-name">{t.name}</p>
-                          <p className="testimonial-role">{t.role}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Navigation Buttons */}
-            <button
-              onClick={handlePrevTestimonial}
-              className="testimonial-carousel-btn"
-              style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)' }}
-              aria-label="Previous testimonial"
-            >
-              <i className="fa-solid fa-chevron-left"></i>
-            </button>
-            <button
-              onClick={handleNextTestimonial}
-              className="testimonial-carousel-btn"
-              style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)' }}
-              aria-label="Next testimonial"
-            >
-              <i className="fa-solid fa-chevron-right"></i>
-            </button>
-          </div>
-
-          {/* Dots Indicator */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-            {list.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveTestimonial(idx)}
-                style={{
-                  width: activeTestimonial === idx ? '24px' : '8px',
-                  height: '8px',
-                  borderRadius: '4px',
-                  border: 'none',
-                  background: activeTestimonial === idx ? 'var(--primary,#C8956C)' : 'rgba(255,255,255,0.2)',
-                  padding: 0,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== CREATE YOUR PERSONALIZED CRYSTAL BRACELET ===== */}
       <section className="section-pad" style={{
         background: 'radial-gradient(circle at 50% 50%, #2D1B0E 0%, #150600 100%)',
@@ -1340,6 +1266,80 @@ export default function Home() {
               </button>
             </div>
           </form>
+        </div>
+      </section>
+
+      {/* ===== TESTIMONIALS ===== */}
+      <section className="testimonials-section section-pad" style={{ overflow: 'hidden' }}>
+        <div className="container">
+          <div className="text-center mb-5">
+            <span className="section-eyebrow" style={{ color: 'var(--accent)' }}>Client Love</span>
+            <h2 className="section-title">
+              What Our <span>Clients Say</span>
+            </h2>
+            <div className="divider-ornament"><i className="fa-solid fa-diamond-turn-right"></i></div>
+          </div>
+
+          <div style={{ position: 'relative', width: '100%', maxWidth: '720px', margin: '0 auto', padding: '0 50px' }}>
+            <div style={{ overflow: 'hidden', width: '100%', borderRadius: 16, height: viewportH, transition: 'height 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', transform: `translateX(-${activeTestimonial * 100}%)`, transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                {list.map((t, i) => (
+                  <div key={t.name} ref={(el) => { slideRefs.current[i] = el; }} style={{ flex: '0 0 100%', width: '100%', boxSizing: 'border-box' }}>
+                    <div className="testimonial-card" style={{ margin: 0 }}>
+                      <div className="testimonial-stars">{'★'.repeat(t.rating)}</div>
+                      <TestimonialText text={t.text} />
+                      <div className="testimonial-author">
+                        <div className="testimonial-avatar">{t.avatar}</div>
+                        <div>
+                          <p className="testimonial-name">{t.name}</p>
+                          <p className="testimonial-role">{t.role}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+              onClick={handlePrevTestimonial}
+              className="testimonial-carousel-btn"
+              style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)' }}
+              aria-label="Previous testimonial"
+            >
+              <i className="fa-solid fa-chevron-left"></i>
+            </button>
+            <button
+              onClick={handleNextTestimonial}
+              className="testimonial-carousel-btn"
+              style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)' }}
+              aria-label="Next testimonial"
+            >
+              <i className="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
+            {list.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveTestimonial(idx)}
+                style={{
+                  width: activeTestimonial === idx ? '24px' : '8px',
+                  height: '8px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  background: activeTestimonial === idx ? 'var(--primary,#C8956C)' : 'rgba(255,255,255,0.2)',
+                  padding: 0,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 

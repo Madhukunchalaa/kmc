@@ -6984,6 +6984,35 @@ body.theme-rose .hero-v2-orb {
   }
 }
 
+/* View All card — mobile only */
+.shop-view-all-card {
+  display: flex;
+  text-decoration: none;
+}
+.shop-view-all-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  border-radius: 16px;
+  border: 2px dashed rgba(200, 149, 108, 0.45);
+  background: linear-gradient(135deg, rgba(200,149,108,0.06) 0%, rgba(255,255,255,0.9) 100%);
+  padding: 1.5rem 1rem;
+  min-height: 180px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.shop-view-all-card:hover .shop-view-all-inner {
+  border-color: var(--primary, #C8956C);
+  background: rgba(200,149,108,0.1);
+}
+@media (min-width: 768px) {
+  .shop-view-all-card {
+    display: none;
+  }
+}
+
 /* Staggered animation delays for 5-column floating cards */
 .shop-products-grid > *:nth-child(6n+1) .product-card,
 .shop-products-grid > .product-card:nth-child(6n+1) {

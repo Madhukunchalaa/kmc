@@ -2,9 +2,30 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+const CATEGORY_DEFS: { key: string; label: string }[] = [
+  { key: 'view-all',              label: 'All Products' },
+  { key: 'designer-bracelets',   label: 'Designer Bracelets' },
+  { key: 'signature',            label: 'Signature Crystals' },
+  { key: 'spell-jars',           label: 'Spell Jars' },
+  { key: 'bracelets-by-crystals',label: 'Bracelets by Crystals' },
+  { key: 'malas',                label: 'Malas' },
+  { key: 'pendants',             label: 'Pendants' },
+  { key: 'designer-pendants',    label: 'Designer Pendants' },
+  { key: 'silver-jewelry',       label: 'Silver Jewelry' },
+  { key: 'anklets',              label: 'Anklets' },
+  { key: 'glow-essentials',      label: 'Glow Essentials' },
+  { key: 'crystal-towers',       label: 'Crystal Towers' },
+  { key: 'pyramids',             label: 'Pyramids' },
+  { key: 'raw-crystal',          label: 'Raw Crystal' },
+  { key: 'crystal-rings',        label: 'Crystal Rings' },
+  { key: 'home-decor',           label: 'Home Decor' },
+];
+
 export default function AdminSettingsPage() {
   const [founderImageUrl, setFounderImageUrl] = useState('');
   const [signatureCarouselImages, setSignatureCarouselImages] = useState<string[]>([]);
+  const [categoryImages, setCategoryImages] = useState<Record<string, string>>({});
+  const [uploadingCategory, setUploadingCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -14,6 +35,8 @@ export default function AdminSettingsPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const carouselFileInputRef = useRef<HTMLInputElement>(null);
+  const categoryFileInputRef = useRef<HTMLInputElement>(null);
+  const pendingCategoryKey = useRef<string | null>(null);
 
   // Load current settings
   const loadSettings = async () => {
@@ -38,6 +61,13 @@ export default function AdminSettingsPage() {
         } else {
           setSignatureCarouselImages([]);
         }
+        // Load category cover images
+        const catImgs: Record<string, string> = {};
+        for (const cat of CATEGORY_DEFS) {
+          const val = data.settings[`categoryImage_${cat.key}`];
+          if (val) catImgs[cat.key] = val;
+        }
+        setCategoryImages(catImgs);
       } else {
         setErr('Failed to load settings.');
       }
@@ -121,6 +151,42 @@ export default function AdminSettingsPage() {
   const removeCarouselImage = (index: number) => {
     setSignatureCarouselImages(prev => prev.filter((_, i) => i !== index));
     setSuccess('Image removed from list. Remember to save changes.');
+  };
+
+  // Handle category cover image upload
+  const handleCategoryImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const catKey = pendingCategoryKey.current;
+    if (!file || !catKey) return;
+
+    setErr('');
+    setSuccess('');
+    setUploadingCategory(catKey);
+
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!data.ok) {
+        setErr(data.reason || 'Upload failed.');
+      } else {
+        // Save immediately to DB
+        await fetch('/api/admin/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: `categoryImage_${catKey}`, value: data.url }),
+        });
+        setCategoryImages(prev => ({ ...prev, [catKey]: data.url }));
+        setSuccess(`Cover image for "${CATEGORY_DEFS.find(c => c.key === catKey)?.label}" updated!`);
+      }
+    } catch {
+      setErr('Upload failed. Please try again.');
+    } finally {
+      setUploadingCategory(null);
+      pendingCategoryKey.current = null;
+      if (categoryFileInputRef.current) categoryFileInputRef.current.value = '';
+    }
   };
 
   // Handle Save
@@ -430,6 +496,95 @@ export default function AdminSettingsPage() {
               />
 
             </div>
+          </div>
+
+          {/* Category Cover Images */}
+          <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '2rem', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.15rem', color: '#2D1B0E', fontWeight: 600, margin: '0 0 0.5rem' }}>
+              <i className="fa-solid fa-layer-group me-2" style={{ color: '#C8956C', fontSize: '1rem' }} />
+              Shop Category Cover Images
+            </h3>
+            <p style={{ margin: '0 0 1.5rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.4 }}>
+              Click the camera icon on any category to upload a new cover image. Changes are saved immediately — no need to click Save below.
+            </p>
+
+            <input
+              type="file"
+              ref={categoryFileInputRef}
+              accept="image/jpeg,image/png,image/webp,image/avif"
+              style={{ display: 'none' }}
+              onChange={handleCategoryImageUpload}
+            />
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '16px' }}>
+              {CATEGORY_DEFS.map((cat) => {
+                const img = categoryImages[cat.key];
+                const isUploading = uploadingCategory === cat.key;
+                return (
+                  <div key={cat.key} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <div style={{
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '3 / 4',
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      background: '#1A0D05',
+                      border: '1.5px solid rgba(200,149,108,0.2)',
+                      cursor: 'pointer',
+                    }}
+                      onClick={() => {
+                        if (isUploading || uploadingCategory) return;
+                        pendingCategoryKey.current = cat.key;
+                        categoryFileInputRef.current?.click();
+                      }}
+                    >
+                      {img ? (
+                        <img src={img} alt={cat.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#555', flexDirection: 'column', gap: 4, padding: 8, textAlign: 'center' }}>
+                          <i className="fa-regular fa-image" style={{ fontSize: '1.5rem', color: '#C8956C' }} />
+                          <span style={{ fontSize: '0.68rem', color: '#888' }}>Using default</span>
+                        </div>
+                      )}
+
+                      {/* Overlay on hover / uploading */}
+                      <div style={{
+                        position: 'absolute', inset: 0,
+                        background: isUploading ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'background 0.2s',
+                        zIndex: 2,
+                      }}
+                        className="cat-img-overlay"
+                      >
+                        {isUploading ? (
+                          <i className="fa-solid fa-spinner fa-spin" style={{ color: '#fff', fontSize: '1.5rem' }} />
+                        ) : (
+                          <div style={{
+                            background: 'rgba(200,149,108,0.9)',
+                            borderRadius: '50%',
+                            width: 36, height: 36,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: '#fff', fontSize: '1rem',
+                            opacity: 0, transition: 'opacity 0.2s',
+                          }}
+                            className="cat-img-btn"
+                          >
+                            <i className="fa-solid fa-camera" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555', textAlign: 'center', lineHeight: 1.3 }}>{cat.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <style>{`
+              div:hover > .cat-img-overlay { background: rgba(0,0,0,0.45) !important; }
+              div:hover .cat-img-btn { opacity: 1 !important; }
+            `}</style>
           </div>
 
           {/* Form Actions */}

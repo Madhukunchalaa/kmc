@@ -125,7 +125,7 @@ function toLegacy(p: CatalogProduct) {
   };
 }
 
-export default function ShopFilters({ products }: { products: CatalogProduct[] }) {
+export default function ShopFilters({ products, categoryImages = {} }: { products: CatalogProduct[]; categoryImages?: Record<string, string> }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeCat = searchParams.get('category') || 'all';
@@ -267,6 +267,7 @@ export default function ShopFilters({ products }: { products: CatalogProduct[] }
   }, []);
 
   const getCategoryImage = (catKey: string): string => {
+    if (categoryImages[catKey]) return categoryImages[catKey];
     if (STATIC_CATEGORY_IMAGES[catKey]) {
       return STATIC_CATEGORY_IMAGES[catKey];
     }

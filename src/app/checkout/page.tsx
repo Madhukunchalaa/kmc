@@ -68,6 +68,7 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
   const [isCod, setIsCod] = useState(false);
@@ -674,7 +675,22 @@ export default function CheckoutPage() {
                   </p>
                 )}
 
-                <button type="submit" className="btn-primary-custom" disabled={submitting} style={{ justifyContent: 'center', opacity: submitting ? 0.85 : 1, cursor: submitting ? 'wait' : 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', cursor: 'pointer', padding: '0.85rem 1rem', background: 'rgba(200,149,108,0.05)', border: '1px solid rgba(200,149,108,0.25)', borderRadius: 10 }}>
+                  <input
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={e => setTermsAccepted(e.target.checked)}
+                    style={{ accentColor: 'var(--primary,#C8956C)', width: 16, height: 16, marginTop: 2, flexShrink: 0 }}
+                  />
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-light,#666)', lineHeight: 1.5 }}>
+                    I agree to the <Link href="/terms" target="_blank" style={{ color: 'var(--primary,#C8956C)', fontWeight: 600 }}>Terms &amp; Conditions</Link> and understand that all sales are{' '}
+                    <strong>strictly non-refundable</strong>.{' '}
+                    Prices shown on the website are for reference only.{' '}
+                    <strong>All payments are processed in Indian Rupees (INR)</strong> — the actual charge on your card may differ based on your bank&apos;s exchange rate and currency conversion fees, especially for international orders.
+                  </span>
+                </label>
+
+                <button type="submit" className="btn-primary-custom" disabled={submitting || !termsAccepted} style={{ justifyContent: 'center', opacity: submitting || !termsAccepted ? 0.65 : 1, cursor: submitting ? 'wait' : !termsAccepted ? 'not-allowed' : 'pointer' }}>
                   {submitting ? <Spinner /> : <i className={paymentMethod === 'cod' ? 'fa-solid fa-truck' : 'fa-solid fa-lock'}></i>}
                   <span>{submitting ? 'Processing…' : paymentMethod === 'cod' ? `Place Order (COD) — ${formatPrice(payableInr, 0)}` : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
                 </button>
@@ -686,12 +702,10 @@ export default function CheckoutPage() {
                   </p>
                 )}
 
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-light,#777)' }}>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-light,#888)', textAlign: 'center' }}>
                   {paymentMethod === 'online'
-                    ? 'Secure payment via Cashfree — UPI, cards, netbanking & wallets accepted.'
-                    : 'Cash on Delivery — pay when your order arrives at your doorstep.'}
-                  <br /><br />
-                  <strong style={{ color: '#D95F5F' }}>Disclaimer:</strong> All products are strictly non-refundable. By proceeding, you agree to our Return Policy.
+                    ? '🔒 Secure payment via Cashfree — UPI, Cards, Netbanking & Wallets'
+                    : '🚚 Cash on Delivery — pay when your order arrives'}
                 </p>
               </form>
             </div>

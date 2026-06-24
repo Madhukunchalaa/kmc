@@ -3,8 +3,13 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useSession } from 'next-auth/react';
 
-export const COUNTRY_CURRENCY_MAP: Record<string, { code: string; symbol: string }> = {
-  IN: { code: 'INR', symbol: '₹' },
+export const COUNTRY_CURRENCY_MAP: Record<string, { code: string; symbol: string; useInrValue?: boolean }> = {
+  IN: { code: 'INR', symbol: '₹', useInrValue: true },
+  NP: { code: 'NPR', symbol: 'Rs.', useInrValue: true },
+  LK: { code: 'LKR', symbol: 'Rs.', useInrValue: true },
+  PK: { code: 'PKR', symbol: 'Rs.', useInrValue: true },
+  BD: { code: 'BDT', symbol: 'Rs.', useInrValue: true },
+  BT: { code: 'BTN', symbol: 'Rs.', useInrValue: true },
   US: { code: 'USD', symbol: '$' },
   UK: { code: 'GBP', symbol: '£' },
   GB: { code: 'GBP', symbol: '£' },
@@ -64,7 +69,9 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
 
   const getRawPrice = (inrVal: number, usdVal?: number | null): number => {
     const code = countryCode.toUpperCase();
-    if (code === 'IN') return inrVal;
+    const currencyInfo = COUNTRY_CURRENCY_MAP[code] || COUNTRY_CURRENCY_MAP['Other'];
+    
+    if (currencyInfo.useInrValue) return inrVal;
     
     // For non-IN countries, use USD value
     if (usdVal !== undefined && usdVal !== null && usdVal > 0) return usdVal;
@@ -74,13 +81,13 @@ export function CurrencyProvider({ children, defaultCountry = 'IN' }: { children
   const formatPrice = (inrVal: number, usdVal?: number | null): string => {
     const code = countryCode.toUpperCase();
     const price = getRawPrice(inrVal, usdVal);
+    const currencyInfo = COUNTRY_CURRENCY_MAP[code] || COUNTRY_CURRENCY_MAP['Other'];
     
     if (code === 'IN') {
       return `₹${price.toLocaleString('en-IN')}`;
     }
 
-    const currencyInfo = COUNTRY_CURRENCY_MAP[code] || COUNTRY_CURRENCY_MAP['Other'];
-    return `${currencyInfo.symbol}${price.toLocaleString('en-US')}`;
+    return `${currencyInfo.symbol}${price.toLocaleString(currencyInfo.useInrValue ? 'en-IN' : 'en-US')}`;
   };
 
   return (

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductPriceDisplay from '@/components/ProductPriceDisplay';
 import ProductBuyPanel from './ProductBuyPanel';
+import ProductShareButton from './ProductShareButton';
 
 export default function ProductDetailsClient({ product, children }: { product: any; children: React.ReactNode }) {
   const router = useRouter();
@@ -172,6 +173,10 @@ export default function ProductDetailsClient({ product, children }: { product: a
           variant={isBraceletsByCrystals ? (hasVariants ? currentVariant.name : (selectedSize || undefined)) : (currentVariant ? currentVariant.name : undefined)}
           sizeMandatory={isBraceletsByCrystals && !hasVariants && !selectedSize}
         />
+
+        <div className="mt-3">
+          <ProductShareButton productName={product.name} />
+        </div>
 
         <ul style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'grid', gap: 10, color: 'var(--text-light,#666)', fontSize: '0.9rem' }}>
           <li><i className="fa-solid fa-shield-halved me-2" style={{ color: 'var(--primary,#C8956C)' }}></i> 100% authentic, ritually energised</li>

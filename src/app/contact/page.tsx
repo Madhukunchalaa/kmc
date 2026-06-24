@@ -100,7 +100,7 @@ export default function ContactPage() {
                 borderRadius: '0 12px 12px 0',
               }}>
                 <p style={{ margin: 0, fontStyle: 'italic', color: 'rgba(255,255,255,0.5)', fontSize: '0.88rem', lineHeight: 1.7 }}>
-                  &quot;Every crystal starts with a conversation. Reach out — your stone is waiting.&quot;
+                  &quot;Every crystal starts with a conversation. Reach out — your crystal is waiting.&quot;
                 </p>
                 <span style={{ display: 'block', marginTop: '0.5rem', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--primary,#C8956C)' }}>— Kriss</span>
               </div>

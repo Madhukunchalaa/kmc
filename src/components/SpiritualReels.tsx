@@ -351,7 +351,7 @@ export default function SpiritualReels() {
           style={{
             position: 'relative',
             width: '100%',
-            height: 'clamp(420px, 70vh, 600px)',
+            height: 'clamp(420px, 62vh, 540px)',
             perspective: '1200px',
             perspectiveOrigin: '50% 50%',
           }}
@@ -380,7 +380,7 @@ export default function SpiritualReels() {
                   onClick={() => handleCardClick(index)}
                   style={{
                     position: 'absolute',
-                    width: 'clamp(220px, 26vw, 320px)',
+                    width: 'clamp(220px, 22vw, 280px)',
                     aspectRatio: '9 / 16',
                     borderRadius: '24px',
                     overflow: 'hidden',

@@ -197,9 +197,12 @@ export default function Home() {
     'seven-chakra-bracelet',
     'black-tourmaline-bracelet'
   ];
-  const featuredProducts = FEATURED_IDS.map(id => 
+  const featuredProducts = FEATURED_IDS.map(id =>
     dbProducts.find(p => p.id === id || p.slug === id)
-  ).filter(Boolean);
+  ).filter(Boolean)
+  // ProductCard links to /shop/{product.id} and the product page resolves by slug,
+  // so expose the slug as `id` (matches how the shop grid reshapes products).
+  .map(p => ({ ...p, id: p.slug }));
   // Signature Bracelets
   const signatureProducts = dbProducts.filter(p => p.subcategory?.toLowerCase() === 'signature bracelets');
   const [activeSession, setActiveSession] = useState<SelectedSession | null>(null);
@@ -597,7 +600,7 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-5">
-            <Link href="/shop" className="btn-primary-custom">
+            <Link href="/shop?category=view-all" className="btn-primary-custom">
               <span>Explore All Products</span>
             </Link>
           </div>

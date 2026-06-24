@@ -51,6 +51,7 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
 
   const [allProducts, setAllProducts] = useState<LiveProduct[]>([]);
   const [loadingDb, setLoadingDb] = useState(true);
+  const [sort, setSort] = useState<'default' | 'price-asc' | 'price-desc'>('default');
 
   useEffect(() => {
     let cancelled = false;
@@ -73,10 +74,15 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
     }
   }, [crystal]);
 
-  const matchingProducts = useMemo(
-    () => filterByCrystal(allProducts, crystal.name),
-    [allProducts, crystal.name]
-  );
+  const matchingProducts = useMemo(() => {
+    const list = filterByCrystal(allProducts, crystal.name);
+    if (sort === 'price-asc') return [...list].sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+    if (sort === 'price-desc') return [...list].sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+    return list;
+  }, [allProducts, crystal.name, sort]);
+
+  // Reset sort to default whenever a different crystal modal is opened
+  useEffect(() => { setSort('default'); }, [crystal.name]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -123,6 +129,33 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
               <i className="fa-solid fa-circle-notch fa-spin me-1" />
               Syncing live prices…
             </p>
+          )}
+
+          {/* Sort control */}
+          {matchingProducts.length > 1 && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8, margin: '0 0 16px' }}>
+              <label htmlFor="crystal-sort" style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)' }}>
+                Sort by
+              </label>
+              <select
+                id="crystal-sort"
+                value={sort}
+                onChange={(e) => setSort(e.target.value as 'default' | 'price-asc' | 'price-desc')}
+                style={{
+                  background: 'rgba(45, 27, 14, 0.6)',
+                  color: '#fff',
+                  border: '1px solid rgba(200, 149, 108, 0.4)',
+                  borderRadius: 20,
+                  padding: '6px 12px',
+                  fontSize: '0.78rem',
+                  cursor: 'pointer',
+                }}
+              >
+                <option value="default">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+            </div>
           )}
 
           {matchingProducts.length === 0 ? (

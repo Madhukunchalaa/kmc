@@ -136,9 +136,9 @@ export default function CheckoutPage() {
     setSubmitting(true);
     setError(null);
 
-    // Enforce border validation for Indian pricing
-    if (countryCode === 'IN' && form.country !== 'IN') {
-      setError('Your profile is set to India (INR pricing), so your shipping address must be in India. To ship internationally, please update your country in your Profile first.');
+    // Only India orders accepted
+    if (form.country && form.country !== 'IN') {
+      setError('We currently ship within India only. Please select India as your country.');
       setSubmitting(false);
       return;
     }
@@ -690,16 +690,19 @@ export default function CheckoutPage() {
                   </span>
                 </label>
 
-                <button type="submit" className="btn-primary-custom" disabled={submitting || !termsAccepted} style={{ justifyContent: 'center', opacity: submitting || !termsAccepted ? 0.65 : 1, cursor: submitting ? 'wait' : !termsAccepted ? 'not-allowed' : 'pointer' }}>
-                  {submitting ? <Spinner /> : <i className={paymentMethod === 'cod' ? 'fa-solid fa-truck' : 'fa-solid fa-lock'}></i>}
-                  <span>{submitting ? 'Processing…' : paymentMethod === 'cod' ? `Place Order (COD) — ${formatPrice(payableInr, 0)}` : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
-                </button>
-
-                {destinationIsIntl && (
-                  <p style={{ fontSize: '0.82rem', color: 'var(--primary,#C8956C)', background: 'rgba(200,149,108,0.08)', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', margin: 0 }}>
-                    <i className="fa-solid fa-earth-asia me-2"></i>
-                    <strong>International order:</strong> Shipping is not included above. Shipping charges for your location will be calculated and sent to you separately via a secure payment link.
-                  </p>
+                {destinationIsIntl ? (
+                  <div style={{ background: 'rgba(217,95,95,0.06)', border: '1.5px solid rgba(217,95,95,0.25)', borderRadius: 12, padding: '16px 18px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '1.8rem', marginBottom: 8 }}>🇮🇳</div>
+                    <p style={{ fontWeight: 700, color: '#D95F5F', margin: '0 0 6px', fontSize: '0.95rem' }}>India Orders Only</p>
+                    <p style={{ fontSize: '0.82rem', color: '#888', margin: 0 }}>
+                      We are currently accepting orders within India only. International shipping will be available soon — please contact us on WhatsApp for assistance.
+                    </p>
+                  </div>
+                ) : (
+                  <button type="submit" className="btn-primary-custom" disabled={submitting || !termsAccepted} style={{ justifyContent: 'center', opacity: submitting || !termsAccepted ? 0.65 : 1, cursor: submitting ? 'wait' : !termsAccepted ? 'not-allowed' : 'pointer' }}>
+                    {submitting ? <Spinner /> : <i className={paymentMethod === 'cod' ? 'fa-solid fa-truck' : 'fa-solid fa-lock'}></i>}
+                    <span>{submitting ? 'Processing…' : paymentMethod === 'cod' ? `Place Order (COD) — ${formatPrice(payableInr, 0)}` : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
+                  </button>
                 )}
 
                 <p style={{ fontSize: '0.78rem', color: 'var(--text-light,#888)', textAlign: 'center' }}>

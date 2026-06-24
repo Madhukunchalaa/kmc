@@ -3,7 +3,6 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Order } from '@/models/Order';
 import { isCashfreeConfigured, createCashfreeOrder } from '@/lib/cashfree';
-import { resolveOrderLines } from '@/lib/orderLines';
 import { z } from 'zod';
 import { zodErrorMessage } from '@/lib/validators';
 
@@ -41,19 +40,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Cashfree India only accepts INR. For non-INR orders (US/UK etc.)
-    // re-resolve prices in INR from the product catalog.
-    let inrAmount: number;
-    if (!order.currency || order.currency === 'INR') {
-      inrAmount = order.total && order.total > 0 ? order.total : order.subtotal;
-    } else {
-      const cartItems = order.items.map((l: any) => ({
-        productId: l.size ? `${l.productSlug}::${l.size}` : l.productSlug,
-        qty: l.qty,
-      }));
-      const { subtotal: inrSubtotal } = await resolveOrderLines(cartItems, 'INR');
-      inrAmount = inrSubtotal + (order.shipping || 0);
-    }
+    // Cashfree India only accepts INR — international orders are temporarily
+    // blocked at checkout, so this path only runs for INR orders.
+    const inrAmount = order.total && order.total > 0 ? order.total : order.subtotal;
 
     // Reuse existing Cashfree order if already created
     let cfOrderId = order.cfOrderId;

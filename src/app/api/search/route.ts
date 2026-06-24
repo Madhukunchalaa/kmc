@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { connectMongoose } from '@/lib/mongoose';
 import { Service } from '@/models/Service';
 import { Product } from '@/models/Product';
-import { products as productSeed } from '@/data/products';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -51,21 +50,6 @@ export async function GET(req: Request) {
       image: p.image,
       price: p.price,
     }));
-
-    // Fallback to static product seed if no products in DB
-    if (products.length === 0) {
-      products = productSeed
-        .filter((p) => regex.test(p.name) || regex.test(p.category) || regex.test(p.subcategory) || regex.test(p.desc || ''))
-        .slice(0, 8)
-        .map((p) => ({
-          id: p.id,
-          name: p.name,
-          category: p.category,
-          subcategory: p.subcategory || '',
-          image: p.image,
-          price: p.price,
-        }));
-    }
 
     return NextResponse.json({ ok: true, products, services });
   } catch (err) {

@@ -1,5 +1,4 @@
 import { Product } from '@/models/Product';
-import { products as seedProducts } from '@/data/products';
 
 export interface CartLineInput {
   productId: string;
@@ -60,23 +59,6 @@ export async function resolveOrderLines(items: CartLineInput[], currency: string
     });
   }
   
-  for (const sp of seedProducts) {
-    if (!productMap.has(sp.id)) {
-      const spPrice = useIntlPrice ? (sp.usdPrice && sp.usdPrice > 0 ? sp.usdPrice : Math.round(sp.price / 50)) : sp.price;
-      productMap.set(sp.id, {
-        _id: sp.id,
-        slug: sp.id,
-        name: sp.name,
-        price: spPrice,
-        stock: null,
-        category: sp.category || '',
-        subcategory: sp.subcategory || '',
-        shippingCharge: null,
-        variants: sp.variants,
-      });
-    }
-  }
-
   // Add virtual custom-bracelet product mapping
   productMap.set('custom-bracelet', {
     _id: 'custom-bracelet',

@@ -88,7 +88,7 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
   try {
     await connectMongoose();
     const docs = await Product.find({ active: true, isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
-    if (docs.length === 0) return productSeed.map(fromSeed);
+    if (docs.length === 0) return [];
     return docs.map((d) => ({
       id: String(d._id),
       slug: d.slug,
@@ -117,8 +117,8 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
       shippingCharge: d.shippingCharge ?? null,
     }));
   } catch (err) {
-    console.error('getAllProducts: falling back to seed', err);
-    return productSeed.map(fromSeed);
+    console.error('getAllProducts error', err);
+    return [];
   }
 }
 
@@ -156,10 +156,9 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
       };
     }
   } catch (err) {
-    console.error('getProductBySlug fallback', err);
+    console.error('getProductBySlug error', err);
   }
-  const seed = productSeed.find((p) => p.id === slug);
-  return seed ? fromSeed(seed) : null;
+  return null;
 }
 
 export const SERVICE_TIERS: Record<string, ServiceTier[]> = {

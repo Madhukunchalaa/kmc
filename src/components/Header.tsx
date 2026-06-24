@@ -168,10 +168,7 @@ function SearchBar() {
                 <i className="fa-solid fa-gem me-1"></i> Products
               </div>
               {results.products.map((p) => (
-                <button key={p.id} type="button" onClick={() => {
-                  const catSlug = getCategorySlug(p.category, p.subcategory);
-                  go(`/shop?category=${catSlug}`);
-                }}
+                <button key={p.id} type="button" onClick={() => go(`/shop/${p.id}`)}
                   style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background 0.15s' }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,149,108,0.08)')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}>

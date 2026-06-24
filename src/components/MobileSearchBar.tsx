@@ -191,10 +191,7 @@ export default function MobileSearchBar() {
                   <i className="fa-solid fa-gem me-1"></i> Products
                 </div>
                 {results.products.map((p) => (
-                  <button key={p.id} type="button" onClick={() => {
-                    const catSlug = getCategorySlug(p.category, p.subcategory);
-                    go(`/shop?category=${catSlug}`);
-                  }}
+                  <button key={p.id} type="button" onClick={() => go(`/shop/${p.id}`)}
                     style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '10px 14px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                     <img src={p.image} alt={p.name} style={{ width: 34, height: 34, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid rgba(200,149,108,0.2)' }} />
                     <div style={{ flex: 1, minWidth: 0 }}>

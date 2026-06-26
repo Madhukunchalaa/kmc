@@ -587,13 +587,13 @@ export default function Home() {
                 <ProductCard product={product} />
               </ScrollFade>
             ))}
-            <Link href="/shop" className="shop-view-all-card">
+            <Link href="/shop?category=bracelets-by-crystals" className="shop-view-all-card">
               <div className="shop-view-all-inner">
                 <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✨</div>
-                <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', marginBottom: '0.3rem' }}>View All</div>
-                <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.75rem' }}>Explore all collections</div>
+                <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text,#2D1B0E)', marginBottom: '0.3rem' }}>View More</div>
+                <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.75rem' }}>Explore our bracelets</div>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', background: 'var(--primary,#C8956C)', color: '#fff', borderRadius: 20, padding: '0.35rem 0.9rem', fontSize: '0.78rem', fontWeight: 600 }}>
-                  Shop All <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>
+                  View Bracelets <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem' }}></i>
                 </span>
               </div>
             </Link>

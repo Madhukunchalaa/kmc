@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { connectMongoose } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import ProductRowActions from './ProductRowActions';
+import StockEditor from './StockEditor';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -56,6 +57,16 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   const totalPages = Math.ceil(totalCount / limit);
   const startItem = totalCount === 0 ? 0 : skip + 1;
   const endItem = Math.min(skip + limit, totalCount);
+
+  // Preserve the current filters so the edit page can return here (same category, etc.)
+  const backParams = (() => {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (category) params.set('category', category);
+    if (status) params.set('status', status);
+    if (page > 1) params.set('page', String(page));
+    return params.toString();
+  })();
 
   function getPageUrl(pageNum: number) {
     const params = new URLSearchParams();
@@ -249,7 +260,9 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     <div style={{ fontWeight: 500 }}>{p.subcategory}</div>
                   </td>
                   <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</td>
-                  <td style={{ padding: 12, textAlign: 'right' }}>{p.stock}</td>
+                  <td style={{ padding: 12, textAlign: 'right' }}>
+                    {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}
+                  </td>
                   {!isTrashView && (
                     <td style={{ padding: 12, textAlign: 'center' }}>
                       <span className="crystal-tag" style={{ fontSize: '0.72rem', background: p.active ? '#4CAF5022' : '#D95F5F22', color: p.active ? '#1E8449' : '#A94442' }}>
@@ -258,7 +271,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     </td>
                   )}
                   <td style={{ padding: '12px 16px', textAlign: 'right' }}>
-                    <ProductRowActions id={String(p._id)} isDeleted={!!p.isDeleted} />
+                    <ProductRowActions id={String(p._id)} isDeleted={!!p.isDeleted} backParams={backParams} />
                   </td>
                 </tr>
               ))}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function ProductRowActions({ id, isDeleted }: { id: string; isDeleted?: boolean }) {
+export default function ProductRowActions({ id, isDeleted, backParams }: { id: string; isDeleted?: boolean; backParams?: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -61,7 +61,7 @@ export default function ProductRowActions({ id, isDeleted }: { id: string; isDel
     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
       {/* Edit — gold pill */}
       <Link
-        href={`/admin/products/${id}`}
+        href={backParams ? `/admin/products/${id}?${backParams}` : `/admin/products/${id}`}
         title="Edit product"
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 5,

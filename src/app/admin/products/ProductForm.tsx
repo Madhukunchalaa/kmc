@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Initial {
   slug: string;
@@ -93,6 +93,7 @@ interface StructuredLongDesc {
 
 export default function ProductForm({ id, initial }: { id?: string; initial?: Initial }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [f, setF] = useState<Initial>(initial ? { ...EMPTY, ...initial, sizes: initial.sizes ?? [] } : EMPTY);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -470,7 +471,9 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
         setSaving(false);
         return;
       }
-      router.push('/admin/products');
+      // Return to the products list preserving the active filters (category, etc.)
+      const back = searchParams.toString();
+      router.push(back ? `/admin/products?${back}` : '/admin/products');
       router.refresh();
     } catch {
       setErr('Network error');

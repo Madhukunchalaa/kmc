@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import ProductForm from '../ProductForm';
 
+export const dynamic = 'force-dynamic';
 export const metadata = { title: 'New Product · Admin' };
 
 export default function NewProductPage() {

@@ -3,6 +3,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import ProductRowActions from './ProductRowActions';
 import StockEditor from './StockEditor';
+import ProductFilters from './ProductFilters';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -11,6 +12,7 @@ interface SP {
   q?: string;
   category?: string;
   status?: string;
+  sort?: string;
   page?: string;
 }
 
@@ -19,6 +21,9 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   const q = sp.q || '';
   const category = sp.category || '';
   const status = sp.status || '';
+  const sort = sp.sort || '';
+  const sortSpec: Record<string, 1 | -1> =
+    sort === 'name' ? { name: 1 } : sort === 'name-desc' ? { name: -1 } : { createdAt: -1 };
 
   const page = Number(sp.page) || 1;
   const limit = 20;
@@ -49,7 +54,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   }
 
   const [items, totalCount, uniqueCategories] = await Promise.all([
-    Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+    Product.find(filter).sort(sortSpec).skip(skip).limit(limit).lean(),
     Product.countDocuments(filter),
     Product.distinct('category'),
   ]);
@@ -64,6 +69,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (q) params.set('q', q);
     if (category) params.set('category', category);
     if (status) params.set('status', status);
+    if (sort) params.set('sort', sort);
     if (page > 1) params.set('page', String(page));
     return params.toString();
   })();
@@ -73,6 +79,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (q) params.set('q', q);
     if (category) params.set('category', category);
     if (status) params.set('status', status);
+    if (sort) params.set('sort', sort);
     params.set('page', String(pageNum));
     return `/admin/products?${params.toString()}`;
   }
@@ -165,50 +172,9 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
         </div>
       )}
 
-      {/* ── Search & Filter (hidden in trash view) ── */}
+      {/* ── Search, Filter & Sort (hidden in trash view) ── */}
       {!isTrashView && (
-        <div style={{ background: '#fff', padding: '1rem', borderRadius: 14, marginBottom: '1rem', boxShadow: '0 4px 14px rgba(0,0,0,0.02)' }}>
-          <form method="GET" action="/admin/products" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            <div style={{ flex: '1 1 240px', position: 'relative' }}>
-              <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: '0.9rem' }}></i>
-              <input
-                type="text"
-                name="q"
-                defaultValue={q}
-                placeholder="Search by name, slug or subcategory..."
-                className="newsletter-input"
-                style={{ width: '100%', paddingLeft: '34px' }}
-              />
-            </div>
-
-            <div style={{ flex: '1 1 160px' }}>
-              <select name="category" defaultValue={category} className="newsletter-input" style={{ width: '100%' }}>
-                <option value="">— All Categories —</option>
-                {uniqueCategories.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-
-            <div style={{ flex: '1 1 120px' }}>
-              <select name="status" defaultValue={status} className="newsletter-input" style={{ width: '100%' }}>
-                <option value="">— All Status —</option>
-                <option value="live">Live</option>
-                <option value="hidden">Hidden</option>
-              </select>
-            </div>
-
-            <button type="submit" className="btn-primary-custom" style={{ padding: '0 18px', height: '42px' }}>
-              Filter
-            </button>
-
-            {(q || category || status) && (
-              <Link href="/admin/products" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px', textDecoration: 'none' }}>
-                Clear
-              </Link>
-            )}
-          </form>
-        </div>
+        <ProductFilters categories={uniqueCategories} />
       )}
 
       {/* ── Table ── */}

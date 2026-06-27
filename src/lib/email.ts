@@ -52,7 +52,7 @@ function shell(title: string, body: string): string {
       </div>
       <div style="padding:28px 28px 8px"><h2 style="margin:0 0 16px;font-size:20px">${title}</h2>${body}</div>
       <div style="padding:16px 28px 28px;color:#888;font-size:12px;text-align:center">
-        Hyderabad, Telangana · <a href="mailto:krissmaagiicrystals@gmail.com" style="color:#C8956C">krissmaagiicrystals@gmail.com</a>
+        Hyderabad, Telangana · <a href="mailto:info@krissmaagiiccrystals.com" style="color:#C8956C">info@krissmaagiiccrystals.com</a>
       </div>
     </div></body></html>`;
 }
@@ -354,7 +354,7 @@ export function contactFormSubmissionEmail(
   message: string
 ): EmailMessage {
   return {
-    to: 'krissmaagiicrystals@gmail.com',
+    to: 'info@krissmaagiiccrystals.com',
     subject: `✉️ New Contact Message from ${name}`,
     html: shell(
       `New Message Received`,

@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
       <h2>Contact</h2>
       <p>
         Questions? Reach us at{' '}
-        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a> or on{' '}
+        <a href="mailto:info@krissmaagiiccrystals.com">info@krissmaagiiccrystals.com</a> or on{' '}
         <a href="https://wa.me/918096223929" target="_blank" rel="noreferrer">WhatsApp</a>.
       </p>
     </PolicyPage>

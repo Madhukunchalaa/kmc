@@ -6,7 +6,17 @@ import ProductPriceDisplay from '@/components/ProductPriceDisplay';
 import ProductBuyPanel from './ProductBuyPanel';
 import ProductShareButton from './ProductShareButton';
 
-export default function ProductDetailsClient({ product, children }: { product: any; children: React.ReactNode }) {
+export default function ProductDetailsClient({ 
+  product, 
+  children, 
+  sizesLabel = 'Select Bead Size:', 
+  showSizes = true 
+}: { 
+  product: any; 
+  children: React.ReactNode; 
+  sizesLabel?: string; 
+  showSizes?: boolean 
+}) {
   const router = useRouter();
 
   const sub = (product.subcategory || '').toLowerCase();
@@ -139,9 +149,11 @@ export default function ProductDetailsClient({ product, children }: { product: a
           </div>
         )}
 
-        {!hasVariants && isBraceletsByCrystals && (
+        {!hasVariants && isBraceletsByCrystals && showSizes && (
           <div className="mt-4 mb-3">
-            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>Select Bead Size: <span style={{ color: 'red' }}>*</span></h6>
+            <h6 style={{ color: 'var(--text,#2D1B0E)', fontWeight: 600, marginBottom: '10px' }}>
+              {sizesLabel} <span style={{ color: 'red' }}>*</span>
+            </h6>
             <div className="d-flex flex-wrap gap-2">
               {(Array.isArray(product.sizes) && product.sizes.length > 0 ? product.sizes : ['8mm']).map((sz: string) => (
                 <button

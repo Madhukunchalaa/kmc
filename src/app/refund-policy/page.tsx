@@ -39,7 +39,7 @@ export default function RefundPolicyPage() {
       <h2>How to request a Return or Cancellation</h2>
       <p>
         To initiate a return (for damaged items) or request an order cancellation before dispatch, please email us at{' '}
-        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a> with your order number and a brief description. We will guide you through the next steps.
+        <a href="mailto:info@krissmaagiiccrystals.com">info@krissmaagiiccrystals.com</a> with your order number and a brief description. We will guide you through the next steps.
       </p>
 
       <h2>Non-Refundable Items & Services</h2>

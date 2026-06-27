@@ -97,7 +97,7 @@ export const productInputSchema = z.object({
   desc: z.string()
     .min(5, 'Short description is required (at least 5 characters).')
     .max(600, 'Short description is too long (max 600 characters).'),
-  longDesc: z.string().max(4000).optional().or(z.literal('')),
+  longDesc: z.string().max(40000).optional().or(z.literal('')),
   chakras: z.array(z.string()).default([]),
   shippingCharge: z.number().min(0).max(100000).nullable().optional(),
   stock: z.number().int().min(0).default(99),

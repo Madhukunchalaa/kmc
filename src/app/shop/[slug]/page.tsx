@@ -143,13 +143,19 @@ export default async function ProductPage(props: PageProps<'/shop/[slug]'>) {
 
       <section className="section-pad">
         <div className="container">
-          <ProductDetailsClient product={product}>
+          <ProductDetailsClient 
+            product={product} 
+            sizesLabel={descObj?.sizesLabel} 
+            showSizes={descObj?.showSizes !== false}
+          >
             {/* Product description / JSON layout rendering */}
             <ProductDescription descObj={descObj} desc={product.desc} longDesc={product.longDesc} category={product.category} subcategory={product.subcategory} chakras={product.chakras} />
 
-            {product.chakras && product.chakras.filter((ch: string) => ch && ch.trim()).length > 0 && (
+            {descObj?.showChakras !== false && product.chakras && product.chakras.filter((ch: string) => ch && ch.trim()).length > 0 && (
               <div className="mt-4">
-                <h6 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>Aligned Chakras</h6>
+                <h6 className="footer-heading" style={{ color: 'var(--text,#2D1B0E)' }}>
+                  {descObj?.chakrasLabel || 'Aligned Chakras'}
+                </h6>
                 <div className="crystal-tags" style={{ justifyContent: 'flex-start' }}>
                   {product.chakras
                     .filter((ch: string) => ch && ch.trim())

@@ -68,7 +68,7 @@ export default function ContactPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {[
                   { icon: 'fa-solid fa-phone', label: 'Phone', value: '+91 80962 23929', href: 'tel:+918096223929' },
-                  { icon: 'fa-solid fa-envelope', label: 'Email', value: 'krissmaagiicrystals@gmail.com', href: 'mailto:krissmaagiicrystals@gmail.com' },
+                  { icon: 'fa-solid fa-envelope', label: 'Email', value: 'info@krissmaagiiccrystals.com', href: 'mailto:info@krissmaagiiccrystals.com' },
                   { icon: 'fa-solid fa-location-dot', label: 'Address', value: 'Hyderabad, Telangana - 500055, India', href: '#' },
                   { icon: 'fa-brands fa-whatsapp', label: 'WhatsApp', value: 'Start a chat', href: 'https://wa.me/918096223929' },
                 ].map((item) => (

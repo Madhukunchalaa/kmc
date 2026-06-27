@@ -51,7 +51,7 @@ export default function TermsPage() {
       <p>
         If you have any questions about these Terms & Conditions, please contact us at:
         <br />
-        <strong>Email:</strong> krissmaagiicrystals@gmail.com
+        <strong>Email:</strong> info@krissmaagiiccrystals.com
         <br />
         <strong>Phone:</strong> +91 80962 23929
         <br />

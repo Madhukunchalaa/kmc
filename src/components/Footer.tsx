@@ -147,7 +147,7 @@ export default function Footer() {
               </li>
               <li>
                 <i className="fa-solid fa-envelope" />
-                <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a>
+                <a href="mailto:info@krissmaagiiccrystals.com">info@krissmaagiiccrystals.com</a>
               </li>
               <li>
                 <i className="fa-brands fa-whatsapp" />

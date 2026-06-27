@@ -33,7 +33,7 @@ export default function ShippingPolicyPage() {
       <h2>If your package is delayed or damaged</h2>
       <p>
         Crystals are packed with care, but if your package arrives damaged, please share unboxing photos within <strong>48 hours</strong> of delivery at{' '}
-        <a href="mailto:krissmaagiicrystals@gmail.com">krissmaagiicrystals@gmail.com</a> so we can sort it out for you.
+        <a href="mailto:info@krissmaagiiccrystals.com">info@krissmaagiiccrystals.com</a> so we can sort it out for you.
       </p>
     </PolicyPage>
   );

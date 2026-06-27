@@ -81,14 +81,121 @@ const STANDARD_CHAKRAS = [
 
 const STANDARD_SIZES = ['6mm', '8mm', '10mm', '12mm'];
 
-interface StructuredLongDesc {
-  description: string;
-  whoShouldWear: string[];
-  benefits: string[];
-  howToWearHand: string; // "Left Hand", "Right Hand", "Either Hand", etc.
-  howToWearWhen: string;
-  careInstructions: string[];
-  disclaimer: string;
+interface DynamicSection {
+  id: string;
+  title: string;
+  type: 'text' | 'list' | 'affirmation' | 'disclaimer';
+  content: string | string[];
+}
+
+function getDynamicSections(
+  d: any,
+  fallbackDesc: string,
+  category?: string
+): DynamicSection[] {
+  if (!d) {
+    return [
+      {
+        id: 'description',
+        title: 'Description',
+        type: 'text',
+        content: fallbackDesc || '',
+      },
+    ];
+  }
+
+  // If new dynamic format with a sections array is already present
+  if ('sections' in d && Array.isArray((d as any).sections)) {
+    return (d as any).sections;
+  }
+
+  // Otherwise, construct from legacy fields for backwards compatibility
+  const sections: DynamicSection[] = [];
+
+  // Short description always first
+  sections.push({
+    id: 'description',
+    title: 'Description',
+    type: 'text',
+    content: fallbackDesc || d.description || '',
+  });
+
+  if (d.purpose) {
+    sections.push({ id: 'purpose', title: 'Purpose', type: 'text', content: d.purpose });
+  }
+  if (d.crystalsIncluded) {
+    sections.push({ id: 'crystalsIncluded', title: 'Crystals Included', type: 'text', content: d.crystalsIncluded });
+  }
+  if (d.designSymbolism) {
+    sections.push({ id: 'designSymbolism', title: 'Design Symbolism', type: 'text', content: d.designSymbolism });
+  }
+  if (d.associatedChakras) {
+    sections.push({ id: 'associatedChakras', title: 'Associated Chakras', type: 'text', content: d.associatedChakras });
+  }
+  
+  const zodiacLine = d.zodiacSign
+    ? `${d.zodiacSign}${d.birthDates ? ` · ${d.birthDates}` : ''}`
+    : '';
+  if (zodiacLine) {
+    sections.push({ id: 'zodiac', title: 'Zodiac Sign', type: 'text', content: zodiacLine });
+  }
+
+  if (d.benefits && d.benefits.length > 0) {
+    sections.push({ id: 'benefits', title: 'Benefits', type: 'list', content: d.benefits });
+  }
+  if (d.whoShouldWear && d.whoShouldWear.length > 0) {
+    sections.push({ id: 'whoShouldWear', title: 'Who Should Wear', type: 'list', content: d.whoShouldWear });
+  }
+
+  const isAnklet = (category || '').toLowerCase().includes('anklet');
+  if (isAnklet && (d.recommendedAnkle || d.recommendedHand)) {
+    sections.push({
+      id: 'recommendedAnkle',
+      title: 'Recommended Ankle',
+      type: 'text',
+      content: d.recommendedAnkle || d.recommendedHand || '',
+    });
+  } else if (d.recommendedHand) {
+    sections.push({
+      id: 'recommendedHand',
+      title: 'Recommended Hand to Wear',
+      type: 'text',
+      content: d.recommendedHand,
+    });
+  }
+
+  if (d.bestFinger) {
+    sections.push({ id: 'bestFinger', title: 'Best Finger', type: 'text', content: d.bestFinger });
+  }
+  if (d.bestDayToWear) {
+    sections.push({ id: 'bestDayToWear', title: 'Best Day to Wear', type: 'text', content: d.bestDayToWear });
+  }
+  if (d.whenToWear) {
+    sections.push({ id: 'whenToWear', title: 'When to Wear', type: 'text', content: d.whenToWear });
+  }
+  if (d.howToWear && d.howToWear.length > 0) {
+    sections.push({ id: 'howToWear', title: 'How to Wear', type: 'list', content: d.howToWear });
+  }
+  if (d.placement) {
+    sections.push({ id: 'placement', title: 'Placement Recommendation', type: 'text', content: d.placement });
+  }
+  if (d.howToUse) {
+    sections.push({ id: 'howToUse', title: 'How to Use', type: 'text', content: d.howToUse });
+  }
+  if (d.howToEnergize) {
+    sections.push({ id: 'howToEnergize', title: 'How to Energize', type: 'text', content: d.howToEnergize });
+  }
+  if (d.affirmation) {
+    sections.push({ id: 'affirmation', title: 'Affirmation', type: 'affirmation', content: d.affirmation });
+  }
+  if (d.careInstructions && d.careInstructions.length > 0) {
+    sections.push({ id: 'careInstructions', title: 'Care Instructions', type: 'list', content: d.careInstructions });
+  }
+  if (d.disclaimer) {
+    sections.push({ id: 'disclaimer', title: 'Disclaimer', type: 'disclaimer', content: d.disclaimer });
+  }
+
+  return sections;
 }
 
 export default function ProductForm({ id, initial }: { id?: string; initial?: Initial }) {
@@ -110,79 +217,62 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
   const [isCustomSubcategory, setIsCustomSubcategory] = useState(false);
   const [customSubcategory, setCustomSubcategory] = useState('');
 
-  // Structured longDesc state
-  const [structuredDesc, setStructuredDesc] = useState<StructuredLongDesc>({
-    description: '',
-    whoShouldWear: [''],
-    benefits: [''],
-    howToWearHand: 'Left Hand',
-    howToWearWhen: '',
-    careInstructions: [''],
-    disclaimer: 'Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.',
-  });
+  // Dynamic sections state
+  const [sections, setSections] = useState<DynamicSection[]>([]);
+  const [sizesLabel, setSizesLabel] = useState('Select Bead Size:');
+  const [showSizes, setShowSizes] = useState(true);
+  const [chakrasLabel, setChakrasLabel] = useState('Aligned Chakras');
+  const [showChakras, setShowChakras] = useState(true);
 
-  // Parse initial longDesc
+  // Parse initial longDesc and populate dynamic sections
   useEffect(() => {
-    if (!initial) return;
     Promise.resolve().then(() => {
-      if (initial.longDesc) {
+      const descStr = initial?.longDesc || initial?.desc || '';
+      let parsedJson: any = null;
+      if (descStr && (descStr.trim().startsWith('{') || descStr.trim().startsWith('['))) {
         try {
-          const parsed = JSON.parse(initial.longDesc);
-          
-          // Extract hand and when from howToWear array or recommendedAnkle/whenToWear
-          let hand = 'Left Hand';
-          let when = '';
-          const isAnklet = initial.category?.toLowerCase() === 'anklets';
-          if (isAnklet) {
-            hand = parsed.recommendedAnkle || 'Either Ankle';
-            when = parsed.whenToWear || '';
-          } else if (Array.isArray(parsed.howToWear)) {
-            const handMatch = parsed.howToWear[0]?.match(/Wear on the (Left Hand|Right Hand|Either Hand) as recommended/i);
-            if (handMatch) {
-              hand = handMatch[1];
-            } else if (parsed.howToWear[0]?.includes('Either')) {
-              hand = 'Either Hand';
-            }
-            
-            const whenMatch = parsed.howToWear[1]?.replace('Best worn during:', '').trim().replace(/\.$/, '');
-            if (whenMatch) {
-              when = whenMatch;
-            }
-          }
+          parsedJson = JSON.parse(descStr);
+        } catch {}
+      }
 
-          setStructuredDesc({
-            description: parsed.description || initial.desc || '',
-            whoShouldWear: Array.isArray(parsed.whoShouldWear) ? parsed.whoShouldWear : [''],
-            benefits: Array.isArray(parsed.benefits) ? parsed.benefits : [''],
-            howToWearHand: hand,
-            howToWearWhen: when || '',
-            careInstructions: Array.isArray(parsed.careInstructions) ? parsed.careInstructions : [''],
-            disclaimer: parsed.disclaimer || 'Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.',
-          });
-        } catch (e) {
-          // Not valid JSON, set raw longDesc as description
-          setStructuredDesc((prev) => ({
-            ...prev,
-            description: initial.longDesc || initial.desc || '',
-          }));
-        }
+      // 1. Get ordered list of sections
+      const list = getDynamicSections(parsedJson, initial?.desc || '', initial?.category);
+      setSections(list);
+
+      // 2. Load custom labels and settings
+      if (parsedJson) {
+        setSizesLabel(parsedJson.sizesLabel ?? 'Select Bead Size:');
+        setShowSizes(parsedJson.showSizes !== false);
+        setChakrasLabel(parsedJson.chakrasLabel ?? 'Aligned Chakras');
+        setShowChakras(parsedJson.showChakras !== false);
       } else {
-        setStructuredDesc((prev) => ({
-          ...prev,
-          description: initial.desc || '',
-        }));
+        // Default sections for a brand new product
+        if (!initial) {
+          setSections([
+            { id: 'description', title: 'Description', type: 'text', content: '' },
+            { id: 'purpose', title: 'Purpose', type: 'text', content: '' },
+            { id: 'crystalsIncluded', title: 'Crystals Included', type: 'text', content: '' },
+            { id: 'benefits', title: 'Benefits', type: 'list', content: [''] },
+            { id: 'whoShouldWear', title: 'Who Should Wear', type: 'list', content: [''] },
+            { id: 'howToWear', title: 'How to Wear', type: 'list', content: [''] },
+            { id: 'careInstructions', title: 'Care Instructions', type: 'list', content: [''] },
+            { id: 'disclaimer', title: 'Disclaimer', type: 'disclaimer', content: 'Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.' }
+          ]);
+        }
       }
 
       // Set custom category/subcategory check
-      const catExists = STANDARD_CATEGORIES.some((c) => c.value === initial.category);
-      if (!catExists && initial.category) {
-        setIsCustomCategory(true);
-        setCustomCategory(initial.category);
-      }
-      const subcatExists = STANDARD_SUBCATEGORIES.includes(initial.subcategory);
-      if (!subcatExists && initial.subcategory) {
-        setIsCustomSubcategory(true);
-        setCustomSubcategory(initial.subcategory);
+      if (initial) {
+        const catExists = STANDARD_CATEGORIES.some((c) => c.value === initial.category);
+        if (!catExists && initial.category) {
+          setIsCustomCategory(true);
+          setCustomCategory(initial.category);
+        }
+        const subcatExists = STANDARD_SUBCATEGORIES.includes(initial.subcategory);
+        if (!subcatExists && initial.subcategory) {
+          setIsCustomSubcategory(true);
+          setCustomSubcategory(initial.subcategory);
+        }
       }
     });
   }, [initial]);
@@ -322,30 +412,6 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     setDragOverIndex(null);
   };
 
-  // Structured field helpers
-  const handleArrayChange = (field: 'whoShouldWear' | 'benefits' | 'careInstructions', index: number, value: string) => {
-    setStructuredDesc((prev) => {
-      const arr = [...prev[field]];
-      arr[index] = value;
-      return { ...prev, [field]: arr };
-    });
-  };
-
-  const addArrayItem = (field: 'whoShouldWear' | 'benefits' | 'careInstructions') => {
-    setStructuredDesc((prev) => ({
-      ...prev,
-      [field]: [...prev[field], ''],
-    }));
-  };
-
-  const removeArrayItem = (field: 'whoShouldWear' | 'benefits' | 'careInstructions', index: number) => {
-    setStructuredDesc((prev) => {
-      const arr = [...prev[field]];
-      arr.splice(index, 1);
-      return { ...prev, [field]: arr.length ? arr : [''] };
-    });
-  };
-
   // Chakra toggle helper
   const toggleChakra = (chakra: string) => {
     const current = [...f.chakras];
@@ -368,6 +434,85 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
       current.push(size);
     }
     set('sizes', current);
+  };
+  // Dynamic sections helper functions
+  const addSection = (type: 'text' | 'list' | 'affirmation' | 'disclaimer') => {
+    const id = `custom_${Date.now()}`;
+    const titles: Record<string, string> = {
+      text: 'New Custom Section',
+      list: 'New Bullet List Section',
+      affirmation: 'Affirmation',
+      disclaimer: 'Disclaimer'
+    };
+    setSections((prev) => [
+      ...prev,
+      {
+        id,
+        title: titles[type],
+        type,
+        content: type === 'list' ? [''] : '',
+      },
+    ]);
+  };
+
+  const removeSection = (id: string) => {
+    setSections((prev) => prev.filter((sec) => sec.id !== id));
+  };
+
+  const updateSectionTitle = (id: string, title: string) => {
+    setSections((prev) =>
+      prev.map((sec) => (sec.id === id ? { ...sec, title } : sec))
+    );
+  };
+
+  const updateSectionContent = (id: string, content: string | string[]) => {
+    setSections((prev) =>
+      prev.map((sec) => (sec.id === id ? { ...sec, content } : sec))
+    );
+  };
+
+  const moveSection = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === sections.length - 1) return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const newSections = [...sections];
+    const temp = newSections[index];
+    newSections[index] = newSections[targetIndex];
+    newSections[targetIndex] = temp;
+    setSections(newSections);
+  };
+
+  const handleListItemChange = (sectionId: string, idx: number, val: string) => {
+    setSections((prev) =>
+      prev.map((sec) => {
+        if (sec.id !== sectionId) return sec;
+        const arr = Array.isArray(sec.content) ? [...sec.content] : [];
+        arr[idx] = val;
+        return { ...sec, content: arr };
+      })
+    );
+  };
+
+  const addListItem = (sectionId: string) => {
+    setSections((prev) =>
+      prev.map((sec) => {
+        if (sec.id !== sectionId) return sec;
+        const arr = Array.isArray(sec.content) ? [...sec.content] : [];
+        return { ...sec, content: [...arr, ''] };
+      })
+    );
+  };
+
+  const removeListItem = (sectionId: string, idx: number) => {
+    setSections((prev) =>
+      prev.map((sec) => {
+        if (sec.id !== sectionId) return sec;
+        const arr = Array.isArray(sec.content) ? [...sec.content] : [];
+        arr.splice(idx, 1);
+        return { ...sec, content: arr.length > 0 ? arr : [''] };
+      })
+    );
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -427,22 +572,19 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
     }
 
     // Construct serialized longDesc JSON
-    const isAnklet = finalCategory.toLowerCase() === 'anklets';
     const longDescJson = JSON.stringify({
-      description: structuredDesc.description,
-      whoShouldWear: structuredDesc.whoShouldWear.filter(Boolean),
-      benefits: structuredDesc.benefits.filter(Boolean),
-      ...(isAnklet ? {
-        recommendedAnkle: structuredDesc.howToWearHand || 'Either Ankle',
-        whenToWear: structuredDesc.howToWearWhen || 'Daily wear, travel, work, and outdoor activities.'
-      } : {
-        howToWear: [
-          structuredDesc.howToWearHand ? `Wear on the ${structuredDesc.howToWearHand} as recommended.` : 'Keep close to your body or wear daily.',
-          structuredDesc.howToWearWhen ? `Best worn during: ${structuredDesc.howToWearWhen}.` : 'Best worn during meditation, yoga, or professional work.'
-        ]
-      }),
-      careInstructions: structuredDesc.careInstructions.filter(Boolean),
-      disclaimer: structuredDesc.disclaimer || 'Crystals and spiritual tools are supporting instruments for emotional and energetic well-being, and should not be used as a substitute for professional medical or mental health treatments.',
+      sizesLabel,
+      showSizes,
+      chakrasLabel,
+      showChakras,
+      sections: sections.map((sec) => ({
+        id: sec.id,
+        title: sec.title.trim(),
+        type: sec.type,
+        content: Array.isArray(sec.content)
+          ? sec.content.map((x) => x.trim()).filter(Boolean)
+          : sec.content.trim(),
+      })),
     });
 
     const payload = {
@@ -778,99 +920,175 @@ export default function ProductForm({ id, initial }: { id?: string; initial?: In
       </div>
 
       <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading)', borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '0.5rem', marginBottom: '1.25rem', color: 'var(--primary,#C8956C)' }}>
-        Redirection Details & Descriptions (Tabs view)
+        Dynamic Product Details (Tabs / Sections)
       </h3>
 
+      {/* Global settings for standard sections */}
+      <div style={{ background: '#FAF6F1', padding: '16px 20px', borderRadius: 12, marginBottom: '24px', border: '1px solid rgba(200, 149, 108, 0.15)' }}>
+        <h4 style={{ fontSize: '0.92rem', fontWeight: 700, margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#8A4F27' }}>
+          Global Settings (Standard Storefront Badges/Selectors)
+        </h4>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', gap: 6, alignItems: 'center', marginBottom: 6, cursor: 'pointer' }}>
+              <input type="checkbox" checked={showSizes} onChange={(e) => setShowSizes(e.target.checked)} style={{ width: 15, height: 15 }} />
+              Show Bead Sizes Selector
+            </label>
+            <input 
+              value={sizesLabel} 
+              onChange={(e) => setSizesLabel(e.target.value)} 
+              disabled={!showSizes}
+              className="newsletter-input" 
+              style={{ width: '100%', fontSize: '0.85rem' }} 
+              placeholder="e.g. Select Bead Size:" 
+            />
+          </div>
+          <div className="col-md-6">
+            <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'inline-flex', gap: 6, alignItems: 'center', marginBottom: 6, cursor: 'pointer' }}>
+              <input type="checkbox" checked={showChakras} onChange={(e) => setShowChakras(e.target.checked)} style={{ width: 15, height: 15 }} />
+              Show Aligned Chakras Section
+            </label>
+            <input 
+              value={chakrasLabel} 
+              onChange={(e) => setChakrasLabel(e.target.value)} 
+              disabled={!showChakras}
+              className="newsletter-input" 
+              style={{ width: '100%', fontSize: '0.85rem' }} 
+              placeholder="e.g. Aligned Chakras" 
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Dynamic sections list */}
+      <div style={{ display: 'grid', gap: '20px', marginBottom: '24px' }}>
+        {sections.map((sec, idx) => (
+          <div 
+            key={sec.id} 
+            style={{ 
+              background: '#fff', 
+              border: '1.5px solid rgba(0,0,0,0.08)', 
+              borderRadius: 12, 
+              padding: '16px 20px',
+              position: 'relative',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.015)'
+            }}
+          >
+            {/* Header row of section */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: 10, marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: '1 1 300px' }}>
+                <span style={{ fontSize: '0.72rem', background: '#EAEAEA', color: '#666', padding: '3px 8px', borderRadius: 4, fontWeight: 700, textTransform: 'uppercase' }}>
+                  {sec.type}
+                </span>
+                <input 
+                  type="text" 
+                  value={sec.title} 
+                  onChange={(e) => updateSectionTitle(sec.id, e.target.value)}
+                  className="newsletter-input"
+                  style={{ width: '220px', padding: '4px 8px', fontSize: '0.88rem', height: 'auto', fontWeight: 700 }}
+                  placeholder="Section Title"
+                />
+              </div>
+
+              {/* Action buttons (Reorder, delete) */}
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button 
+                  type="button" 
+                  onClick={() => moveSection(idx, 'up')} 
+                  disabled={idx === 0}
+                  className="btn-outline-custom"
+                  style={{ padding: '4px 8px', height: '30px', fontSize: '0.75rem', opacity: idx === 0 ? 0.3 : 1 }}
+                >
+                  <i className="fa-solid fa-arrow-up"></i>
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => moveSection(idx, 'down')} 
+                  disabled={idx === sections.length - 1}
+                  className="btn-outline-custom"
+                  style={{ padding: '4px 8px', height: '30px', fontSize: '0.75rem', opacity: idx === sections.length - 1 ? 0.3 : 1 }}
+                >
+                  <i className="fa-solid fa-arrow-down"></i>
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => removeSection(sec.id)} 
+                  className="btn-outline-custom"
+                  style={{ padding: '4px 8px', height: '30px', fontSize: '0.75rem', color: '#D95F5F', borderColor: 'rgba(217,95,95,0.2)' }}
+                >
+                  <i className="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Content inputs depending on type */}
+            <div>
+              {sec.type !== 'list' ? (
+                <textarea 
+                  rows={sec.type === 'text' ? 3 : 2}
+                  value={sec.content as string}
+                  onChange={(e) => updateSectionContent(sec.id, e.target.value)}
+                  className="newsletter-input"
+                  style={{ width: '100%', fontSize: '0.88rem' }}
+                  placeholder={`Write the ${sec.type} content here...`}
+                />
+              ) : (
+                <div style={{ display: 'grid', gap: 8 }}>
+                  {(sec.content as string[]).map((bullet, bIdx) => (
+                    <div key={bIdx} style={{ display: 'flex', gap: 8 }}>
+                      <input 
+                        type="text" 
+                        value={bullet} 
+                        onChange={(e) => handleListItemChange(sec.id, bIdx, e.target.value)}
+                        className="newsletter-input"
+                        style={{ width: '100%', fontSize: '0.88rem' }}
+                        placeholder="Bullet list item content..."
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => removeListItem(sec.id, bIdx)} 
+                        className="btn-outline-custom"
+                        style={{ padding: '0 10px', color: '#D95F5F', borderColor: 'rgba(217,95,95,0.2)', height: '42px' }}
+                      >
+                        <i className="fa-solid fa-trash-can"></i>
+                      </button>
+                    </div>
+                  ))}
+                  <button 
+                    type="button" 
+                    onClick={() => addListItem(sec.id)} 
+                    className="btn-outline-custom"
+                    style={{ width: 'fit-content', fontSize: '0.8rem', padding: '4px 10px' }}
+                  >
+                    <i className="fa-solid fa-plus me-1"></i> Add Bullet Item
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Add Section Buttons Row */}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', background: '#F8F9FA', padding: 14, borderRadius: 12, border: '1px dashed rgba(0,0,0,0.12)', marginBottom: '24px' }}>
+        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#666', display: 'flex', alignItems: 'center', marginRight: 6 }}>
+          <i className="fa-solid fa-folder-plus me-1"></i> Add Custom Tab:
+        </span>
+        <button type="button" onClick={() => addSection('text')} className="btn-outline-custom" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+          + Add Paragraph Section
+        </button>
+        <button type="button" onClick={() => addSection('list')} className="btn-outline-custom" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+          + Add Bullet List Section
+        </button>
+        <button type="button" onClick={() => addSection('affirmation')} className="btn-outline-custom" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+          + Add Affirmation Box
+        </button>
+        <button type="button" onClick={() => addSection('disclaimer')} className="btn-outline-custom" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+          + Add Disclaimer Text
+        </button>
+      </div>
+
       <div className="row g-3 mb-4">
-        <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Long Description (Main Tab) *</label>
-          <textarea required rows={4} value={structuredDesc.description} onChange={(e) => setStructuredDesc(prev => ({ ...prev, description: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} placeholder="Full descriptive text of the item..." />
-        </div>
-
-        <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Who Should Wear (One entry per line)</label>
-          <div style={{ display: 'grid', gap: 6 }}>
-            {structuredDesc.whoShouldWear.map((item, idx) => (
-              <div key={idx} className="d-flex gap-2">
-                <input value={item} onChange={(e) => handleArrayChange('whoShouldWear', idx, e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. People seeking emotional balance." />
-                <button type="button" className="btn-outline-custom" style={{ padding: '0 10px', color: '#D95F5F', borderColor: 'rgba(217,95,95,0.2)' }} onClick={() => removeArrayItem('whoShouldWear', idx)}>
-                  <i className="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            ))}
-            <button type="button" className="btn-outline-custom" style={{ width: 'fit-content', fontSize: '0.8rem', padding: '4px 10px' }} onClick={() => addArrayItem('whoShouldWear')}>
-              <i className="fa-solid fa-plus me-1"></i> Add Bullet
-            </button>
-          </div>
-        </div>
-
-        <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Benefits (One entry per line)</label>
-          <div style={{ display: 'grid', gap: 6 }}>
-            {structuredDesc.benefits.map((item, idx) => (
-              <div key={idx} className="d-flex gap-2">
-                <input value={item} onChange={(e) => handleArrayChange('benefits', idx, e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Aligns and balances the heart chakra." />
-                <button type="button" className="btn-outline-custom" style={{ padding: '0 10px', color: '#D95F5F', borderColor: 'rgba(217,95,95,0.2)' }} onClick={() => removeArrayItem('benefits', idx)}>
-                  <i className="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            ))}
-            <button type="button" className="btn-outline-custom" style={{ width: 'fit-content', fontSize: '0.8rem', padding: '4px 10px' }} onClick={() => addArrayItem('benefits')}>
-              <i className="fa-solid fa-plus me-1"></i> Add Bullet
-            </button>
-          </div>
-        </div>
-
-        <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>
-            {f.category?.toLowerCase() === 'anklets' ? 'Wear Rules - Ankle Select' : 'Wear Rules - Hand Select'}
-          </label>
-          <select value={structuredDesc.howToWearHand} onChange={(e) => setStructuredDesc(prev => ({ ...prev, howToWearHand: e.target.value }))} className="newsletter-input" style={{ width: '100%' }}>
-            {f.category?.toLowerCase() === 'anklets' ? (
-              <>
-                <option value="Either Ankle">Either Ankle</option>
-                <option value="Left Ankle">Left Ankle</option>
-                <option value="Right Ankle">Right Ankle</option>
-                <option value="">None / Not Applicable</option>
-              </>
-            ) : (
-              <>
-                <option value="Left Hand">Left Hand (Receiving energy)</option>
-                <option value="Right Hand">Right Hand (Giving/Projecting energy)</option>
-                <option value="Either Hand">Either Hand</option>
-                <option value="">None / Not Applicable</option>
-              </>
-            )}
-          </select>
-        </div>
-
-        <div className="col-md-6">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Wear Rules - Best Worn During</label>
-          <input value={structuredDesc.howToWearWhen} onChange={(e) => setStructuredDesc(prev => ({ ...prev, howToWearWhen: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Meditation, daily routines, travel" />
-        </div>
-
-        <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Care Instructions (One entry per line)</label>
-          <div style={{ display: 'grid', gap: 6 }}>
-            {structuredDesc.careInstructions.map((item, idx) => (
-              <div key={idx} className="d-flex gap-2">
-                <input value={item} onChange={(e) => handleArrayChange('careInstructions', idx, e.target.value)} className="newsletter-input" style={{ width: '100%' }} placeholder="e.g. Moonlight charging or placing on a selenite plate." />
-                <button type="button" className="btn-outline-custom" style={{ padding: '0 10px', color: '#D95F5F', borderColor: 'rgba(217,95,95,0.2)' }} onClick={() => removeArrayItem('careInstructions', idx)}>
-                  <i className="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            ))}
-            <button type="button" className="btn-outline-custom" style={{ width: 'fit-content', fontSize: '0.8rem', padding: '4px 10px' }} onClick={() => addArrayItem('careInstructions')}>
-              <i className="fa-solid fa-plus me-1"></i> Add Bullet
-            </button>
-          </div>
-        </div>
-
-        <div className="col-12">
-          <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Disclaimer Text</label>
-          <textarea rows={2} value={structuredDesc.disclaimer} onChange={(e) => setStructuredDesc(prev => ({ ...prev, disclaimer: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} />
-        </div>
-
         <div className="col-12">
           <label style={{ fontSize: '0.9rem', display: 'inline-flex', gap: 8, alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}>
             <input type="checkbox" checked={f.active} onChange={(e) => set('active', e.target.checked)} style={{ width: 16, height: 16 }} />

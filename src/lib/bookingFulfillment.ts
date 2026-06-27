@@ -31,7 +31,7 @@ export async function fulfillPaidBooking(booking: BookingDoc): Promise<void> {
   }
 
   // 2. Send emails to customer and admin, awaiting both
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@krissmaagiic.com';
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'krissmaagiicrystals@gmail.com';
   await Promise.allSettled([
     sendEmail({
       ...bookingReceivedEmail(booking.customer.name, booking.serviceTitle, booking.date, booking.timeSlot, serviceImageUrl),

@@ -64,10 +64,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Preconnect to CDNs for faster asset resolution */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
         {/* Bootstrap 5 CSS */}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-        {/* Font Awesome 6 Icons */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        {/* Font Awesome 6 Icons (Deferred loading to prevent render blocking) */}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onLoad={(e) => { e.currentTarget.media = 'all'; }} />
       </head>
       <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`} suppressHydrationWarning>
         <div id="page-wrapper">

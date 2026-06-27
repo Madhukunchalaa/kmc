@@ -29,7 +29,7 @@ export default function AboutPage() {
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.35), rgba(10, 0, 20, 0.55)), url("/about-hero.webp")',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.35), rgba(10, 0, 20, 0.55)), url("/about-header.webp")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

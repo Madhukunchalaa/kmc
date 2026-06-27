@@ -17,7 +17,7 @@ export default function ShopPageClient({ products, categoryImages = {} }: ShopPa
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/crystal-hero.png")',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/crystal-hero.webp")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

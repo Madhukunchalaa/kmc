@@ -60,13 +60,15 @@ export default function HeroSection() {
         {/* Right Side: Image & Badges */}
         <div className="hero-editorial-right">
           <picture>
-            <source media="(max-width: 768px)" srcSet="/mobile-banner.PNG" />
+            <source media="(max-width: 768px)" srcSet="/mobile-banner.webp" />
             <img
-              src="/hero-celestial-crystals.png"
+              src="/hero-celestial-crystals.webp"
               alt="KrissMaagiic Crystal Collection"
               className="hero-editorial-img"
               loading="eager"
               fetchPriority="high"
+              width={1920}
+              height={1080}
             />
           </picture>
           <div

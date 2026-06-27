@@ -14,7 +14,7 @@ export default function CrystalStrengthPage() {
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(to bottom, rgba(8, 4, 15, 0.25) 0%, rgba(6, 2, 12, 0.5) 100%), url("/strength-hero.png")',
+        backgroundImage: 'linear-gradient(to bottom, rgba(8, 4, 15, 0.25) 0%, rgba(6, 2, 12, 0.5) 100%), url("/strength-hero.webp")',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',

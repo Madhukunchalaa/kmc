@@ -56,49 +56,49 @@ const FALLBACK_REELS: Reel[] = [
     src: `${BASE}/Video%202.mp4`,
     title: 'Candle Spell Rituals',
     caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
-    image: '/service-candle.png',
+    image: '/service-candle.webp',
   },
   {
     id: 1,
     src: `${BASE}/Video%201.mp4`,
     title: 'Welcome to KrissMaagiic',
     caption: 'Discover healing energy, sacred rituals, and certified authentic crystals.',
-    image: '/about-hero.png',
+    image: '/about-hero.webp',
   },
   {
     id: 3,
     src: `${BASE}/Video%203.mp4`,
     title: 'Intuitively Chosen Tarot',
     caption: 'Receive personalized spiritual guidance and clear answers to life questions.',
-    image: '/service-tarot.png',
+    image: '/service-tarot.webp',
   },
   {
     id: 4,
     src: `${BASE}/Video%204.mp4`,
     title: 'Spell Jars & Energy',
     caption: 'Handcrafted with moonlight-charged crystals, oils, and focused intentions.',
-    image: '/service-spelljar.png',
+    image: '/service-spelljar.webp',
   },
   {
     id: 5,
     src: `${BASE}/Video%205.mp4`,
     title: 'Pure Crystal Energy',
     caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
-    image: '/crystal-hero.png',
+    image: '/crystal-hero.webp',
   },
   {
     id: 6,
     src: `${BASE}/Video%206.mp4`,
     title: 'Numerology & Birth Charts',
     caption: 'Understand the hidden patterns and cosmic alignments behind your numbers.',
-    image: '/service-numerology.png',
+    image: '/service-numerology.webp',
   },
   {
     id: 7,
     src: `${BASE}/Video%207.mp4`,
     title: 'Crystal Packing Process',
     caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
-    image: '/crystal-hero.png',
+    image: '/crystal-hero.webp',
   },
 ];
 
@@ -419,6 +419,9 @@ export default function SpiritualReels() {
                     <img
                       src={reel.image}
                       alt={reel.title}
+                      width={280}
+                      height={498}
+                      loading="lazy"
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
                     />
                   )}
@@ -427,7 +430,7 @@ export default function SpiritualReels() {
                   {isCenter && !isYoutube && (
                     <video
                       ref={(el) => { videoRefs.current[reel.id] = el; }}
-                      loop preload="auto" playsInline muted={muted}
+                      loop preload="none" playsInline muted={muted}
                       style={{ 
                         position: 'absolute', 
                         inset: 0, 

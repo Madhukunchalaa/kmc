@@ -11,7 +11,7 @@ export default function ContactPage() {
       <section style={{
         paddingTop: '160px',
         paddingBottom: '60px',
-        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/contact-hero.png")',
+        backgroundImage: 'linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.65)), url("/contact-hero.webp")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

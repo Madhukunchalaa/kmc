@@ -136,6 +136,108 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* ── FAQ SECTION ── */}
+      <section style={{
+        background: '#0a0212',
+        padding: '80px 0 100px',
+        borderTop: '1px solid rgba(200, 149, 108, 0.12)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative orb */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(200,149,108,0.03) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
+          {/* Header */}
+          <div className="text-center mb-5">
+            <span style={{
+              display: 'inline-block', fontSize: '0.68rem', fontWeight: 700,
+              letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--primary,#C8956C)',
+              marginBottom: '1rem', fontFamily: 'var(--font-display)',
+            }}>Common Inquiries</span>
+            <h2 style={{
+              fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem,4vw,2.5rem)',
+              fontWeight: 700, color: '#fff', marginBottom: '1rem', lineHeight: 1.3,
+            }}>
+              Frequently Asked <span style={{ color: 'var(--primary,#C8956C)' }}>Questions</span>
+            </h2>
+            <div style={{ width: 48, height: 2, background: 'var(--primary,#C8956C)', borderRadius: 2, margin: '0 auto 1.5rem', opacity: 0.6 }} />
+          </div>
+
+          {/* Accordion container */}
+          <div>
+            {[
+              {
+                q: "Are your crystals natural and authentic?",
+                a: "Yes, all our crystals are 100% natural, authentic, and ethically sourced. We do not sell dyed, synthetic, heat-treated, or glass imitations. Every piece is personally selected and checked for authenticity."
+              },
+              {
+                q: "What does \"cleansed and energised\" mean?",
+                a: "Before shipping, every crystal undergoes a ritual cleansing process. They are cleansed under moonlight/sunlight, purified with sacred incense (like white sage or palo santo), and energised with specific spiritual intentions (prana prathishta) to align with your personal energy."
+              },
+              {
+                q: "Can I request a custom spell jar or personalized bracelet?",
+                a: "Absolutely! Custom creations are our specialty. You can describe your requirements in the contact form above, place an order through our custom builder, or connect directly on WhatsApp to share your intention, birth date, and name."
+              },
+              {
+                q: "How long does it take for my order to ship?",
+                a: "Orders are processed and custom-energised within 2–3 business days. Delivery within India typically takes 4–7 business days. International shipping times vary depending on the destination (usually 10–15 business days)."
+              },
+              {
+                q: "How do I book a tarot reading or healing session?",
+                a: "You can book directly through the services page. Once your booking is confirmed, we will reach out to you via WhatsApp to coordinate the most auspicious date and time for your reading or session."
+              },
+              {
+                q: "Do you accept returns or cancellations?",
+                a: "Because our crystals are ritually cleansed and energised specifically for each customer, and spiritual services/spell jars are fully customized, we do not accept returns or cancellations once processing begins. However, if your item is damaged in transit, share unboxing photos within 48 hours and we will replace it."
+              }
+            ].map((faq, idx) => (
+              <details
+                key={idx}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '16px',
+                  marginBottom: '1.25rem',
+                  padding: '1.25rem 1.5rem',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'
+                }}
+              >
+                <summary
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.05rem',
+                    fontWeight: 600,
+                    color: '#fff',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    userSelect: 'none',
+                    display: 'list-item',
+                  }}
+                >
+                  <span style={{ marginLeft: '0.5rem', verticalAlign: 'middle' }}>{faq.q}</span>
+                </summary>
+                <div
+                  style={{
+                    marginTop: '1rem',
+                    paddingTop: '1rem',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                    color: 'rgba(255, 255, 255, 0.65)',
+                    fontSize: '0.92rem',
+                    lineHeight: 1.8,
+                  }}
+                >
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </>
   );
 }

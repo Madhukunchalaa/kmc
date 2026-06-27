@@ -148,7 +148,7 @@ export function bookingStatusEmail(name: string, serviceTitle: string, status: '
   };
 }
 
-export function orderStatusEmail(name: string, orderNumber: string, status: string): EmailMessage {
+export function orderStatusEmail(name: string, orderNumber: string, status: string, adminNote?: string): EmailMessage {
   const statusLabels: Record<string, string> = {
     confirmed: 'confirmed',
     shipped: 'shipped',
@@ -164,6 +164,7 @@ export function orderStatusEmail(name: string, orderNumber: string, status: stri
     html: shell(
       isDelivered ? `Your order has arrived, ${name}!` : isCancelled ? `Order cancelled · ${orderNumber}` : `Order update · ${orderNumber}`,
       `<p>Your order <strong>${orderNumber}</strong> has been updated to <strong>${label.toUpperCase()}</strong>.</p>
+       ${adminNote ? `<div style="margin: 16px 0; padding: 12px 16px; background: #FAF6F1; border-left: 3px solid #C8956C; border-radius: 0 8px 8px 0; color: #2D1B0E; font-size: 13px; line-height: 1.6;"><strong>Note from Kriss:</strong> <em>"${adminNote}"</em></div>` : ''}
        ${isDelivered ? '<p>Thank you for your purchase! We hope you enjoy your crystals.</p>' : ''}
        ${isCancelled ? '<p>If you have any questions, please reach out to us.</p>' : ''}`,
     ),

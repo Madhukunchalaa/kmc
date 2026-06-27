@@ -37,7 +37,7 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/orders/[
     const emailStatuses = ['confirmed', 'shipped', 'delivered', 'cancelled'];
     if (emailStatuses.includes(parsed.data.status) && doc.customer?.email) {
       await sendEmail({
-        ...orderStatusEmail(doc.customer.name, doc.orderNumber, parsed.data.status),
+        ...orderStatusEmail(doc.customer.name, doc.orderNumber, parsed.data.status, parsed.data.adminNote),
         to: doc.customer.email,
       }).catch((err) => {
         console.error('[admin-order-status-email-error]', err);

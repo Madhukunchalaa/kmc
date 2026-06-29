@@ -35,7 +35,15 @@ export async function sendEmail(msg: EmailMessage): Promise<{ sent: boolean; rea
     return { sent: false, reason: 'smtp-not-configured' };
   }
   try {
-    await t.sendMail({ from: FROM, ...msg });
+    const mailOptions: any = { from: FROM, ...msg };
+    
+    // Automatically BCC krissmaagiicrystals@gmail.com on customer emails for archiving
+    const archiveEmail = 'krissmaagiicrystals@gmail.com';
+    if (msg.to && msg.to.toLowerCase() !== archiveEmail.toLowerCase()) {
+      mailOptions.bcc = mailOptions.bcc ? [mailOptions.bcc, archiveEmail].flat() : archiveEmail;
+    }
+
+    await t.sendMail(mailOptions);
     return { sent: true };
   } catch (err) {
     console.error('[email:error]', err);

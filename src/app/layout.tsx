@@ -72,8 +72,8 @@ export default function RootLayout({
 
         {/* Bootstrap 5 CSS */}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-        {/* Font Awesome 6 Icons (Deferred loading to prevent render blocking) */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onLoad={(e) => { e.currentTarget.media = 'all'; }} />
+        {/* Font Awesome 6 Icons */}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       </head>
       <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`} suppressHydrationWarning>
         <div id="page-wrapper">

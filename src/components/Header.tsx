@@ -17,11 +17,14 @@ function getCategorySlug(category: string, subcategory?: string): string {
   const sub = (subcategory || '').toLowerCase().trim();
   if (sub === 'designer bracelets') return 'designer-bracelets';
   if (sub === 'signature bracelets') return 'signature';
+  if (sub === 'zodiac bracelets') return 'zodiac-bracelets';
   if (cat === 'bracelets') return 'bracelets-by-crystals';
   if (cat === 'malas') return 'malas';
   if (cat === 'pendants') return 'pendants';
   if (cat === 'designer-pendants') return 'designer-pendants';
   if (cat === 'silver-jewelry') return 'silver-jewelry';
+  if (cat === 'jewellery') return 'jewellery';
+  if (cat === 'gemstones') return 'gemstones';
   if (cat === 'anklets') return 'anklets';
   if (cat === 'glow-essentials') return 'glow-essentials';
   if (cat === 'crystal-towers') return 'crystal-towers';

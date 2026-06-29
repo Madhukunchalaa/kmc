@@ -12,9 +12,9 @@ export const metadata = {
 
 const CATEGORY_KEYS = [
   'view-all', 'designer-bracelets', 'signature', 'spell-jars',
-  'bracelets-by-crystals', 'malas', 'pendants', 'designer-pendants',
-  'silver-jewelry', 'anklets', 'glow-essentials', 'crystal-towers',
-  'pyramids', 'raw-crystal', 'crystal-rings', 'home-decor',
+  'bracelets-by-crystals', 'zodiac-bracelets', 'malas', 'pendants', 'designer-pendants',
+  'silver-jewelry', 'jewellery', 'anklets', 'glow-essentials', 'crystal-towers',
+  'pyramids', 'raw-crystal', 'gemstones', 'crystal-rings', 'home-decor',
 ];
 
 async function getCategoryImages(): Promise<Record<string, string>> {

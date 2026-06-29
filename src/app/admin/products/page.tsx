@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { connectMongoose } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import ProductRowActions from './ProductRowActions';
+import ProductRow from './ProductRow';
 import StockEditor from './StockEditor';
 import ProductFilters from './ProductFilters';
 
@@ -204,13 +205,10 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 </tr>
               )}
               {items.map((p) => (
-                <tr
+                <ProductRow
                   key={String(p._id)}
-                  style={{
-                    borderTop: '1px solid rgba(0,0,0,0.05)',
-                    background: isTrashView ? 'rgba(255,240,230,0.25)' : undefined,
-                    opacity: isTrashView ? 0.85 : 1,
-                  }}
+                  isTrashView={isTrashView}
+                  editHref={isTrashView ? null : (backParams ? `/admin/products/${String(p._id)}?${backParams}` : `/admin/products/${String(p._id)}`)}
                 >
                   <td style={{ padding: 8 }}>
                     <img src={p.image} alt="" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', opacity: isTrashView ? 0.5 : 1 }} />
@@ -226,7 +224,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     <div style={{ fontWeight: 500 }}>{p.subcategory}</div>
                   </td>
                   <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</td>
-                  <td style={{ padding: 12, textAlign: 'right' }}>
+                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
                     {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}
                   </td>
                   {!isTrashView && (
@@ -236,10 +234,10 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                       </span>
                     </td>
                   )}
-                  <td style={{ padding: '12px 16px', textAlign: 'right' }}>
+                  <td style={{ padding: '12px 16px', textAlign: 'right' }} data-no-row-nav>
                     <ProductRowActions id={String(p._id)} isDeleted={!!p.isDeleted} backParams={backParams} />
                   </td>
-                </tr>
+                </ProductRow>
               ))}
             </tbody>
           </table>

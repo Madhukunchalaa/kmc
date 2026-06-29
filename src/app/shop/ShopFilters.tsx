@@ -69,16 +69,19 @@ const CATEGORIES: { key: string; label: string; icon: string }[] = [
   { key: 'signature',             label: 'Signature Crystals',    icon: 'fa-solid fa-crown' },
   { key: 'spell-jars',            label: 'Spell Jars',            icon: 'fa-solid fa-jar' },
   { key: 'bracelets-by-crystals', label: 'Bracelets',             icon: 'fa-solid fa-circle-notch' },
+  { key: 'zodiac-bracelets',      label: 'Zodiac Bracelets',      icon: 'fa-solid fa-star-and-crescent' },
   // --- New collections (from Drive folders) ---
   { key: 'malas',                 label: 'Malas',                 icon: 'fa-solid fa-om' },
   { key: 'pendants',              label: 'Pendants',              icon: 'fa-solid fa-gem' },
   { key: 'designer-pendants',     label: 'Designer Pendants',     icon: 'fa-solid fa-star' },
   { key: 'silver-jewelry',        label: 'Silver Jewelry',        icon: 'fa-solid fa-ring' },
+  { key: 'jewellery',             label: 'Jewellery',             icon: 'fa-solid fa-gem' },
   { key: 'anklets',               label: 'Anklets',               icon: 'fa-solid fa-link' },
   { key: 'glow-essentials',       label: 'Glow Essentials',       icon: 'fa-solid fa-spa' },
   { key: 'crystal-towers',        label: 'Crystal Towers',        icon: 'fa-solid fa-mountain' },
   { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
   { key: 'raw-crystal',           label: 'Raw Crystals',          icon: 'fa-solid fa-cubes' },
+  { key: 'gemstones',             label: 'Gemstones',             icon: 'fa-solid fa-gem' },
   { key: 'crystal-rings',         label: 'Crystal Rings',         icon: 'fa-solid fa-ring' },
   { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];
@@ -98,6 +101,7 @@ const STATIC_CATEGORY_IMAGES: Record<string, string> = {
   'crystal-towers': '/categories/crystal-towers.png',
   'pyramids': '/categories/pyramids.png',
   'raw-crystal': '/categories/raw-crystal.png',
+  'gemstones': '/hero-celestial-crystals.webp',
   'crystal-rings': '/categories/crystal-rings.png',
   'home-decor': '/categories/home-decor.png',
 };
@@ -212,13 +216,16 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
         const sub = norm(p.subcategory);
         const cat = norm(p.category);
         switch (activeCat) {
-          case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets';
+          case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets' && sub !== 'zodiac bracelets';
+          case 'zodiac-bracelets':      return cat === 'bracelets' && sub === 'zodiac bracelets';
           case 'designer-bracelets':    return sub === 'designer bracelets';
           case 'signature':             return sub === 'signature bracelets';
           case 'malas':                 return cat === 'malas';
           case 'pendants':              return cat === 'pendants';
           case 'designer-pendants':     return cat === 'designer-pendants';
           case 'silver-jewelry':        return cat === 'silver-jewelry' && sub === 'rudraksha';
+          case 'jewellery':             return cat === 'jewellery';
+          case 'gemstones':             return cat === 'gemstones';
           case 'anklets':               return cat === 'anklets';
           case 'glow-essentials':       return cat === 'glow-essentials';
           case 'crystal-towers':        return cat === 'crystal-towers';
@@ -283,10 +290,12 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
       switch (catKey) {
         case 'crystal-rings':         return cat === 'rings';
         case 'home-decor':            return cat === 'home-decor';
+        case 'jewellery':             return cat === 'jewellery';
+        case 'zodiac-bracelets':      return cat === 'bracelets' && sub === 'zodiac bracelets';
         default:                      return false;
       }
     });
-    return list[0]?.image || '/crystal-hero.png';
+    return list[0]?.image || '/crystal-hero.webp';
   };
 
   if (activeCat === 'all') {

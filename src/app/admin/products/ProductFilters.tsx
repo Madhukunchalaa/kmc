@@ -3,7 +3,34 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-export default function ProductFilters({ categories }: { categories: string[] }) {
+// Admin filter options - maps to category OR subcategory in DB
+const CATEGORY_OPTIONS: { key: string; label: string; filterType: 'category' | 'subcategory' }[] = [
+  // Bracelet subcategories
+  { key: 'Bracelets', label: 'Bracelets', filterType: 'subcategory' },
+  { key: 'Designer Bracelets', label: 'Designer Bracelets', filterType: 'subcategory' },
+  { key: 'Zodiac Bracelets', label: 'Zodiac Bracelets', filterType: 'subcategory' },
+  { key: 'Signature Bracelets', label: 'Signature Bracelets', filterType: 'subcategory' },
+  
+  // Ring subcategories
+  { key: 'Designer Rings', label: 'Crystal Rings', filterType: 'subcategory' },
+  
+  // Other categories
+  { key: 'pendants', label: 'Pendants', filterType: 'category' },
+  { key: 'designer-pendants', label: 'Designer Pendants', filterType: 'category' },
+  { key: 'malas', label: 'Malas', filterType: 'category' },
+  { key: 'anklets', label: 'Anklets', filterType: 'category' },
+  { key: 'silver-jewelry', label: 'Silver Jewelry', filterType: 'category' },
+  { key: 'jewellery', label: 'Jewellery', filterType: 'category' },
+  { key: 'glow-essentials', label: 'Glow Essentials', filterType: 'category' },
+  { key: 'crystal-towers', label: 'Crystal Towers', filterType: 'category' },
+  { key: 'pyramids', label: 'Pyramids', filterType: 'category' },
+  { key: 'raw-crystal', label: 'Raw Crystals', filterType: 'category' },
+  { key: 'gemstones', label: 'Gemstones', filterType: 'category' },
+  { key: 'spell-jars', label: 'Spell Jars', filterType: 'category' },
+  { key: 'home-decor', label: 'Home Decor', filterType: 'category' },
+];
+
+export default function ProductFilters() {
   const router = useRouter();
   const sp = useSearchParams();
   const [q, setQ] = useState(sp.get('q') || '');
@@ -48,8 +75,8 @@ export default function ProductFilters({ categories }: { categories: string[] })
         <div style={{ flex: '1 1 160px' }}>
           <select value={category} onChange={(e) => navigate({ category: e.target.value })} className="newsletter-input" style={{ width: '100%' }}>
             <option value="">— All Categories —</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>{c}</option>
+            {CATEGORY_OPTIONS.map((c) => (
+              <option key={c.key} value={c.key}>{c.label}</option>
             ))}
           </select>
         </div>

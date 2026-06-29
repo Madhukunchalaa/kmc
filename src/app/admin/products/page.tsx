@@ -38,7 +38,24 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   /* ── Build filter ── */
   const isTrashView = status === 'deleted';
   const filter: Record<string, unknown> = {};
-  if (category) filter.category = category;
+  
+  // Define which filters are subcategories vs categories
+  const SUBCATEGORY_FILTERS = [
+    'Bracelets', 'Designer Bracelets', 'Zodiac Bracelets', 'Signature Bracelets',
+    'Designer Rings', 'Chips Bracelet'
+  ];
+  
+  // Handle category filter - check if it's a category or subcategory
+  if (category) {
+    if (SUBCATEGORY_FILTERS.includes(category)) {
+      // It's a subcategory filter
+      filter.subcategory = category;
+    } else {
+      // It's a category filter
+      filter.category = category;
+    }
+  }
+  
   if (isTrashView) {
     filter.isDeleted = true;
   } else {
@@ -175,7 +192,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
 
       {/* ── Search, Filter & Sort (hidden in trash view) ── */}
       {!isTrashView && (
-        <ProductFilters categories={uniqueCategories} />
+        <ProductFilters />
       )}
 
       {/* ── Table ── */}

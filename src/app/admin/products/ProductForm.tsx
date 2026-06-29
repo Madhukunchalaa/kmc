@@ -31,6 +31,7 @@ const EMPTY: Initial = {
 
 const STANDARD_CATEGORIES = [
   { value: 'bracelets', label: 'Bracelets' },
+  { value: 'rings', label: 'Rings' },
   { value: 'malas', label: 'Malas' },
   { value: 'pendants', label: 'Pendants' },
   { value: 'designer-pendants', label: 'Designer Pendants' },
@@ -42,33 +43,62 @@ const STANDARD_CATEGORIES = [
   { value: 'crystal-towers', label: 'Crystal Towers' },
   { value: 'pyramids', label: 'Pyramids' },
   { value: 'raw-crystal', label: 'Raw Crystals' },
-  { value: 'designer-crystals', label: 'Designer Crystals' },
   { value: 'home-decor', label: 'Home Decor' },
   { value: 'spell-jars', label: 'Spell Jars' },
 ];
 
 const STANDARD_SUBCATEGORIES = [
+  // Bracelets
+  'Bracelets',
   'Designer Bracelets',
   'Signature Bracelets',
-  'Bracelets by Crystals',
   'Zodiac Bracelets',
   'Bangle Bracelet',
   'Chips Bracelet',
-  'Malas',
-  'Pendants',
-  'Anklets',
-  'Earrings',
-  'Gemstones',
+  'Evil Eye',
+  // Rings
+  'Designer Rings',
   'Design Rings',
   'Normal Rings',
+  // Malas & Pendants
+  'Malas',
+  'Crystal Malas',
+  'Pendants',
+  'Crystal Pendants',
+  'Designer Pendants',
+  'Evil Eye Pendants',
+  // Anklets & Other Jewelry
+  'Anklets',
+  'Earrings',
+  'Chains',
+  'Rudraksha',
+  // Gemstones & Glow
+  'Gemstones',
   'Face Rollers',
   'Gua Sha',
+  'Combs',
+  // Crystals & Towers
+  'Crystal Towers',
   'Frames',
   'Pyramids',
   'Wands',
-  'Raw Stones',
+  'Raw Crystals',
+  // Home Decor
   'Crystal Trees',
   'Shell Trees',
+  'Angels',
+  'Merkabas',
+  'Spheres',
+  'Lamps',
+  'Bowls',
+  'Keychains',
+  'Zibu Coins',
+  'Protection Coins',
+  'Seven Chakra',
+  'Wall Hangings',
+  'Selenite Crystals',
+  'Home Decor',
+  // Spell Jars
   'Spell Jars',
 ];
 

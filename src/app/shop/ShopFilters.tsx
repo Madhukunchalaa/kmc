@@ -150,6 +150,30 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
     });
   }, [activeCat, sort, query]);
 
+  // Capture the saved page ONCE during render — before any effect can overwrite it,
+  // and stable across React StrictMode's dev double-mount.
+  const savedPageRef = useRef<number | null>(null);
+  if (savedPageRef.current === null) {
+    savedPageRef.current = typeof window !== 'undefined'
+      ? (Number(sessionStorage.getItem('last_shop_page')) || 1)
+      : 1;
+  }
+
+  // On mount, restore that page (e.g. after opening a product and hitting Back).
+  // Deferred via a macrotask so it lands AFTER the "reset to page 1" microtask and wins.
+  useEffect(() => {
+    const saved = savedPageRef.current || 1;
+    if (saved > 1) {
+      const id = setTimeout(() => setCurrentPage(saved), 0);
+      return () => clearTimeout(id);
+    }
+  }, []);
+
+  // Persist the current page so it survives navigating to a product and back.
+  useEffect(() => {
+    sessionStorage.setItem('last_shop_page', String(currentPage));
+  }, [currentPage]);
+
   // Load from sessionStorage on mount if URL does not have overrides
   useEffect(() => {
     if (isLoaded.current) {

@@ -233,7 +233,7 @@ export default function GiftingExperience() {
                       <span className="gift-product-label">
                         <i className="fa-solid fa-gift me-1" /> Perfect Gift
                       </span>
-                      <ProductCard product={p as any} />
+                      <ProductCard product={{ ...p, id: (p as any).slug || p.id } as any} />
                     </div>
                   </div>
                 ))}

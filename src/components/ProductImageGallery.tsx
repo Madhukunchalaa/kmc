@@ -19,8 +19,8 @@ export default function ProductImageGallery({
   name,
   onImageSelect,
 }: ProductImageGalleryProps) {
-  // Put images first so thumbnail order stays fixed; mainImage appended only if not already present
-  const rawList = [...images, mainImage];
+  // Main/display image always first; remaining gallery images follow (de-duped, order preserved)
+  const rawList = [mainImage, ...images];
   const uniqueImages = Array.from(new Set(rawList.filter((img) => !!img)));
 
   const [activeIndex, setActiveIndex] = useState(0);

@@ -19,6 +19,7 @@ export interface CatalogProduct {
   longDesc?: string;
   chakras: string[];
   stock: number;
+  sizes?: string[];
   variants?: {
     name: string;
     price: number;
@@ -82,6 +83,7 @@ export async function getAllProducts(): Promise<CatalogProduct[]> {
       desc: d.desc ?? '',
       longDesc: d.longDesc ?? '',
       chakras: d.chakras ?? [],
+      sizes: d.sizes ?? [],
       variants: (d.variants ?? []).map((v: any) => ({
         name: v.name,
         price: v.price,
@@ -120,6 +122,7 @@ export async function getProductBySlug(slug: string): Promise<CatalogProduct | n
         desc: d.desc ?? '',
         longDesc: d.longDesc ?? '',
         chakras: d.chakras ?? [],
+        sizes: d.sizes ?? [],
         variants: (d.variants ?? []).map((v: any) => ({
           name: v.name,
           price: v.price,

@@ -25,6 +25,19 @@ const FEATURED_ORDER: string[] = [
   'Amethyst Bracelet',
   'Seven Chakra + Om Mani Padme Hum Bracelet',
   'Rudraksha Bracelet',
+  // Curated Priority Category Items
+  'Lapis Lazuli Pyramid',
+  'Laxmi Aura Pyramid',
+  'Pyrite Ring',
+  'Malachite Half Moon Ring',
+  'Clear Quartz Dolphin Ring',
+  'Silver Plated Evil Eye Pendant',
+  'Green Jade Face Roller',
+  'Karungali Mala',
+  'Natural Mother Of Pearl Shell Bracelet',
+  'Green Mother Of Pearl Shell Bracelet',
+  'Earth-Tone Mother Of Pearl Bracelet',
+  'Gomati Chakra + Rudraksh + Pearl + Seven Chakra tree',
   'Silver Evil Eye Pendant',
   'Lakshmi Pyramid',
   'Pyrite raw crystal',
@@ -60,6 +73,88 @@ function featuredIndex(name: string): number {
   const n = name.toLowerCase();
   const idx = FEATURED_ORDER.findIndex((pn) => n.startsWith(pn.toLowerCase()));
   return idx === -1 ? FEATURED_ORDER.length : idx;
+}
+
+const CATEGORY_PRIORITIES: Record<string, string[]> = {
+  'bracelets-by-crystals': [
+    'Money Magnet Bracelet',
+    'Triple Protection Bracelet',
+    'Amethyst Bracelet',
+    'Citrine Bracelet',
+    'Black Tourmaline Bracelet',
+    'Rose Quartz Bracelet',
+  ],
+  'pyramids': [
+    'Lapis Lazuli Pyramid',
+    'Laxmi Aura Pyramid',
+    'Lakshmi Pyramid',
+    'Seven Chakra Pyramid',
+    'Black Tourmaline Pyramid',
+    'Rose Quartz Pyramid',
+  ],
+  'crystal-rings': [
+    'Pyrite Ring',
+    'Malachite Half Moon Ring',
+    'Half Moon Malachite Ring',
+    'Clear Quartz Dolphin Ring',
+    'Moonstone Ring',
+    'Black Onyx Ring',
+  ],
+  'designer-pendants': [
+    'Silver Plated Evil Eye Pendant',
+    'Hamsa Evil Eye Pendant',
+    'Green Aventurine Pendant',
+    'Amethyst Pendant',
+    'Black Tourmaline Heart Pendant',
+    'Black Tourmaline Pendant',
+  ],
+  'glow-essentials': [
+    'Green Jade Face Roller',
+    'Opal Face Roller',
+    'Tiger Eye Face Roller',
+    'Rose Quartz Face Roller',
+    'Amethyst Face Roller',
+  ],
+  'malas': [
+    'Karungali Mala',
+    'Turquoise Mala',
+    'Seven Chakra Beaded Mala',
+    'Seven Chakra Mala',
+    'Peridot Mala',
+    'Black Tourmaline Mala',
+  ],
+  'designer-bracelets': [
+    'Natural Mother Of Pearl Shell Bracelet',
+    'Natural Mother of Pearl',
+    'Green Mother Of Pearl Shell Bracelet',
+    'Green Mother of Pearl',
+    'Earth-Tone Mother Of Pearl Bracelet',
+    'Earth Tone Mother of Pearl',
+    'Red Jasper Bracelet',
+    'Seven Chakra Bracelet',
+  ],
+  'home-decor': [
+    'Gomati Chakra + Rudraksh + Pearl + Seven Chakra tree',
+    'Gomati Chakra + Rudraksha + Pearl + Seven Chakra Tree',
+    'Rose Quartz Big Tree',
+    'Rose Quartz Tree',
+    'Citrine Small Tree',
+    'Citrine Tree',
+    'Lapis Lazuli Small Tree',
+    'Lapis Lazuli Tree',
+    'Seven Chakra Tree',
+  ]
+};
+
+function getCategoryPriorityIndex(activeCat: string, name: string): number {
+  const priorities = CATEGORY_PRIORITIES[activeCat];
+  if (!priorities) return 999;
+  const n = name.toLowerCase().replace(/[\s-+()]/g, '');
+  const idx = priorities.findIndex((pName) => {
+    const pn = pName.toLowerCase().replace(/[\s-+()]/g, '');
+    return n.includes(pn) || pn.includes(n);
+  });
+  return idx === -1 ? 999 : idx;
 }
 
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
@@ -278,9 +373,11 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
       case 'price-desc': list.sort((a, b) => b.price - a.price); break;
       case 'name':       list.sort((a, b) => a.name.localeCompare(b.name)); break;
       case 'featured':
-        // On "All Collections" apply curated priority order; other categories keep DB order.
+        // On "All Collections" apply curated priority order; other categories apply category-specific priorities.
         if (activeCat === 'all' || activeCat === 'view-all') {
           list.sort((a, b) => featuredIndex(a.name) - featuredIndex(b.name));
+        } else {
+          list.sort((a, b) => getCategoryPriorityIndex(activeCat, a.name) - getCategoryPriorityIndex(activeCat, b.name));
         }
         break;
     }

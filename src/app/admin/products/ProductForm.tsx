@@ -150,7 +150,7 @@ function getDynamicSections(
     id: 'description',
     title: 'Description',
     type: 'text',
-    content: fallbackDesc || d.description || '',
+    content: d.description || fallbackDesc || '',
   });
 
   if (d.purpose) {
@@ -162,9 +162,7 @@ function getDynamicSections(
   if (d.designSymbolism) {
     sections.push({ id: 'designSymbolism', title: 'Design Symbolism', type: 'text', content: d.designSymbolism });
   }
-  if (d.associatedChakras) {
-    sections.push({ id: 'associatedChakras', title: 'Associated Chakras', type: 'text', content: d.associatedChakras });
-  }
+  // Note: associatedChakras removed - use the chakras array field instead which displays as "Aligned Chakras"
   
   const zodiacLine = d.zodiacSign
     ? `${d.zodiacSign}${d.birthDates ? ` · ${d.birthDates}` : ''}`

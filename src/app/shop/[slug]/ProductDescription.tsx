@@ -115,12 +115,12 @@ export function getDynamicSections(
   // Otherwise, construct from legacy fields for backwards compatibility
   const sections: DynamicSection[] = [];
 
-  // Short description always first
+  // Full description first, falling back to the short desc when a product has no long description
   sections.push({
     id: 'description',
     title: 'Description',
     type: 'text',
-    content: fallbackDesc || d.description || '',
+    content: d.description || fallbackDesc || '',
   });
 
   if (d.purpose) {

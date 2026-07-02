@@ -377,7 +377,7 @@ export default async function BlogListingPage() {
             Spiritual insights, crystal healing guides, astrology secrets &amp; esoteric wisdom — curated with love for your healing journey.
           </p>
           <div className="blog-hero-tags">
-            {['Crystal Healing', 'Astrology', 'Meditation', 'Chakra Guide', 'Spell Craft', 'Spiritual Wellness'].map(t => (
+            {['Crystal Healing', 'Astrology', 'Tarot Reading', 'Law of Attraction', 'Spell Craft', 'Spiritual Wellness'].map(t => (
               <span key={t} className="blog-hero-tag">{t}</span>
             ))}
           </div>

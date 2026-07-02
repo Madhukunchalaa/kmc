@@ -93,8 +93,15 @@ export default function CartPage() {
                             <span style={{ minWidth: 28, textAlign: 'center', fontWeight: 700 }}>{it.qty}</span>
                             <button
                               aria-label="Increase"
+                              disabled={it.qty >= (it.product.stock ?? 99)}
                               onClick={() => updateQty(it.productId, it.qty + 1)}
-                              style={{ background: 'transparent', border: 0, padding: '0.4rem 0.8rem', cursor: 'pointer' }}
+                              style={{
+                                background: 'transparent',
+                                border: 0,
+                                padding: '0.4rem 0.8rem',
+                                cursor: it.qty >= (it.product.stock ?? 99) ? 'not-allowed' : 'pointer',
+                                opacity: it.qty >= (it.product.stock ?? 99) ? 0.4 : 1
+                              }}
                             >
                               <i className="fa-solid fa-plus"></i>
                             </button>

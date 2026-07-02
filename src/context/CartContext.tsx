@@ -167,13 +167,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = useCallback(
     async (productId: string, qty: number = 1) => {
+      const [baseId] = productId.includes('::') ? productId.split('::') : [productId];
+      const p = catalog.find((x) =>
+        String(x.id || '').toLowerCase() === baseId.toLowerCase() ||
+        String(x.slug || '').toLowerCase() === baseId.toLowerCase() ||
+        String(x._id || '').toLowerCase() === baseId.toLowerCase()
+      );
+
+      if (p && p.stock === 0) {
+        return;
+      }
+
       const next = [...items];
       const idx = next.findIndex((i) => i.productId === productId);
-      if (idx >= 0) next[idx] = { ...next[idx], qty: next[idx].qty + qty };
-      else next.push({ productId, qty });
+      const currentQty = idx >= 0 ? next[idx].qty : 0;
+      const targetQty = currentQty + qty;
+
+      const cappedQty = p && targetQty > p.stock ? p.stock : targetQty;
+
+      if (idx >= 0) {
+        next[idx] = { ...next[idx], qty: cappedQty };
+      } else {
+        next.push({ productId, qty: cappedQty });
+      }
       persist(next);
     },
-    [items, persist],
+    [items, persist, catalog],
   );
 
   const updateQty = useCallback(
@@ -182,9 +201,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
         persist(items.filter((i) => i.productId !== productId));
         return;
       }
-      persist(items.map((i) => (i.productId === productId ? { ...i, qty } : i)));
+      const [baseId] = productId.includes('::') ? productId.split('::') : [productId];
+      const p = catalog.find((x) =>
+        String(x.id || '').toLowerCase() === baseId.toLowerCase() ||
+        String(x.slug || '').toLowerCase() === baseId.toLowerCase() ||
+        String(x._id || '').toLowerCase() === baseId.toLowerCase()
+      );
+
+      const cappedQty = p && qty > p.stock ? p.stock : qty;
+      persist(items.map((i) => (i.productId === productId ? { ...i, qty: cappedQty } : i)));
     },
-    [items, persist],
+    [items, persist, catalog],
   );
 
   const removeItem = useCallback(

@@ -22,6 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if ((product.stock ?? 99) === 0) return;
 
     const button = e.currentTarget;
     const cardEl = button.closest('.product-card');
@@ -139,8 +140,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="pc-overlay-sale">{formatPrice(product.price, product.usdPrice)}</span>
             </div>
             <div className="pc-overlay-actions">
-              <button className="pc-btn-cart" onClick={handleAddToCart}>
-                {addedToCart ? 'Added ✓' : 'Add to Cart'}
+              <button
+                className="pc-btn-cart"
+                onClick={handleAddToCart}
+                disabled={(product.stock ?? 99) === 0}
+                style={(product.stock ?? 99) === 0 ? { background: '#777', cursor: 'not-allowed', opacity: 0.6 } : undefined}
+              >
+                {(product.stock ?? 99) === 0 ? 'Out of Stock' : addedToCart ? 'Added ✓' : 'Add to Cart'}
               </button>
               <span className="pc-btn-view" aria-label="View product">
                 <i className="fa-solid fa-arrow-right" />

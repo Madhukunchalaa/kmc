@@ -196,7 +196,9 @@ const STATIC_CATEGORY_IMAGES: Record<string, string> = {
   'crystal-towers': '/categories/crystal-towers.png',
   'pyramids': '/categories/pyramids.png',
   'raw-crystal': '/categories/raw-crystal.png',
-  'gemstones': '/hero-celestial-crystals.webp',
+  'gemstones': '/categories/gemstones.webp',
+  'jewellery': '/categories/jewellery.webp',
+  'zodiac-bracelets': '/categories/zodiac.webp',
   'crystal-rings': '/categories/crystal-rings.png',
   'home-decor': '/categories/home-decor.png',
 };

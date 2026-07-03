@@ -12,41 +12,74 @@ const ITEMS_PER_PAGE = 30;
 // Curated display order for the "All Collections" view (featured sort).
 // Products are matched by name prefix (case-insensitive).
 const FEATURED_ORDER: string[] = [
-  // ── Priority 1 ──────────────────────────────────────────────────────────
-  'Triple Protection Bracelet',
+  // ── Bracelets (Priority 1) ───────────────────────────────────────────────
   'Money Magnet Bracelet',
-  'Black Tourmaline Bracelet',
-  'Pyrite Bracelet',
-  'Tiger Eye Bracelet',
-  'Rose Quartz Bracelet',
-  'Seven Chakra Bracelet',
-  'Green Aventurine Bracelet',
-  'Citrine Bracelet',
+  'Triple Protection Bracelet',
   'Amethyst Bracelet',
-  'Seven Chakra + Om Mani Padme Hum Bracelet',
-  'Rudraksha Bracelet',
-  // Curated Priority Category Items
+  'Citrine Bracelet',
+  'Black Tourmaline Bracelet',
+  'Rose Quartz Bracelet',
+
+  // ── Pyramids ─────────────────────────────────────────────────────────────
   'Lapis Lazuli Pyramid',
+  'Lakshmi Pyramid',
   'Laxmi Aura Pyramid',
+  'Seven Chakra Pyramid',
+  'Black Tourmaline Pyramid',
+  'Rose Quartz Pyramid',
+
+  // ── Rings ─────────────────────────────────────────────────────────────────
   'Pyrite Ring',
   'Malachite Half Moon Ring',
+  'Half Moon Malachite Ring',
   'Clear Quartz Dolphin Ring',
+  'Moonstone Ring',
+  'Black Onyx Ring',
+
+  // ── Designer Pendants ─────────────────────────────────────────────────────
   'Silver Plated Evil Eye Pendant',
+  'Hamsa Evil Eye Pendant',
+  'Green Aventurine Pendant',
+  'Amethyst Pendant',
+  'Black Tourmaline Pendant',
+
+  // ── Face Rollers ─────────────────────────────────────────────────────────
   'Green Jade Face Roller',
+  'Opal Face Roller',
+  'Tiger Eye Face Roller',
+  'Rose Quartz Face Roller',
+  'Amethyst Face Roller',
+
+  // ── Malas ─────────────────────────────────────────────────────────────────
   'Karungali Mala',
+  'Turquoise Mala',
+  'Seven Chakra Mala',
+  'Peridot Mala',
+  'Black Tourmaline Mala',
+
+  // ── Designer Bracelets ────────────────────────────────────────────────────
   'Natural Mother Of Pearl Shell Bracelet',
+  'Natural Mother of Pearl',
   'Green Mother Of Pearl Shell Bracelet',
   'Earth-Tone Mother Of Pearl Bracelet',
+  'Earth Tone Mother of Pearl',
+  'Red Jasper Bracelet',
+  'Seven Chakra Bracelet',
+
+  // ── Trees (Home Decor) ────────────────────────────────────────────────────
   'Gomati Chakra + Rudraksh + Pearl + Seven Chakra tree',
-  'Silver Evil Eye Pendant',
-  'Lakshmi Pyramid',
-  'Pyrite raw crystal',
-  'Selenite Lamp',
-  'Amethyst Water Bottle',
-  'Black Tourmaline Mala',
-  'Rhodonite Tower',
-  'Selenite Bowl',
-  // ── Priority 2 ──────────────────────────────────────────────────────────
+  'Gomati Chakra + Rudraksha + Pearl + Seven Chakra Tree',
+  'Rose Quartz Big Tree',
+  'Citrine Small Tree',
+  'Lapis Lazuli Small Tree',
+  'Seven Chakra Tree',
+
+  // ── Priority 2 (remaining popular items) ─────────────────────────────────
+  'Pyrite Bracelet',
+  'Tiger Eye Bracelet',
+  'Green Aventurine Bracelet',
+  'Seven Chakra + Om Mani Padme Hum Bracelet',
+  'Rudraksha Bracelet',
   'Angel Aura Bracelet',
   'Clear Quartz Bracelet',
   'Moonstone Bracelet',
@@ -56,13 +89,14 @@ const FEATURED_ORDER: string[] = [
   'Malachite Bracelet',
   'Evil Eye Bracelet',
   'Golden Pyrite Bracelet',
-  'Jade Designer Bracelet',
-  'Pyrite Designer Bracelet',
-  'Red Jasper Designer Bracelet',
-  'Rose Quartz Designer Bracelet',
-  'Selenite Designer Bracelet',
+  'Silver Evil Eye Pendant',
+  'Lakshmi Pyramid',
+  'Pyrite raw crystal',
+  'Selenite Lamp',
+  'Amethyst Water Bottle',
+  'Rhodonite Tower',
+  'Selenite Bowl',
   'Rock Crystal Pyramid',
-  'Seven Chakra Mala',
   'Green Aventurine Face Roller & Gua Sha',
   'Amethyst Face Roller & Gua Sha',
   'Green Aventurine Gua Sha',

@@ -13,6 +13,19 @@ export async function GET() {
   return NextResponse.json({ ok: true, reels });
 }
 
+// PATCH /api/admin/reels — bulk reorder: body = { ids: string[] } (ordered)
+export async function PATCH(req: Request) {
+  const g = await requireAdmin();
+  if (!g.ok) return g.res;
+
+  await connectMongoose();
+  const { ids } = await req.json() as { ids: string[] };
+  if (!Array.isArray(ids)) return NextResponse.json({ ok: false, reason: 'ids array required' }, { status: 400 });
+
+  await Promise.all(ids.map((id, i) => Reel.findByIdAndUpdate(id, { order: i })));
+  return NextResponse.json({ ok: true });
+}
+
 // POST /api/admin/reels — create a new reel
 export async function POST(req: Request) {
   const g = await requireAdmin();

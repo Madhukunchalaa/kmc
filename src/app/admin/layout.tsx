@@ -34,21 +34,22 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           zIndex: 100,
           background: 'linear-gradient(135deg,#1C0A02,#2D1B0E)',
           color: '#fff',
-          padding: '14px 24px',
+          padding: '12px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          gap: '0.5rem',
         }}
       >
-        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem' }}>
+        <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem', whiteSpace: 'nowrap' }}>
           <i className="fa-solid fa-crown me-2" style={{ color: 'var(--gold-light,#E8C99A)' }}></i>
           KrissMaagiic Admin
         </div>
-        <div className="d-flex align-items-center gap-3" style={{ fontSize: '0.85rem' }}>
-          <span style={{ opacity: 0.7 }}>{admin.email}</span>
-          <Link href="/" style={{ color: '#fff', opacity: 0.7, textDecoration: 'none' }}>
-            <i className="fa-solid fa-house"></i> Site
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.85rem', minWidth: 0 }}>
+          <span style={{ opacity: 0.7, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '160px' }}>{admin.email}</span>
+          <Link href="/" style={{ color: '#fff', opacity: 0.7, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <i className="fa-solid fa-house"></i><span className="admin-header-label"> Site</span>
           </Link>
           <form action={logout}>
             <button
@@ -61,17 +62,34 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 borderRadius: 999,
                 fontSize: '0.85rem',
                 cursor: 'pointer',
+                whiteSpace: 'nowrap',
               }}
             >
-              <i className="fa-solid fa-right-from-bracket me-1"></i> Logout
+              <i className="fa-solid fa-right-from-bracket me-1"></i><span className="admin-header-label">Logout</span>
             </button>
           </form>
         </div>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,260px) 1fr', minHeight: 'calc(100vh - 60px)' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .admin-header-label { display: none; }
+        }
+        .admin-layout-grid {
+          display: grid;
+          grid-template-columns: minmax(220px, 260px) 1fr;
+          min-height: calc(100vh - 60px);
+        }
+        @media (max-width: 768px) {
+          .admin-layout-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+
+      <div className="admin-layout-grid">
         <AdminNav />
-        <main style={{ padding: 'clamp(1rem, 2.5vw, 2rem)' }}>{children}</main>
+        <main style={{ padding: 'clamp(1rem, 2.5vw, 2rem)', minWidth: 0 }}>{children}</main>
       </div>
     </div>
   );

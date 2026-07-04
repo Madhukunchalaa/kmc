@@ -5,6 +5,7 @@ import ProductRowActions from './ProductRowActions';
 import ProductRow from './ProductRow';
 import StockEditor from './StockEditor';
 import ProductFilters from './ProductFilters';
+import FinalPriceEditor from './FinalPriceEditor';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -205,6 +206,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 <th style={{ padding: 12, textAlign: 'left' }}>Name</th>
                 <th style={{ padding: 12, textAlign: 'left' }}>Category</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Price</th>
+                <th style={{ padding: 12, textAlign: 'right' }}>Final Price</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Stock</th>
                 {!isTrashView && <th style={{ padding: 12, textAlign: 'center' }}>Status</th>}
                 <th style={{ padding: 12, textAlign: 'right', width: isTrashView ? 110 : 180 }}>
@@ -215,7 +217,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
             <tbody>
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={isTrashView ? 6 : 7} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
+                  <td colSpan={isTrashView ? 7 : 8} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
                     <i className="fa-solid fa-inbox" style={{ fontSize: '2rem', marginBottom: '8px', display: 'block', color: '#ccc' }}></i>
                     {isTrashView ? 'No deleted products — trash is empty.' : 'No products found matching these criteria.'}
                   </td>
@@ -240,7 +242,12 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     <span style={{ fontSize: '0.85rem', color: '#888' }}>{p.category}</span>
                     <div style={{ fontWeight: 500 }}>{p.subcategory}</div>
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right', fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</td>
+                  <td style={{ padding: 12, textAlign: 'right', fontWeight: 600, color: '#888', textDecoration: 'line-through', fontSize: '0.82rem' }}>₹{p.price.toLocaleString('en-IN')}</td>
+                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                    {isTrashView
+                      ? <span style={{ fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</span>
+                      : <FinalPriceEditor id={String(p._id)} price={p.price} />}
+                  </td>
                   <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
                     {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}
                   </td>

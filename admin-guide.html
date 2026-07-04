@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>KrissMaagiic Crystals — Admin Dashboard Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; color: #2D1B0E; background: #fff; }
+
+  /* ── Cover Page ── */
+  .cover {
+    height: 100vh; min-height: 700px;
+    background: linear-gradient(135deg, #2D1B0E 0%, #5C3317 60%, #C8956C 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 60px 40px;
+    page-break-after: always;
+  }
+  .cover-logo { font-size: 52px; margin-bottom: 20px; }
+  .cover h1 { font-size: 36px; color: #fff; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+  .cover h2 { font-size: 18px; color: #C8956C; font-weight: 400; margin-bottom: 40px; }
+  .cover-divider { width: 80px; height: 3px; background: #C8956C; border-radius: 2px; margin: 0 auto 40px; }
+  .cover-tagline { font-size: 15px; color: rgba(255,255,255,0.7); max-width: 500px; line-height: 1.7; }
+  .cover-date { margin-top: 60px; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  /* ── TOC ── */
+  .toc-page { padding: 60px 60px; page-break-after: always; }
+  .toc-title { font-size: 26px; font-weight: 800; color: #2D1B0E; margin-bottom: 6px; }
+  .toc-sub { font-size: 13px; color: #888; margin-bottom: 32px; }
+  .toc-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(200,149,108,0.3); }
+  .toc-num { width: 32px; height: 32px; border-radius: 50%; background: #C8956C; color: #fff; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 14px; }
+  .toc-label { flex: 1; font-size: 14px; font-weight: 600; color: #2D1B0E; }
+  .toc-desc { font-size: 12px; color: #888; }
+
+  /* ── Section Pages ── */
+  .section { padding: 50px 60px; page-break-before: always; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 3px solid #C8956C; }
+  .section-icon { font-size: 28px; }
+  .section-num { font-size: 11px; font-weight: 800; color: #C8956C; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .section-title { font-size: 24px; font-weight: 800; color: #2D1B0E; }
+  .section-desc { font-size: 13px; color: #666; margin-top: 2px; }
+
+  /* ── Content blocks ── */
+  h3 { font-size: 15px; font-weight: 700; color: #2D1B0E; margin: 24px 0 10px; }
+  p { line-height: 1.7; color: #444; margin-bottom: 10px; }
+
+  .tip-box { background: #FFF8F0; border-left: 4px solid #C8956C; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0; }
+  .tip-box strong { color: #C8956C; display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tip-box p { margin: 0; color: #5C3317; font-size: 12.5px; }
+
+  .warning-box { background: #FFF5F5; border-left: 4px solid #D95F5F; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0; }
+  .warning-box strong { color: #D95F5F; display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .warning-box p { margin: 0; color: #7a1a1a; font-size: 12.5px; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 12px 0; }
+  .steps li { counter-increment: step; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; font-size: 13px; color: #444; line-height: 1.6; }
+  .steps li::before { content: counter(step); min-width: 24px; height: 24px; border-radius: 50%; background: #2D1B0E; color: #fff; font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  .bullets { list-style: none; padding: 0; margin: 10px 0; }
+  .bullets li { padding: 5px 0 5px 20px; position: relative; font-size: 13px; color: #444; line-height: 1.6; }
+  .bullets li::before { content: '✦'; position: absolute; left: 0; color: #C8956C; font-size: 10px; top: 7px; }
+
+  .status-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+  .badge-green { background: #E6F9F0; color: #1E8449; border: 1px solid #BFE3CF; }
+  .badge-amber { background: #FFF8E1; color: #C8956C; border: 1px solid #FFD98E; }
+  .badge-red { background: #FFF0F0; color: #D95F5F; border: 1px solid #FAD2D2; }
+  .badge-blue { background: #EEF4FF; color: #3F8EFC; border: 1px solid #C5D9FA; }
+  .badge-grey { background: #F5F5F5; color: #888; border: 1px solid #DDD; }
+
+  .example-box { background: #F8F4EF; border-radius: 10px; padding: 14px 16px; margin: 14px 0; border: 1px solid rgba(200,149,108,0.2); }
+  .example-box strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; display: block; margin-bottom: 6px; }
+  .example-box p { margin: 0; font-size: 12.5px; color: #5C3317; font-style: italic; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 14px 0; }
+  .card-box { background: #FAF6F1; border-radius: 10px; padding: 14px 16px; border: 1px solid rgba(200,149,108,0.15); }
+  .card-box h4 { font-size: 13px; font-weight: 700; color: #2D1B0E; margin-bottom: 6px; }
+  .card-box p { font-size: 12px; color: #666; margin: 0; line-height: 1.6; }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cover { height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ COVER ══ -->
+<div class="cover">
+  <div class="cover-logo">✦</div>
+  <h1>KrissMaagiic Crystals</h1>
+  <h2>Admin Dashboard — Complete User Guide</h2>
+  <div class="cover-divider"></div>
+  <p class="cover-tagline">
+    Everything you need to manage your store, bookings, products, and customers — explained simply, step by step.
+  </p>
+  <p class="cover-date">July 2026 · Prepared by Mad Tech Solutions</p>
+</div>
+
+<!-- ══════════════════════════════════════════════ TOC ══ -->
+<div class="toc-page">
+  <p class="toc-title">Table of Contents</p>
+  <p class="toc-sub">Click on any section to navigate</p>
+
+  <div class="toc-item"><div class="toc-num">1</div><div class="toc-label">Dashboard (Overview)</div><div class="toc-desc">Revenue, stats, charts, data export</div></div>
+  <div class="toc-item"><div class="toc-num">2</div><div class="toc-label">Orders</div><div class="toc-desc">View, update and manage customer orders</div></div>
+  <div class="toc-item"><div class="toc-num">3</div><div class="toc-label">Bookings</div><div class="toc-desc">Service appointments and status updates</div></div>
+  <div class="toc-item"><div class="toc-num">4</div><div class="toc-label">Products</div><div class="toc-desc">Add, edit, price and hide products</div></div>
+  <div class="toc-item"><div class="toc-num">5</div><div class="toc-label">Services</div><div class="toc-desc">Manage healing/crystal services</div></div>
+  <div class="toc-item"><div class="toc-num">6</div><div class="toc-label">Home Services</div><div class="toc-desc">In-home service offerings</div></div>
+  <div class="toc-item"><div class="toc-num">7</div><div class="toc-label">Blogs</div><div class="toc-desc">Write and publish blog articles</div></div>
+  <div class="toc-item"><div class="toc-num">8</div><div class="toc-label">Testimonials</div><div class="toc-desc">Customer testimonials and trash management</div></div>
+  <div class="toc-item"><div class="toc-num">9</div><div class="toc-label">Reviews</div><div class="toc-desc">Approve or hide product reviews</div></div>
+  <div class="toc-item"><div class="toc-num">10</div><div class="toc-label">Gifting</div><div class="toc-desc">Gift recipient categories and products</div></div>
+  <div class="toc-item"><div class="toc-num">11</div><div class="toc-label">Reels</div><div class="toc-desc">Instagram-style reels on the homepage</div></div>
+  <div class="toc-item"><div class="toc-num">12</div><div class="toc-label">Messages</div><div class="toc-desc">Customer contact form messages</div></div>
+  <div class="toc-item"><div class="toc-num">13</div><div class="toc-label">Settings</div><div class="toc-desc">Site-wide configuration and carousel</div></div>
+  <div class="toc-item"><div class="toc-num">14</div><div class="toc-label">Users</div><div class="toc-desc">Registered customer accounts</div></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 1. DASHBOARD ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div>
+      <span class="section-num">Section 01</span>
+      <div class="section-title">Dashboard</div>
+      <div class="section-desc">Your business overview at a glance</div>
+    </div>
+  </div>
+
+  <p>The Dashboard is the first page you see after logging in. It shows you a quick summary of how your business is doing — how many orders came in, how much revenue was made, and recent activity.</p>
+
+  <h3>📌 What you see on the Dashboard</h3>
+  <div class="two-col">
+    <div class="card-box"><h4>Pending Bookings</h4><p>Service bookings that customers made but you haven't approved yet.</p></div>
+    <div class="card-box"><h4>Pending Orders</h4><p>Shop orders placed but not yet confirmed by you.</p></div>
+    <div class="card-box"><h4>Total Bookings</h4><p>All bookings in the selected time period.</p></div>
+    <div class="card-box"><h4>Total Orders</h4><p>All shop orders in the selected time period.</p></div>
+    <div class="card-box"><h4>Products Live</h4><p>How many products are currently visible on your shop.</p></div>
+    <div class="card-box"><h4>Paid Revenue</h4><p>Total money received from paid orders + paid bookings (includes shipping).</p></div>
+  </div>
+
+  <h3>🔍 Filtering by Period (All Time / This Month)</h3>
+  <p>At the top of the dashboard there is a filter bar. You can switch between:</p>
+  <ul class="bullets">
+    <li><strong>All Time</strong> — shows totals since the website launched</li>
+    <li><strong>This Month</strong> — shows only the current month's numbers</li>
+    <li><strong>Custom Month/Year</strong> — pick any month and year from the dropdowns</li>
+  </ul>
+
+  <div class="example-box">
+    <strong>Example</strong>
+    <p>You want to see how much revenue came in during June 2026. Select "June" and "2026" from the dropdowns. All the cards and charts will update to show June-only data.</p>
+  </div>
+
+  <h3>📥 Downloading Reports</h3>
+  <ul class="bullets">
+    <li><strong>Download Monthly</strong> — exports an Excel file with all orders and bookings for the selected month</li>
+    <li><strong>Download Full Report</strong> — exports everything (all orders, bookings, customers, products) into a 5-sheet Excel file</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Use the Monthly Report at the end of each month to keep a record of that month's sales. The Full Report is great for an annual review or sharing with an accountant.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 2. ORDERS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🛍️</div>
+    <div>
+      <span class="section-num">Section 02</span>
+      <div class="section-title">Orders</div>
+      <div class="section-desc">Manage all shop purchases</div>
+    </div>
+  </div>
+
+  <p>Every time a customer buys a product from your shop, it appears here as an Order. This section lets you track the order, update its status, and communicate with the customer.</p>
+
+  <h3>📋 Order Status Types</h3>
+  <div class="status-row">
+    <span class="badge badge-grey">Pending</span>
+    <span class="badge badge-amber">Confirmed</span>
+    <span class="badge badge-blue">Shipped</span>
+    <span class="badge badge-green">Delivered</span>
+    <span class="badge badge-red">Cancelled</span>
+  </div>
+  <p style="margin-top:10px;">When a new order comes in it starts as <strong>Pending</strong>. You move it through the stages as you process it.</p>
+
+  <h3>📦 How to Process an Order — Step by Step</h3>
+  <ol class="steps">
+    <li>Go to <strong>Orders</strong> in the left menu. You will see a list of all orders.</li>
+    <li>Click on any order to open it. You will see the customer's name, address, items ordered, and total amount.</li>
+    <li>Scroll down to <strong>"Update Status"</strong>. Change the status (e.g. from Pending → Confirmed).</li>
+    <li>Optionally add an <strong>Admin Note</strong> (e.g. "Dispatched via Blue Dart, tracking #123").</li>
+    <li>Click <strong>Save</strong>. The customer will automatically receive an email with the update.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Gift Orders</strong>
+    <p>If an order is a gift, you will see a pink <strong>"GIFT ORDER"</strong> card on the order detail page. It shows the gift message the customer wrote. Write that message on a card and include it in the package before shipping.</p>
+  </div>
+
+  <h3>💳 Payment Status</h3>
+  <div class="status-row">
+    <span class="badge badge-grey">Unpaid</span>
+    <span class="badge badge-green">Paid</span>
+    <span class="badge badge-red">Failed</span>
+  </div>
+  <p style="margin-top:10px;">If a customer paid online but the payment did not update automatically, you can manually click <strong>"Mark as Paid"</strong> on the order page.</p>
+
+  <h3>🔎 Filtering Orders</h3>
+  <p>Use the filter dropdowns at the top of the Orders page to find orders by status (e.g. show only "Pending" orders) or search by customer name or order number.</p>
+
+  <div class="example-box">
+    <strong>Example</strong>
+    <p>Customer calls to ask about their order. Search for their name or order number (like KMC-XXXXX) in the search box to find it instantly.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 3. BOOKINGS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📅</div>
+    <div>
+      <span class="section-num">Section 03</span>
+      <div class="section-title">Bookings</div>
+      <div class="section-desc">Service appointments and session management</div>
+    </div>
+  </div>
+
+  <p>When customers book a healing session or crystal service from your website, it appears here. You can approve, reject, or update the booking and the customer gets an email for every status change.</p>
+
+  <h3>📋 Booking Status Types</h3>
+  <div class="status-row">
+    <span class="badge badge-grey">Pending</span>
+    <span class="badge badge-green">Approved</span>
+    <span class="badge badge-amber">Booked</span>
+    <span class="badge badge-blue">In Progress</span>
+    <span class="badge badge-green">Completed</span>
+    <span class="badge badge-red">Rejected</span>
+    <span class="badge badge-red">Cancelled</span>
+  </div>
+
+  <h3>✅ How to Approve a Booking</h3>
+  <ol class="steps">
+    <li>Go to <strong>Bookings</strong> in the left menu.</li>
+    <li>Click on a booking with <strong>Pending</strong> status.</li>
+    <li>Review the customer's name, chosen service, date, and time slot.</li>
+    <li>Change the status to <strong>Approved</strong>.</li>
+    <li>Optionally add a note (e.g. "Please join 5 minutes early").</li>
+    <li>Click <strong>Save</strong> — customer gets an email immediately.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Tip — Use Status to Guide the Customer</strong>
+    <p>Move the booking to <strong>In Progress</strong> when the session starts, and <strong>Completed</strong> when it's done. Each change sends the customer a friendly email so they always know what's happening.</p>
+  </div>
+
+  <div class="warning-box">
+    <strong>⚠️ Important</strong>
+    <p>If you cannot take a booking, change status to <strong>Rejected</strong> with a short reason in the note. The customer will be notified and can rebook at a different time.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 4. PRODUCTS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">💎</div>
+    <div>
+      <span class="section-num">Section 04</span>
+      <div class="section-title">Products</div>
+      <div class="section-desc">Add, edit, price and manage your crystal products</div>
+    </div>
+  </div>
+
+  <p>This is where you manage everything in your shop. You can add new products, change prices, update stock, hide products, and delete old ones.</p>
+
+  <h3>➕ Adding a New Product</h3>
+  <ol class="steps">
+    <li>Click the <strong>"+ New Product"</strong> button (top right).</li>
+    <li>Fill in the product name, category, description, and price.</li>
+    <li>Upload a product image.</li>
+    <li>Set the stock quantity (how many you have available).</li>
+    <li>Make sure the <strong>"Visible on storefront"</strong> checkbox is ticked.</li>
+    <li>Click <strong>Save</strong>. The product appears live on your shop immediately.</li>
+  </ol>
+
+  <h3>✏️ Quick Editing from the List</h3>
+  <p>On the products list page, you can edit 3 things directly without opening the product:</p>
+  <ul class="bullets">
+    <li><strong>Final Price (₹)</strong> — the amber input box. Type a new price and click Save.</li>
+    <li><strong>USD Price ($)</strong> — the blue input box. Type a new USD price and click Save.</li>
+    <li><strong>Stock</strong> — the stock number column. Click to change quantity and save.</li>
+  </ul>
+
+  <div class="example-box">
+    <strong>Example</strong>
+    <p>You want to run a sale on Rose Quartz Pendant. Find it in the list, change the Final Price from ₹600 to ₹499, and click Save. The new price shows instantly on the website.</p>
+  </div>
+
+  <h3>👁️ Hiding / Showing a Product</h3>
+  <ol class="steps">
+    <li>Click <strong>Edit</strong> on the product row.</li>
+    <li>Scroll to the bottom of the edit form.</li>
+    <li>Find the checkbox: <strong>"Visible on the storefront (active status)"</strong>.</li>
+    <li>Untick it to hide the product, tick it to make it live again.</li>
+    <li>Click Save.</li>
+  </ol>
+
+  <h3>🗑️ Trash / Deleted Products</h3>
+  <p>When you delete a product it goes to <strong>Trash</strong> (not permanently deleted). Click the <strong>"Trash"</strong> button (top right with the count badge) to see deleted products and restore them if needed.</p>
+
+  <h3>🔍 Searching and Filtering</h3>
+  <p>Use the search bar at the top to find products by name, slug, or subcategory. Use the category dropdown to filter by crystal type. Use the Status dropdown to show only Live or Hidden products.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 5. SERVICES ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">✨</div>
+    <div>
+      <span class="section-num">Section 05</span>
+      <div class="section-title">Services</div>
+      <div class="section-desc">Crystal healing and spiritual services customers can book</div>
+    </div>
+  </div>
+
+  <p>Services are the healing sessions, consultations, and crystal programs that customers can book from the Services page on your website. Each service you create here becomes bookable online.</p>
+
+  <h3>➕ How to Add a Service</h3>
+  <ol class="steps">
+    <li>Click <strong>"+ New Service"</strong>.</li>
+    <li>Enter the service name (e.g. "Crystal Healing Session"), description, price, and duration.</li>
+    <li>Upload a service image.</li>
+    <li>Set available time slots or session details.</li>
+    <li>Save — it appears on the Services page immediately.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Keep the service description short and clear. Customers decide whether to book based on what they read here. Mention the duration and what they will experience.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 6. HOME SERVICES ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🏠</div>
+    <div>
+      <span class="section-num">Section 06</span>
+      <div class="section-title">Home Services</div>
+      <div class="section-desc">Services offered at the customer's location</div>
+    </div>
+  </div>
+
+  <p>Home Services are similar to regular Services but specifically for sessions you offer at the customer's home (or a location of their choice). These are shown on the Home Services section of the website.</p>
+
+  <p>Managing them works the same way as Services — add, edit, and delete using the same steps as Section 05.</p>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Mention travel area or distance limit in the description so customers know if you can reach their location before they book.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 7. BLOGS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">📝</div>
+    <div>
+      <span class="section-num">Section 07</span>
+      <div class="section-title">Blogs</div>
+      <div class="section-desc">Write and publish articles for your website</div>
+    </div>
+  </div>
+
+  <p>The Blog section lets you write and publish articles that appear on your website's Blog page. Good blog posts help with Google search rankings and keep your audience engaged.</p>
+
+  <h3>✍️ How to Write a Blog Post</h3>
+  <ol class="steps">
+    <li>Click <strong>"+ New Blog"</strong>.</li>
+    <li>Enter a title (e.g. "5 Crystals for Anxiety Relief").</li>
+    <li>Write your content in the editor. You can add headings, bold text, and images.</li>
+    <li>Add a cover image for the blog card.</li>
+    <li>Set the status to <strong>Published</strong> when you're ready for it to go live.</li>
+    <li>Save. The post appears on the Blog page immediately.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Save as <strong>Draft</strong> first if you're not done writing. You can come back and finish it later. Only change to <strong>Published</strong> when the post is complete and ready.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 8. TESTIMONIALS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">💬</div>
+    <div>
+      <span class="section-num">Section 08</span>
+      <div class="section-title">Testimonials</div>
+      <div class="section-desc">Customer reviews shown on your homepage</div>
+    </div>
+  </div>
+
+  <p>Testimonials are the customer quotes and feedback displayed on your homepage. You can add new ones manually, delete ones you don't want shown, and restore deleted ones from the Trash.</p>
+
+  <h3>➕ Adding a Testimonial</h3>
+  <ol class="steps">
+    <li>Click <strong>"+ Add Testimonial"</strong>.</li>
+    <li>Enter the customer's name, their message/quote, and their star rating.</li>
+    <li>Optionally add their photo.</li>
+    <li>Save — it appears on the homepage testimonial section.</li>
+  </ol>
+
+  <h3>🗑️ Deleting a Testimonial (Soft Delete)</h3>
+  <p>When you click <strong>Delete</strong> on a testimonial, it moves to the <strong>Trash</strong> — it is not permanently gone. To see trashed testimonials, click the <strong>"Trash"</strong> tab at the top of the page.</p>
+  <ul class="bullets">
+    <li><strong>Restore</strong> — brings it back to the live list</li>
+    <li><strong>Delete Forever</strong> — permanently removes it (cannot be undone)</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>⚠️ Warning</strong>
+    <p>"Delete Forever" is permanent. Only use it if you are 100% sure you don't need the testimonial again.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 9. REVIEWS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">⭐</div>
+    <div>
+      <span class="section-num">Section 09</span>
+      <div class="section-title">Reviews</div>
+      <div class="section-desc">Product reviews left by customers on product pages</div>
+    </div>
+  </div>
+
+  <p>When customers buy products and leave reviews on the product page, they appear here. You control which reviews are visible on the website.</p>
+
+  <h3>👁️ Approving / Hiding Reviews</h3>
+  <p>Every review has a toggle button:</p>
+  <div class="status-row">
+    <span class="badge badge-green">● Visible</span>
+    <span class="badge badge-grey">○ Hidden</span>
+  </div>
+  <ul class="bullets" style="margin-top:10px;">
+    <li><strong>Visible (green)</strong> — the review is shown on the product page. Customers can read it.</li>
+    <li><strong>Hidden (grey)</strong> — the review is hidden from the website. Only you can see it here.</li>
+  </ul>
+  <p>Click the button to toggle between Visible and Hidden instantly.</p>
+
+  <div class="tip-box">
+    <strong>💡 Best Practice</strong>
+    <p>Hide reviews that contain inappropriate content or spam. Only delete reviews that are clearly fake. Keep genuine negative reviews visible — they build trust with customers.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 10. GIFTING ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🎁</div>
+    <div>
+      <span class="section-num">Section 10</span>
+      <div class="section-title">Gifting</div>
+      <div class="section-desc">Manage gift recipient categories shown on the Gifting page</div>
+    </div>
+  </div>
+
+  <p>Your website has a special <strong>Gifting Experience</strong> page where customers can browse crystals by who they want to gift them to (e.g. "For Mum", "For Best Friend", "For Partner"). This section lets you manage those recipient categories.</p>
+
+  <h3>How the Gift Flow Works for Customers</h3>
+  <ol class="steps">
+    <li>Customer visits the Gifting page on your website.</li>
+    <li>They pick a recipient (e.g. "For Mum").</li>
+    <li>They see curated products and can add a personal gift message.</li>
+    <li>At checkout, the gift message is saved with the order.</li>
+    <li>You see the message in the admin order detail — write it on a gift card before shipping.</li>
+  </ol>
+
+  <h3>📌 Gift Orders in Admin</h3>
+  <p>When an order is a gift, the order detail page shows a pink <strong>"GIFT ORDER"</strong> card with the customer's message. This message must be handwritten on a gift card and included in the package.</p>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Always check the order detail for the GIFT ORDER card before packing. Never miss a gift message — it's why the customer chose your store for their special occasion.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 11. REELS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">🎬</div>
+    <div>
+      <span class="section-num">Section 11</span>
+      <div class="section-title">Reels</div>
+      <div class="section-desc">Short videos shown on your homepage</div>
+    </div>
+  </div>
+
+  <p>Reels are short videos (like Instagram Reels) that appear on your website's homepage. They help engage visitors and show your products and personality.</p>
+
+  <h3>➕ Adding a New Reel</h3>
+  <ol class="steps">
+    <li>Click <strong>"+ Add Reel"</strong>.</li>
+    <li>Enter a title for the reel.</li>
+    <li>Upload your video file. A progress bar shows the upload status.</li>
+    <li>Once uploaded, save. The reel appears on the homepage.</li>
+  </ol>
+
+  <h3>↕️ Changing the Order of Reels</h3>
+  <p>You can drag and drop reels to reorder them. The order here is the order they appear on the homepage.</p>
+  <ol class="steps">
+    <li>Hover over any reel row — you will see a drag handle icon on the left.</li>
+    <li>Click and drag the row up or down to the position you want.</li>
+    <li>Release — the new order saves automatically.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Put your best, most engaging reel at the top (position 1). Short videos under 30 seconds perform best.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 12. MESSAGES ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">✉️</div>
+    <div>
+      <span class="section-num">Section 12</span>
+      <div class="section-title">Messages</div>
+      <div class="section-desc">Customer enquiries from the Contact page</div>
+    </div>
+  </div>
+
+  <p>When a visitor fills in the <strong>Contact form</strong> on your website, their message arrives here. You can read all messages, reply to them, and keep track of customer enquiries.</p>
+
+  <h3>📬 Reading a Message</h3>
+  <ol class="steps">
+    <li>Click on any message in the list to open it.</li>
+    <li>You will see the customer's name, email, and their full message.</li>
+    <li>To reply, copy their email address and send them a reply from your Gmail.</li>
+  </ol>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>Try to reply to messages within 24 hours. Fast responses build customer trust and often turn enquiries into orders.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 13. SETTINGS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">⚙️</div>
+    <div>
+      <span class="section-num">Section 13</span>
+      <div class="section-title">Settings</div>
+      <div class="section-desc">Site-wide configuration for banners, carousel and more</div>
+    </div>
+  </div>
+
+  <p>Settings control global things on your website — like the homepage announcement banner, carousel images, and other site-wide options.</p>
+
+  <h3>🖼️ Updating the Homepage Carousel</h3>
+  <ol class="steps">
+    <li>Go to <strong>Settings</strong>.</li>
+    <li>Find the <strong>Carousel Images</strong> section.</li>
+    <li>Add, remove or reorder the images that rotate on your homepage banner.</li>
+    <li>Save — changes go live immediately.</li>
+  </ol>
+
+  <h3>📢 Announcement Banner</h3>
+  <p>You can set a site-wide announcement that appears at the top of every page (e.g. "Free shipping on orders above ₹499!" or "Sale on this weekend!").</p>
+
+  <div class="warning-box">
+    <strong>⚠️ Caution</strong>
+    <p>Be careful in Settings — changes here affect the entire website for all visitors. Always double-check before saving.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ 14. USERS ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">👥</div>
+    <div>
+      <span class="section-num">Section 14</span>
+      <div class="section-title">Users</div>
+      <div class="section-desc">All registered customers on your website</div>
+    </div>
+  </div>
+
+  <p>Users are all the people who have created accounts on your website. This section is for viewing customer details. You don't need to do much here regularly.</p>
+
+  <h3>🔎 Searching for a Customer</h3>
+  <ol class="steps">
+    <li>Type the customer's <strong>name, email, or phone number</strong> in the search box.</li>
+    <li>Click <strong>Search</strong>.</li>
+    <li>Click on a customer to view their profile and order history.</li>
+  </ol>
+
+  <h3>When Would You Use This?</h3>
+  <ul class="bullets">
+    <li>A customer says they can't log in — you can check if their account exists here.</li>
+    <li>You want to see a specific customer's purchase history.</li>
+    <li>Customer asks for their registered email — look it up here.</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>💡 Tip</strong>
+    <p>The Users page shows total registered customers. Watching this number grow over time is a good indicator of your brand's popularity!</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════ QUICK REF ══ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon">⚡</div>
+    <div>
+      <span class="section-num">Quick Reference</span>
+      <div class="section-title">Daily Admin Checklist</div>
+      <div class="section-desc">What to check every day</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>🌅 Morning (5 mins)</h3>
+      <ol class="steps">
+        <li>Check <strong>Dashboard</strong> — any new orders or bookings overnight?</li>
+        <li>Go to <strong>Orders</strong> → filter by Pending. Process any new orders.</li>
+        <li>Go to <strong>Bookings</strong> → filter by Pending. Approve or respond to bookings.</li>
+        <li>Check <strong>Messages</strong> — any new customer enquiries?</li>
+      </ol>
+    </div>
+    <div>
+      <h3>📦 Before Shipping</h3>
+      <ol class="steps">
+        <li>Open the order in <strong>Orders</strong>.</li>
+        <li>Check for the pink <strong>GIFT ORDER</strong> card — if present, write the message on a gift card.</li>
+        <li>Update status to <strong>Shipped</strong> and add tracking number in the note.</li>
+        <li>Customer gets an automatic email with the update.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:20px;">
+    <div>
+      <h3>📊 End of Month</h3>
+      <ol class="steps">
+        <li>Go to <strong>Dashboard</strong>.</li>
+        <li>Select the month from the filter.</li>
+        <li>Click <strong>Download Monthly Report</strong> to save the Excel file.</li>
+        <li>Review revenue and compare with last month.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>🛒 When Stock Runs Low</h3>
+      <ol class="steps">
+        <li>Go to <strong>Products</strong>.</li>
+        <li>Find the product and update its <strong>Stock</strong> number inline.</li>
+        <li>If fully out of stock, either set stock to 0 or <strong>Hide</strong> the product.</li>
+        <li>When restocked, update stock and make it <strong>Live</strong> again.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:28px;">
+    <strong>🆘 Need Help?</strong>
+    <p>Contact Mad Tech Solutions for any technical issues, feature requests, or questions about the admin panel. WhatsApp: +91 70956 82464 · Email: madhkunchala@gmail.com</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -11,21 +11,22 @@ export async function POST(req: Request) {
     const body = await req.json();
     await connectMongoose();
 
-    if (body.key && typeof body.value === 'string') {
+    const serialize = (v: unknown): string =>
+      typeof v === 'string' ? v : JSON.stringify(v);
+
+    if (body.key !== undefined && body.value !== undefined) {
       await Setting.findOneAndUpdate(
         { key: body.key },
-        { value: body.value },
+        { value: serialize(body.value) },
         { upsert: true, new: true }
       );
     } else if (body.settings && typeof body.settings === 'object') {
       for (const [k, v] of Object.entries(body.settings)) {
-        if (typeof v === 'string') {
-          await Setting.findOneAndUpdate(
-            { key: k },
-            { value: v },
-            { upsert: true, new: true }
-          );
-        }
+        await Setting.findOneAndUpdate(
+          { key: k },
+          { value: serialize(v) },
+          { upsert: true, new: true }
+        );
       }
     } else {
       return NextResponse.json({ ok: false, reason: 'Invalid request body' }, { status: 400 });

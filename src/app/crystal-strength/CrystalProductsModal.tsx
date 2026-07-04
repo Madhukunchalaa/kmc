@@ -123,14 +123,14 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
 
         {/* Products List */}
         <div className="crystal-modal-body">
-          {/* Live DB loading indicator (subtle) */}
-          {loadingDb && matchingProducts.length > 0 && (
-            <p style={{ fontSize: '0.72rem', color: 'rgba(200,149,108,0.5)', margin: '0 0 14px', textAlign: 'right' }}>
-              <i className="fa-solid fa-circle-notch fa-spin me-1" />
-              Syncing live prices…
-            </p>
-          )}
-
+          {loadingDb ? (
+            /* Loading skeleton — don't show empty state until fetch is done */
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <i className="fa-solid fa-circle-notch fa-spin" style={{ fontSize: '2rem', color: '#C8956C', display: 'block', marginBottom: 16 }} />
+              <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.5)', margin: 0 }}>Loading {crystal.name} products…</p>
+            </div>
+          ) : (
+          <>
           {/* Sort control */}
           {matchingProducts.length > 1 && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8, margin: '0 0 16px' }}>
@@ -201,6 +201,8 @@ export default function CrystalProductsModal({ crystal, onClose }: CrystalProduc
                 </div>
               ))}
             </div>
+          )}
+          </>
           )}
         </div>
       </div>

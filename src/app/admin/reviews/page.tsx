@@ -64,7 +64,7 @@ export default async function AdminReviews(props: { searchParams: Promise<SP> })
                 <th style={{ padding: 12, textAlign: 'center', width: 110 }}>Rating</th>
                 <th style={{ padding: 12, textAlign: 'left' }}>Comment</th>
                 <th style={{ padding: 12, textAlign: 'center', width: 140 }}>Date</th>
-                <th style={{ padding: 12, textAlign: 'right', width: 100 }}></th>
+                <th style={{ padding: 12, textAlign: 'right', width: 180 }}></th>
               </tr>
             </thead>
             <tbody>
@@ -113,7 +113,7 @@ export default async function AdminReviews(props: { searchParams: Promise<SP> })
                     })}
                   </td>
                   <td style={{ padding: 12, textAlign: 'right' }}>
-                    <ReviewRowActions id={String(t._id)} />
+                    <ReviewRowActions id={String(t._id)} approved={t.approved !== false} />
                   </td>
                 </tr>
               ))}

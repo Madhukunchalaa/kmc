@@ -25,6 +25,8 @@ export default function AdminReelsPage() {
   const [form, setForm] = useState<Omit<Reel, '_id'>>(EMPTY);
   const [err, setErr] = useState('');
   const [reordering, setReordering] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   // Upload states
   const [videoUploading, setVideoUploading] = useState(false);
@@ -71,6 +73,19 @@ export default function AdminReelsPage() {
   const closeModal = () => setModal(null);
 
   // ── Drag-to-reorder ────────────────────────────────────────────────────────
+  // ── Seed defaults ──────────────────────────────────────────────────────────
+  const handleSeed = async () => {
+    if (!confirm('This will add 7 default reels to the database. Continue?')) return;
+    setSeeding(true);
+    try {
+      const res = await fetch('/api/admin/seed-reels', { method: 'POST' });
+      const d = await res.json();
+      if (!d.ok) alert(d.reason || 'Seed failed');
+      else await load();
+    } catch { alert('Seed failed. Please try again.'); }
+    finally { setSeeding(false); }
+  };
+
   const onDragStart = (idx: number) => { dragIdx.current = idx; };
 
   const onDragOver = (e: React.DragEvent, idx: number) => {
@@ -107,8 +122,8 @@ export default function AdminReelsPage() {
 
   const onDragEnd = () => { setDragOver(null); dragIdx.current = null; };
 
-  // ── Video upload ───────────────────────────────────────────────────────────
-  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // ── Video upload (XHR for progress tracking) ──────────────────────────────
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadErr('');
@@ -118,18 +133,31 @@ export default function AdminReelsPage() {
       return;
     }
     setVideoUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch('/api/admin/upload-video', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (!data.ok) setUploadErr(data.reason || 'Video upload failed');
-      else setField('src', data.url);
-    } catch { setUploadErr('Video upload failed. Please try again.'); }
-    finally {
+    setUploadProgress(0);
+
+    const fd = new FormData();
+    fd.append('file', file);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/admin/upload-video');
+
+    xhr.upload.onprogress = (ev) => {
+      if (ev.lengthComputable) setUploadProgress(Math.round((ev.loaded / ev.total) * 100));
+    };
+    xhr.onload = () => {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (!data.ok) setUploadErr(data.reason || 'Video upload failed');
+        else { setField('src', data.url); setUploadProgress(100); }
+      } catch { setUploadErr('Invalid server response.'); }
       setVideoUploading(false);
       if (videoInputRef.current) videoInputRef.current.value = '';
-    }
+    };
+    xhr.onerror = () => {
+      setUploadErr('Video upload failed. Please try again.');
+      setVideoUploading(false);
+      if (videoInputRef.current) videoInputRef.current.value = '';
+    };
+    xhr.send(fd);
   };
 
   // ── Thumbnail upload ───────────────────────────────────────────────────────
@@ -243,7 +271,21 @@ export default function AdminReelsPage() {
         ) : reels.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: '#888' }}>
             <i className="fa-solid fa-film" style={{ fontSize: '2.5rem', opacity: 0.3 }} />
-            <p style={{ marginTop: 12 }}>No reels yet. Click "Add Reel" to get started.</p>
+            <p style={{ marginTop: 12, marginBottom: '1.25rem' }}>No reels yet. Add your own or load the 7 default reels.</p>
+            <button
+              onClick={handleSeed}
+              disabled={seeding}
+              style={{
+                background: 'transparent', color: '#C8956C',
+                border: '1.5px dashed #C8956C', borderRadius: 10,
+                padding: '10px 22px', fontWeight: 600, cursor: 'pointer',
+                fontSize: '0.88rem', display: 'inline-flex', alignItems: 'center', gap: 8,
+                opacity: seeding ? 0.7 : 1,
+              }}
+            >
+              <i className={`fa-solid ${seeding ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles'}`} />
+              {seeding ? 'Loading default reels…' : 'Load 7 Default Reels'}
+            </button>
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
@@ -399,7 +441,18 @@ export default function AdminReelsPage() {
                     </a>
                   )}
                 </div>
-                {form.src && (
+                {videoUploading && (
+                  <div style={{ marginTop: 10 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: '#888', marginBottom: 4 }}>
+                      <span>Uploading…</span>
+                      <span>{uploadProgress}%</span>
+                    </div>
+                    <div style={{ height: 6, background: '#f0e8e0', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${uploadProgress}%`, background: 'var(--primary,#C8956C)', borderRadius: 99, transition: 'width 0.2s' }} />
+                    </div>
+                  </div>
+                )}
+                {!videoUploading && form.src && (
                   <div style={{ marginTop: 8, fontSize: '0.78rem', color: '#27ae60' }}>
                     <i className="fa-solid fa-check-circle me-1" />Video uploaded successfully
                   </div>

@@ -135,23 +135,33 @@ export function bookingReceivedEmail(name: string, serviceTitle: string, date: s
   };
 }
 
-export function bookingStatusEmail(name: string, serviceTitle: string, status: 'approved' | 'rejected', adminNote?: string, serviceImage?: string): EmailMessage {
-  const isApproved = status === 'approved';
+export function bookingStatusEmail(name: string, serviceTitle: string, status: string, adminNote?: string, serviceImage?: string): EmailMessage {
+  const statusConfig: Record<string, { subject: string; heading: string; color: string; message: string }> = {
+    approved:   { subject: `Booking confirmed · ${serviceTitle}`,    heading: `Your booking is confirmed, ${name}!`,  color: '#4CAF50', message: "We're looking forward to your session." },
+    rejected:   { subject: `Booking declined · ${serviceTitle}`,     heading: `Your booking was declined`,             color: '#D95F5F', message: "Please reach out to us if you have any questions." },
+    booked:     { subject: `Session booked · ${serviceTitle}`,       heading: `Your session is now booked, ${name}!`, color: '#4A90D9', message: "Your session has been scheduled. We'll see you soon." },
+    in_progress:{ subject: `Session in progress · ${serviceTitle}`,  heading: `Your session has started, ${name}!`,  color: '#C8956C', message: "Your session with Kriss is now in progress." },
+    completed:  { subject: `Session completed · ${serviceTitle}`,    heading: `Session complete, ${name}!`,           color: '#27ae60', message: "Thank you for your session with KrissMaagiic. We hope it was transformative! ✨" },
+    cancelled:  { subject: `Booking cancelled · ${serviceTitle}`,    heading: `Booking cancelled`,                    color: '#D95F5F', message: "Your booking has been cancelled. Please contact us to reschedule." },
+  };
+  const cfg = statusConfig[status] ?? { subject: `Booking update · ${serviceTitle}`, heading: `Booking update, ${name}`, color: '#888', message: `Your booking status has been updated to ${status}.` };
+
   return {
     to: '',
-    subject: `Booking ${isApproved ? 'confirmed' : 'declined'} · ${serviceTitle}`,
+    subject: cfg.subject,
     html: shell(
-      isApproved ? `Your booking is confirmed, ${name}!` : `Your booking was declined`,
+      cfg.heading,
       `<div style="display:flex;align-items:center;gap:16px;margin:20px 0;background:#FAF6F1;padding:16px;border-radius:12px;border:1px solid rgba(200,149,108,0.15)">
          ${serviceImage ? `<img src="${serviceImage}" width="70" height="70" style="border-radius:8px;object-fit:cover" />` : ''}
          <div>
            <div style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:bold;color:#2D1B0E">${serviceTitle}</div>
            <div style="font-size:13px;color:#666;margin-top:4px">
-             Status: <strong style="color:${isApproved ? '#4CAF50' : '#D95F5F'}">${status.toUpperCase()}</strong>
+             Status: <strong style="color:${cfg.color}">${status.toUpperCase()}</strong>
            </div>
          </div>
        </div>
-       ${adminNote ? `<p>Note from Kriss: <em>${adminNote}</em></p>` : ''}`,
+       <p>${cfg.message}</p>
+       ${adminNote ? `<div style="margin:16px 0;padding:12px 16px;background:#FAF6F1;border-left:3px solid #C8956C;border-radius:0 8px 8px 0;font-size:13px"><strong>Note from Kriss:</strong> <em>"${adminNote}"</em></div>` : ''}`,
     ),
   };
 }

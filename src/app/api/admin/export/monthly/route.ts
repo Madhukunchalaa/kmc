@@ -84,7 +84,7 @@ export async function GET(req: Request) {
 
   const paidOrders    = orders.filter((o) => o.paymentStatus === 'paid');
   const paidBookings  = bookings.filter((b) => b.paymentStatus === 'paid');
-  const orderRevenue  = paidOrders.reduce((s, o) => s + (o.subtotal || 0), 0);
+  const orderRevenue  = paidOrders.reduce((s, o) => s + (o.total || o.subtotal || 0), 0);
   const bookingRevenue = paidBookings.reduce((s, b) => s + (b.servicePrice || 0), 0);
   const totalRevenue  = orderRevenue + bookingRevenue;
   const monthName     = start.toLocaleString('default', { month: 'long' });

@@ -6,6 +6,7 @@ import { Product } from '@/models/Product';
 import { User } from '@/models/User';
 import DashboardCharts from './DashboardCharts';
 import MonthlyExport from './MonthlyExport';
+import DashboardFilter from './DashboardFilter';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Dashboard · Admin' };
@@ -18,9 +19,19 @@ interface StatCard {
   href?: string;
 }
 
-async function loadDashboardData() {
+async function loadDashboardData(month?: number, year?: number) {
   try {
     await connectMongoose();
+
+    // Build date range filter if month/year specified
+    let dateFilter: { $gte: Date; $lt: Date } | null = null;
+    if (month && year) {
+      const start = new Date(year, month - 1, 1);
+      const end = new Date(year, month, 1);
+      dateFilter = { $gte: start, $lt: end };
+    }
+
+    const dateMatch = dateFilter ? { createdAt: dateFilter } : {};
 
     const [
       totalOrders,
@@ -32,39 +43,63 @@ async function loadDashboardData() {
       recentOrders,
       recentBookings,
     ] = await Promise.all([
-      Order.countDocuments(),
-      Order.countDocuments({ status: 'pending' }),
-      Booking.countDocuments(),
-      Booking.countDocuments({ status: 'pending' }),
-      Product.countDocuments({ active: true }),
+      Order.countDocuments(dateMatch),
+      Order.countDocuments({ status: 'pending', ...dateMatch }),
+      Booking.countDocuments(dateMatch),
+      Booking.countDocuments({ status: 'pending', ...dateMatch }),
+      Product.countDocuments({ active: true, isDeleted: { $ne: true } }),
       User.countDocuments(),
-      Order.find().sort({ createdAt: -1 }).limit(5).lean(),
-      Booking.find().sort({ createdAt: -1 }).limit(5).lean(),
+      Order.find(dateMatch).sort({ createdAt: -1 }).limit(5).lean(),
+      Booking.find(dateMatch).sort({ createdAt: -1 }).limit(5).lean(),
     ]);
 
-    // Calculate Confirmed Revenue
-    const revenueAgg = await Order.aggregate([
-      { $match: { status: { $in: ['confirmed', 'shipped', 'delivered'] } } },
-      { $group: { _id: null, total: { $sum: '$subtotal' } } },
+    // Calculate Paid Revenue (paid orders + paid bookings)
+    const [orderRevenueAgg, bookingRevenueAgg] = await Promise.all([
+      Order.aggregate([
+        { $match: { paymentStatus: 'paid', ...dateMatch } },
+        { $group: { _id: null, total: { $sum: '$total' } } },
+      ]),
+      Booking.aggregate([
+        { $match: { paymentStatus: 'paid', ...dateMatch } },
+        { $group: { _id: null, total: { $sum: '$servicePrice' } } },
+      ]),
     ]);
-    const revenue = revenueAgg[0]?.total ?? 0;
+    const revenue = (orderRevenueAgg[0]?.total ?? 0) + (bookingRevenueAgg[0]?.total ?? 0);
 
-    // Last 30 days trends aggregation
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    // Trend window: if filtering by month use that month's days, else last 30 days
+    let trendStart: Date;
+    let days: string[];
+    if (dateFilter) {
+      trendStart = dateFilter.$gte;
+      const daysInMonth = new Date(dateFilter.$lt.getTime() - 1).getDate();
+      days = Array.from({ length: daysInMonth }, (_, i) => {
+        const d = new Date(trendStart);
+        d.setDate(d.getDate() + i);
+        return d.toISOString().split('T')[0];
+      });
+    } else {
+      trendStart = new Date();
+      trendStart.setDate(trendStart.getDate() - 30);
+      days = [];
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push(d.toISOString().split('T')[0]);
+      }
+    }
 
-    // Sales Trend (Confirmed Revenue by day)
+    // Sales Trend (Paid Revenue by day)
     const salesTrendRaw = await Order.aggregate([
       {
         $match: {
-          status: { $in: ['confirmed', 'shipped', 'delivered'] },
-          createdAt: { $gte: thirtyDaysAgo }
+          paymentStatus: 'paid',
+          createdAt: dateFilter ?? { $gte: trendStart },
         }
       },
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          revenue: { $sum: '$subtotal' }
+          revenue: { $sum: '$total' }
         }
       },
       { $sort: { _id: 1 } }
@@ -74,7 +109,7 @@ async function loadDashboardData() {
     const bookingsTrendRaw = await Booking.aggregate([
       {
         $match: {
-          createdAt: { $gte: thirtyDaysAgo }
+          createdAt: dateFilter ?? { $gte: trendStart },
         }
       },
       {
@@ -85,14 +120,6 @@ async function loadDashboardData() {
       },
       { $sort: { _id: 1 } }
     ]);
-
-    // Construct full 30 days array
-    const days: string[] = [];
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      days.push(d.toISOString().split('T')[0]);
-    }
 
     const salesMap = new Map(salesTrendRaw.map((s) => [s._id, s.revenue]));
     const bookingsMap = new Map(bookingsTrendRaw.map((b) => [b._id, b.count]));
@@ -108,7 +135,7 @@ async function loadDashboardData() {
 
     // Category Sales breakdown
     const categorySalesRaw = await Order.aggregate([
-      { $match: { status: { $in: ['confirmed', 'shipped', 'delivered'] } } },
+      { $match: { paymentStatus: 'paid', ...dateMatch } },
       { $unwind: '$items' },
       {
         $group: {
@@ -154,21 +181,29 @@ async function loadDashboardData() {
   }
 }
 
-export default async function AdminHome() {
-  const stats = await loadDashboardData();
+export default async function AdminHome({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
+  const sp = await searchParams;
+  const filterMonth = sp.month ? Number(sp.month) : undefined;
+  const filterYear = sp.year ? Number(sp.year) : undefined;
+  const stats = await loadDashboardData(filterMonth, filterYear);
 
   if (!stats) {
     return <p>Could not load dashboard stats. Check DB connection.</p>;
   }
 
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const periodLabel = filterMonth
+    ? `${MONTHS[filterMonth - 1]} ${filterYear ?? new Date().getFullYear()}`
+    : 'All Time';
+
   const cards: StatCard[] = [
     { label: 'Pending Bookings', value: stats.pendingBookings, icon: 'fa-solid fa-hourglass-half', color: '#C8956C', href: '/admin/bookings?status=pending' },
     { label: 'Pending Orders', value: stats.pendingOrders, icon: 'fa-solid fa-bag-shopping', color: '#C9A84C', href: '/admin/orders?status=pending' },
-    { label: 'Total Bookings', value: stats.totalBookings, icon: 'fa-solid fa-calendar-check', color: '#4CAF50', href: '/admin/bookings' },
-    { label: 'Total Orders', value: stats.totalOrders, icon: 'fa-solid fa-receipt', color: '#3F8EFC', href: '/admin/orders' },
+    { label: `Bookings (${periodLabel})`, value: stats.totalBookings, icon: 'fa-solid fa-calendar-check', color: '#4CAF50', href: '/admin/bookings' },
+    { label: `Orders (${periodLabel})`, value: stats.totalOrders, icon: 'fa-solid fa-receipt', color: '#3F8EFC', href: '/admin/orders' },
     { label: 'Products Live', value: stats.productsLiveCount, icon: 'fa-solid fa-gem', color: '#E59500', href: '/admin/products' },
     { label: 'Customers', value: stats.usersCount, icon: 'fa-solid fa-users', color: '#D95F5F', href: '/admin/users' },
-    { label: 'Confirmed Revenue', value: '₹' + stats.revenue.toLocaleString('en-IN'), icon: 'fa-solid fa-indian-rupee-sign', color: '#1E8449' },
+    { label: `Paid Revenue (${periodLabel})`, value: '₹' + stats.revenue.toLocaleString('en-IN'), icon: 'fa-solid fa-indian-rupee-sign', color: '#1E8449' },
   ];
 
   return (
@@ -186,6 +221,9 @@ export default async function AdminHome() {
           <i className="fa-solid fa-clock me-1"></i> Live data updated
         </div>
       </div>
+
+      {/* Period Filter */}
+      <DashboardFilter />
 
       {/* Stats Cards Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>

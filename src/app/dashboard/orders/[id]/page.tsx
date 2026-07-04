@@ -456,37 +456,76 @@ export default async function OrderDetail(props: PageProps<'/dashboard/orders/[i
         </div>
         <div className="col-lg-4">
           <div style={{ background: '#fff', borderRadius: 14, padding: 20, boxShadow: '0 4px 14px rgba(0,0,0,0.04)', fontSize: '0.9rem' }}>
-            <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Shipping</h4>
-            <p>{o.customer.name}<br />{o.customer.address}<br />{o.customer.city}, {o.customer.state} {o.customer.pincode}<br />{o.customer.phone}</p>
-            {(o.customer as any).giftMessage && (
-              <div style={{ 
-                padding: '12px 14px', 
-                background: 'rgba(200, 149, 108, 0.05)', 
-                border: '1.5px dashed rgba(200, 149, 108, 0.4)', 
-                borderRadius: 10,
-                marginTop: '12px'
-              }}>
-                <div style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, color: 'var(--primary,#C8956C)', fontSize: '0.82rem' }}>
-                  <i className="fa-solid fa-gift"></i>
-                  <span>Sacred Gift Message</span>
-                </div>
-                { (o.customer as any).giftRecipient && (
-                  <div style={{ fontSize: '0.78rem', color: '#666', marginTop: 4 }}>
-                    Recipient: <strong>{(o.customer as any).giftRecipient}</strong>
-                  </div>
-                )}
-                <div style={{ fontStyle: 'italic', marginTop: 8, fontSize: '0.85rem', color: '#2D1B0E', whiteSpace: 'pre-wrap', borderLeft: '2px solid rgba(200,149,108,0.3)', paddingLeft: '8px' }}>
-                  "{(o.customer as any).giftMessage}"
-                </div>
-              </div>
-            )}
+            <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>Shipping Address</h4>
+            <p style={{ margin: 0 }}>{o.customer.name}<br />{o.customer.address}<br />{o.customer.city}, {o.customer.state} {o.customer.pincode}<br />{o.customer.phone}</p>
             {o.adminNote && (
               <>
                 <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Note from Kriss</h5>
-                <p style={{ background: '#FAF6F1', padding: 10, borderRadius: 8 }}>{o.adminNote}</p>
+                <p style={{ background: '#FAF6F1', padding: 10, borderRadius: 8, margin: 0 }}>{o.adminNote}</p>
               </>
             )}
           </div>
+
+          {(o.customer as any).giftMessage && (
+            <div style={{
+              marginTop: 16,
+              background: 'linear-gradient(135deg, #fff5f7 0%, #fff 100%)',
+              borderRadius: 14,
+              padding: 20,
+              boxShadow: '0 4px 14px rgba(232,143,160,0.15)',
+              border: '2px solid rgba(232,143,160,0.45)',
+              fontSize: '0.9rem',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <span style={{
+                  background: '#e88fa0',
+                  color: '#fff',
+                  borderRadius: 8,
+                  padding: '4px 12px',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                }}>
+                  <i className="fa-solid fa-gift me-1"></i> GIFT ORDER
+                </span>
+              </div>
+
+              {(o.customer as any).giftRecipient && (
+                <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: 8 }}>
+                  For: <strong style={{ color: '#c45e77' }}>{(o.customer as any).giftRecipient}</strong>
+                </div>
+              )}
+
+              <div style={{
+                background: '#fffbfc',
+                border: '1.5px dashed rgba(232,143,160,0.45)',
+                borderRadius: 10,
+                padding: '12px 14px',
+              }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#c45e77', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
+                  <i className="fa-solid fa-envelope-open-text me-1"></i>
+                  Your Gift Card Message
+                </div>
+                <p style={{
+                  fontStyle: 'italic',
+                  fontSize: '0.95rem',
+                  color: '#2D1B0E',
+                  whiteSpace: 'pre-wrap',
+                  margin: 0,
+                  lineHeight: 1.7,
+                  borderLeft: '3px solid #e88fa0',
+                  paddingLeft: 12,
+                }}>
+                  &ldquo;{(o.customer as any).giftMessage}&rdquo;
+                </p>
+              </div>
+
+              <p style={{ fontSize: '0.75rem', color: '#a07080', margin: '10px 0 0', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <i className="fa-solid fa-pen-nib" style={{ color: '#e88fa0' }}></i>
+                This message will be handwritten on a gift card inside your package
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

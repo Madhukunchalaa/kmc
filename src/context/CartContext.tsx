@@ -165,6 +165,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }).catch(() => {});
   }, []);
 
+  // Remove ghost items (products deleted/deactivated from catalog) so they
+  // don't inflate the badge count or linger in localStorage/server.
+  useEffect(() => {
+    if (loading || catalog.length === 0 || items.length === 0) return;
+    const validIds = new Set<string>();
+    for (const p of catalog) {
+      if (p.id) validIds.add(String(p.id).toLowerCase());
+      if ((p as any).slug) validIds.add(String((p as any).slug).toLowerCase());
+      if ((p as any)._id) validIds.add(String((p as any)._id).toLowerCase());
+    }
+    validIds.add('custom-bracelet');
+    const clean = items.filter((it) => {
+      const baseId = it.productId.includes('::') ? it.productId.split('::')[0] : it.productId;
+      return validIds.has(baseId.toLowerCase());
+    });
+    if (clean.length !== items.length) persist(clean);
+  }, [loading, catalog, items, persist]);
+
   const addItem = useCallback(
     async (productId: string, qty: number = 1) => {
       const [baseId] = productId.includes('::') ? productId.split('::') : [productId];
@@ -274,8 +292,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     })
     .filter((x): x is CartItemHydrated => x !== null);
 
-  const count = items.reduce((s, i) => s + i.qty, 0);
+  const count = hydrated.reduce((s, i) => s + i.qty, 0);
   const subtotal = hydrated.reduce((s, i) => s + i.lineTotal, 0);
+
 
   return (
     <CartContext.Provider

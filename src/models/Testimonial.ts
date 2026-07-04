@@ -6,6 +6,7 @@ export interface ITestimonial extends Document {
   rating: number;
   text: string;
   avatar: string;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +18,7 @@ const TestimonialSchema = new Schema<ITestimonial>(
     rating: { type: Number, required: true, min: 1, max: 5 },
     text: { type: String, required: true, trim: true },
     avatar: { type: String, required: true, trim: true },
+    isDeleted: { type: Boolean, default: false, index: true },
   },
   {
     timestamps: true,

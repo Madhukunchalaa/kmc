@@ -23,24 +23,22 @@ export async function PATCH(req: Request, ctx: RouteContext<'/api/admin/bookings
     );
     if (!doc) return NextResponse.json({ ok: false, reason: 'not-found' }, { status: 404 });
 
-    if (parsed.data.status === 'approved' || parsed.data.status === 'rejected') {
+    const notifyStatuses = ['approved', 'rejected', 'booked', 'in_progress', 'completed', 'cancelled'];
+    if (notifyStatuses.includes(parsed.data.status)) {
       Notification.create({
         user: doc.user,
         type: 'booking',
         title: `Booking ${parsed.data.status}`,
-        message: `Your booking for ${doc.serviceTitle} on ${doc.date} at ${doc.timeSlot} was ${parsed.data.status}.`,
+        message: `Your booking for ${doc.serviceTitle} on ${doc.date} at ${doc.timeSlot} was updated to ${parsed.data.status}.`,
         link: `/dashboard/bookings/${doc._id}`,
       }).catch(() => {});
+
       let serviceImageUrl = '';
       try {
         const { Service } = await import('@/models/Service');
         const service = await Service.findById(doc.service).lean();
         if (service?.image) {
-          if (service.image.startsWith('http')) {
-            serviceImageUrl = service.image;
-          } else {
-            serviceImageUrl = `${process.env.NEXTAUTH_URL || ''}${service.image}`;
-          }
+          serviceImageUrl = service.image.startsWith('http') ? service.image : `${process.env.NEXTAUTH_URL || ''}${service.image}`;
         }
       } catch (err) {
         console.error('[admin-booking-status-email:prepare-service-error]', err);

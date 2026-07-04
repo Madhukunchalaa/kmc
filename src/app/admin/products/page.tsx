@@ -6,6 +6,7 @@ import ProductRow from './ProductRow';
 import StockEditor from './StockEditor';
 import ProductFilters from './ProductFilters';
 import FinalPriceEditor from './FinalPriceEditor';
+import UsdPriceEditor from './UsdPriceEditor';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -207,6 +208,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 <th style={{ padding: 12, textAlign: 'left' }}>Category</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Price</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Final Price</th>
+                <th style={{ padding: 12, textAlign: 'right' }}>USD Price</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Stock</th>
                 {!isTrashView && <th style={{ padding: 12, textAlign: 'center' }}>Status</th>}
                 <th style={{ padding: 12, textAlign: 'right', width: isTrashView ? 110 : 180 }}>
@@ -217,7 +219,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
             <tbody>
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={isTrashView ? 7 : 8} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
+                  <td colSpan={isTrashView ? 8 : 9} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
                     <i className="fa-solid fa-inbox" style={{ fontSize: '2rem', marginBottom: '8px', display: 'block', color: '#ccc' }}></i>
                     {isTrashView ? 'No deleted products — trash is empty.' : 'No products found matching these criteria.'}
                   </td>
@@ -247,6 +249,11 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     {isTrashView
                       ? <span style={{ fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</span>
                       : <FinalPriceEditor id={String(p._id)} price={p.price} />}
+                  </td>
+                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                    {isTrashView
+                      ? <span style={{ fontWeight: 600 }}>{'$' + (p.usdPrice ?? 0)}</span>
+                      : <UsdPriceEditor id={String(p._id)} usdPrice={p.usdPrice ?? 0} />}
                   </td>
                   <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
                     {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}

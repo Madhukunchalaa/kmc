@@ -366,6 +366,18 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
 
     // Show the full catalog; each tab narrows by category / subcategory.
     let list = [...products];
+
+    // "view-all" tab: show one product per unique name (no duplicates)
+    if (activeCat === 'view-all') {
+      const seen = new Set<string>();
+      list = list.filter((p) => {
+        const key = p.name.toLowerCase().trim();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
     if (activeCat !== 'all' && activeCat !== 'view-all') {
       list = products.filter((p) => {
         const sub = norm(p.subcategory);

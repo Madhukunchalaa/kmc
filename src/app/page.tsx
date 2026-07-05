@@ -468,6 +468,7 @@ export default function Home() {
               display: 'flex',
               flexWrap: 'nowrap',
               overflowX: 'auto',
+              overflowY: 'hidden',
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
               overscrollBehaviorX: 'contain',

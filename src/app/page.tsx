@@ -582,7 +582,18 @@ export default function Home() {
           </div>
 
           <div className="shop-products-grid">
-            {featuredProducts.map((product, idx) => (
+            {featuredProducts.length === 0
+              ? FEATURED_IDS.map((id) => (
+                  // Skeleton placeholders reserve card space while products load (prevents CLS)
+                  <div key={id} aria-hidden="true" style={{ borderRadius: 16, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
+                    <div style={{ aspectRatio: '1 / 1', background: 'linear-gradient(110deg, #F5EFE8 30%, #FBF7F2 50%, #F5EFE8 70%)', backgroundSize: '200% 100%', animation: 'kmcShimmer 1.4s linear infinite' }} />
+                    <div style={{ padding: '14px 16px' }}>
+                      <div style={{ height: 14, width: '70%', borderRadius: 6, background: '#F0E9E0', marginBottom: 10 }} />
+                      <div style={{ height: 12, width: '40%', borderRadius: 6, background: '#F5EFE8' }} />
+                    </div>
+                  </div>
+                ))
+              : featuredProducts.map((product, idx) => (
               <ScrollFade key={product.id} delay={idx * 80}>
                 <ProductCard product={product} />
               </ScrollFade>

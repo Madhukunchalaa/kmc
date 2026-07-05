@@ -6,6 +6,7 @@ import Link from 'next/link';
 export default function SignatureCarousel({ products: seedProducts }: { products: any[] }) {
   const [products, setProducts] = useState<any[]>(seedProducts);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [fetched, setFetched] = useState(false);
 
   // Fetch settings to check for custom carousel images, fallback to live DB products
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function SignatureCarousel({ products: seedProducts }: { products
                 name: `Signature Carousel Slide ${index + 1}`
               }));
               setProducts(mockProducts);
+              setFetched(true);
               return;
             }
           } catch {
@@ -41,7 +43,8 @@ export default function SignatureCarousel({ products: seedProducts }: { products
               if (sig.length > 0) setProducts(sig);
             }
           })
-          .catch(() => {});
+          .catch(() => {})
+          .finally(() => setFetched(true));
       })
       .catch(() => {
         // Fallback to product fetch on settings error
@@ -55,7 +58,8 @@ export default function SignatureCarousel({ products: seedProducts }: { products
               if (sig.length > 0) setProducts(sig);
             }
           })
-          .catch(() => {});
+          .catch(() => {})
+          .finally(() => setFetched(true));
       });
   }, []);
 
@@ -67,7 +71,14 @@ export default function SignatureCarousel({ products: seedProducts }: { products
     return () => clearInterval(interval);
   }, [products.length]);
 
-  if (products.length === 0) return null;
+  // While still fetching, hold the section's space with a same-styled placeholder
+  // so content below doesn't jump up then down (prevents layout shift / CLS).
+  if (products.length === 0) {
+    if (fetched) return null; // genuinely no data — collapse for good
+    return (
+      <section id="signature-crystals" className="section-pad" style={{ background: '#0F0904', minHeight: 560 }} aria-hidden="true" />
+    );
+  }
 
   return (
     <section id="signature-crystals" className="section-pad" style={{ background: '#0F0904', color: '#fff', overflow: 'hidden', position: 'relative' }}>

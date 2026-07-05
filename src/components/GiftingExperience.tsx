@@ -18,10 +18,18 @@ const FALLBACK_RECIPIENTS = [
   { key: 'self',      label: 'Yourself',         subtitle: 'You deserve it',          icon: 'fa-solid fa-spa',                tagline: "Your soul picked this — trust the pull",                   keywords: [],                                                                          fallback: 'bracelets', color: '#27AE60', bg: 'rgba(39,174,96,0.12)' },
 ];
 
-type Recipient = typeof FALLBACK_RECIPIENTS[0];
-type AnyProduct = { name: string; desc?: string; category?: string; [key: string]: any };
+type Recipient = typeof FALLBACK_RECIPIENTS[0] & { productSlugs?: string[] };
+type AnyProduct = { name: string; desc?: string; category?: string; slug?: string; [key: string]: any };
 
 function getGiftProducts(recipient: Recipient, liveProducts: AnyProduct[]): AnyProduct[] {
+  // Admin hand-picked products take priority (kept in the admin's chosen order)
+  if (recipient.productSlugs && recipient.productSlugs.length > 0) {
+    const bySlug = new Map(liveProducts.map((p) => [p.slug ?? p.id, p]));
+    const picked = recipient.productSlugs
+      .map((slug) => bySlug.get(slug))
+      .filter((p): p is AnyProduct => Boolean(p));
+    if (picked.length > 0) return picked;
+  }
   if (recipient.keywords.length === 0) return liveProducts.slice(0, 8);
   const matched = liveProducts.filter((p) =>
     recipient.keywords.some(

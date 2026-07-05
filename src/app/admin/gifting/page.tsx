@@ -1,5 +1,6 @@
 import { connectMongoose } from '@/lib/mongoose';
 import GiftingRecipient from '@/models/GiftingRecipient';
+import { Product } from '@/models/Product';
 import GiftingAdmin from './GiftingAdmin';
 
 export const dynamic = 'force-dynamic';
@@ -37,11 +38,25 @@ export default async function AdminGiftingPage() {
     icon: i.icon ?? 'fa-solid fa-gift',
     tagline: i.tagline ?? '',
     keywords: i.keywords ?? [],
+    productSlugs: (i as { productSlugs?: string[] }).productSlugs ?? [],
     fallback: i.fallback ?? 'bracelets',
     color: i.color ?? '#C8956C',
     bg: i.bg ?? 'rgba(200,149,108,0.12)',
     order: i.order ?? 0,
   }));
 
-  return <GiftingAdmin initialItems={serialized} />;
+  // Active products for the manual product picker
+  const products = await Product.find(
+    { active: true, isDeleted: { $ne: true } },
+    'slug name image price category'
+  ).sort({ name: 1 }).lean();
+  const productOptions = products.map((p) => ({
+    slug: p.slug,
+    name: p.name,
+    image: p.image ?? '',
+    price: p.price ?? 0,
+    category: p.category ?? '',
+  }));
+
+  return <GiftingAdmin initialItems={serialized} products={productOptions} />;
 }

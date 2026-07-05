@@ -9244,3 +9244,9 @@ video:-ms-fullscreen {
 
 
 
+
+/* Skeleton shimmer for loading placeholders (CLS prevention) */
+@keyframes kmcShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

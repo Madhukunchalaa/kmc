@@ -178,19 +178,29 @@ export default function Home() {
       .catch((err) => console.error('Error fetching products:', err));
   }, []);
 
+  const [adminFeaturedSlugs, setAdminFeaturedSlugs] = useState<string[]>([]);
+
   useEffect(() => {
     fetch('/api/settings')
       .then((res) => res.json())
       .then((data) => {
-        if (data.ok && data.settings && data.settings.founderImageUrl) {
-          setFounderImageUrl(data.settings.founderImageUrl);
+        if (data.ok && data.settings) {
+          if (data.settings.founderImageUrl) setFounderImageUrl(data.settings.founderImageUrl);
+          if (data.settings.featuredProductSlugs) {
+            try {
+              const parsed = typeof data.settings.featuredProductSlugs === 'string'
+                ? JSON.parse(data.settings.featuredProductSlugs)
+                : data.settings.featuredProductSlugs;
+              if (Array.isArray(parsed)) setAdminFeaturedSlugs(parsed);
+            } catch { /* keep defaults */ }
+          }
         }
       })
       .catch((err) => console.error('Error fetching settings:', err));
   }, []);
 
-  // Bestsellers: Display the exact 5 products from the database list by id or slug
-  const FEATURED_IDS = [
+  // Bestsellers: admin-selected slugs from Settings take priority; otherwise defaults
+  const FEATURED_IDS = adminFeaturedSlugs.length > 0 ? adminFeaturedSlugs : [
     'rose-quartz-bracelet',
     'triple-protection-bracelet',
     'money-magnet-bracelet',

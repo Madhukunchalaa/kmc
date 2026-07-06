@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function UserRowActions({ id, active, role }: { id: string; active: boolean; role: 'user' | 'admin' }) {
+export default function UserRowActions({ id, active }: { id: string; active: boolean }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
@@ -20,9 +20,6 @@ export default function UserRowActions({ id, active, role }: { id: string; activ
     <div className="d-flex gap-2 justify-content-end">
       <button type="button" onClick={() => update({ active: !active })} disabled={busy} style={{ background: 'transparent', border: 0, color: active ? '#D95F5F' : '#4CAF50', cursor: 'pointer', fontSize: '0.85rem' }}>
         {active ? 'Disable' : 'Enable'}
-      </button>
-      <button type="button" onClick={() => update({ role: role === 'admin' ? 'user' : 'admin' })} disabled={busy} style={{ background: 'transparent', border: 0, color: 'var(--primary,#C8956C)', cursor: 'pointer', fontSize: '0.85rem' }}>
-        {role === 'admin' ? 'Demote' : 'Make admin'}
       </button>
     </div>
   );

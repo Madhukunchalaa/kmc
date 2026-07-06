@@ -91,7 +91,7 @@ export default async function AdminUsers(props: { searchParams: Promise<SP> }) {
                   </td>
                   <td style={{ padding: 12, textAlign: 'right', color: '#888', fontSize: '0.82rem' }}>{new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
                   <td style={{ padding: 12, textAlign: 'right' }}>
-                    <UserRowActions id={String(u._id)} active={u.active} role={u.role} />
+                    <UserRowActions id={String(u._id)} active={u.active} />
                   </td>
                 </tr>
               ))}

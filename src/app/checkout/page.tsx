@@ -647,83 +647,41 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* Gift Option */}
-                <div style={{
-                  border: isGift ? '2px solid #e88fa0' : '1.5px solid rgba(0,0,0,0.1)',
-                  borderRadius: 14,
-                  overflow: 'hidden',
-                  transition: 'border-color 0.2s',
-                }}>
-                  <label style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    padding: '14px 18px',
-                    cursor: 'pointer',
-                    background: isGift ? 'rgba(232,143,160,0.06)' : '#fafafa',
-                    userSelect: 'none',
+                {/* Gift summary — message is entered in the Gifting section, shown read-only here */}
+                {isGift && giftMessageState && (
+                  <div style={{
+                    border: '2px solid #e88fa0',
+                    borderRadius: 14,
+                    padding: '16px 18px',
+                    background: 'rgba(232,143,160,0.05)',
                   }}>
-                    <input
-                      type="checkbox"
-                      checked={isGift}
-                      onChange={(e) => {
-                        setIsGift(e.target.checked);
-                        if (!e.target.checked) setGiftMessageState('');
-                      }}
-                      style={{ width: 18, height: 18, accentColor: '#e88fa0', flexShrink: 0 }}
-                    />
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#2D1B0E' }}>
-                        <i className="fa-solid fa-gift me-2" style={{ color: '#e88fa0' }}></i>
-                        This is a gift
-                        {giftRecipientState && (
-                          <span style={{ marginLeft: 8, fontSize: '0.8rem', fontWeight: 500, color: '#e88fa0', background: 'rgba(232,143,160,0.12)', padding: '2px 8px', borderRadius: 10 }}>
-                            For: {giftRecipientState}
-                          </span>
-                        )}
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>
-                        We&apos;ll include a handwritten gift card with your message inside the package
-                      </div>
+                    <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#2D1B0E', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <i className="fa-solid fa-gift" style={{ color: '#e88fa0' }}></i>
+                      Gift Order
+                      {giftRecipientState && (
+                        <span style={{ fontSize: '0.8rem', fontWeight: 500, color: '#e88fa0', background: 'rgba(232,143,160,0.12)', padding: '2px 8px', borderRadius: 10 }}>
+                          For: {giftRecipientState}
+                        </span>
+                      )}
                     </div>
-                  </label>
-
-                  {isGift && (
-                    <div style={{ padding: '0 18px 18px', background: 'rgba(232,143,160,0.04)' }}>
-                      <div style={{
-                        background: '#fff8f0',
-                        border: '1px dashed rgba(232,143,160,0.5)',
-                        borderRadius: 10,
-                        padding: '10px 14px',
-                        marginBottom: 12,
-                        fontSize: '0.8rem',
-                        color: '#7a4a55',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: 8,
-                      }}>
-                        <i className="fa-solid fa-circle-info" style={{ marginTop: 2, color: '#e88fa0' }}></i>
-                        <span>Your message will be <strong>handwritten on a gift card</strong> and placed inside the package. Our team will see it before shipping.</span>
-                      </div>
-                      <label style={{ fontSize: '0.85rem', fontWeight: 600, display: 'block', marginBottom: 6 }}>
-                        Gift Card Message <span style={{ color: '#e88fa0' }}>*</span>
-                      </label>
-                      <textarea
-                        value={giftMessageState}
-                        onChange={(e) => setGiftMessageState(e.target.value)}
-                        rows={4}
-                        maxLength={300}
-                        required={isGift}
-                        className="checkout-form-input"
-                        placeholder="Write your message here… e.g. Happy Birthday! Wishing you love, light, and good vibes always 💛"
-                        style={{ resize: 'vertical', borderColor: 'rgba(232,143,160,0.4)' }}
-                      />
-                      <div style={{ fontSize: '0.72rem', color: '#aaa', textAlign: 'right', marginTop: 4 }}>
-                        {giftMessageState.length}/300 characters
-                      </div>
+                    <div style={{
+                      fontStyle: 'italic',
+                      fontSize: '0.88rem',
+                      color: '#2D1B0E',
+                      whiteSpace: 'pre-wrap',
+                      margin: '10px 0 8px',
+                      borderLeft: '3px solid #e88fa0',
+                      paddingLeft: 10,
+                      lineHeight: 1.6,
+                    }}>
+                      &ldquo;{giftMessageState}&rdquo;
                     </div>
-                  )}
-                </div>
+                    <div style={{ fontSize: '0.75rem', color: '#a07080' }}>
+                      <i className="fa-solid fa-pen-nib me-1"></i>
+                      This will be handwritten on a gift card inside the package. To change it, go back to the gifting section.
+                    </div>
+                  </div>
+                )}
 
                 {/* Payment Method */}
                 <div>

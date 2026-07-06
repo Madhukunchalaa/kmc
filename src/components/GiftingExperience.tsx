@@ -49,17 +49,13 @@ export default function GiftingExperience() {
   const [liveProducts, setLiveProducts] = useState<AnyProduct[]>([]);
   const [recipient, setRecipient] = useState<Recipient | null>(null);
   const [giftMsg, setGiftMsg] = useState('');
-  const [msgOpen, setMsgOpen] = useState(false);
 
   // Load from localStorage on mount (since localStorage is client-only)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedMsg = localStorage.getItem('kmc_gift_message') || '';
       setGiftMsg(savedMsg);
-      if (savedMsg) {
-        setMsgOpen(true);
-      }
-      
+
       const savedRec = localStorage.getItem('kmc_gift_recipient');
       if (savedRec) {
         try {
@@ -212,25 +208,32 @@ export default function GiftingExperience() {
                 </p>
               </div>
 
-              {/* Gift message box */}
+              {/* Gift message box — always visible; the message travels with the order to checkout */}
               <div className="gift-msg-wrap">
-                <button className="gift-msg-toggle" onClick={() => setMsgOpen((v) => !v)}>
-                  <i className="fa-solid fa-envelope-open-text me-2" />
-                  {msgOpen ? 'Hide gift message' : 'Add a personal gift message'}
-                </button>
-                {msgOpen && (
-                  <div className="gift-msg-box">
-                    <textarea
-                      className="gift-msg-input"
-                      rows={3}
-                      maxLength={160}
-                      value={giftMsg}
-                      onChange={(e) => setGiftMsg(e.target.value)}
-                      placeholder={`Write something beautiful for your ${recipient.label}...`}
-                    />
-                    <span className="gift-msg-count">{giftMsg.length}/160</span>
-                  </div>
-                )}
+                <div className="gift-msg-box" style={{ display: 'block' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: '0.9rem', marginBottom: 8 }}>
+                    <i className="fa-solid fa-envelope-open-text" />
+                    Your gift message for {recipient.label}
+                    <span style={{ fontWeight: 400, fontSize: '0.75rem', opacity: 0.7 }}>
+                      — handwritten on a gift card inside the package
+                    </span>
+                  </label>
+                  <textarea
+                    className="gift-msg-input"
+                    rows={3}
+                    maxLength={160}
+                    value={giftMsg}
+                    onChange={(e) => setGiftMsg(e.target.value)}
+                    placeholder={`Write something beautiful for your ${recipient.label}... e.g. "Happy Birthday! Wishing you love & light always"`}
+                  />
+                  <span className="gift-msg-count">{giftMsg.length}/160</span>
+                  {giftMsg.trim() && (
+                    <p style={{ fontSize: '0.72rem', margin: '6px 0 0', opacity: 0.75 }}>
+                      <i className="fa-solid fa-circle-check me-1" style={{ color: '#7ec98f' }} />
+                      Saved — your message will appear at checkout automatically
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Products */}

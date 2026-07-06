@@ -7,6 +7,7 @@ import StockEditor from './StockEditor';
 import ProductFilters from './ProductFilters';
 import FinalPriceEditor from './FinalPriceEditor';
 import UsdPriceEditor from './UsdPriceEditor';
+import SizesEditor from './SizesEditor';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -210,6 +211,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 <th style={{ padding: 12, textAlign: 'right' }}>Final Price</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>USD Price</th>
                 <th style={{ padding: 12, textAlign: 'right' }}>Stock</th>
+                {!isTrashView && <th style={{ padding: 12, textAlign: 'right' }}>Sizes (bracelets)</th>}
                 {!isTrashView && <th style={{ padding: 12, textAlign: 'center' }}>Status</th>}
                 <th style={{ padding: 12, textAlign: 'right', width: isTrashView ? 110 : 180 }}>
                   {isTrashView ? 'Action' : ''}
@@ -219,7 +221,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
             <tbody>
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={isTrashView ? 8 : 9} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
+                  <td colSpan={isTrashView ? 8 : 10} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
                     <i className="fa-solid fa-inbox" style={{ fontSize: '2rem', marginBottom: '8px', display: 'block', color: '#ccc' }}></i>
                     {isTrashView ? 'No deleted products — trash is empty.' : 'No products found matching these criteria.'}
                   </td>
@@ -258,6 +260,13 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                   <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
                     {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}
                   </td>
+                  {!isTrashView && (
+                    <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                      {(p.category ?? '').toLowerCase().includes('bracelet') || (p.subcategory ?? '').toLowerCase().includes('bracelet')
+                        ? <SizesEditor id={String(p._id)} sizes={(p.sizes ?? []) as string[]} />
+                        : <span style={{ color: '#ccc', fontSize: '0.8rem' }}>—</span>}
+                    </td>
+                  )}
                   {!isTrashView && (
                     <td style={{ padding: 12, textAlign: 'center' }}>
                       <span className="crystal-tag" style={{ fontSize: '0.72rem', background: p.active ? '#4CAF5022' : '#D95F5F22', color: p.active ? '#1E8449' : '#A94442' }}>

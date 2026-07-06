@@ -9,18 +9,45 @@ export const metadata = { title: 'Bookings · Admin' };
 interface SP {
   status?: string;
   q?: string;
+  service?: string;
+  payment?: string;
+  from?: string;
+  to?: string;
+  sort?: string;
 }
+
+const SORTS: Record<string, Record<string, 1 | -1>> = {
+  newest: { createdAt: -1 },
+  oldest: { createdAt: 1 },
+  'event-date': { date: -1, timeSlot: -1 },
+  'price-high': { servicePrice: -1 },
+  'price-low': { servicePrice: 1 },
+};
 
 export default async function AdminBookings(props: PageProps<'/admin/bookings'>) {
   const sp = (await props.searchParams) as SP;
   const status = sp.status;
   const q = sp.q || '';
+  const service = sp.service || '';
+  const payment = sp.payment || '';
+  const from = sp.from || '';
+  const to = sp.to || '';
+  const sort = sp.sort && SORTS[sp.sort] ? sp.sort : 'newest';
 
   await connectMongoose();
 
   // 1. Build Filter
   const filter: Record<string, unknown> = {};
   if (status) filter.status = status;
+  if (service) filter.serviceTitle = service;
+  if (payment === 'paid') filter.paymentStatus = 'paid';
+  if (payment === 'unpaid') filter.paymentStatus = { $ne: 'paid' };
+  if (from || to) {
+    const range: Record<string, Date> = {};
+    if (from) range.$gte = new Date(from);
+    if (to) { const end = new Date(to); end.setDate(end.getDate() + 1); range.$lt = end; }
+    filter.createdAt = range;
+  }
   if (q) {
     filter.$or = [
       { bookingNumber: { $regex: q, $options: 'i' } },
@@ -31,12 +58,13 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
     ];
   }
 
-  // 2. Fetch data & compile status counts
-  const [bookings, countAgg] = await Promise.all([
-    Booking.find(filter).sort({ date: -1, timeSlot: -1 }).lean(),
+  // 2. Fetch data & compile status counts + distinct services for the filter dropdown
+  const [bookings, countAgg, serviceTitles] = await Promise.all([
+    Booking.find(filter).sort(SORTS[sort]).lean(),
     Booking.aggregate([
       { $group: { _id: '$status', count: { $sum: 1 } } }
-    ])
+    ]),
+    Booking.distinct('serviceTitle'),
   ]);
 
   const counts = countAgg.reduce((acc, curr) => {
@@ -80,9 +108,16 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
           {['all', 'pending', 'booked', 'in_progress', 'completed', 'cancelled', 'approved', 'rejected'].map((s) => {
             const active = (s === 'all' && !status) || s === status;
             const count = s === 'all' ? totalCount : (counts[s] ?? 0);
-            const href = s === 'all'
-              ? (q ? `/admin/bookings?q=${encodeURIComponent(q)}` : '/admin/bookings')
-              : `/admin/bookings?status=${s}${q ? `&q=${encodeURIComponent(q)}` : ''}`;
+            const params = new URLSearchParams();
+            if (s !== 'all') params.set('status', s);
+            if (q) params.set('q', q);
+            if (service) params.set('service', service);
+            if (payment) params.set('payment', payment);
+            if (from) params.set('from', from);
+            if (to) params.set('to', to);
+            if (sort !== 'newest') params.set('sort', sort);
+            const qs = params.toString();
+            const href = qs ? `/admin/bookings?${qs}` : '/admin/bookings';
             return (
               <Link key={s} href={href} className="crystal-tag" style={{
                 background: active ? 'var(--primary,#C8956C)' : 'transparent',
@@ -98,10 +133,10 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
 
       {/* Search Bar */}
       <div style={{ background: '#fff', padding: '1rem', borderRadius: 14, marginBottom: '1rem', boxShadow: '0 4px 14px rgba(0,0,0,0.02)' }}>
-        <form method="GET" action="/admin/bookings" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        <form method="GET" action="/admin/bookings" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           {status && <input type="hidden" name="status" value={status} />}
-          <div style={{ flex: '1 1 300px', position: 'relative' }}>
-            <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: '0.9rem' }}></i>
+          <div style={{ flex: '1 1 260px', position: 'relative' }}>
+            <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, bottom: 13, color: '#aaa', fontSize: '0.9rem' }}></i>
             <input
               type="text"
               name="q"
@@ -112,11 +147,51 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
             />
           </div>
 
+          <div>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Service</label>
+            <select name="service" defaultValue={service} className="newsletter-input" style={{ height: 42, maxWidth: 190 }}>
+              <option value="">All services</option>
+              {serviceTitles.sort().map((s: string) => (
+                <option key={s} value={s}>{s.length > 40 ? s.slice(0, 40) + '…' : s}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Payment</label>
+            <select name="payment" defaultValue={payment} className="newsletter-input" style={{ height: 42 }}>
+              <option value="">All</option>
+              <option value="paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>From</label>
+            <input type="date" name="from" defaultValue={from} className="newsletter-input" style={{ height: 42 }} />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>To</label>
+            <input type="date" name="to" defaultValue={to} className="newsletter-input" style={{ height: 42 }} />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Sort by</label>
+            <select name="sort" defaultValue={sort} className="newsletter-input" style={{ height: 42 }}>
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="event-date">Event date</option>
+              <option value="price-high">Price: high → low</option>
+              <option value="price-low">Price: low → high</option>
+            </select>
+          </div>
+
           <button type="submit" className="btn-primary-custom" style={{ padding: '0 18px', height: '42px' }}>
-            Search
+            Apply
           </button>
 
-          {(q || status) && (
+          {(q || status || service || payment || from || to || sort !== 'newest') && (
             <Link href="/admin/bookings" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px', textDecoration: 'none' }}>
               Reset
             </Link>

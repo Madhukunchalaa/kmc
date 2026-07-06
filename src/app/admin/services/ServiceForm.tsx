@@ -222,12 +222,40 @@ export default function ServiceForm({ id, initial }: { id?: string; initial?: In
               </p>
             </div>
             {f.videoUrl && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#F0FAF0', border: '1px solid #B2D8B2', borderRadius: 10, padding: '8px 14px' }}>
-                <i className="fa-solid fa-circle-check" style={{ color: '#4CAF50', fontSize: '1rem' }}></i>
-                <span style={{ fontSize: '0.8rem', color: '#2D6A2D', fontWeight: 600 }}>Video uploaded</span>
-                <button type="button" onClick={() => set('videoUrl', '')} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: '0.75rem', marginLeft: 4 }}>
-                  <i className="fa-solid fa-xmark"></i> Remove
+              <div style={{ position: 'relative' }}>
+                <video
+                  src={f.videoUrl}
+                  controls
+                  preload="metadata"
+                  playsInline
+                  style={{
+                    width: 220,
+                    maxWidth: '100%',
+                    borderRadius: 12,
+                    border: '1.5px solid rgba(200,149,108,0.4)',
+                    background: '#000',
+                    display: 'block',
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => set('videoUrl', '')}
+                  title="Remove video"
+                  style={{
+                    position: 'absolute', top: -10, right: -10,
+                    width: 26, height: 26, borderRadius: '50%',
+                    background: '#D95F5F', color: '#fff', border: '2px solid #fff',
+                    cursor: 'pointer', fontSize: '0.7rem', lineHeight: 1,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                  }}
+                >
+                  <i className="fa-solid fa-xmark"></i>
                 </button>
+                <p style={{ margin: '6px 0 0', fontSize: '0.72rem', color: '#2D6A2D', fontWeight: 600, textAlign: 'center' }}>
+                  <i className="fa-solid fa-circle-check me-1" style={{ color: '#4CAF50' }}></i>
+                  Current video — upload a new file to replace it
+                </p>
               </div>
             )}
           </div>

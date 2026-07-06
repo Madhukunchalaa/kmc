@@ -38,6 +38,38 @@ export default function AdminSettingsPage() {
   const categoryFileInputRef = useRef<HTMLInputElement>(null);
   const pendingCategoryKey = useRef<string | null>(null);
 
+  // Drag-to-reorder state for carousel images
+  const dragIdx = useRef<number | null>(null);
+  const [dragOver, setDragOver] = useState<number | null>(null);
+
+  // Fallback Signature Bracelets products (shown when no custom images uploaded)
+  const [sigProducts, setSigProducts] = useState<{ name: string; image: string }[]>([]);
+
+  // Homepage Featured Products management
+  const [allProducts, setAllProducts] = useState<{ slug: string; name: string; image: string; price: number }[]>([]);
+  const [featuredSlugs, setFeaturedSlugs] = useState<string[]>([]);
+  const [featSearch, setFeatSearch] = useState('');
+  const featDragIdx = useRef<number | null>(null);
+  const [featDragOver, setFeatDragOver] = useState<number | null>(null);
+
+  const moveFeatured = (from: number, to: number) => {
+    setFeaturedSlugs((s) => {
+      const next = [...s];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+  };
+
+  const moveCarouselImage = (from: number, to: number) => {
+    setSignatureCarouselImages((imgs) => {
+      const next = [...imgs];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+  };
+
   // Load current settings
   const loadSettings = async () => {
     setLoading(true);
@@ -61,6 +93,17 @@ export default function AdminSettingsPage() {
         } else {
           setSignatureCarouselImages([]);
         }
+        // Homepage featured products (ordered slugs)
+        if (data.settings.featuredProductSlugs) {
+          try {
+            const parsed = typeof data.settings.featuredProductSlugs === 'string'
+              ? JSON.parse(data.settings.featuredProductSlugs)
+              : data.settings.featuredProductSlugs;
+            setFeaturedSlugs(Array.isArray(parsed) ? parsed : []);
+          } catch {
+            setFeaturedSlugs([]);
+          }
+        }
         // Load category cover images
         const catImgs: Record<string, string> = {};
         for (const cat of CATEGORY_DEFS) {
@@ -78,8 +121,35 @@ export default function AdminSettingsPage() {
     }
   };
 
+  // Load Signature Bracelets products so the admin can see what the carousel
+  // falls back to (and promote any of them into the custom list).
+  const loadSigProducts = async () => {
+    try {
+      const res = await fetch('/api/products');
+      const data = await res.json();
+      if (Array.isArray(data.products)) {
+        setSigProducts(
+          data.products
+            .filter((p: { subcategory?: string }) => p.subcategory?.toLowerCase() === 'signature bracelets')
+            .map((p: { name: string; image: string }) => ({ name: p.name, image: p.image })),
+        );
+        setAllProducts(
+          data.products.map((p: { slug?: string; id?: string; name: string; image: string; price?: number }) => ({
+            slug: p.slug ?? p.id ?? '',
+            name: p.name,
+            image: p.image,
+            price: p.price ?? 0,
+          })),
+        );
+      }
+    } catch {
+      // non-critical — fallback preview just won't show
+    }
+  };
+
   useEffect(() => {
     loadSettings();
+    loadSigProducts();
   }, []);
 
   // Handle Image Upload to Cloudflare R2
@@ -205,7 +275,8 @@ export default function AdminSettingsPage() {
         body: JSON.stringify({
           settings: {
             founderImageUrl: founderImageUrl,
-            signatureCarouselImages: JSON.stringify(signatureCarouselImages)
+            signatureCarouselImages: JSON.stringify(signatureCarouselImages),
+            featuredProductSlugs: JSON.stringify(featuredSlugs)
           }
         }),
       });
@@ -420,19 +491,51 @@ export default function AdminSettingsPage() {
               Upload and manage custom images displayed in the Signature Crystals autoplay carousel on the homepage. If no custom images are uploaded here, the carousel will automatically fall back to displaying the products from the <strong>Signature Bracelets</strong> subcategory.
             </p>
 
+            {signatureCarouselImages.length > 1 && (
+              <p style={{ margin: '0 0 10px', fontSize: '0.75rem', color: 'var(--primary,#C8956C)', fontWeight: 600 }}>
+                <i className="fa-solid fa-up-down-left-right me-1"></i>
+                Drag images to change their order in the carousel — then click Save Settings below.
+              </p>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '16px', marginBottom: '1.5rem' }}>
               {signatureCarouselImages.map((url, index) => (
-                <div key={index} style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '1 / 1',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  border: '1.5px solid rgba(200, 149, 108, 0.2)',
-                  boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
-                  background: '#fafafa'
-                }}>
-                  <img src={url} alt={`Carousel ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div
+                  key={`${url}-${index}`}
+                  draggable
+                  onDragStart={() => { dragIdx.current = index; }}
+                  onDragOver={(e) => { e.preventDefault(); setDragOver(index); }}
+                  onDragLeave={() => setDragOver(null)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    if (dragIdx.current !== null && dragIdx.current !== index) {
+                      moveCarouselImage(dragIdx.current, index);
+                    }
+                    dragIdx.current = null;
+                    setDragOver(null);
+                  }}
+                  onDragEnd={() => { dragIdx.current = null; setDragOver(null); }}
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '1 / 1',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: dragOver === index ? '2px dashed var(--primary,#C8956C)' : '1.5px solid rgba(200, 149, 108, 0.2)',
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
+                    background: '#fafafa',
+                    cursor: 'grab',
+                  }}
+                >
+                  <img src={url} alt={`Carousel ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                  {/* position badge */}
+                  <span style={{
+                    position: 'absolute', top: 6, left: 6,
+                    background: 'rgba(45,27,14,0.85)', color: '#fff',
+                    borderRadius: 8, fontSize: '0.68rem', fontWeight: 700,
+                    padding: '2px 8px',
+                  }}>
+                    #{index + 1}
+                  </span>
                   <button
                     type="button"
                     onClick={() => removeCarouselImage(index)}
@@ -495,6 +598,173 @@ export default function AdminSettingsPage() {
                 onClick={(e) => e.stopPropagation()}
               />
 
+            </div>
+
+            {/* Fallback preview: what the carousel currently shows when no custom images exist */}
+            {signatureCarouselImages.length === 0 && sigProducts.length > 0 && (
+              <div style={{
+                background: '#FFF9F2',
+                border: '1px dashed rgba(200,149,108,0.4)',
+                borderRadius: 14,
+                padding: '16px 18px',
+              }}>
+                <p style={{ margin: '0 0 4px', fontSize: '0.85rem', fontWeight: 700, color: '#8a6a3f' }}>
+                  <i className="fa-solid fa-eye me-2"></i>
+                  Currently live on the homepage (automatic)
+                </p>
+                <p style={{ margin: '0 0 14px', fontSize: '0.76rem', color: '#997' }}>
+                  No custom images uploaded, so the carousel is auto-showing these {sigProducts.length} Signature Bracelets products.
+                  Click <strong>+ Use in carousel</strong> on any of them to take manual control — then you can delete and reorder freely.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 12 }}>
+                  {sigProducts.map((p, i) => (
+                    <div key={i} style={{ textAlign: 'center' }}>
+                      <div style={{ position: 'relative', aspectRatio: '1 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(0,0,0,0.08)' }}>
+                        <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                      <div style={{ fontSize: '0.68rem', color: '#776', margin: '6px 0 4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</div>
+                      <button
+                        type="button"
+                        onClick={() => setSignatureCarouselImages((imgs) => [...imgs, p.image])}
+                        style={{
+                          fontSize: '0.68rem', fontWeight: 700,
+                          background: 'none', border: '1px solid rgba(200,149,108,0.5)',
+                          color: 'var(--primary,#C8956C)', borderRadius: 14, padding: '3px 10px', cursor: 'pointer',
+                        }}
+                      >
+                        + Use in carousel
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Homepage Featured Products */}
+          <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '2rem', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.15rem', color: '#2D1B0E', fontWeight: 600, margin: '0 0 1rem' }}>
+              <i className="fa-solid fa-star me-2" style={{ color: '#C8956C', fontSize: '1rem' }} />
+              Homepage Featured Products
+            </h3>
+            <p style={{ margin: '0 0 1.25rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.4 }}>
+              Choose which products appear in the <strong>"Featured Crystal Collections"</strong> section on the homepage,
+              and drag them into the order you want. Leave the list empty to use the default bestseller products.
+              Click <strong>Save Settings</strong> below to apply.
+            </p>
+
+            {/* Selected featured products — draggable */}
+            {featuredSlugs.length > 0 && (
+              <>
+                <p style={{ margin: '0 0 10px', fontSize: '0.75rem', color: 'var(--primary,#C8956C)', fontWeight: 600 }}>
+                  <i className="fa-solid fa-up-down-left-right me-1"></i>
+                  Drag cards to change their position on the homepage.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 14, marginBottom: '1.25rem' }}>
+                  {featuredSlugs.map((slug, index) => {
+                    const p = allProducts.find((x) => x.slug === slug);
+                    return (
+                      <div
+                        key={`${slug}-${index}`}
+                        draggable
+                        onDragStart={() => { featDragIdx.current = index; }}
+                        onDragOver={(e) => { e.preventDefault(); setFeatDragOver(index); }}
+                        onDragLeave={() => setFeatDragOver(null)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          if (featDragIdx.current !== null && featDragIdx.current !== index) {
+                            moveFeatured(featDragIdx.current, index);
+                          }
+                          featDragIdx.current = null;
+                          setFeatDragOver(null);
+                        }}
+                        onDragEnd={() => { featDragIdx.current = null; setFeatDragOver(null); }}
+                        style={{
+                          position: 'relative',
+                          borderRadius: 12,
+                          overflow: 'hidden',
+                          border: featDragOver === index ? '2px dashed var(--primary,#C8956C)' : '1.5px solid rgba(200,149,108,0.25)',
+                          background: '#fff',
+                          cursor: 'grab',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
+                        }}
+                      >
+                        <div style={{ aspectRatio: '1 / 1', background: '#faf6f1' }}>
+                          {p?.image
+                            ? <img src={p.image} alt={p?.name ?? slug} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                            : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#c66', fontSize: '0.7rem', padding: 8, textAlign: 'center' }}>Product not found:<br/>{slug}</div>}
+                        </div>
+                        <span style={{
+                          position: 'absolute', top: 6, left: 6,
+                          background: 'rgba(45,27,14,0.85)', color: '#fff',
+                          borderRadius: 8, fontSize: '0.68rem', fontWeight: 700, padding: '2px 8px',
+                        }}>
+                          #{index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setFeaturedSlugs((s) => s.filter((_, i) => i !== index))}
+                          title="Remove from featured"
+                          style={{
+                            position: 'absolute', top: 6, right: 6,
+                            width: 24, height: 24, borderRadius: '50%',
+                            background: 'rgba(231,76,60,0.9)', border: 'none', color: '#fff',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', fontSize: '0.7rem',
+                          }}
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
+                        <div style={{ padding: '7px 9px', fontSize: '0.72rem', fontWeight: 600, color: '#554', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {p?.name ?? slug}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {featuredSlugs.length === 0 && (
+              <p style={{ fontSize: '0.8rem', color: '#997', background: '#FFF9F2', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', marginBottom: '1.25rem' }}>
+                <i className="fa-solid fa-circle-info me-2"></i>
+                No custom selection — the homepage is showing the default bestseller products. Add products below to take control.
+              </p>
+            )}
+
+            {/* Product picker */}
+            <div style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: 12, overflow: 'hidden' }}>
+              <input
+                value={featSearch}
+                onChange={(e) => setFeatSearch(e.target.value)}
+                placeholder="🔍 Search products to feature…"
+                style={{ width: '100%', padding: '11px 14px', border: 'none', borderBottom: '1px solid rgba(0,0,0,0.07)', outline: 'none', fontSize: '0.88rem' }}
+              />
+              <div style={{ maxHeight: 230, overflowY: 'auto' }}>
+                {allProducts
+                  .filter((p) => !featuredSlugs.includes(p.slug))
+                  .filter((p) => !featSearch.trim() || p.name.toLowerCase().includes(featSearch.trim().toLowerCase()))
+                  .slice(0, 40)
+                  .map((p) => (
+                    <button
+                      key={p.slug}
+                      type="button"
+                      onClick={() => setFeaturedSlugs((s) => [...s, p.slug])}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                        padding: '8px 12px', border: 'none', borderBottom: '1px solid rgba(0,0,0,0.04)',
+                        background: '#fff', cursor: 'pointer', textAlign: 'left',
+                      }}
+                    >
+                      <i className="fa-solid fa-circle-plus" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.95rem', flexShrink: 0 }} />
+                      <img src={p.image} alt="" style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+                      <span style={{ flex: 1, fontSize: '0.84rem' }}>{p.name}</span>
+                      <span style={{ fontSize: '0.78rem', color: '#888', fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</span>
+                    </button>
+                  ))}
+                {allProducts.length === 0 && (
+                  <p style={{ padding: 14, margin: 0, color: '#aaa', fontSize: '0.82rem', textAlign: 'center' }}>Loading products…</p>
+                )}
+              </div>
             </div>
           </div>
 

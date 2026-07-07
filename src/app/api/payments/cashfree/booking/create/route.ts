@@ -63,6 +63,7 @@ export async function POST(req: Request) {
         customerEmail: booking.customer.email,
         customerPhone: booking.customer.phone,
         returnUrl: `${baseUrl}/booking/success?order_id={order_id}`,
+        notifyUrl: `${baseUrl}/api/payments/cashfree/webhook`,
         meta: {
           kmcBookingId: String(booking._id),
           bookingNumber: booking.bookingNumber,

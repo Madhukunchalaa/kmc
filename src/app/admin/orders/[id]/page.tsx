@@ -7,7 +7,7 @@ import { resolveProductImage } from '@/lib/resolveProductImage';
 import OrderStatusForm from './OrderStatusForm';
 import ShippingPaymentForm from './ShippingPaymentForm';
 import MarkAbroadButton from './MarkAbroadButton';
-import MarkPaymentPaidButton from './MarkPaymentPaidButton';
+import ConfirmPaymentButton from '@/app/admin/ConfirmPaymentButton';
 import { formatMoney, currencySymbol } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
@@ -355,9 +355,9 @@ export default async function AdminOrderDetail(props: PageProps<'/admin/orders/[
                 <i className="fa-solid fa-circle-check me-2"></i>Payment
               </h4>
               <p style={{ fontSize: '0.82rem', color: '#666', marginBottom: 16 }}>
-                If the customer paid but webhook failed, manually mark this order as paid to trigger the confirmation email.
+                If the customer paid but the status still shows unpaid, click below. We&apos;ll check with Cashfree and mark it paid only if the payment is confirmed — then send the confirmation email.
               </p>
-              <MarkPaymentPaidButton orderId={String(order._id)} />
+              <ConfirmPaymentButton kind="order" id={String(order._id)} />
             </div>
           )}
 

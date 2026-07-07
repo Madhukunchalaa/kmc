@@ -4,6 +4,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';
 import BookingDecisionForm from './BookingDecisionForm';
+import ConfirmPaymentButton from '@/app/admin/ConfirmPaymentButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Booking Review · Admin' };
@@ -57,6 +58,14 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
               {b.cfPaymentId && <><strong>CF Payment:</strong> {b.cfPaymentId}</>}
               {!b.cfPaymentId && b.razorpayPaymentId && <><strong>Razorpay (legacy):</strong> {b.razorpayPaymentId}</>}
             </p>
+            {(b.paymentStatus || 'unpaid') !== 'paid' && (
+              <div style={{ marginTop: 12 }}>
+                <p style={{ fontSize: '0.82rem', color: '#666', marginBottom: 12 }}>
+                  If the customer paid but the status still shows unpaid, click below. We&apos;ll check with Cashfree and mark it paid only if the payment is confirmed — then send the confirmation email.
+                </p>
+                <ConfirmPaymentButton kind="booking" id={String(b._id)} />
+              </div>
+            )}
             {b.question && (
               <>
                 <h5 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginTop: 16 }}>Specific Question</h5>

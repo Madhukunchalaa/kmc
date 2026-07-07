@@ -45,31 +45,31 @@ export async function POST(req: Request) {
   }
 
   if (!booking && merchantOrderId) {
+    // Cashfree returns the merchant order_id we set at creation: `KMCB-<bookingNumber>`.
+    // Strip the KMCB- prefix to recover the stored bookingNumber (e.g. BKG-xxx) — do NOT
+    // re-add it. A purely numeric value is Cashfree's cf_order_id, matched via cfOrderId.
     let bookingNumber = merchantOrderId;
-    if (bookingNumber.startsWith('KMCB-')) {
-      bookingNumber = bookingNumber.substring(5);
-    }
-    if (bookingNumber.startsWith('KMCB-')) {
+    while (bookingNumber.startsWith('KMCB-')) {
       bookingNumber = bookingNumber.substring(5);
     }
     booking = await Booking.findOne({
-      bookingNumber: `KMCB-${bookingNumber}`,
+      $or: [
+        { bookingNumber },
+        { cfOrderId: merchantOrderId },
+      ],
       user: session.user.id,
     });
   }
 
   if (!booking && cfOrderId) {
     let bookingNumber = cfOrderId;
-    if (bookingNumber.startsWith('KMCB-')) {
-      bookingNumber = bookingNumber.substring(5);
-    }
-    if (bookingNumber.startsWith('KMCB-')) {
+    while (bookingNumber.startsWith('KMCB-')) {
       bookingNumber = bookingNumber.substring(5);
     }
     booking = await Booking.findOne({
       $or: [
         { cfOrderId: cfOrderId },
-        { bookingNumber: `KMCB-${bookingNumber}` },
+        { bookingNumber },
       ],
       user: session.user.id,
     });

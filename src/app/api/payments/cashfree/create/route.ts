@@ -69,6 +69,7 @@ export async function POST(req: Request) {
         customerEmail: order.customer.email,
         customerPhone: order.customer.phone,
         returnUrl: `${baseUrl}/checkout/success?order_id=KMC-${order.orderNumber}`,
+        notifyUrl: `${baseUrl}/api/payments/cashfree/webhook`,
         meta: {
           kmcOrderId: String(order._id),
           orderNumber: order.orderNumber,

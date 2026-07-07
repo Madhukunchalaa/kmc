@@ -117,6 +117,9 @@ export default function SpiritualReels() {
   const [playingId, setPlayingId] = useState<number | null>(FALLBACK_REELS[0].id);
   const [muted, setMuted] = useState(true);
   const [animating, setAnimating] = useState(false);
+  // Track which videos have decoded a frame — only then do we reveal the <video>
+  // over the poster image, so a buffering clip never shows as a black screen.
+  const [readyVideos, setReadyVideos] = useState<Record<number, boolean>>({});
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
 
   // Load reels from DB on mount; fall back to hardcoded list if none returned
@@ -167,6 +170,9 @@ export default function SpiritualReels() {
     if (animating) return;
     const reel = reels[activeIndex];
     if (!reel) return;
+    // Fresh <video> mounts for the new center — require it to re-signal readiness
+    // so we never reveal a not-yet-decoded (black) element over the poster.
+    setReadyVideos({});
     setPlayingId(reel.id);
 
     const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
@@ -414,24 +420,23 @@ export default function SpiritualReels() {
                     </button>
                   )}
 
-                  {/* Fallback image */}
-                  {!cardIsPlaying && (
-                    <img
-                      src={reel.image}
-                      alt={reel.title}
-                      width={280}
-                      height={498}
-                      loading="lazy"
-                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
-                    />
-                  )}
+                  {/* Poster image — ALWAYS the base layer so a card is never blank/black */}
+                  <img
+                    src={reel.image}
+                    alt={reel.title}
+                    width={280}
+                    height={498}
+                    loading="lazy"
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
+                  />
 
-                  {/* Video content */}
+                  {/* Video content — only revealed once it has decoded a frame */}
                   {isCenter && !isYoutube && (
                     <video
                       ref={(el) => { videoRefs.current[reel.id] = el; }}
-                      loop preload="metadata" playsInline muted={muted}
+                      loop preload="auto" playsInline muted={muted}
                       poster={reel.image}
+                      onLoadedData={() => setReadyVideos((s) => ({ ...s, [reel.id]: true }))}
                       onError={() => { if (playingId === reel.id) setPlayingId(null); }}
                       style={{
                         position: 'absolute',
@@ -440,7 +445,7 @@ export default function SpiritualReels() {
                         height: '100%',
                         objectFit: 'cover',
                         zIndex: 2,
-                        display: cardIsPlaying ? 'block' : 'none'
+                        display: (cardIsPlaying && readyVideos[reel.id]) ? 'block' : 'none'
                       }}
                       src={reel.src}
                     />

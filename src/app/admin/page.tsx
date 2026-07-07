@@ -64,7 +64,9 @@ async function loadDashboardData(month?: number, year?: number) {
         { $group: { _id: null, total: { $sum: '$servicePrice' } } },
       ]),
     ]);
-    const revenue = (orderRevenueAgg[0]?.total ?? 0) + (bookingRevenueAgg[0]?.total ?? 0);
+    const orderRevenue = orderRevenueAgg[0]?.total ?? 0;
+    const bookingRevenue = bookingRevenueAgg[0]?.total ?? 0;
+    const revenue = orderRevenue + bookingRevenue;
 
     // Trend window: if filtering by month use that month's days, else last 30 days
     let trendStart: Date;
@@ -170,6 +172,8 @@ async function loadDashboardData(month?: number, year?: number) {
       productsLiveCount,
       usersCount,
       revenue,
+      orderRevenue,
+      bookingRevenue,
       recentOrders,
       recentBookings,
       dailyMetrics,
@@ -203,6 +207,8 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
     { label: `Orders (${periodLabel})`, value: stats.totalOrders, icon: 'fa-solid fa-receipt', color: '#3F8EFC', href: '/admin/orders' },
     { label: 'Products Live', value: stats.productsLiveCount, icon: 'fa-solid fa-gem', color: '#E59500', href: '/admin/products' },
     { label: 'Customers', value: stats.usersCount, icon: 'fa-solid fa-users', color: '#D95F5F', href: '/admin/users' },
+    { label: `Orders Revenue (${periodLabel})`, value: '₹' + stats.orderRevenue.toLocaleString('en-IN'), icon: 'fa-solid fa-cart-shopping', color: '#3F8EFC', href: '/admin/orders' },
+    { label: `Services Revenue (${periodLabel})`, value: '₹' + stats.bookingRevenue.toLocaleString('en-IN'), icon: 'fa-solid fa-spa', color: '#8A3FB2', href: '/admin/bookings' },
     { label: `Paid Revenue (${periodLabel})`, value: '₹' + stats.revenue.toLocaleString('en-IN'), icon: 'fa-solid fa-indian-rupee-sign', color: '#1E8449' },
   ];
 

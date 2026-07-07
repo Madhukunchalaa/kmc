@@ -737,39 +737,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
               const total = catProducts.length;
 
               return (
-                <div key={c.key} style={{ marginBottom: '44px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', gap: 12, flexWrap: 'wrap' }}>
-                    <h3 style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '1.25rem',
-                      color: '#fff',
-                      fontWeight: 700,
-                      margin: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      letterSpacing: '0.02em',
-                    }}>
-                      <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
-                      {c.label}
-                    </h3>
-                    <button
-                      onClick={() => { setQuery(''); router.replace(`/shop?category=${c.key}`, { scroll: true }); }}
-                      style={{
-                        background: 'none',
-                        border: '1px solid rgba(200,149,108,0.4)',
-                        color: 'var(--primary,#C8956C)',
-                        borderRadius: 30,
-                        padding: '6px 16px',
-                        fontSize: '0.8rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap'
-                      }}
-                    >
-                      View all{total > 5 ? ` (${total})` : ''} <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem', marginLeft: 4 }}></i>
-                    </button>
-                  </div>
+                <div key={c.key} style={{ marginBottom: '24px' }}>
                   <div className="shop-products-grid">
                     {rowProducts.map((p, idx) => (
                       <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>

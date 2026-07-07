@@ -515,51 +515,6 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
           Explore Our Collections
         </h4>
 
-        {/* Per-category product rows — up to 5 products per category */}
-        {CATEGORIES.filter((c) => c.key !== 'all').map((c) => {
-          const curated = (categoryRows[c.key] || [])
-            .map((slug) => products.find((p) => p.slug === slug))
-            .filter((p): p is CatalogProduct => Boolean(p));
-          const rowProducts = (curated.length > 0
-            ? curated
-            : products
-                .filter((p) => matchesCategory(p, c.key))
-                .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
-          ).slice(0, 5);
-          if (rowProducts.length === 0) return null;
-          const total = products.filter((p) => matchesCategory(p, c.key)).length;
-          return (
-            <div key={`row-${c.key}`} style={{ marginBottom: '44px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', gap: 12, flexWrap: 'wrap' }}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#fff', fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
-                  {c.label}
-                </h3>
-                <button
-                  onClick={() => { setQuery(''); router.replace(`/shop?category=${c.key}`, { scroll: true }); }}
-                  style={{ background: 'none', border: '1px solid rgba(200,149,108,0.4)', color: 'var(--primary,#C8956C)', borderRadius: 30, padding: '6px 16px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
-                >
-                  View all{total > 5 ? ` (${total})` : ''} <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem', marginLeft: 4 }}></i>
-                </button>
-              </div>
-              <div className="shop-products-grid">
-                {rowProducts.map((p, idx) => (
-                  <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
-                    <ProductCard product={toLegacy(p)} />
-                  </ScrollFade>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Browse-by-collection cards */}
-        <h4 style={{
-          fontFamily: 'var(--font-heading)', fontSize: '1.15rem', color: '#fff', fontWeight: 700,
-          margin: '10px 0 20px', paddingBottom: '10px', borderBottom: '2px solid rgba(200,149,108,0.25)',
-        }}>
-          Browse by Collection
-        </h4>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',

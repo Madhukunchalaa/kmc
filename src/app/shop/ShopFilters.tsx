@@ -727,27 +727,34 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
           </div>
         ) : activeCat === 'view-all' ? (
           <div>
-            {CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all').map((c) => {
-              const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
-              if (catProducts.length === 0) return null;
-              
-              const rowProducts = catProducts
-                .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
-                .slice(0, 5);
-              const total = catProducts.length;
+            {CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all')
+              .map((c) => {
+                const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
+                return { category: c, products: catProducts };
+              })
+              .filter((item) => item.products.length > 0)
+              .sort((a, b) => {
+                const aFull = a.products.length >= 5 ? 1 : 0;
+                const bFull = b.products.length >= 5 ? 1 : 0;
+                return bFull - aFull;
+              })
+              .map(({ category: c, products: catProducts }) => {
+                const rowProducts = catProducts
+                  .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
+                  .slice(0, 5);
 
-              return (
-                <div key={c.key} style={{ marginBottom: '24px' }}>
-                  <div className="shop-products-grid">
-                    {rowProducts.map((p, idx) => (
-                      <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
-                        <ProductCard product={toLegacy(p)} />
-                      </ScrollFade>
-                    ))}
+                return (
+                  <div key={c.key} style={{ marginBottom: '24px' }}>
+                    <div className="shop-products-grid">
+                      {rowProducts.map((p, idx) => (
+                        <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
+                          <ProductCard product={toLegacy(p)} />
+                        </ScrollFade>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         ) : (
           <div className="shop-products-grid">

@@ -485,14 +485,52 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
   }, [products, activeCat, sort, query]);
 
   const isViewAll = activeCat === 'view-all';
-  const itemsPerPage = isViewAll ? 500 : ITEMS_PER_PAGE;
+
+  const viewAllData = useMemo(() => {
+    if (!isViewAll) return { shownOnPage1: [], remainingProducts: [], activeCategories: [] };
+    const activeCats = CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all')
+      .map((c) => {
+        const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
+        return { category: c, products: catProducts };
+      })
+      .filter((item) => item.products.length > 0)
+      .sort((a, b) => {
+        const aFull = a.products.length >= 5 ? 1 : 0;
+        const bFull = b.products.length >= 5 ? 1 : 0;
+        return bFull - aFull;
+      });
+
+    const shown: CatalogProduct[] = [];
+    activeCats.forEach(({ category: c, products: catProducts }) => {
+      const rowProducts = catProducts
+        .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
+        .slice(0, 5);
+      shown.push(...rowProducts);
+    });
+
+    const remaining = filtered.filter((p) => !shown.some((sp) => sp.slug === p.slug));
+
+    return { shownOnPage1: shown, remainingProducts: remaining, activeCategories: activeCats };
+  }, [filtered, isViewAll]);
+
+  const totalPages = useMemo(() => {
+    if (isViewAll) {
+      return 1 + Math.ceil(viewAllData.remainingProducts.length / ITEMS_PER_PAGE);
+    }
+    return Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  }, [filtered, isViewAll, viewAllData.remainingProducts.length]);
 
   const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filtered.slice(start, start + itemsPerPage);
-  }, [filtered, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    if (isViewAll) {
+      if (currentPage === 1) {
+        return viewAllData.shownOnPage1;
+      }
+      const start = (currentPage - 2) * ITEMS_PER_PAGE;
+      return viewAllData.remainingProducts.slice(start, start + ITEMS_PER_PAGE);
+    }
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filtered.slice(start, start + ITEMS_PER_PAGE);
+  }, [filtered, currentPage, isViewAll, viewAllData]);
 
 
   const CARDS = useMemo(() => {
@@ -725,36 +763,25 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
               <i className="fa-solid fa-rotate-right"></i><span>Reset Filters</span>
             </button>
           </div>
-        ) : activeCat === 'view-all' ? (
+        ) : (activeCat === 'view-all' && currentPage === 1) ? (
           <div>
-            {CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all')
-              .map((c) => {
-                const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
-                return { category: c, products: catProducts };
-              })
-              .filter((item) => item.products.length > 0)
-              .sort((a, b) => {
-                const aFull = a.products.length >= 5 ? 1 : 0;
-                const bFull = b.products.length >= 5 ? 1 : 0;
-                return bFull - aFull;
-              })
-              .map(({ category: c, products: catProducts }) => {
-                const rowProducts = catProducts
-                  .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
-                  .slice(0, 5);
+            {viewAllData.activeCategories.map(({ category: c, products: catProducts }) => {
+              const rowProducts = catProducts
+                .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
+                .slice(0, 5);
 
-                return (
-                  <div key={c.key} style={{ marginBottom: '24px' }}>
-                    <div className="shop-products-grid">
-                      {rowProducts.map((p, idx) => (
-                        <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
-                          <ProductCard product={toLegacy(p)} />
-                        </ScrollFade>
-                      ))}
-                    </div>
+              return (
+                <div key={c.key} style={{ marginBottom: '24px' }}>
+                  <div className="shop-products-grid">
+                    {rowProducts.map((p, idx) => (
+                      <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
+                        <ProductCard product={toLegacy(p)} />
+                      </ScrollFade>
+                    ))}
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="shop-products-grid">

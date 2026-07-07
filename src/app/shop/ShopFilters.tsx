@@ -728,29 +728,51 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
         ) : activeCat === 'view-all' ? (
           <div>
             {CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all').map((c) => {
-              const catProducts = paginatedProducts.filter((p) => getProductCategoryKey(p) === c.key);
+              const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
               if (catProducts.length === 0) return null;
+              
+              const rowProducts = catProducts
+                .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
+                .slice(0, 5);
+              const total = catProducts.length;
+
               return (
                 <div key={c.key} style={{ marginBottom: '44px' }}>
-                  <h3 style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '1.25rem',
-                    color: '#fff',
-                    fontWeight: 700,
-                    marginBottom: '18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    letterSpacing: '0.02em',
-                    borderBottom: '1px solid rgba(200, 149, 108, 0.15)',
-                    paddingBottom: '8px'
-                  }}>
-                    <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
-                    {c.label}
-                  </h3>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', gap: 12, flexWrap: 'wrap' }}>
+                    <h3 style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '1.25rem',
+                      color: '#fff',
+                      fontWeight: 700,
+                      margin: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      letterSpacing: '0.02em',
+                    }}>
+                      <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
+                      {c.label}
+                    </h3>
+                    <button
+                      onClick={() => { setQuery(''); router.replace(`/shop?category=${c.key}`, { scroll: true }); }}
+                      style={{
+                        background: 'none',
+                        border: '1px solid rgba(200,149,108,0.4)',
+                        color: 'var(--primary,#C8956C)',
+                        borderRadius: 30,
+                        padding: '6px 16px',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      View all{total > 5 ? ` (${total})` : ''} <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem', marginLeft: 4 }}></i>
+                    </button>
+                  </div>
                   <div className="shop-products-grid">
-                    {catProducts.map((p, idx) => (
-                      <ScrollFade key={p.slug} delay={Math.min(idx, 6) * 50}>
+                    {rowProducts.map((p, idx) => (
+                      <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
                         <ProductCard product={toLegacy(p)} />
                       </ScrollFade>
                     ))}

@@ -9,9 +9,10 @@ import type { CatalogProduct } from '@/lib/catalog';
 interface ShopPageClientProps {
   products: CatalogProduct[];
   categoryImages?: Record<string, string>;
+  categoryRows?: Record<string, string[]>;
 }
 
-export default function ShopPageClient({ products, categoryImages = {} }: ShopPageClientProps) {
+export default function ShopPageClient({ products, categoryImages = {}, categoryRows = {} }: ShopPageClientProps) {
   return (
     <>
       <section style={{
@@ -52,7 +53,7 @@ export default function ShopPageClient({ products, categoryImages = {} }: ShopPa
         </div>
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <Suspense fallback={<CosmicLoader text="Loading Products" subtext="Gathering cosmic energies..." />}>
-            <ShopFilters products={products} categoryImages={categoryImages} />
+            <ShopFilters products={products} categoryImages={categoryImages} categoryRows={categoryRows} />
           </Suspense>
         </div>
       </section>

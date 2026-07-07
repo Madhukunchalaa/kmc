@@ -61,6 +61,24 @@ export default function AdminSettingsPage() {
     });
   };
 
+  // Per-category shop rows management (Shop landing "5 products per category")
+  const [featuredByCategory, setFeaturedByCategory] = useState<Record<string, string[]>>({});
+  const [activeRowCat, setActiveRowCat] = useState('designer-bracelets');
+  const [rowSearch, setRowSearch] = useState('');
+  const rowDragIdx = useRef<number | null>(null);
+  const [rowDragOver, setRowDragOver] = useState<number | null>(null);
+
+  const currentRowSlugs = featuredByCategory[activeRowCat] || [];
+  const setCurrentRowSlugs = (updater: (s: string[]) => string[]) =>
+    setFeaturedByCategory((all) => ({ ...all, [activeRowCat]: updater(all[activeRowCat] || []) }));
+  const moveRowSlug = (from: number, to: number) =>
+    setCurrentRowSlugs((s) => {
+      const next = [...s];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+
   const moveCarouselImage = (from: number, to: number) => {
     setSignatureCarouselImages((imgs) => {
       const next = [...imgs];
@@ -102,6 +120,17 @@ export default function AdminSettingsPage() {
             setFeaturedSlugs(Array.isArray(parsed) ? parsed : []);
           } catch {
             setFeaturedSlugs([]);
+          }
+        }
+        // Per-category shop rows
+        if (data.settings.categoryFeaturedProducts) {
+          try {
+            const parsed = typeof data.settings.categoryFeaturedProducts === 'string'
+              ? JSON.parse(data.settings.categoryFeaturedProducts)
+              : data.settings.categoryFeaturedProducts;
+            setFeaturedByCategory(parsed && typeof parsed === 'object' ? parsed : {});
+          } catch {
+            setFeaturedByCategory({});
           }
         }
         // Load category cover images
@@ -276,7 +305,8 @@ export default function AdminSettingsPage() {
           settings: {
             founderImageUrl: founderImageUrl,
             signatureCarouselImages: JSON.stringify(signatureCarouselImages),
-            featuredProductSlugs: JSON.stringify(featuredSlugs)
+            featuredProductSlugs: JSON.stringify(featuredSlugs),
+            categoryFeaturedProducts: JSON.stringify(featuredByCategory)
           }
         }),
       });
@@ -766,6 +796,127 @@ export default function AdminSettingsPage() {
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Shop Category Rows — 5 products per category */}
+          <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '2rem', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.15rem', color: '#2D1B0E', fontWeight: 600, margin: '0 0 1rem' }}>
+              <i className="fa-solid fa-table-cells-large me-2" style={{ color: '#C8956C', fontSize: '1rem' }} />
+              Shop Category Rows
+            </h3>
+            <p style={{ margin: '0 0 1.25rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.4 }}>
+              On the Shop landing page, each category shows a row of up to <strong>5 products</strong>.
+              Pick a category below, choose which products appear and drag them into order.
+              Leave a category empty to auto-show its first 5 products. Click <strong>Save Settings</strong> to apply.
+            </p>
+
+            {/* Category selector */}
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Editing category</label>
+              <select
+                value={activeRowCat}
+                onChange={(e) => { setActiveRowCat(e.target.value); setRowSearch(''); }}
+                style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid rgba(0,0,0,0.15)', fontSize: '0.9rem', minWidth: 240, background: '#fff' }}
+              >
+                {CATEGORY_DEFS.filter((c) => c.key !== 'view-all').map((c) => (
+                  <option key={c.key} value={c.key}>
+                    {c.label}{(featuredByCategory[c.key]?.length ?? 0) > 0 ? ` (${featuredByCategory[c.key].length})` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Selected products for this category — draggable */}
+            {currentRowSlugs.length > 0 ? (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 14, marginBottom: '1.25rem' }}>
+                {currentRowSlugs.map((slug, index) => {
+                  const p = allProducts.find((x) => x.slug === slug);
+                  return (
+                    <div
+                      key={`${slug}-${index}`}
+                      draggable
+                      onDragStart={() => { rowDragIdx.current = index; }}
+                      onDragOver={(e) => { e.preventDefault(); setRowDragOver(index); }}
+                      onDragLeave={() => setRowDragOver(null)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        if (rowDragIdx.current !== null && rowDragIdx.current !== index) moveRowSlug(rowDragIdx.current, index);
+                        rowDragIdx.current = null;
+                        setRowDragOver(null);
+                      }}
+                      onDragEnd={() => { rowDragIdx.current = null; setRowDragOver(null); }}
+                      style={{
+                        position: 'relative', borderRadius: 12, overflow: 'hidden',
+                        border: rowDragOver === index ? '2px dashed var(--primary,#C8956C)' : '1.5px solid rgba(200,149,108,0.25)',
+                        background: '#fff', cursor: 'grab', boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
+                      }}
+                    >
+                      <div style={{ aspectRatio: '1 / 1', background: '#faf6f1' }}>
+                        {p?.image
+                          ? <img src={p.image} alt={p?.name ?? slug} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
+                          : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#c66', fontSize: '0.68rem', padding: 8, textAlign: 'center' }}>Not found:<br/>{slug}</div>}
+                      </div>
+                      <span style={{ position: 'absolute', top: 6, left: 6, background: 'rgba(45,27,14,0.85)', color: '#fff', borderRadius: 8, fontSize: '0.68rem', fontWeight: 700, padding: '2px 8px' }}>#{index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentRowSlugs((s) => s.filter((_, i) => i !== index))}
+                        title="Remove"
+                        style={{ position: 'absolute', top: 6, right: 6, width: 24, height: 24, borderRadius: '50%', background: 'rgba(231,76,60,0.9)', border: 'none', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '0.7rem' }}
+                      >
+                        <i className="fa-solid fa-xmark"></i>
+                      </button>
+                      <div style={{ padding: '7px 9px', fontSize: '0.72rem', fontWeight: 600, color: '#554', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p?.name ?? slug}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p style={{ fontSize: '0.8rem', color: '#997', background: '#FFF9F2', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', marginBottom: '1.25rem' }}>
+                <i className="fa-solid fa-circle-info me-2"></i>
+                No products chosen for this category yet — it will auto-show its first 5 products. Add products below to take control.
+              </p>
+            )}
+
+            {/* Product picker */}
+            <div style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: 12, overflow: 'hidden' }}>
+              <input
+                value={rowSearch}
+                onChange={(e) => setRowSearch(e.target.value)}
+                placeholder="🔍 Search products to add to this category…"
+                style={{ width: '100%', padding: '11px 14px', border: 'none', borderBottom: '1px solid rgba(0,0,0,0.07)', outline: 'none', fontSize: '0.88rem' }}
+              />
+              <div style={{ maxHeight: 230, overflowY: 'auto' }}>
+                {allProducts
+                  .filter((p) => !currentRowSlugs.includes(p.slug))
+                  .filter((p) => !rowSearch.trim() || p.name.toLowerCase().includes(rowSearch.trim().toLowerCase()))
+                  .slice(0, 40)
+                  .map((p) => (
+                    <button
+                      key={p.slug}
+                      type="button"
+                      onClick={() => setCurrentRowSlugs((s) => (s.length >= 5 ? s : [...s, p.slug]))}
+                      disabled={currentRowSlugs.length >= 5}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                        padding: '8px 12px', border: 'none', borderBottom: '1px solid rgba(0,0,0,0.04)',
+                        background: '#fff', cursor: currentRowSlugs.length >= 5 ? 'not-allowed' : 'pointer',
+                        opacity: currentRowSlugs.length >= 5 ? 0.5 : 1, textAlign: 'left',
+                      }}
+                    >
+                      <i className="fa-solid fa-circle-plus" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.95rem', flexShrink: 0 }} />
+                      <img src={p.image} alt="" style={{ width: 32, height: 32, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+                      <span style={{ flex: 1, fontSize: '0.84rem' }}>{p.name}</span>
+                      <span style={{ fontSize: '0.78rem', color: '#888', fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</span>
+                    </button>
+                  ))}
+                {allProducts.length === 0 && (
+                  <p style={{ padding: 14, margin: 0, color: '#aaa', fontSize: '0.82rem', textAlign: 'center' }}>Loading products…</p>
+                )}
+              </div>
+            </div>
+            {currentRowSlugs.length >= 5 && (
+              <p style={{ fontSize: '0.72rem', color: '#997', margin: '8px 2px 0' }}>Maximum 5 products per category row reached — remove one to add another.</p>
+            )}
           </div>
 
           {/* Category Cover Images */}

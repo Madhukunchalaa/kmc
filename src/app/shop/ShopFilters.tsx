@@ -244,6 +244,34 @@ const SORTS = [
   { key: 'name', label: 'Name (A–Z)' },
 ];
 
+// Shared category → product matcher (mirrors the filter switch below) so the
+// per-category rows on the Collections landing use identical grouping rules.
+function matchesCategory(p: CatalogProduct, catKey: string): boolean {
+  const sub = (p.subcategory || '').toLowerCase();
+  const cat = (p.category || '').toLowerCase();
+  switch (catKey) {
+    case 'bracelets-by-crystals': return cat === 'bracelets' && sub !== 'designer bracelets' && sub !== 'signature bracelets' && sub !== 'zodiac bracelets';
+    case 'zodiac-bracelets':      return cat === 'bracelets' && sub === 'zodiac bracelets';
+    case 'designer-bracelets':    return sub === 'designer bracelets';
+    case 'signature':             return sub === 'signature bracelets';
+    case 'malas':                 return cat === 'malas';
+    case 'pendants':              return cat === 'pendants';
+    case 'designer-pendants':     return cat === 'designer-pendants';
+    case 'silver-jewelry':        return cat === 'silver-jewelry' && sub === 'rudraksha';
+    case 'jewellery':             return cat === 'jewellery';
+    case 'gemstones':             return cat === 'gemstones';
+    case 'anklets':               return cat === 'anklets';
+    case 'glow-essentials':       return cat === 'glow-essentials';
+    case 'crystal-towers':        return cat === 'crystal-towers';
+    case 'pyramids':              return cat === 'pyramids';
+    case 'raw-crystal':           return cat === 'raw-crystal';
+    case 'crystal-rings':         return cat === 'rings';
+    case 'home-decor':            return cat === 'home-decor';
+    case 'spell-jars':            return cat === 'spell-jars';
+    default:                      return false;
+  }
+}
+
 // Reshape DB product to the legacy { id, ... } shape ProductCard expects.
 function toLegacy(p: CatalogProduct) {
   return {
@@ -260,7 +288,7 @@ function toLegacy(p: CatalogProduct) {
   };
 }
 
-export default function ShopFilters({ products, categoryImages = {} }: { products: CatalogProduct[]; categoryImages?: Record<string, string> }) {
+export default function ShopFilters({ products, categoryImages = {}, categoryRows = {} }: { products: CatalogProduct[]; categoryImages?: Record<string, string>; categoryRows?: Record<string, string[]> }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeCat = searchParams.get('category') || 'all';
@@ -487,6 +515,51 @@ export default function ShopFilters({ products, categoryImages = {} }: { product
           Explore Our Collections
         </h4>
 
+        {/* Per-category product rows — up to 5 products per category */}
+        {CATEGORIES.filter((c) => c.key !== 'all').map((c) => {
+          const curated = (categoryRows[c.key] || [])
+            .map((slug) => products.find((p) => p.slug === slug))
+            .filter((p): p is CatalogProduct => Boolean(p));
+          const rowProducts = (curated.length > 0
+            ? curated
+            : products
+                .filter((p) => matchesCategory(p, c.key))
+                .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
+          ).slice(0, 5);
+          if (rowProducts.length === 0) return null;
+          const total = products.filter((p) => matchesCategory(p, c.key)).length;
+          return (
+            <div key={`row-${c.key}`} style={{ marginBottom: '44px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', gap: 12, flexWrap: 'wrap' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: '#fff', fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
+                  {c.label}
+                </h3>
+                <button
+                  onClick={() => { setQuery(''); router.replace(`/shop?category=${c.key}`, { scroll: true }); }}
+                  style={{ background: 'none', border: '1px solid rgba(200,149,108,0.4)', color: 'var(--primary,#C8956C)', borderRadius: 30, padding: '6px 16px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                >
+                  View all{total > 5 ? ` (${total})` : ''} <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.7rem', marginLeft: 4 }}></i>
+                </button>
+              </div>
+              <div className="shop-products-grid">
+                {rowProducts.map((p, idx) => (
+                  <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
+                    <ProductCard product={toLegacy(p)} />
+                  </ScrollFade>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Browse-by-collection cards */}
+        <h4 style={{
+          fontFamily: 'var(--font-heading)', fontSize: '1.15rem', color: '#fff', fontWeight: 700,
+          margin: '10px 0 20px', paddingBottom: '10px', borderBottom: '2px solid rgba(200,149,108,0.25)',
+        }}>
+          Browse by Collection
+        </h4>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',

@@ -430,13 +430,15 @@ export default function SpiritualReels() {
                   {isCenter && !isYoutube && (
                     <video
                       ref={(el) => { videoRefs.current[reel.id] = el; }}
-                      loop preload="none" playsInline muted={muted}
-                      style={{ 
-                        position: 'absolute', 
-                        inset: 0, 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover', 
+                      loop preload="metadata" playsInline muted={muted}
+                      poster={reel.image}
+                      onError={() => { if (playingId === reel.id) setPlayingId(null); }}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
                         zIndex: 2,
                         display: cardIsPlaying ? 'block' : 'none'
                       }}

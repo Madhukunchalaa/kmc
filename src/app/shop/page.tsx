@@ -34,7 +34,25 @@ async function getCategoryImages(): Promise<Record<string, string>> {
   }
 }
 
+// Admin-curated products for each category row on the shop landing.
+// Stored as one JSON setting: { "<categoryKey>": ["slug1", "slug2", ...] }
+async function getCategoryRows(): Promise<Record<string, string[]>> {
+  try {
+    await connectMongoose();
+    const doc = await Setting.findOne({ key: 'categoryFeaturedProducts' }).lean();
+    if (!doc?.value) return {};
+    const parsed = typeof doc.value === 'string' ? JSON.parse(doc.value) : doc.value;
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
 export default async function ShopPage() {
-  const [products, categoryImages] = await Promise.all([getAllProducts(), getCategoryImages()]);
-  return <ShopPageClient products={products} categoryImages={categoryImages} />;
+  const [products, categoryImages, categoryRows] = await Promise.all([
+    getAllProducts(),
+    getCategoryImages(),
+    getCategoryRows(),
+  ]);
+  return <ShopPageClient products={products} categoryImages={categoryImages} categoryRows={categoryRows} />;
 }

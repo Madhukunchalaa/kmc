@@ -191,6 +191,30 @@ function getCategoryPriorityIndex(activeCat: string, name: string): number {
   return idx === -1 ? 999 : idx;
 }
 
+function getProductCategoryKey(p: CatalogProduct): string {
+  const cat = (p.category || '').toLowerCase();
+  const sub = (p.subcategory || '').toLowerCase();
+  if (sub === 'designer bracelets') return 'designer-bracelets';
+  if (sub === 'signature bracelets') return 'signature';
+  if (sub === 'zodiac bracelets') return 'zodiac-bracelets';
+  if (cat === 'bracelets') return 'bracelets-by-crystals';
+  if (cat === 'malas') return 'malas';
+  if (cat === 'pendants') return 'pendants';
+  if (cat === 'designer-pendants') return 'designer-pendants';
+  if (cat === 'silver-jewelry') return 'silver-jewelry';
+  if (cat === 'jewellery') return 'jewellery';
+  if (cat === 'anklets') return 'anklets';
+  if (cat === 'glow-essentials') return 'glow-essentials';
+  if (cat === 'crystal-towers') return 'crystal-towers';
+  if (cat === 'pyramids') return 'pyramids';
+  if (cat === 'raw-crystal') return 'raw-crystal';
+  if (cat === 'gemstones') return 'gemstones';
+  if (cat === 'rings') return 'crystal-rings';
+  if (cat === 'home-decor') return 'home-decor';
+  if (cat === 'spell-jars') return 'spell-jars';
+  return 'view-all';
+}
+
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
   // --- Original 5 collections (kept together as a group) ---
   { key: 'all',                   label: 'All Collections',       icon: 'fa-solid fa-gem' },
@@ -460,12 +484,15 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     return list;
   }, [products, activeCat, sort, query]);
 
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filtered.slice(start, start + ITEMS_PER_PAGE);
-  }, [filtered, currentPage]);
+  const isViewAll = activeCat === 'view-all';
+  const itemsPerPage = isViewAll ? 500 : ITEMS_PER_PAGE;
 
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filtered.slice(start, start + itemsPerPage);
+  }, [filtered, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
 
 
   const CARDS = useMemo(() => {
@@ -697,6 +724,40 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
             <button className="btn-outline-custom mt-3" onClick={() => { setQuery(''); router.replace('/shop', { scroll: false }); }}>
               <i className="fa-solid fa-rotate-right"></i><span>Reset Filters</span>
             </button>
+          </div>
+        ) : activeCat === 'view-all' ? (
+          <div>
+            {CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all').map((c) => {
+              const catProducts = paginatedProducts.filter((p) => getProductCategoryKey(p) === c.key);
+              if (catProducts.length === 0) return null;
+              return (
+                <div key={c.key} style={{ marginBottom: '44px' }}>
+                  <h3 style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.25rem',
+                    color: '#fff',
+                    fontWeight: 700,
+                    marginBottom: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    letterSpacing: '0.02em',
+                    borderBottom: '1px solid rgba(200, 149, 108, 0.15)',
+                    paddingBottom: '8px'
+                  }}>
+                    <i className={c.icon} style={{ color: 'var(--primary,#C8956C)', fontSize: '1.05rem' }}></i>
+                    {c.label}
+                  </h3>
+                  <div className="shop-products-grid">
+                    {catProducts.map((p, idx) => (
+                      <ScrollFade key={p.slug} delay={Math.min(idx, 6) * 50}>
+                        <ProductCard product={toLegacy(p)} />
+                      </ScrollFade>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="shop-products-grid">

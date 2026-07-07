@@ -134,7 +134,7 @@ export default function SpiritualReels() {
             title: r.title,
             caption: r.caption,
             src: r.src,
-            image: r.image,
+            image: r.image ? r.image.replace(/\.png$/, '.webp') : r.image,
           }));
           setReels(mapped);
           setPlayingId(mapped[0].id);

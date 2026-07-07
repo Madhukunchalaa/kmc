@@ -35,7 +35,7 @@ export default function FinalPriceEditor({ id, price }: { id: string; price: num
   };
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, justifyContent: 'flex-end' }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, justifyContent: 'flex-start' }}>
       <span style={{ fontSize: '0.85rem', color: '#888' }}>₹</span>
       <input
         type="number"
@@ -44,7 +44,7 @@ export default function FinalPriceEditor({ id, price }: { id: string; price: num
         onChange={(e) => setVal(Number(e.target.value))}
         onKeyDown={(e) => { if (e.key === 'Enter') save(); }}
         style={{
-          width: 72, padding: '4px 6px', borderRadius: 6,
+          width: 70, padding: '4px 6px', borderRadius: 6,
           border: `1px solid ${changed ? 'var(--primary,#C8956C)' : 'rgba(0,0,0,0.15)'}`,
           textAlign: 'right', fontSize: '0.85rem',
         }}

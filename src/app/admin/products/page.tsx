@@ -207,12 +207,12 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 <th style={{ padding: 12, width: 60 }}></th>
                 <th style={{ padding: 12, textAlign: 'left' }}>Name</th>
                 <th style={{ padding: 12, textAlign: 'left' }}>Category</th>
-                <th style={{ padding: 12, textAlign: 'right' }}>Price</th>
-                <th style={{ padding: 12, textAlign: 'right' }}>Final Price</th>
-                <th style={{ padding: 12, textAlign: 'right' }}>USD Price</th>
-                <th style={{ padding: 12, textAlign: 'right' }}>Stock</th>
-                {!isTrashView && <th style={{ padding: 12, textAlign: 'right' }}>Sizes (bracelets)</th>}
-                {!isTrashView && <th style={{ padding: 12, textAlign: 'center' }}>Status</th>}
+                <th style={{ padding: 12, textAlign: 'left' }}>Price</th>
+                <th style={{ padding: 12, textAlign: 'left' }}>Final Price</th>
+                <th style={{ padding: 12, textAlign: 'left' }}>USD Price</th>
+                <th style={{ padding: 12, textAlign: 'left' }}>Stock</th>
+                {!isTrashView && <th style={{ padding: 12, textAlign: 'left' }}>Sizes (bracelets)</th>}
+                {!isTrashView && <th style={{ padding: 12, textAlign: 'left' }}>Status</th>}
                 <th style={{ padding: 12, textAlign: 'right', width: isTrashView ? 110 : 180 }}>
                   {isTrashView ? 'Action' : ''}
                 </th>
@@ -246,29 +246,29 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     <span style={{ fontSize: '0.85rem', color: '#888' }}>{p.category}</span>
                     <div style={{ fontWeight: 500 }}>{p.subcategory}</div>
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right', fontWeight: 600, color: '#888', textDecoration: 'line-through', fontSize: '0.82rem' }}>₹{p.price.toLocaleString('en-IN')}</td>
-                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                  <td style={{ padding: 12, textAlign: 'left', fontWeight: 600, color: '#888', textDecoration: 'line-through', fontSize: '0.82rem' }}>₹{p.price.toLocaleString('en-IN')}</td>
+                  <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
                     {isTrashView
                       ? <span style={{ fontWeight: 600 }}>₹{p.price.toLocaleString('en-IN')}</span>
                       : <FinalPriceEditor id={String(p._id)} price={p.price} />}
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                  <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
                     {isTrashView
                       ? <span style={{ fontWeight: 600 }}>{'$' + (p.usdPrice ?? 0)}</span>
                       : <UsdPriceEditor id={String(p._id)} usdPrice={p.usdPrice ?? 0} />}
                   </td>
-                  <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                  <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
                     {isTrashView ? p.stock : <StockEditor id={String(p._id)} stock={p.stock} />}
                   </td>
                   {!isTrashView && (
-                    <td style={{ padding: 12, textAlign: 'right' }} data-no-row-nav>
+                    <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
                       {(p.category ?? '').toLowerCase().includes('bracelet') || (p.subcategory ?? '').toLowerCase().includes('bracelet')
                         ? <SizesEditor id={String(p._id)} sizes={(p.sizes ?? []) as string[]} />
                         : <span style={{ color: '#ccc', fontSize: '0.8rem' }}>—</span>}
                     </td>
                   )}
                   {!isTrashView && (
-                    <td style={{ padding: 12, textAlign: 'center' }}>
+                    <td style={{ padding: 12, textAlign: 'left' }}>
                       <span className="crystal-tag" style={{ fontSize: '0.72rem', background: p.active ? '#4CAF5022' : '#D95F5F22', color: p.active ? '#1E8449' : '#A94442' }}>
                         {p.active ? 'live' : 'hidden'}
                       </span>

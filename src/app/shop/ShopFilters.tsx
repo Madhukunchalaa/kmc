@@ -216,27 +216,27 @@ function getProductCategoryKey(p: CatalogProduct): string {
 }
 
 const CATEGORIES: { key: string; label: string; icon: string }[] = [
-  // --- Original 5 collections (kept together as a group) ---
   { key: 'all',                   label: 'All Collections',       icon: 'fa-solid fa-gem' },
+  // --- Client Preferred Sequence ---
+  { key: 'bracelets-by-crystals', label: 'Bracelets',             icon: 'fa-solid fa-circle-notch' },
+  { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
+  { key: 'crystal-rings',         label: 'Crystal Rings',         icon: 'fa-solid fa-ring' },
+  { key: 'designer-pendants',     label: 'Designer Pendants',     icon: 'fa-solid fa-star' },
+  { key: 'glow-essentials',       label: 'Glow Essentials',       icon: 'fa-solid fa-spa' },
+  { key: 'malas',                 label: 'Malas',                 icon: 'fa-solid fa-om' },
   { key: 'designer-bracelets',    label: 'Designer Bracelets',    icon: 'fa-solid fa-wand-magic-sparkles' },
+  { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
+  // --- Other Categories ---
   { key: 'signature',             label: 'Signature Crystals',    icon: 'fa-solid fa-crown' },
   { key: 'spell-jars',            label: 'Spell Jars',            icon: 'fa-solid fa-jar' },
-  { key: 'bracelets-by-crystals', label: 'Bracelets',             icon: 'fa-solid fa-circle-notch' },
   { key: 'zodiac-bracelets',      label: 'Zodiac Bracelets',      icon: 'fa-solid fa-star-and-crescent' },
-  // --- New collections (from Drive folders) ---
-  { key: 'malas',                 label: 'Malas',                 icon: 'fa-solid fa-om' },
   { key: 'pendants',              label: 'Pendants',              icon: 'fa-solid fa-gem' },
-  { key: 'designer-pendants',     label: 'Designer Pendants',     icon: 'fa-solid fa-star' },
   { key: 'silver-jewelry',        label: 'Silver Jewelry',        icon: 'fa-solid fa-ring' },
   { key: 'jewellery',             label: 'Jewellery',             icon: 'fa-solid fa-gem' },
   { key: 'anklets',               label: 'Anklets',               icon: 'fa-solid fa-link' },
-  { key: 'glow-essentials',       label: 'Glow Essentials',       icon: 'fa-solid fa-spa' },
   { key: 'crystal-towers',        label: 'Crystal Towers',        icon: 'fa-solid fa-mountain' },
-  { key: 'pyramids',              label: 'Pyramids',              icon: 'fa-solid fa-play' },
   { key: 'raw-crystal',           label: 'Raw Crystals',          icon: 'fa-solid fa-cubes' },
   { key: 'gemstones',             label: 'Gemstones',             icon: 'fa-solid fa-gem' },
-  { key: 'crystal-rings',         label: 'Crystal Rings',         icon: 'fa-solid fa-ring' },
-  { key: 'home-decor',            label: 'Home Decor',            icon: 'fa-solid fa-house' },
 ];
 
 const STATIC_CATEGORY_IMAGES: Record<string, string> = {

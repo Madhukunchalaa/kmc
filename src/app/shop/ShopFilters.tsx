@@ -487,45 +487,73 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
   const isViewAll = activeCat === 'view-all';
 
   const viewAllData = useMemo(() => {
-    if (!isViewAll) return { shownOnPage1: [], remainingProducts: [], fullCategories: [], incompleteProducts: [] };
+    if (!isViewAll) return { shownOnPage1: [], shownOnPage2: [], remainingProducts: [], page1FullCategories: [], page1IncompleteProducts: [], page2FullCategories: [], page2IncompleteProducts: [] };
+
+    // Get all active categories with matching products sorted by priority
     const activeCats = CATEGORIES.filter((c) => c.key !== 'all' && c.key !== 'view-all')
       .map((c) => {
-        const catProducts = filtered.filter((p) => matchesCategory(p, c.key));
+        const catProducts = filtered.filter((p) => matchesCategory(p, c.key))
+          .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name));
         return { category: c, products: catProducts };
       })
       .filter((item) => item.products.length > 0);
 
-    const fullCats = activeCats.filter((item) => item.products.length >= 5);
-    const incompleteCats = activeCats.filter((item) => item.products.length < 5);
+    // --- Page 1 Categories ---
+    const page1Full = activeCats.filter((item) => item.products.length >= 5);
+    const page1Incomplete = activeCats.filter((item) => item.products.length < 5);
 
-    const shown: CatalogProduct[] = [];
-    fullCats.forEach(({ category: c, products: catProducts }) => {
-      const rowProducts = catProducts
-        .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
-        .slice(0, 5);
-      shown.push(...rowProducts);
+    const p1Shown: CatalogProduct[] = [];
+    page1Full.forEach(({ products }) => {
+      p1Shown.push(...products.slice(0, 5));
+    });
+    
+    const p1IncompleteProds: CatalogProduct[] = [];
+    page1Incomplete.forEach(({ products }) => {
+      p1IncompleteProds.push(...products);
+    });
+    p1Shown.push(...p1IncompleteProds);
+
+    // --- Page 2 Categories ---
+    // Extract products in index range 5 to 10 for each category
+    const page2Cats = activeCats
+      .map(({ category, products }) => ({
+        category,
+        productsRange: products.slice(5, 10),
+      }))
+      .filter((item) => item.productsRange.length > 0);
+
+    const page2Full = page2Cats.filter((item) => item.productsRange.length >= 5);
+    const page2Incomplete = page2Cats.filter((item) => item.productsRange.length < 5);
+
+    const p2Shown: CatalogProduct[] = [];
+    page2Full.forEach(({ productsRange }) => {
+      p2Shown.push(...productsRange);
     });
 
-    const incompleteProds: CatalogProduct[] = [];
-    incompleteCats.forEach(({ category: c, products: catProducts }) => {
-      const rowProducts = catProducts.sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name));
-      incompleteProds.push(...rowProducts);
+    const p2IncompleteProds: CatalogProduct[] = [];
+    page2Incomplete.forEach(({ productsRange }) => {
+      p2IncompleteProds.push(...productsRange);
     });
-    shown.push(...incompleteProds);
+    p2Shown.push(...p2IncompleteProds);
 
-    const remaining = filtered.filter((p) => !shown.some((sp) => sp.slug === p.slug));
+    // --- Remaining Products (Page 3 onwards) ---
+    const allShown = [...p1Shown, ...p2Shown];
+    const remaining = filtered.filter((p) => !allShown.some((sp) => sp.slug === p.slug));
 
     return { 
-      shownOnPage1: shown, 
+      shownOnPage1: p1Shown, 
+      shownOnPage2: p2Shown,
       remainingProducts: remaining, 
-      fullCategories: fullCats, 
-      incompleteProducts: incompleteProds 
+      page1FullCategories: page1Full, 
+      page1IncompleteProducts: p1IncompleteProds,
+      page2FullCategories: page2Full,
+      page2IncompleteProducts: p2IncompleteProds
     };
   }, [filtered, isViewAll]);
 
   const totalPages = useMemo(() => {
     if (isViewAll) {
-      return 1 + Math.ceil(viewAllData.remainingProducts.length / ITEMS_PER_PAGE);
+      return 2 + Math.ceil(viewAllData.remainingProducts.length / ITEMS_PER_PAGE);
     }
     return Math.ceil(filtered.length / ITEMS_PER_PAGE);
   }, [filtered, isViewAll, viewAllData.remainingProducts.length]);
@@ -535,7 +563,10 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
       if (currentPage === 1) {
         return viewAllData.shownOnPage1;
       }
-      const start = (currentPage - 2) * ITEMS_PER_PAGE;
+      if (currentPage === 2) {
+        return viewAllData.shownOnPage2;
+      }
+      const start = (currentPage - 3) * ITEMS_PER_PAGE;
       return viewAllData.remainingProducts.slice(start, start + ITEMS_PER_PAGE);
     }
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -776,7 +807,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
         ) : (activeCat === 'view-all' && currentPage === 1) ? (
           <div>
             {/* 1. Full Categories: Render each category on its own row of 5 */}
-            {viewAllData.fullCategories.map(({ category: c, products: catProducts }) => {
+            {viewAllData.page1FullCategories.map(({ category: c, products: catProducts }) => {
               const rowProducts = catProducts
                 .sort((a, b) => getCategoryPriorityIndex(c.key, a.name) - getCategoryPriorityIndex(c.key, b.name))
                 .slice(0, 5);
@@ -795,10 +826,40 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
             })}
 
             {/* 2. Incomplete Products: Merge all categories with < 5 items into a single continuous grid */}
-            {viewAllData.incompleteProducts.length > 0 && (
+            {viewAllData.page1IncompleteProducts.length > 0 && (
               <div style={{ marginBottom: '24px' }}>
                 <div className="shop-products-grid">
-                  {viewAllData.incompleteProducts.map((p, idx) => (
+                  {viewAllData.page1IncompleteProducts.map((p, idx) => (
+                    <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
+                      <ProductCard product={toLegacy(p)} />
+                    </ScrollFade>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (activeCat === 'view-all' && currentPage === 2) ? (
+          <div>
+            {/* 1. Full Categories: Render each category on its own row of 5 (next 5 products) */}
+            {viewAllData.page2FullCategories.map(({ category: c, productsRange }) => {
+              return (
+                <div key={c.key} style={{ marginBottom: '24px' }}>
+                  <div className="shop-products-grid">
+                    {productsRange.map((p, idx) => (
+                      <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
+                        <ProductCard product={toLegacy(p)} />
+                      </ScrollFade>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* 2. Incomplete Products: Merge all categories with < 5 items left into a single continuous grid */}
+            {viewAllData.page2IncompleteProducts.length > 0 && (
+              <div style={{ marginBottom: '24px' }}>
+                <div className="shop-products-grid">
+                  {viewAllData.page2IncompleteProducts.map((p, idx) => (
                     <ScrollFade key={p.slug} delay={Math.min(idx, 5) * 40}>
                       <ProductCard product={toLegacy(p)} />
                     </ScrollFade>

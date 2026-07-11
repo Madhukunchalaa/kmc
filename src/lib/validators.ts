@@ -145,7 +145,7 @@ export const createBookingSchema = z.object({
   dob: z.string().max(100).optional().or(z.literal('')),
   notes: z.string().max(600).optional().or(z.literal('')),
   // Optional tier — overrides title + price when present (for tier-based session cards)
-  tierLabel: z.string().max(40).optional(),
+  tierLabel: z.string().max(500).optional(),
   tierPrice: z.number().min(0).optional(),
   tierUsdPrice: z.number().min(0).optional(),
   currency: z.string().length(3).optional().default('INR'),

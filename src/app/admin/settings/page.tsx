@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { DEFAULT_FEATURED_SLUGS } from '@/lib/featuredDefaults';
 
 const CATEGORY_DEFS: { key: string; label: string }[] = [
   { key: 'view-all',              label: 'All Products' },
@@ -755,10 +756,41 @@ export default function AdminSettingsPage() {
               </>
             )}
             {featuredSlugs.length === 0 && (
-              <p style={{ fontSize: '0.8rem', color: '#997', background: '#FFF9F2', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', marginBottom: '1.25rem' }}>
-                <i className="fa-solid fa-circle-info me-2"></i>
-                No custom selection — the homepage is showing the default bestseller products. Add products below to take control.
-              </p>
+              <>
+                <p style={{ fontSize: '0.8rem', color: '#997', background: '#FFF9F2', border: '1px dashed rgba(200,149,108,0.4)', borderRadius: 10, padding: '10px 14px', marginBottom: '1rem' }}>
+                  <i className="fa-solid fa-circle-info me-2"></i>
+                  No custom selection yet — the homepage is currently showing these default bestseller products. Click <strong>Customize these</strong> to edit the line-up, or add products below.
+                </p>
+                {/* Live preview of what the homepage is showing right now */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 14, marginBottom: '1rem' }}>
+                  {DEFAULT_FEATURED_SLUGS.map((slug) => {
+                    const p = allProducts.find((x) => x.slug === slug);
+                    return (
+                      <div key={slug} style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', border: '1.5px solid rgba(200,149,108,0.25)', background: '#fff', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
+                        <div style={{ aspectRatio: '1 / 1', background: '#faf6f1' }}>
+                          {p?.image
+                            ? <img src={p.image} alt={p?.name ?? slug} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#c66', fontSize: '0.7rem', padding: 8, textAlign: 'center' }}>Product not found:<br/>{slug}</div>}
+                        </div>
+                        <span style={{ position: 'absolute', top: 6, left: 6, background: 'rgba(45,27,14,0.7)', color: '#fff', borderRadius: 8, fontSize: '0.62rem', fontWeight: 700, padding: '2px 7px' }}>
+                          Default
+                        </span>
+                        <div style={{ padding: '7px 9px', fontSize: '0.72rem', fontWeight: 600, color: '#554', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {p?.name ?? slug}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFeaturedSlugs(DEFAULT_FEATURED_SLUGS)}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 18px', borderRadius: 30, border: '1.5px solid var(--primary,#C8956C)', background: '#fff', color: 'var(--primary,#C8956C)', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', marginBottom: '1.25rem' }}
+                >
+                  <i className="fa-solid fa-pen"></i>
+                  Customize these
+                </button>
+              </>
             )}
 
             {/* Product picker */}

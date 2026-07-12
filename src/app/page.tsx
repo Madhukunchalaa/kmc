@@ -8,6 +8,7 @@ import { useCurrency } from '@/context/CurrencyContext';
 import HeroSection from '@/components/HeroSection';
 import ScrollFade from '@/components/ScrollFade';
 import ProductCard from '@/components/ProductCard';
+import { DEFAULT_FEATURED_SLUGS } from '@/lib/featuredDefaults';
 import BookingModal, { BookingTier } from '@/components/BookingModal';
 import SignatureCarousel from '@/components/SignatureCarousel';
 import SpiritualReels from '@/components/SpiritualReels';
@@ -200,13 +201,7 @@ export default function Home() {
   }, []);
 
   // Bestsellers: admin-selected slugs from Settings take priority; otherwise defaults
-  const FEATURED_IDS = adminFeaturedSlugs.length > 0 ? adminFeaturedSlugs : [
-    'rose-quartz-bracelet',
-    'triple-protection-bracelet',
-    'money-magnet-bracelet',
-    'seven-chakra-bracelet',
-    'black-tourmaline-bracelet'
-  ];
+  const FEATURED_IDS = adminFeaturedSlugs.length > 0 ? adminFeaturedSlugs : DEFAULT_FEATURED_SLUGS;
   const featuredProducts = FEATURED_IDS.map(id =>
     dbProducts.find(p => p.id === id || p.slug === id)
   ).filter(Boolean)

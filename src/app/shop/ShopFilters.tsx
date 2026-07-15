@@ -327,23 +327,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter out small trees (shell trees and small crystal trees) from the catalog
-  const activeProducts = useMemo(() => {
-    return products.filter((p) => {
-      const sub = (p.subcategory || '').toLowerCase().trim();
-      const slug = (p.slug || '').toLowerCase().trim();
-      const name = (p.name || '').toLowerCase().trim();
-      if (
-        sub === 'shell trees' ||
-        slug === 'small-crystal-tree' ||
-        slug === 'shell-tree' ||
-        name.includes('small tree')
-      ) {
-        return false;
-      }
-      return true;
-    });
-  }, [products]);
+
 
   // Below 1200px the grid has fewer than 5 columns, so the per-category
   // rows-of-5 layout in "view-all" leaves empty cells. On compact screens
@@ -458,7 +442,25 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     const norm = (s: string | undefined) => (s || '').toLowerCase();
 
     // Show the full catalog; each tab narrows by category / subcategory.
-    let list = [...activeProducts];
+    let list = [...products];
+
+    // Filter out small trees (shell trees and small crystal trees) ONLY in "All Products" (view-all) tab
+    if (activeCat === 'view-all') {
+      list = list.filter((p) => {
+        const sub = (p.subcategory || '').toLowerCase().trim();
+        const slug = (p.slug || '').toLowerCase().trim();
+        const name = (p.name || '').toLowerCase().trim();
+        if (
+          sub === 'shell trees' ||
+          slug === 'small-crystal-tree' ||
+          slug === 'shell-tree' ||
+          name.includes('small tree')
+        ) {
+          return false;
+        }
+        return true;
+      });
+    }
 
     // "view-all" tab: show one product per unique name (no duplicates)
     if (activeCat === 'view-all') {
@@ -472,7 +474,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     }
 
     if (activeCat !== 'all' && activeCat !== 'view-all') {
-      list = activeProducts.filter((p) => {
+      list = products.filter((p) => {
         const sub = norm(p.subcategory);
         const cat = norm(p.category);
         switch (activeCat) {
@@ -523,7 +525,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
         break;
     }
     return list;
-  }, [activeProducts, activeCat, sort, query]);
+  }, [products, activeCat, sort, query]);
 
   const isViewAll = activeCat === 'view-all';
 
@@ -628,7 +630,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
       return STATIC_CATEGORY_IMAGES[catKey];
     }
     // Dynamic fallback for categories without static images (like rings and home-decor)
-    const list = activeProducts.filter((p) => {
+    const list = products.filter((p) => {
       const sub = (p.subcategory || '').toLowerCase();
       const cat = (p.category || '').toLowerCase();
       switch (catKey) {

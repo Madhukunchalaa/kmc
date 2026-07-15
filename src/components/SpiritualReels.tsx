@@ -117,9 +117,6 @@ export default function SpiritualReels() {
   const [playingId, setPlayingId] = useState<number | null>(FALLBACK_REELS[0].id);
   const [muted, setMuted] = useState(true);
   const [animating, setAnimating] = useState(false);
-  // Track which videos have decoded a frame — only then do we reveal the <video>
-  // over the poster image, so a buffering clip never shows as a black screen.
-  const [readyVideos, setReadyVideos] = useState<Record<number, boolean>>({});
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
 
   // Load reels from DB on mount; fall back to hardcoded list if none returned
@@ -170,9 +167,6 @@ export default function SpiritualReels() {
     if (animating) return;
     const reel = reels[activeIndex];
     if (!reel) return;
-    // Fresh <video> mounts for the new center — require it to re-signal readiness
-    // so we never reveal a not-yet-decoded (black) element over the poster.
-    setReadyVideos({});
     setPlayingId(reel.id);
 
     const isYoutube = reel.src.includes('youtube.com') || reel.src.includes('youtu.be');
@@ -394,7 +388,10 @@ export default function SpiritualReels() {
                     borderWidth: '1.5px',
                     borderStyle: 'solid',
                     borderColor: 'rgba(200,149,108,0.15)',
-                    transformStyle: 'preserve-3d',
+                    // Flatten the card so its <video> is composited on a single
+                    // plane — a video nested in a preserve-3d subtree plays audio
+                    // but the browser skips painting its frames (poster only).
+                    transformStyle: 'flat',
                     willChange: 'transform, opacity',
                     ...cardStyle,
                   }}
@@ -436,7 +433,6 @@ export default function SpiritualReels() {
                       ref={(el) => { videoRefs.current[reel.id] = el; }}
                       loop preload="auto" playsInline muted={muted}
                       poster={reel.image}
-                      onLoadedData={() => setReadyVideos((s) => ({ ...s, [reel.id]: true }))}
                       onError={() => { if (playingId === reel.id) setPlayingId(null); }}
                       style={{
                         position: 'absolute',
@@ -445,7 +441,12 @@ export default function SpiritualReels() {
                         height: '100%',
                         objectFit: 'cover',
                         zIndex: 2,
-                        display: (cardIsPlaying && readyVideos[reel.id]) ? 'block' : 'none'
+                        // Promote to its own 2D compositing layer so the coverflow's
+                        // 3D transforms don't suppress frame painting. The poster
+                        // attribute covers the gap until the first frame decodes.
+                        transform: 'translateZ(0)',
+                        backfaceVisibility: 'hidden',
+                        display: cardIsPlaying ? 'block' : 'none',
                       }}
                       src={reel.src}
                     />

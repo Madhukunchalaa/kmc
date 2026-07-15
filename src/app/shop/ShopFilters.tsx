@@ -325,7 +325,13 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     return products.filter((p) => {
       const sub = (p.subcategory || '').toLowerCase().trim();
       const slug = (p.slug || '').toLowerCase().trim();
-      if (sub === 'shell trees' || slug === 'small-crystal-tree' || slug === 'shell-tree') {
+      const name = (p.name || '').toLowerCase().trim();
+      if (
+        sub === 'shell trees' ||
+        slug === 'small-crystal-tree' ||
+        slug === 'shell-tree' ||
+        name.includes('small tree')
+      ) {
         return false;
       }
       return true;

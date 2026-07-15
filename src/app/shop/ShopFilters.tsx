@@ -188,7 +188,14 @@ function getCategoryPriorityIndex(activeCat: string, name: string): number {
     const pn = pName.toLowerCase().replace(/[\s-+()]/g, '');
     return n.includes(pn) || pn.includes(n);
   });
-  return idx === -1 ? 999 : idx;
+  if (idx !== -1) return idx;
+
+  // For home-decor, prioritize any other trees (containing 'tree') over non-tree items
+  if (activeCat === 'home-decor' && name.toLowerCase().includes('tree')) {
+    return 500;
+  }
+
+  return 999;
 }
 
 function getProductCategoryKey(p: CatalogProduct): string {

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import ExportBookingsButton from '@/components/ExportBookingsButton';
+import BookingsTableClient from './BookingsTableClient';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Bookings · Admin' };
@@ -95,6 +96,16 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
     razorpayPaymentId: b.razorpayPaymentId ?? '',
     createdAt: b.createdAt ? new Date(b.createdAt).toISOString() : '',
   }));
+
+  const serializedBookings = bookings.map((b) => {
+    const book = b as any;
+    return {
+      ...book,
+      _id: String(book._id),
+      createdAt: book.createdAt ? new Date(book.createdAt).toISOString() : '',
+      date: book.date && book.date !== 'N/A' ? new Date(book.date).toISOString() : 'N/A',
+    };
+  });
 
   return (
     <div>
@@ -207,61 +218,7 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
         </form>
       </div>
 
-      <div style={{ background: '#fff', borderRadius: 14, overflow: 'hidden', boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', minWidth: '750px' }}>
-            <thead>
-              <tr style={{ background: '#FAF6F1' }}>
-                <th style={{ padding: 12, textAlign: 'left' }}>Booking #</th>
-                <th style={{ padding: 12, textAlign: 'left' }}>Service</th>
-                <th style={{ padding: 12, textAlign: 'left' }}>Customer</th>
-                <th style={{ padding: 12, textAlign: 'left' }}>Date / Time</th>
-                <th style={{ padding: 12, textAlign: 'center' }}>Status</th>
-                <th style={{ padding: 12, width: 80 }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.length === 0 && (
-                <tr>
-                  <td colSpan={6} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
-                    <i className="fa-solid fa-calendar-xmark" style={{ fontSize: '2rem', marginBottom: '8px', display: 'block', color: '#ccc' }}></i>
-                    No bookings found matching these criteria.
-                  </td>
-                </tr>
-              )}
-              {bookings.map((b) => (
-                <tr key={String(b._id)} style={{ borderTop: '1px solid rgba(0,0,0,0.05)', transition: 'background 0.15s' }}>
-                  <td style={{ padding: 12, fontWeight: 600 }}>{b.bookingNumber}</td>
-                  <td style={{ padding: 12 }}>
-                    <div style={{ fontWeight: 600 }}>{b.serviceTitle}</div>
-                    <div style={{ fontSize: '0.78rem', color: '#888' }}>₹{b.servicePrice.toLocaleString('en-IN')}</div>
-                  </td>
-                  <td style={{ padding: 12 }}>
-                    <div style={{ fontWeight: 600 }}>{b.customer.name}</div>
-                    <div style={{ color: '#888', fontSize: '0.78rem' }}>{b.customer.email} · {b.customer.phone}</div>
-                  </td>
-                  <td style={{ padding: 12 }}>
-                    {b.date !== 'N/A' ? (
-                      <>
-                        <div>{new Date(b.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                        <strong style={{ fontSize: '0.8rem', color: 'var(--primary,#C8956C)' }}>{b.timeSlot}</strong>
-                      </>
-                    ) : (
-                      <strong style={{ color: '#888', fontSize: '0.85rem' }}>Async / Unscheduled</strong>
-                    )}
-                  </td>
-                  <td style={{ padding: 12, textAlign: 'center' }}>
-                    <span className="crystal-tag status-tag" style={{ fontSize: '0.72rem' }}>{b.status}</span>
-                  </td>
-                  <td style={{ padding: 12, textAlign: 'right' }}>
-                    <Link href={`/admin/bookings/${b._id}`} style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem', textDecoration: 'none', fontWeight: 600 }}>Review →</Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <BookingsTableClient bookings={serializedBookings} />
     </div>
   );
 }

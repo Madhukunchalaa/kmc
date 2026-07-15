@@ -6984,6 +6984,24 @@ body.theme-rose .hero-v2-orb {
   }
 }
 
+/* Center the last item if it is the only one in its row on mobile (2 columns, odd count) */
+@media (max-width: 767px) {
+  .shop-products-grid > *:last-child:nth-child(odd) {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+  }
+  .shop-products-grid > *:last-child:nth-child(odd) .product-card {
+    width: calc((100% - 12px) / 2);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .shop-products-grid > *:last-child:nth-child(odd) .product-card {
+    width: calc((100% - 14px) / 2);
+  }
+}
+
 /* View All card — mobile only */
 .shop-view-all-card {
   display: flex;

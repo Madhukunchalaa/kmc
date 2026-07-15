@@ -210,7 +210,7 @@ function getProductCategoryKey(p: CatalogProduct): string {
   if (cat === 'raw-crystal') return 'raw-crystal';
   if (cat === 'gemstones') return 'gemstones';
   if (cat === 'rings') return 'crystal-rings';
-  if (cat === 'home-decor') return 'home-decor';
+  if (cat === 'home-decor' || cat === 'trees') return 'home-decor';
   if (cat === 'spell-jars') return 'spell-jars';
   return 'view-all';
 }
@@ -290,7 +290,7 @@ function matchesCategory(p: CatalogProduct, catKey: string): boolean {
     case 'pyramids':              return cat === 'pyramids';
     case 'raw-crystal':           return cat === 'raw-crystal';
     case 'crystal-rings':         return cat === 'rings';
-    case 'home-decor':            return cat === 'home-decor';
+    case 'home-decor':            return cat === 'home-decor' || cat === 'trees';
     case 'spell-jars':            return cat === 'spell-jars';
     default:                      return false;
   }
@@ -319,6 +319,18 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
   const [sort, setSort] = useState('featured');
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Filter out small trees (shell trees and small crystal trees) from the catalog
+  const activeProducts = useMemo(() => {
+    return products.filter((p) => {
+      const sub = (p.subcategory || '').toLowerCase().trim();
+      const slug = (p.slug || '').toLowerCase().trim();
+      if (sub === 'shell trees' || slug === 'small-crystal-tree' || slug === 'shell-tree') {
+        return false;
+      }
+      return true;
+    });
+  }, [products]);
 
   // Below 1200px the grid has fewer than 5 columns, so the per-category
   // rows-of-5 layout in "view-all" leaves empty cells. On compact screens
@@ -433,7 +445,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     const norm = (s: string | undefined) => (s || '').toLowerCase();
 
     // Show the full catalog; each tab narrows by category / subcategory.
-    let list = [...products];
+    let list = [...activeProducts];
 
     // "view-all" tab: show one product per unique name (no duplicates)
     if (activeCat === 'view-all') {
@@ -447,7 +459,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
     }
 
     if (activeCat !== 'all' && activeCat !== 'view-all') {
-      list = products.filter((p) => {
+      list = activeProducts.filter((p) => {
         const sub = norm(p.subcategory);
         const cat = norm(p.category);
         switch (activeCat) {
@@ -468,7 +480,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
           case 'raw-crystal':           return cat === 'raw-crystal';
           case 'designer-crystals':     return cat === 'designer-crystals';
           case 'crystal-rings':         return cat === 'rings';
-          case 'home-decor':            return cat === 'home-decor';
+          case 'home-decor':            return cat === 'home-decor' || cat === 'trees';
           case 'spell-jars':            return cat === 'spell-jars';
           default:                      return false;
         }
@@ -498,7 +510,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
         break;
     }
     return list;
-  }, [products, activeCat, sort, query]);
+  }, [activeProducts, activeCat, sort, query]);
 
   const isViewAll = activeCat === 'view-all';
 
@@ -603,7 +615,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
       return STATIC_CATEGORY_IMAGES[catKey];
     }
     // Dynamic fallback for categories without static images (like rings and home-decor)
-    const list = products.filter((p) => {
+    const list = activeProducts.filter((p) => {
       const sub = (p.subcategory || '').toLowerCase();
       const cat = (p.category || '').toLowerCase();
       switch (catKey) {

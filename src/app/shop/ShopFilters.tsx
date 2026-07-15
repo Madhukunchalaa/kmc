@@ -320,6 +320,22 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
   const [query, setQuery] = useState(searchParams.get('intent') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Below 1200px the grid has fewer than 5 columns, so the per-category
+  // rows-of-5 layout in "view-all" leaves empty cells. On compact screens
+  // we render one continuous grid instead.
+  const [isCompactGrid, setIsCompactGrid] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    const mq = window.matchMedia('(max-width: 1199px)');
+    const update = () => setIsCompactGrid(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  const showCompact = mounted && isCompactGrid;
+
   const goToPage = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -804,7 +820,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
               <i className="fa-solid fa-rotate-right"></i><span>Reset Filters</span>
             </button>
           </div>
-        ) : (activeCat === 'view-all' && currentPage === 1) ? (
+        ) : (activeCat === 'view-all' && currentPage === 1 && !showCompact) ? (
           <div>
             {/* 1. Full Categories: Render each category on its own row of 5 */}
             {viewAllData.page1FullCategories.map(({ category: c, products: catProducts }) => {
@@ -838,7 +854,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
               </div>
             )}
           </div>
-        ) : (activeCat === 'view-all' && currentPage === 2) ? (
+        ) : (activeCat === 'view-all' && currentPage === 2 && !showCompact) ? (
           <div>
             {/* 1. Full Categories: Render each category on its own row of 5 (next 5 products) */}
             {viewAllData.page2FullCategories.map(({ category: c, productsRange }) => {
@@ -871,7 +887,7 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
         ) : (
           <div className="shop-products-grid">
             {paginatedProducts.map((p, idx) => (
-              <ScrollFade key={p.id} delay={Math.min(idx, 6) * 50}>
+              <ScrollFade key={p.slug} delay={Math.min(idx, 6) * 50}>
                 <ProductCard product={toLegacy(p)} />
               </ScrollFade>
             ))}

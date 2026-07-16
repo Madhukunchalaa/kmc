@@ -2,27 +2,35 @@
  * Seed the 'reels' collection with the 7 default spiritual reels.
  * Run with:  npx tsx scripts/seed-reels.ts
  */
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import Reel from '../src/models/Reel';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 const BASE = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos';
 
 const REELS = [
   {
-    title: 'Candle Spell Rituals',
-    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
-    src: `${BASE}/Video%202.mp4`,
-    image: '/service-candle.png',
-    order: 0,
-    active: true,
-  },
-  {
     title: 'Welcome to KrissMaagiic',
     caption: 'Discover healing energy, sacred rituals, and certified authentic crystals.',
     src: `${BASE}/Video%201.mp4`,
     image: '/about-hero.png',
+    order: 0,
+    active: true,
+  },
+  {
+    title: 'Crystal Packing Process',
+    caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
+    src: `${BASE}/Video%207.mp4`,
+    image: '/about-header.png',
     order: 1,
+    active: true,
+  },
+  {
+    title: 'Candle Spell Rituals',
+    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
+    src: `${BASE}/Video%202.mp4`,
+    image: '/service-candle.png',
+    order: 2,
     active: true,
   },
   {
@@ -30,7 +38,7 @@ const REELS = [
     caption: 'Receive personalized spiritual guidance and clear answers to life questions.',
     src: `${BASE}/Video%203.mp4`,
     image: '/service-tarot.png',
-    order: 2,
+    order: 3,
     active: true,
   },
   {
@@ -38,14 +46,6 @@ const REELS = [
     caption: 'Handcrafted with moonlight-charged crystals, oils, and focused intentions.',
     src: `${BASE}/Video%204.mp4`,
     image: '/service-spelljar.png',
-    order: 3,
-    active: true,
-  },
-  {
-    title: 'Pure Crystal Energy',
-    caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
-    src: `${BASE}/Video%205.mp4`,
-    image: '/crystal-hero.png',
     order: 4,
     active: true,
   },
@@ -58,9 +58,9 @@ const REELS = [
     active: true,
   },
   {
-    title: 'Crystal Packing Process',
-    caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
-    src: `${BASE}/Video%207.mp4`,
+    title: 'Pure Crystal Energy',
+    caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
+    src: `${BASE}/Video%205.mp4`,
     image: '/crystal-hero.png',
     order: 6,
     active: true,
@@ -68,10 +68,11 @@ const REELS = [
 ];
 
 async function main() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) throw new Error('MONGODB_URI is not set in .env');
+  const { connectMongoose } = await import('../src/lib/mongoose');
+  const Reel = (await import('../src/models/Reel')).default;
+  const mongoose = await import('mongoose');
 
-  await mongoose.connect(uri);
+  await connectMongoose();
   console.log('Connected to MongoDB');
 
   // Clear existing reels

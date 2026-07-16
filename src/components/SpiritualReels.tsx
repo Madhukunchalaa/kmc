@@ -52,18 +52,25 @@ function YoutubePlayer({ src, title, muted }: YoutubePlayerProps) {
 
 const FALLBACK_REELS: Reel[] = [
   {
-    id: 2,
-    src: `${BASE}/Video%202.mp4`,
-    title: 'Candle Spell Rituals',
-    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
-    image: '/service-candle.webp',
-  },
-  {
     id: 1,
     src: `${BASE}/Video%201.mp4`,
     title: 'Welcome to KrissMaagiic',
     caption: 'Discover healing energy, sacred rituals, and certified authentic crystals.',
     image: '/about-hero.webp',
+  },
+  {
+    id: 7,
+    src: `${BASE}/Video%207.mp4`,
+    title: 'Crystal Packing Process',
+    caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
+    image: '/about-header.webp',
+  },
+  {
+    id: 2,
+    src: `${BASE}/Video%202.mp4`,
+    title: 'Candle Spell Rituals',
+    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
+    image: '/service-candle.webp',
   },
   {
     id: 3,
@@ -80,13 +87,6 @@ const FALLBACK_REELS: Reel[] = [
     image: '/service-spelljar.webp',
   },
   {
-    id: 5,
-    src: `${BASE}/Video%205.mp4`,
-    title: 'Pure Crystal Energy',
-    caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
-    image: '/crystal-hero.webp',
-  },
-  {
     id: 6,
     src: `${BASE}/Video%206.mp4`,
     title: 'Numerology & Birth Charts',
@@ -94,10 +94,10 @@ const FALLBACK_REELS: Reel[] = [
     image: '/service-numerology.webp',
   },
   {
-    id: 7,
-    src: `${BASE}/Video%207.mp4`,
-    title: 'Crystal Packing Process',
-    caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
+    id: 5,
+    src: `${BASE}/Video%205.mp4`,
+    title: 'Pure Crystal Energy',
+    caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
     image: '/crystal-hero.webp',
   },
 ];

@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';
+import { formatMoney } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Booking Detail' };
@@ -42,7 +43,7 @@ export default async function BookingDetail(props: PageProps<'/dashboard/booking
         <p style={{ fontSize: '0.95rem' }}>
           <strong>Date:</strong> {b.date}<br />
           <strong>Time:</strong> {b.timeSlot}<br />
-          <strong>Price:</strong> ₹{b.servicePrice.toLocaleString('en-IN')}<br />
+          <strong>Price:</strong> {formatMoney(b.servicePrice, b.currency)}<br />
           <strong>Status:</strong> {b.status}
         </p>
         {b.notes && (

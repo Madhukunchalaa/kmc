@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';
+import { formatMoney } from '@/lib/money';
 import BookingDecisionForm from './BookingDecisionForm';
 import ConfirmPaymentButton from '@/app/admin/ConfirmPaymentButton';
 
@@ -44,7 +45,7 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
               </div>
             </div>
             <p style={{ fontSize: '0.95rem', margin: '8px 0 0 0' }}>
-              <strong>Price:</strong> ₹{b.servicePrice.toLocaleString('en-IN')}<br />
+              <strong>Price:</strong> {formatMoney(b.servicePrice, b.currency)}<br />
               <strong>Schedule:</strong> {b.date !== 'N/A' ? (
                 <><strong>{b.date}</strong> at <strong>{b.timeSlot}</strong></>
               ) : (

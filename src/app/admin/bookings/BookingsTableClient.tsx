@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { formatMoney } from '@/lib/money';
 
 interface BookingsTableClientProps {
   bookings: any[];
@@ -167,7 +168,7 @@ export default function BookingsTableClient({ bookings }: BookingsTableClientPro
                   <td style={{ padding: 12 }}>
                     <div style={{ fontWeight: 600 }}>{b.serviceTitle}</div>
                     <div style={{ fontSize: '0.78rem', color: '#888' }}>
-                      ₹{b.servicePrice ? b.servicePrice.toLocaleString('en-IN') : '0'}
+                      {formatMoney(b.servicePrice, b.currency)}
                     </div>
                   </td>
                   <td style={{ padding: 12 }}>

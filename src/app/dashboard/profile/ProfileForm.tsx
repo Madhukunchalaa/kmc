@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 
 export default function ProfileForm({ initial }: { initial: { name: string; phone: string; email: string; country: string } }) {
   const { update } = useSession();
@@ -9,19 +10,40 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
+  const handlePhoneBlur = () => {
+    if (f.phone.trim()) {
+      const activeCountry = f.country || 'IN';
+      setF(s => ({ ...s, phone: formatPhone(s.phone, activeCountry) }));
+    }
+  };
+
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setMsg(null);
+
+    let formattedPhone = f.phone;
+    const activeCountry = f.country || 'IN';
+    if (f.phone.trim()) {
+      formattedPhone = formatPhone(f.phone, activeCountry);
+      const validation = validatePhone(formattedPhone, activeCountry);
+      if (!validation.isValid) {
+        setMsg(validation.error || 'Invalid phone number');
+        setSaving(false);
+        return;
+      }
+    }
+
     try {
       const res = await fetch('/api/profile', {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(f),
+        body: JSON.stringify({ ...f, phone: formattedPhone }),
       });
       const data = await res.json();
       if (data.ok) {
         setMsg('Saved');
+        setF(s => ({ ...s, phone: formattedPhone }));
         await update({ country: f.country });
       } else {
         setMsg(data.reason || 'Failed');
@@ -57,7 +79,15 @@ export default function ProfileForm({ initial }: { initial: { name: string; phon
       </div>
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone</label>
-        <input value={f.phone} onChange={(e) => setF((s) => ({ ...s, phone: e.target.value }))} className="newsletter-input" style={{ width: '100%' }} />
+        <input 
+          type="tel"
+          value={f.phone} 
+          onChange={(e) => setF((s) => ({ ...s, phone: e.target.value }))} 
+          onBlur={handlePhoneBlur}
+          placeholder={getPhoneConfig(f.country || 'IN').placeholder}
+          className="newsletter-input" 
+          style={{ width: '100%' }} 
+        />
       </div>
       <div>
         <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Email (read-only)</label>

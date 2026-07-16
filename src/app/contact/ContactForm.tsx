@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Spinner from '@/components/Spinner';
+import { useCurrency } from '@/context/CurrencyContext';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 
 interface Form {
   name: string;
@@ -14,10 +16,11 @@ interface Form {
 const EMPTY: Form = { name: '', email: '', phone: '', subject: '', message: '' };
 
 function FloatingInput({
-  label, value, onChange, type = 'text', required = false, placeholder = ''
+  label, value, onChange, type = 'text', required = false, placeholder = '', onBlur
 }: {
   label: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string; required?: boolean; placeholder?: string;
+  onBlur?: () => void;
 }) {
   const [focused, setFocused] = useState(false);
   const active = focused || value.length > 0;
@@ -46,7 +49,10 @@ function FloatingInput({
         placeholder={focused ? placeholder : ''}
         onChange={onChange}
         onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onBlur={() => {
+          setFocused(false);
+          if (onBlur) onBlur();
+        }}
         style={{
           width: '100%',
           background: 'rgba(255,255,255,0.04)',
@@ -117,6 +123,7 @@ function FloatingTextarea({
 }
 
 export default function ContactForm() {
+  const { countryCode } = useCurrency();
   const [form, setForm] = useState<Form>(EMPTY);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'done' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -124,15 +131,35 @@ export default function ContactForm() {
   const update = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const handlePhoneBlur = () => {
+    if (form.phone.trim()) {
+      const activeCountry = countryCode || 'IN';
+      setForm((f) => ({ ...f, phone: formatPhone(f.phone, activeCountry) }));
+    }
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
     setError(null);
+
+    let formattedPhone = form.phone;
+    if (form.phone.trim()) {
+      const activeCountry = countryCode || 'IN';
+      formattedPhone = formatPhone(form.phone, activeCountry);
+      const validation = validatePhone(formattedPhone, activeCountry);
+      if (!validation.isValid) {
+        setError(validation.error || 'Invalid phone number');
+        setStatus('error');
+        return;
+      }
+    }
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, phone: formattedPhone }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -184,7 +211,14 @@ export default function ContactForm() {
         <FloatingInput label="Email" value={form.email} onChange={update('email')} type="email" required />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-        <FloatingInput label="Phone" value={form.phone} onChange={update('phone')} type="tel" />
+        <FloatingInput 
+          label="Phone" 
+          value={form.phone} 
+          onChange={update('phone')} 
+          type="tel" 
+          onBlur={handlePhoneBlur}
+          placeholder={getPhoneConfig(countryCode || 'IN').placeholder}
+        />
         <FloatingInput label="Subject" value={form.subject} onChange={update('subject')} placeholder="e.g. Tarot booking…" />
       </div>
       <FloatingTextarea label="Your Message" value={form.message} onChange={update('message')} rows={5} required />

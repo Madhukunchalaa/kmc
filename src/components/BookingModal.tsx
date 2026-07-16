@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Spinner from './Spinner';
 import { openRazorpayCheckout } from '@/lib/razorpayCheckout';
 import { useCurrency } from '@/context/CurrencyContext';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 
 export interface BookingTier {
   label: string;
@@ -34,7 +35,7 @@ function addDays(d: Date, n: number) {
 export default function BookingModal({ open, onClose, serviceSlug, title, tiers }: BookingModalProps) {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { formatPrice } = useCurrency();
+  const { formatPrice, countryCode } = useCurrency();
 
   const today = useMemo(() => new Date(), []);
   const dateOptions = useMemo(
@@ -51,6 +52,14 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
+  const handlePhoneBlur = () => {
+    if (phone.trim()) {
+      const activeCountry = countryCode || 'IN';
+      setPhone(formatPhone(phone, activeCountry));
+    }
+  };
+
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<{ bookingNumber: string; bookingId: string } | null>(null);
@@ -129,6 +138,15 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
       return;
     }
     setError(null);
+
+    const activeCountry = countryCode || 'IN';
+    const formattedPhone = formatPhone(phone, activeCountry);
+    const validation = validatePhone(formattedPhone, activeCountry);
+    if (!validation.isValid) {
+      setError(validation.error || 'Invalid phone number');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch('/api/bookings', {
@@ -141,7 +159,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
           notes,
           tierLabel: selectedTier.label,
           tierPrice: selectedTier.price,
-          customer: { name, email, phone },
+          customer: { name, email, phone: formattedPhone },
         }),
       });
       const data = await res.json();
@@ -340,7 +358,15 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
                   </div>
                   <div className="col-md-6">
                     <label className="kmc-modal-field-label">Phone *</label>
-                    <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="kmc-modal-input" />
+                    <input 
+                      required 
+                      type="tel" 
+                      value={phone} 
+                      onChange={(e) => setPhone(e.target.value)} 
+                      onBlur={handlePhoneBlur}
+                      placeholder={getPhoneConfig(countryCode || 'IN').placeholder}
+                      className="kmc-modal-input" 
+                    />
                   </div>
                   <div className="col-12">
                     <label className="kmc-modal-field-label">Notes (optional)</label>

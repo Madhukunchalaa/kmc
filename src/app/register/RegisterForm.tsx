@@ -6,6 +6,7 @@ import { signIn, useSession } from 'next-auth/react';
 import Spinner from '@/components/Spinner';
 
 import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -38,6 +39,13 @@ export default function RegisterForm() {
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const handlePhoneBlur = () => {
+    if (form.phone.trim()) {
+      const activeCountry = form.country || countryCode || 'IN';
+      setForm(f => ({ ...f, phone: formatPhone(f.phone, activeCountry) }));
+    }
+  };
+
   const onSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -45,6 +53,17 @@ export default function RegisterForm() {
     if (form.name.trim().length < 2) {
       setError('Please enter your full name (at least 2 characters).');
       return;
+    }
+
+    if (form.phone.trim()) {
+      const activeCountry = form.country || countryCode || 'IN';
+      const formatted = formatPhone(form.phone, activeCountry);
+      const validation = validatePhone(formatted, activeCountry);
+      if (!validation.isValid) {
+        setError(validation.error || 'Invalid phone number');
+        return;
+      }
+      setForm(f => ({ ...f, phone: formatted }));
     }
 
     setSubmitting(true);
@@ -115,7 +134,16 @@ export default function RegisterForm() {
           </div>
           <div>
             <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone (optional)</label>
-            <input type="tel" value={form.phone} onChange={set('phone')} className="newsletter-input" style={{ width: '100%' }} autoComplete="tel" />
+            <input 
+              type="tel" 
+              value={form.phone} 
+              onChange={set('phone')} 
+              onBlur={handlePhoneBlur}
+              placeholder={getPhoneConfig(form.country || countryCode || 'IN').placeholder}
+              className="newsletter-input" 
+              style={{ width: '100%' }} 
+              autoComplete="tel" 
+            />
           </div>
 
           <div>

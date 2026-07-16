@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
 import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 import Spinner from '@/components/Spinner';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 import { getShippingCharge, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
@@ -134,6 +135,13 @@ export default function CheckoutPage() {
   const update = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const handlePhoneBlur = () => {
+    if (form.phone.trim()) {
+      const activeCountry = form.country || countryCode || 'IN';
+      setForm((f) => ({ ...f, phone: formatPhone(f.phone, activeCountry) }));
+    }
+  };
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (items.length === 0) return;
@@ -143,6 +151,15 @@ export default function CheckoutPage() {
     // Only India orders accepted
     if (form.country && form.country !== 'IN') {
       setError('We currently ship within India only. Please select India as your country.');
+      setSubmitting(false);
+      return;
+    }
+
+    const activeCountry = form.country || countryCode || 'IN';
+    const formattedPhone = formatPhone(form.phone, activeCountry);
+    const validation = validatePhone(formattedPhone, activeCountry);
+    if (!validation.isValid) {
+      setError(validation.error || 'Invalid phone number');
       setSubmitting(false);
       return;
     }
@@ -171,6 +188,7 @@ export default function CheckoutPage() {
           items,
           customer: {
             ...form,
+            phone: formattedPhone,
             giftMessage: giftMessage || undefined,
             giftRecipient: giftRecipient || undefined,
           },
@@ -609,7 +627,15 @@ export default function CheckoutPage() {
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone *</label>
-                    <input required type="tel" value={form.phone} onChange={update('phone')} className="checkout-form-input" />
+                    <input 
+                      required 
+                      type="tel" 
+                      value={form.phone} 
+                      onChange={update('phone')} 
+                      onBlur={handlePhoneBlur}
+                      placeholder={getPhoneConfig(form.country || countryCode || 'IN').placeholder}
+                      className="checkout-form-input" 
+                    />
                   </div>
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Pincode *</label>

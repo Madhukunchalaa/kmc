@@ -8,6 +8,7 @@ import AnimatedTimePicker from '@/components/AnimatedTimePicker';
 import BookingSuccessAnimation from '@/components/BookingSuccessAnimation';
 import { openCashfreeCheckout } from '@/lib/cashfreeCheckout';
 import { useCurrency, COUNTRY_CURRENCY_MAP } from '@/context/CurrencyContext';
+import { formatPhone, validatePhone, getPhoneConfig } from '@/lib/phoneValidation';
 
 interface Slot { time: string; available: boolean }
 
@@ -314,6 +315,15 @@ export default function BookingFlow({
     if (requiresDateAndTime && !selectedTime) { setError('Please scroll the time picker to select your preferred session time.'); return; }
     if (isTarotVoice && !question.trim()) { setError('Please enter your specific question or focus area before booking.'); return; }
     setError(null);
+
+    const activeCountry = countryCode || 'IN';
+    const formattedPhone = formatPhone(phone, activeCountry);
+    const validation = validatePhone(formattedPhone, activeCountry);
+    if (!validation.isValid) {
+      setError(validation.error || 'Invalid phone number');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const timeSlotValue = requiresDateAndTime && selectedTime ? to24h(selectedTime) : 'N/A';
@@ -336,7 +346,7 @@ export default function BookingFlow({
           tierPrice: activePrice,
           tierUsdPrice: activeUsdPrice,
           currency,
-          customer: { name, email, phone }
+          customer: { name, email, phone: formattedPhone }
         }),
       });
       const data = await res.json();
@@ -845,7 +855,19 @@ export default function BookingFlow({
           {[
             { label: 'Name *',  value: name,  setter: setName,  type: 'text',  ph: 'Your name',          required: true },
             { label: 'Email *', value: email, setter: setEmail, type: 'email', ph: 'email@example.com',   required: true },
-            { label: 'Phone *', value: phone, setter: setPhone, type: 'tel',   ph: '+91 XXXXX XXXXX',     required: true },
+            { 
+              label: 'Phone *', 
+              value: phone, 
+              setter: setPhone, 
+              type: 'tel',   
+              ph: getPhoneConfig(countryCode || 'IN').placeholder,     
+              required: true,
+              onBlur: () => {
+                if (phone.trim()) {
+                  setPhone(formatPhone(phone, countryCode || 'IN'));
+                }
+              }
+            },
           ].map(f => (
             <div key={f.label} className="col-12 col-md-4 px-2" style={{ boxSizing: 'border-box' }}>
               <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--primary,#C8956C)', marginBottom: 6, display: 'block' }}>{f.label}</label>
@@ -854,6 +876,7 @@ export default function BookingFlow({
                 type={f.type}
                 value={f.value}
                 onChange={(e) => f.setter(e.target.value)}
+                onBlur={(f as any).onBlur}
                 placeholder={f.ph}
                 style={{
                   width: '100%', boxSizing: 'border-box',

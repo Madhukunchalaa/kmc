@@ -164,7 +164,20 @@ export default function BookingsTableClient({ bookings }: BookingsTableClientPro
                       style={{ cursor: 'pointer' }}
                     />
                   </td>
-                  <td style={{ padding: 12, fontWeight: 600 }}>{b.bookingNumber}</td>
+                  <td style={{ padding: 12, fontWeight: 600 }}>
+                    {b.bookingNumber}
+                    <div style={{ marginTop: 4 }}>
+                      {b.currency && b.currency !== 'INR' ? (
+                        <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8A4F27', background: 'rgba(200,149,108,0.14)', borderRadius: 20, padding: '2px 8px' }}>
+                          🌍 Abroad
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#1E8449', background: '#4CAF5018', borderRadius: 20, padding: '2px 8px' }}>
+                          🇮🇳 India
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   <td style={{ padding: 12 }}>
                     <div style={{ fontWeight: 600 }}>{b.serviceTitle}</div>
                     <div style={{ fontSize: '0.78rem', color: '#888' }}>

@@ -25,7 +25,7 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
     <div>
       <Link href="/admin/bookings" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.85rem' }}>← All bookings</Link>
       <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', marginTop: 12 }}>{b.bookingNumber}</h1>
-      <p style={{ color: '#888' }}>Submitted {new Date(b.createdAt).toLocaleString('en-IN')} · Current status: <strong>{b.status}</strong></p>
+      <p style={{ color: '#888' }}>Submitted {new Date(b.createdAt).toLocaleString('en-IN')} · <strong>{b.currency && b.currency !== 'INR' ? '🌍 Abroad' : '🇮🇳 India'}</strong> booking · Current status: <strong>{b.status}</strong></p>
 
       <div className="row g-4 mt-2">
         <div className="col-lg-7">

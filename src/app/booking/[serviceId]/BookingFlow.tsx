@@ -317,6 +317,11 @@ export default function BookingFlow({
     setError(null);
 
     const activeCountry = countryCode || 'IN';
+    if (activeCountry !== 'IN') {
+      setError('International Payments Paused: We are currently not accepting international payments. Bookings are only available within India.');
+      return;
+    }
+
     const formattedPhone = formatPhone(phone, activeCountry);
     const validation = validatePhone(formattedPhone, activeCountry);
     if (!validation.isValid) {
@@ -468,6 +473,27 @@ export default function BookingFlow({
 
   return (
     <form onSubmit={onSubmit} style={{ display: 'grid', gap: 24, width: '100%', boxSizing: 'border-box' }}>
+
+      {(countryCode || 'IN') !== 'IN' && (
+        <div style={{
+          background: 'rgba(217,95,95,0.08)',
+          border: '1.5px dashed #D95F5F',
+          borderRadius: 14,
+          padding: '16px 20px',
+          color: '#D95F5F',
+          fontSize: '0.9rem',
+          lineHeight: '1.5',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12
+        }}>
+          <i className="fa-solid fa-circle-exclamation" style={{ marginTop: 3, fontSize: '1.1rem' }}></i>
+          <div>
+            <strong style={{ fontWeight: 700, display: 'block', marginBottom: 4 }}>International Payments Temporarily Paused</strong>
+            We are currently not accepting international payments. Bookings can only be placed and paid within India. We apologize for the inconvenience.
+          </div>
+        </div>
+      )}
 
       {/* ── 0. Select Option (Tiers for Non-Tarot Services) ── */}
       {!isTarot && tiers && tiers.length > 0 && (

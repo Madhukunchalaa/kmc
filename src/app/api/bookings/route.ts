@@ -84,6 +84,17 @@ export async function POST(req: Request) {
     paymentStatus: 'unpaid',
   });
 
+  // Save phone number to user profile if not already set
+  try {
+    const { User } = await import('@/models/User');
+    const userDoc = await User.findById(session.user.id);
+    if (userDoc && !userDoc.phone && customer.phone) {
+      userDoc.phone = customer.phone;
+      await userDoc.save();
+    }
+  } catch (err) {
+    console.error('Failed to update user phone profile from booking:', err);
+  }
 
   return NextResponse.json({ ok: true, bookingNumber, bookingId: String(booking._id) });
 }

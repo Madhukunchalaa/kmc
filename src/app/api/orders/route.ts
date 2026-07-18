@@ -78,6 +78,18 @@ export async function POST(req: Request) {
       customizationDetails: customizationDetails || null,
     });
 
+    // Save phone number to user profile if not already set
+    try {
+      const { User } = await import('@/models/User');
+      const userDoc = await User.findById(session.user.id);
+      if (userDoc && !userDoc.phone && customer.phone) {
+        userDoc.phone = customer.phone;
+        await userDoc.save();
+      }
+    } catch (err) {
+      console.error('Failed to update user phone profile from order:', err);
+    }
+
     return NextResponse.json({
       ok: true,
       orderNumber,

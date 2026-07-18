@@ -43,26 +43,40 @@ export async function POST(req: Request) {
 
   // Try shop order first
   const order = await Order.findOne({ cfOrderId });
-  if (order && order.paymentStatus !== 'paid') {
-    order.paymentStatus = 'paid';
-    order.status = 'confirmed';
-    order.cfPaymentId = cfPaymentId;
-    await order.save();
-    await fulfillPaidOrder(order);
-    console.log('[cashfree webhook] order fulfilled', cashfreeOrderId);
-    return NextResponse.json({ ok: true });
+  if (order) {
+    if (order.paymentStatus !== 'paid') {
+      order.paymentStatus = 'paid';
+      order.status = 'confirmed';
+      order.cfPaymentId = cfPaymentId;
+      await order.save();
+      await fulfillPaidOrder(order);
+      console.log('[cashfree webhook] order fulfilled', cashfreeOrderId);
+      return NextResponse.json({ ok: true });
+    } else if (!order.cfPaymentId && cfPaymentId) {
+      order.cfPaymentId = cfPaymentId;
+      await order.save();
+      console.log('[cashfree webhook] order payment ID updated', cashfreeOrderId);
+      return NextResponse.json({ ok: true });
+    }
   }
 
   // Try booking
   const booking = await Booking.findOne({ cfOrderId });
-  if (booking && booking.paymentStatus !== 'paid') {
-    booking.paymentStatus = 'paid';
-    booking.status = 'booked';
-    booking.cfPaymentId = cfPaymentId;
-    await booking.save();
-    await fulfillPaidBooking(booking);
-    console.log('[cashfree webhook] booking fulfilled', cashfreeOrderId);
-    return NextResponse.json({ ok: true });
+  if (booking) {
+    if (booking.paymentStatus !== 'paid') {
+      booking.paymentStatus = 'paid';
+      booking.status = 'booked';
+      booking.cfPaymentId = cfPaymentId;
+      await booking.save();
+      await fulfillPaidBooking(booking);
+      console.log('[cashfree webhook] booking fulfilled', cashfreeOrderId);
+      return NextResponse.json({ ok: true });
+    } else if (!booking.cfPaymentId && cfPaymentId) {
+      booking.cfPaymentId = cfPaymentId;
+      await booking.save();
+      console.log('[cashfree webhook] booking payment ID updated', cashfreeOrderId);
+      return NextResponse.json({ ok: true });
+    }
   }
 
   return NextResponse.json({ ok: true, skipped: true });

@@ -55,16 +55,19 @@ export default function RegisterForm() {
       return;
     }
 
-    if (form.phone.trim()) {
-      const activeCountry = form.country || countryCode || 'IN';
-      const formatted = formatPhone(form.phone, activeCountry);
-      const validation = validatePhone(formatted, activeCountry);
-      if (!validation.isValid) {
-        setError(validation.error || 'Invalid phone number');
-        return;
-      }
-      setForm(f => ({ ...f, phone: formatted }));
+    if (!form.phone.trim()) {
+      setError('Mobile number is mandatory.');
+      return;
     }
+
+    const activeCountry = form.country || countryCode || 'IN';
+    const formatted = formatPhone(form.phone, activeCountry);
+    const validation = validatePhone(formatted, activeCountry);
+    if (!validation.isValid) {
+      setError(validation.error || 'Invalid phone number');
+      return;
+    }
+    setForm(f => ({ ...f, phone: formatted }));
 
     setSubmitting(true);
 
@@ -133,8 +136,9 @@ export default function RegisterForm() {
             <input required type="email" value={form.email} onChange={set('email')} className="newsletter-input" style={{ width: '100%' }} autoComplete="email" />
           </div>
           <div>
-            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone (optional)</label>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone *</label>
             <input 
+              required
               type="tel" 
               value={form.phone} 
               onChange={set('phone')} 

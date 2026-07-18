@@ -25,12 +25,14 @@ declare module 'next-auth' {
       email?: string | null;
       role: 'user' | 'admin';
       country?: string | null;
+      phone?: string | null;
     };
   }
   interface User {
     id: string;
     role: 'user' | 'admin';
     country?: string | null;
+    phone?: string | null;
   }
 }
 
@@ -39,6 +41,7 @@ declare module 'next-auth/jwt' {
     uid?: string;
     role?: 'user' | 'admin';
     country?: string | null;
+    phone?: string | null;
   }
 }
 
@@ -87,6 +90,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           role: user.role,
           country: user.country,
+          phone: user.phone,
         };
       },
     }),
@@ -97,9 +101,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.uid = user.id;
         token.role = user.role;
         token.country = user.country;
+        token.phone = user.phone;
       }
       if (trigger === 'update' && session?.country) {
         token.country = session.country;
+      }
+      if (trigger === 'update' && session?.phone) {
+        token.phone = session.phone;
       }
       return token;
     },
@@ -107,6 +115,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token?.uid) session.user.id = token.uid as string;
       if (token?.role) session.user.role = token.role as 'user' | 'admin';
       if (token?.country) session.user.country = token.country as string;
+      if (token?.phone) session.user.phone = token.phone as string;
       return session;
     },
   },

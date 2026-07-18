@@ -146,7 +146,7 @@ const VIDEO_TIERS = [
 /* ─────────────────────────────────────────────── */
 
 export default function BookingFlow({
-  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, options, defaultName, defaultEmail, initialType,
+  serviceId, serviceSlug, servicePrice, serviceUsdPrice, serviceTitle, tiers, options, defaultName, defaultEmail, defaultPhone = '', initialType,
 }: {
   serviceId: string;
   serviceSlug: string;
@@ -157,6 +157,7 @@ export default function BookingFlow({
   options?: { id: string; label: string; price: number; usdPrice?: number }[];
   defaultName: string;
   defaultEmail: string;
+  defaultPhone?: string;
   initialType?: string;
 }) {
   const today = useMemo(() => new Date(), []);
@@ -196,7 +197,7 @@ export default function BookingFlow({
   const [dob,          setDob]          = useState('');
   const [name,         setName]         = useState(defaultName);
   const [email,        setEmail]        = useState(defaultEmail);
-  const [phone,        setPhone]        = useState('');
+  const [phone,        setPhone]        = useState(defaultPhone);
   const [submitting,   setSubmitting]   = useState(false);
   const [error,        setError]        = useState<string | null>(null);
   const [done,         setDone]         = useState<{ bookingNumber: string; bookingId: string } | null>(null);
@@ -888,6 +889,7 @@ export default function BookingFlow({
               type: 'tel',   
               ph: getPhoneConfig(countryCode || 'IN').placeholder,     
               required: true,
+              readOnly: !!defaultPhone,
               onBlur: () => {
                 if (phone.trim()) {
                   setPhone(formatPhone(phone, countryCode || 'IN'));
@@ -904,13 +906,16 @@ export default function BookingFlow({
                 onChange={(e) => f.setter(e.target.value)}
                 onBlur={(f as any).onBlur}
                 placeholder={f.ph}
+                readOnly={(f as any).readOnly}
                 style={{
                   width: '100%', boxSizing: 'border-box',
-                  background: 'rgba(255,255,255,0.05)',
+                  background: (f as any).readOnly ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(200,149,108,0.3)',
                   borderRadius: 12, padding: '10px 14px',
-                  color: '#fff', fontSize: '0.9rem',
+                  color: (f as any).readOnly ? '#888' : '#fff', 
+                  fontSize: '0.9rem',
                   outline: 'none', fontFamily: 'inherit',
+                  cursor: (f as any).readOnly ? 'not-allowed' : 'text',
                 }}
               />
             </div>

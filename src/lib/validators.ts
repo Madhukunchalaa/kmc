@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const registerSchema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email().max(200),
-  phone: z.string().min(7).max(30).optional().or(z.literal('')),
+  phone: z.string().min(7, 'Please enter a valid phone number.').max(30),
   password: z.string().min(8).max(128),
   country: z.string().length(2, 'Please select your country'),
   otp: z.string().length(6, 'OTP must be 6 digits').optional(),

@@ -110,6 +110,7 @@ export default async function BookingPage(props: PageProps<'/booking/[serviceId]
             options={service.options || []}
             defaultName={session.user.name || ''}
             defaultEmail={session.user.email || ''}
+            defaultPhone={session.user.phone || ''}
             initialType={initialType}
           />
         </div>

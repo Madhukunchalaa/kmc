@@ -84,6 +84,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
       Promise.resolve().then(() => {
         setName((n) => n || session.user.name || '');
         setEmail((e) => e || session.user.email || '');
+        setPhone((p) => p || session.user.phone || '');
       });
     }
   }, [session]);
@@ -386,6 +387,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
                   <div className="col-md-6">
                     <label className="kmc-modal-field-label">Phone *</label>
                     <input 
+                      readOnly={!!session?.user?.phone}
                       required 
                       type="tel" 
                       value={phone} 
@@ -393,6 +395,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
                       onBlur={handlePhoneBlur}
                       placeholder={getPhoneConfig(countryCode || 'IN').placeholder}
                       className="kmc-modal-input" 
+                      style={session?.user?.phone ? { backgroundColor: '#f5f5f5', color: '#888', cursor: 'not-allowed' } : undefined}
                     />
                   </div>
                   <div className="col-12">

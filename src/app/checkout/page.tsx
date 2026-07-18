@@ -62,6 +62,7 @@ export default function CheckoutPage() {
           name: f.name || session.user.name || '',
           email: f.email || session.user.email || '',
           country: f.country || session.user.country || countryCode || '',
+          phone: f.phone || session.user.phone || '',
         }));
       });
     }
@@ -648,6 +649,7 @@ export default function CheckoutPage() {
                   <div className="col-md-6">
                     <label className="form-label" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Phone *</label>
                     <input 
+                      readOnly={!!session?.user?.phone}
                       required 
                       type="tel" 
                       value={form.phone} 
@@ -655,6 +657,7 @@ export default function CheckoutPage() {
                       onBlur={handlePhoneBlur}
                       placeholder={getPhoneConfig(form.country || countryCode || 'IN').placeholder}
                       className="checkout-form-input" 
+                      style={session?.user?.phone ? { backgroundColor: '#f5f5f5', color: '#888', cursor: 'not-allowed' } : undefined}
                     />
                   </div>
                   <div className="col-md-6">

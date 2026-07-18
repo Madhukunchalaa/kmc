@@ -112,9 +112,14 @@ export async function GET() {
 
   /* ── SHEET 2: ALL ORDERS ── */
   const ws2 = wb.addWorksheet('Orders', { properties: { tabColor: { argb: 'FF4CAF50' } } });
-  ws2.columns = [{ width: 16 }, { width: 13 }, { width: 22 }, { width: 28 }, { width: 14 }, { width: 28 }, { width: 7 }, { width: 13 }, { width: 13 }, { width: 13 }, { width: 14 }, { width: 15 }];
-  titleRow(ws2, 12, `KrissMaagiic — All Orders  ·  ${orders.length} total`);
-  const oHdrs = ['Order #', 'Date', 'Customer', 'Email', 'Phone', 'Product', 'Qty', 'Unit ₹', 'Line ₹', 'Subtotal', 'Status', 'Payment'];
+  ws2.columns = [
+    { width: 16 }, { width: 13 }, { width: 22 }, { width: 28 }, 
+    { width: 14 }, { width: 28 }, { width: 7  }, { width: 13 }, 
+    { width: 13 }, { width: 13 }, { width: 14 }, { width: 14 }, 
+    { width: 15 }
+  ];
+  titleRow(ws2, 13, `KrissMaagiic — All Orders  ·  ${orders.length} total`);
+  const oHdrs = ['Order #', 'Date', 'Customer', 'Email', 'Phone', 'Product', 'Qty', 'Unit ₹', 'Line ₹', 'Shipping ₹', 'Order Total ₹', 'Status', 'Payment'];
   oHdrs.forEach((h, i) => { const c = ws2.getRow(2).getCell(i + 1); c.value = h; hdr(c, C.midBrown, C.goldLight); });
   ws2.getRow(2).height = 24;
   ws2.views = [{ state: 'frozen', ySplit: 2 }];
@@ -122,17 +127,63 @@ export async function GET() {
   let ri2 = 3;
   for (const o of orders) {
     const date = new Date(o.createdAt).toLocaleDateString('en-IN');
+    let itemIdx = 0;
     for (const item of (o.items || [])) {
       const even = ri2 % 2 === 0;
       const r = ws2.getRow(ri2); r.height = 20;
-      const vals: CellValue[] = [o.orderNumber, date, o.customer?.name || '', o.customer?.email || '', o.customer?.phone || '', item.name, item.qty, item.price, item.lineTotal, o.total ?? o.subtotal, o.status, o.paymentStatus];
+
+      const shippingVal = itemIdx === 0 ? (o.shipping ?? 0) : 0;
+      const orderTotalVal = itemIdx === 0 ? (o.total || o.subtotal || 0) : 0;
+
+      const vals: CellValue[] = [
+        o.orderNumber, date,
+        o.customer?.name || '', o.customer?.email || '', o.customer?.phone || '',
+        item.name, item.qty, item.price, item.lineTotal,
+        shippingVal, orderTotalVal,
+        o.status, o.paymentStatus
+      ];
       vals.forEach((v, ci) => {
-        const c = r.getCell(ci + 1); c.value = v; dat(c, even, ci >= 6 ? 'center' : 'left');
-        if (ci === 10 || ci === 11) { const sc = statusStyle(String(v)); c.font = { bold: true, size: 10, color: { argb: 'FF' + sc.fg }, name: 'Calibri' }; c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + sc.bg } }; }
-        if ([7, 8, 9].includes(ci)) c.numFmt = '₹#,##0.00';
+        const c = r.getCell(ci + 1); c.value = v; dat(c, even, ci >= 6 && ci <= 10 ? 'center' : 'left');
+        if (ci === 11 || ci === 12) { 
+          const sc = statusStyle(String(v)); 
+          c.font = { bold: true, size: 10, color: { argb: 'FF' + sc.fg }, name: 'Calibri' }; 
+          c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + sc.bg } }; 
+        }
+        if ([7, 8, 9, 10].includes(ci)) c.numFmt = '₹#,##0.00';
       });
       ri2++;
+      itemIdx++;
     }
+  }
+
+  // Orders total row
+  if (ri2 > 3) {
+    const totRow2 = ws2.getRow(ri2);
+    totRow2.height = 22;
+    
+    let totalLineAmt = 0;
+    let totalShippingAmt = 0;
+    let totalOrderRevenue = 0;
+    for (const o of orders) {
+      if (o.paymentStatus === 'paid') {
+        totalOrderRevenue += (o.total || o.subtotal || 0);
+        totalShippingAmt += (o.shipping ?? 0);
+        for (const item of o.items || []) {
+          totalLineAmt += (item.lineTotal || 0);
+        }
+      }
+    }
+
+    const tv: CellValue[] = ['TOTAL', '', '', '', '', `${orders.length} order(s)`, '', '', totalLineAmt, totalShippingAmt, totalOrderRevenue, '', ''];
+    tv.forEach((v, ci) => {
+      const cell = totRow2.getCell(ci + 1);
+      cell.value = v === '' ? null : v;
+      cell.font  = { bold: true, size: 10, color: { argb: 'FF' + C.white }, name: 'Calibri' };
+      cell.fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + C.gold } };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      if ([8, 9, 10].includes(ci)) cell.numFmt = '₹#,##0.00';
+    });
+    ri2++;
   }
 
   /* ── SHEET 3: ALL BOOKINGS ── */

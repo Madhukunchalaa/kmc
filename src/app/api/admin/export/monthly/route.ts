@@ -185,11 +185,11 @@ export async function GET(req: Request) {
   ws2.columns = [
     { width: 18 }, { width: 13 }, { width: 22 }, { width: 28 },
     { width: 15 }, { width: 30 }, { width: 7  }, { width: 13 },
-    { width: 13 }, { width: 14 }, { width: 15 },
+    { width: 13 }, { width: 13 }, { width: 14 }, { width: 14 }, { width: 15 },
   ];
 
   // Title
-  ws2.mergeCells('A1:K1');
+  ws2.mergeCells('A1:M1');
   const p1 = ws2.getCell('A1');
   p1.value = `KrissMaagiic — Product Orders  |  ${monthName} ${year}`;
   p1.font  = { bold: true, size: 13, color: { argb: 'FF' + C.goldLight }, name: 'Calibri' };
@@ -198,7 +198,7 @@ export async function GET(req: Request) {
   ws2.getRow(1).height = 30;
 
   // Headers
-  const prodHeaders = ['Order #', 'Date', 'Customer', 'Email', 'Phone', 'Product', 'Qty', 'Unit Price', 'Line Total', 'Order Status', 'Payment'];
+  const prodHeaders = ['Order #', 'Date', 'Customer', 'Email', 'Phone', 'Product', 'Qty', 'Unit Price', 'Line Total', 'Shipping', 'Order Total', 'Order Status', 'Payment'];
   ws2.getRow(2).height = 24;
   prodHeaders.forEach((h, i) => {
     const cell = ws2.getRow(2).getCell(i + 1);
@@ -209,32 +209,53 @@ export async function GET(req: Request) {
 
   // Data
   let rowIdx2 = 3;
+  let totalLineAmt = 0;
+  let totalShippingAmt = 0;
+  let totalOrderRevenue = 0;
+
   for (const o of orders) {
     const date = new Date(o.createdAt).toLocaleDateString('en-IN');
+    const isPaid = o.paymentStatus === 'paid';
+    if (isPaid) {
+      totalOrderRevenue += (o.total || o.subtotal || 0);
+      totalShippingAmt += (o.shipping ?? 0);
+    }
+    
+    let itemIdx = 0;
     for (const item of o.items || []) {
       const isEven = (rowIdx2 % 2 === 0);
       const row = ws2.getRow(rowIdx2);
       row.height = 20;
+
+      if (isPaid) {
+        totalLineAmt += (item.lineTotal || 0);
+      }
+
+      const shippingVal = itemIdx === 0 ? (o.shipping ?? 0) : 0;
+      const orderTotalVal = itemIdx === 0 ? (o.total || o.subtotal || 0) : 0;
+
       const vals: CellValue[] = [
         o.orderNumber, date,
         o.customer?.name || '', o.customer?.email || '', o.customer?.phone || '',
         item.name, item.qty, item.price, item.lineTotal,
+        shippingVal, orderTotalVal,
         o.status, o.paymentStatus,
       ];
       vals.forEach((v, ci) => {
         const cell = row.getCell(ci + 1);
         cell.value = v;
-        applyDataCell(cell, isEven, ci >= 6 ? 'center' : 'left');
+        applyDataCell(cell, isEven, ci >= 6 && ci <= 10 ? 'center' : 'left');
         // Status colouring
-        if (ci === 9 || ci === 10) {
+        if (ci === 11 || ci === 12) {
           const sc = statusStyle(String(v));
           cell.font = { bold: true, size: 10, color: { argb: 'FF' + sc.fg }, name: 'Calibri' };
           cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + sc.bg } };
         }
         // Price format
-        if (ci === 7 || ci === 8) cell.numFmt = '₹#,##0.00';
+        if (ci === 7 || ci === 8 || ci === 9 || ci === 10) cell.numFmt = '₹#,##0.00';
       });
       rowIdx2++;
+      itemIdx++;
     }
   }
 
@@ -242,14 +263,14 @@ export async function GET(req: Request) {
   if (rowIdx2 > 3) {
     const totRow2 = ws2.getRow(rowIdx2);
     totRow2.height = 22;
-    const tv: CellValue[] = ['TOTAL', '', '', '', '', `${orders.length} order(s)`, '', '', orderRevenue, '', ''];
+    const tv: CellValue[] = ['TOTAL', '', '', '', '', `${orders.length} order(s)`, '', '', totalLineAmt, totalShippingAmt, totalOrderRevenue, '', ''];
     tv.forEach((v, ci) => {
       const cell = totRow2.getCell(ci + 1);
       cell.value = v === '' ? null : v;
       cell.font  = { bold: true, size: 10, color: { argb: 'FF' + C.white }, name: 'Calibri' };
       cell.fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF' + C.gold } };
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
-      if (ci === 8) cell.numFmt = '₹#,##0.00';
+      if ([8, 9, 10].includes(ci)) cell.numFmt = '₹#,##0.00';
     });
   }
 

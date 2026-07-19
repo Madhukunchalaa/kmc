@@ -73,18 +73,18 @@ const FALLBACK_REELS: Reel[] = [
     image: '/service-candle.webp',
   },
   {
-    id: 4,
-    src: `${BASE}/Video%204.mp4`,
-    title: 'Spell Jars & Energy',
-    caption: 'Handcrafted with moonlight-charged crystals, oils, and focused intentions.',
-    image: '/service-spelljar.webp',
-  },
-  {
     id: 3,
     src: `${BASE}/Video%203.mp4`,
     title: 'Intuitively Chosen Tarot',
     caption: 'Receive personalized spiritual guidance and clear answers to life questions.',
     image: '/service-tarot.webp',
+  },
+  {
+    id: 4,
+    src: `${BASE}/Video%204.mp4`,
+    title: 'Spell Jars & Energy',
+    caption: 'Handcrafted with moonlight-charged crystals, oils, and focused intentions.',
+    image: '/service-spelljar.webp',
   },
   {
     id: 6,
@@ -523,38 +523,6 @@ export default function SpiritualReels() {
             <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.9rem' }} />
           </button>
         </div>
-
-      {/* Active Reel Title & Caption */}
-      {centerReel && (
-        <div
-          style={{
-            textAlign: 'center',
-            maxWidth: '540px',
-            margin: '24px auto 0 auto',
-            padding: '0 20px',
-            transition: 'opacity 0.4s ease',
-          }}
-        >
-          <h3 style={{
-            fontSize: '1.2rem',
-            fontWeight: 700,
-            color: '#2D1B0E',
-            marginBottom: '6px',
-            fontFamily: 'var(--body-font)',
-            letterSpacing: '0.02em',
-          }}>
-            {centerReel.title}
-          </h3>
-          <p style={{
-            fontSize: '0.85rem',
-            color: 'rgba(45, 27, 14, 0.75)',
-            margin: 0,
-            lineHeight: 1.45,
-          }}>
-            {centerReel.caption}
-          </p>
-        </div>
-      )}
 
         {/* Dots */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 20 }}>

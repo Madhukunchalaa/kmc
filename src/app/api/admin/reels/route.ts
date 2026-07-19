@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminGuard';
 import { connectMongoose } from '@/lib/mongoose';
 import Reel from '@/models/Reel';
+import { revalidatePath } from 'next/cache';
 
 // GET /api/admin/reels — list all reels sorted by order
 export async function GET() {
@@ -23,6 +24,11 @@ export async function PATCH(req: Request) {
   if (!Array.isArray(ids)) return NextResponse.json({ ok: false, reason: 'ids array required' }, { status: 400 });
 
   await Promise.all(ids.map((id, i) => Reel.findByIdAndUpdate(id, { order: i })));
+  
+  // Revalidate home page and public reels API cache
+  revalidatePath('/');
+  revalidatePath('/api/reels');
+
   return NextResponse.json({ ok: true });
 }
 
@@ -48,6 +54,10 @@ export async function POST(req: Request) {
     order: order ?? count,
     active: active !== false,
   });
+
+  // Revalidate home page and public reels API cache
+  revalidatePath('/');
+  revalidatePath('/api/reels');
 
   return NextResponse.json({ ok: true, reel }, { status: 201 });
 }

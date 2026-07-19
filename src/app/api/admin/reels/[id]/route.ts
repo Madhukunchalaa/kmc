@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminGuard';
 import { connectMongoose } from '@/lib/mongoose';
 import Reel from '@/models/Reel';
+import { revalidatePath } from 'next/cache';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -17,6 +18,10 @@ export async function PUT(req: Request, ctx: Ctx) {
   const reel = await Reel.findByIdAndUpdate(id, body, { new: true });
   if (!reel) return NextResponse.json({ ok: false, reason: 'Not found' }, { status: 404 });
 
+  // Revalidate home page and public reels API cache
+  revalidatePath('/');
+  revalidatePath('/api/reels');
+
   return NextResponse.json({ ok: true, reel });
 }
 
@@ -30,6 +35,10 @@ export async function DELETE(_req: Request, ctx: Ctx) {
 
   const reel = await Reel.findByIdAndDelete(id);
   if (!reel) return NextResponse.json({ ok: false, reason: 'Not found' }, { status: 404 });
+
+  // Revalidate home page and public reels API cache
+  revalidatePath('/');
+  revalidatePath('/api/reels');
 
   return NextResponse.json({ ok: true });
 }

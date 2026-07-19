@@ -325,7 +325,7 @@ export default function AdminReelsPage() {
                     <td style={{ padding: '12px 14px', color: '#aaa', fontWeight: 700, fontSize: '0.85rem' }}>{idx + 1}</td>
                     <td style={{ padding: '12px 14px' }}>
                       {reel.image ? (
-                        <img src={reel.image} alt={reel.title}
+                        <img src={reel.image.replace(/\.png$/, '.webp')} alt={reel.title}
                           style={{ width: 44, height: 66, objectFit: 'cover', borderRadius: 8, border: '1px solid rgba(0,0,0,0.1)', display: 'block' }} />
                       ) : (
                         <div style={{ width: 44, height: 66, borderRadius: 8, background: '#f0e8e0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

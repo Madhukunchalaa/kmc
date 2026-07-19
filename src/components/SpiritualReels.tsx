@@ -121,7 +121,7 @@ export default function SpiritualReels() {
 
   // Load reels from DB on mount; fall back to hardcoded list if none returned
   useEffect(() => {
-    fetch('/api/reels')
+    fetch('/api/reels', { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => {
         if (d.ok && Array.isArray(d.reels) && d.reels.length > 0) {

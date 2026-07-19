@@ -60,14 +60,14 @@ const FALLBACK_REELS: Reel[] = [
   },
   {
     id: 7,
-    src: `${BASE}/Video%207.mp4`,
+    src: `${BASE}/Video%202.mp4`,
     title: 'Crystal Packing Process',
     caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
     image: '/about-header.webp',
   },
   {
     id: 2,
-    src: `${BASE}/Video%202.mp4`,
+    src: `${BASE}/Video%207.mp4`,
     title: 'Candle Spell Rituals',
     caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
     image: '/service-candle.webp',

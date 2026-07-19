@@ -46,7 +46,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.05rem' }}>
           <Link href="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
             <i className="fa-solid fa-gem" style={{ color: 'var(--primary,#C8956C)', fontSize: '0.9rem' }}></i>
-            <span>Kriss Maagiic</span>
+            <span>KrissMaagiic</span>
           </Link>
         </div>
 

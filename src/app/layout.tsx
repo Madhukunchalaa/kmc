@@ -74,6 +74,20 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
         {/* Font Awesome 6 Icons */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+        {/* Google Site Name Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "KrissMaagiic Crystals",
+              "alternateName": ["KrissMaagiic", "KrissMaagiicCrystals"],
+              "url": "https://krissmaagiiccrystals.com"
+            })
+          }}
+        />
       </head>
       <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`} suppressHydrationWarning>
         <div id="page-wrapper">

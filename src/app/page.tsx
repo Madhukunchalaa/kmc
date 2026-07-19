@@ -355,9 +355,9 @@ export default function Home() {
             <div className="col-lg-6">
               <ScrollFade delay={100}>
                 <span className="section-eyebrow" style={{ color: 'var(--gold-light, #FFEFA6)' }}>The beginning</span>
-                <h2 className="section-title" style={{ textAlign: 'left', color: '#fff' }}>How <span style={{ color: 'var(--gold-light, #FFEFA6)' }}>KrissMaagiic</span> was born</h2>
+                <h2 className="section-title" style={{ textAlign: 'left', color: '#fff' }}>How <span style={{ color: 'var(--gold-light, #FFEFA6)' }}>Kriss Maagiic</span> was born</h2>
                 <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
-                  KrissMaagiic was born from my deep passion for spirituality and personal transformation. My journey began in 2022 through intuitive consultations, where I witnessed the profound impact of faith, positive intention, and self-belief. In May 2024, this calling evolved into KrissMaagiic—a space dedicated to offering authentic crystals that inspire confidence and growth. To me, crystals are more than beautiful stones; they are powerful symbols of hope and the innate strength that exists within us all.
+                  Kriss Maagiic was born from my deep passion for spirituality and personal transformation. My journey began in 2022 through intuitive consultations, where I witnessed the profound impact of faith, positive intention, and self-belief. In May 2024, this calling evolved into Kriss Maagiic—a space dedicated to offering authentic crystals that inspire confidence and growth. To me, crystals are more than beautiful stones; they are powerful symbols of hope and the innate strength that exists within us all.
                 </p>
                 <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
                   Every creation carries a piece of my heart. &quot;Kriss&quot; comes from my name, and &quot;Maagiic&quot; represents the positive energy infused into every piece. My mission is simple: to help people reconnect with their inner light. My greatest joy is knowing each crystal reaches its new home carrying a message of hope, authenticity, and the belief that true transformation begins from within.

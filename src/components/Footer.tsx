@@ -20,11 +20,11 @@ export default function Footer() {
             <div className="footer-brand">
               <img
                 src="/site-logo.png"
-                alt="KrissMaagiic Crystals"
+                alt="Kriss Maagiic Crystals"
                 className="footer-logo"
               />
               <div>
-                <span className="footer-brand-name">KrissMaagiic Crystals</span>
+                <span className="footer-brand-name">Kriss Maagiic Crystals</span>
                 <span className="footer-brand-sub">Energised · Authentic · Selected</span>
               </div>
             </div>

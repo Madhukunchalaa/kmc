@@ -59,7 +59,7 @@ export default function ContactPage() {
               </h2>
               <div style={{ width: 48, height: 2, background: 'var(--primary,#C8956C)', borderRadius: 2, marginBottom: '1.5rem', opacity: 0.6 }} />
               <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, marginBottom: '1rem', fontSize: '0.92rem' }}>
-                This website is operated by KrissMaagiic Crystals, founded by <strong style={{ color: 'var(--primary,#C8956C)' }}>BADISA KRISHNA VENI</strong>, lovingly known as Kriss.
+                This website is operated by Kriss Maagiic Crystals, founded by <strong style={{ color: 'var(--primary,#C8956C)' }}>BADISA KRISHNA VENI</strong>, lovingly known as Kriss.
               </p>
               <p style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, marginBottom: '2.5rem', fontSize: '0.92rem' }}>
                 I personally answer every message. Replies usually arrive within a day — sometimes sooner if the moon is kind.

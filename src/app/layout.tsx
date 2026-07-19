@@ -82,8 +82,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "KrissMaagiic Crystals",
-              "alternateName": ["KrissMaagiic", "KrissMaagiicCrystals"],
+              "name": "Kriss Maagiic Crystals",
+              "alternateName": ["Kriss Maagiic", "Kriss Maagiic Crystals", "KrissMaagiic"],
               "url": "https://krissmaagiiccrystals.com"
             })
           }}

@@ -312,7 +312,7 @@ export default function Home() {
       {/* Trust strip removed because it's now integrated inside HeroSection */}
 
       {/* ===== HOW KRISSMAAGIIC WAS BORN ===== */}
-      <section className="section-pad" style={{ background: 'radial-gradient(circle at 20% 30%, #2D1B0E 0%, #1C0A02 100%)', color: '#fff' }}>
+      <section id="founder" className="section-pad" style={{ background: 'radial-gradient(circle at 20% 30%, #2D1B0E 0%, #1C0A02 100%)', color: '#fff' }}>
         <div className="container">
           <div className="row g-5 align-items-center">
             <div className="col-lg-6">

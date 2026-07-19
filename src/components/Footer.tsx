@@ -59,6 +59,7 @@ export default function Footer() {
               <li><Link href="/services">Services</Link></li>
               <li><Link href="/crystal-strength">Crystal Guide</Link></li>
               <li><Link href="/about">About</Link></li>
+              <li><Link href="/#founder">Founder</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -89,6 +90,7 @@ export default function Footer() {
                 { label: 'Services',      href: '/services' },
                 { label: 'Crystal Guide', href: '/crystal-strength' },
                 { label: 'About',         href: '/about' },
+                { label: 'Founder',       href: '/#founder' },
                 { label: 'Contact',       href: '/contact' },
                 { label: 'Tarot',         href: '/services#tarot' },
                 { label: 'Candle Spells', href: '/services#candle' },

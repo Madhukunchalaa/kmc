@@ -223,6 +223,7 @@ export default function Header() {
     { name: 'Crystal Strength', href: '/crystal-strength' },
     { name: 'Blog', href: '/blogs' },
     { name: 'About', href: '/about' },
+    { name: 'Founder', href: '/#founder' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -231,7 +232,7 @@ export default function Header() {
       <div className="container-fluid px-lg-5 px-3">
         <Link href="/" className="navbar-brand">
           <div className="navbar-logo-wrap">
-            <img src="/site-logo.png" alt="KrissMaagiic Crystals Logo" className="navbar-logo-img" />
+            <img src="/site-logo.png" alt="Kriss Maagiic Crystals" className="navbar-logo-img" />
           </div>
           <div className="navbar-brand-text">
             <span className="navbar-brand-main">Kriss Maagiic Crystals</span>

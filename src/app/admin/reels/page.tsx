@@ -74,11 +74,14 @@ export default function AdminReelsPage() {
 
   // ── Drag-to-reorder ────────────────────────────────────────────────────────
   // ── Seed defaults ──────────────────────────────────────────────────────────
-  const handleSeed = async () => {
-    if (!confirm('This will add 7 default reels to the database. Continue?')) return;
+  const handleSeed = async (force = false) => {
+    const msg = force
+      ? 'This will reset all reels to the correct default 7 videos and mapping. Continue?'
+      : 'This will add default reels to the database. Continue?';
+    if (!confirm(msg)) return;
     setSeeding(true);
     try {
-      const res = await fetch('/api/admin/seed-reels', { method: 'POST' });
+      const res = await fetch(`/api/admin/seed-reels${force ? '?force=true' : ''}`, { method: 'POST' });
       const d = await res.json();
       if (!d.ok) alert(d.reason || 'Seed failed');
       else await load();
@@ -255,6 +258,26 @@ export default function AdminReelsPage() {
               <i className="fa-solid fa-spinner fa-spin" /> Saving order…
             </span>
           )}
+          <button
+            onClick={() => handleSeed(true)}
+            disabled={seeding}
+            style={{
+              background: 'rgba(200,149,108,0.1)',
+              color: '#C8956C',
+              border: '1px solid rgba(200,149,108,0.3)',
+              borderRadius: 10,
+              padding: '8px 16px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+          >
+            <i className={`fa-solid ${seeding ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles'}`} />
+            {seeding ? 'Resetting…' : 'Reset Default Videos'}
+          </button>
           <button style={btnPrimary} onClick={openAdd}>
             <i className="fa-solid fa-plus me-2" />Add Reel
           </button>
@@ -273,7 +296,7 @@ export default function AdminReelsPage() {
             <i className="fa-solid fa-film" style={{ fontSize: '2.5rem', opacity: 0.3 }} />
             <p style={{ marginTop: 12, marginBottom: '1.25rem' }}>No reels yet. Add your own or load the 7 default reels.</p>
             <button
-              onClick={handleSeed}
+              onClick={() => handleSeed(false)}
               disabled={seeding}
               style={{
                 background: 'transparent', color: '#C8956C',

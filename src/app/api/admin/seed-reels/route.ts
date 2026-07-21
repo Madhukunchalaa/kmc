@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminGuard';
 import { connectMongoose } from '@/lib/mongoose';
 import Reel from '@/models/Reel';
+import { revalidatePath } from 'next/cache';
 
 const BASE = 'https://pub-bc6e3f2948144094afe58ec3ca87bf45.r2.dev/videos';
 
@@ -15,21 +16,40 @@ const DEFAULT_REELS = [
   { title: 'Pure Crystal Energy',       caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',                          src: `${BASE}/Video%207.mp4`, image: '/crystal-hero.png',       order: 6 },
 ];
 
-// POST /api/admin/seed-reels  — one-time seeder (admin-only)
-export async function POST() {
+// POST /api/admin/seed-reels — seeder & reset route (admin-only)
+export async function POST(req: Request) {
   const g = await requireAdmin();
   if (!g.ok) return g.res;
 
   await connectMongoose();
 
-  const existing = await Reel.countDocuments();
-  if (existing > 0) {
-    return NextResponse.json({ ok: false, reason: `Reels already seeded (${existing} found). Delete them first from the admin panel if you want to re-seed.` });
+  const { searchParams } = new URL(req.url);
+  const force = searchParams.get('force') === 'true';
+
+  if (force) {
+    await Reel.deleteMany({});
+  } else {
+    const existing = await Reel.countDocuments();
+    if (existing > 0) {
+      // Update existing reels by title to fix any mismatched URLs
+      for (const def of DEFAULT_REELS) {
+        await Reel.updateOne(
+          { title: def.title },
+          { $set: { src: def.src, order: def.order, image: def.image } }
+        );
+      }
+      revalidatePath('/');
+      revalidatePath('/api/reels');
+      return NextResponse.json({ ok: true, updated: true });
+    }
   }
 
   const inserted = await Reel.insertMany(
     DEFAULT_REELS.map((r) => ({ ...r, active: true }))
   );
+
+  revalidatePath('/');
+  revalidatePath('/api/reels');
 
   return NextResponse.json({ ok: true, inserted: inserted.length });
 }

@@ -59,18 +59,11 @@ const FALLBACK_REELS: Reel[] = [
     image: '/about-hero.webp',
   },
   {
-    id: 7,
+    id: 2,
     src: `${BASE}/Video%202.mp4`,
     title: 'Crystal Packing Process',
     caption: 'Watch how we carefully pack and wrap your crystals with love and positive energy.',
     image: '/about-header.webp',
-  },
-  {
-    id: 2,
-    src: `${BASE}/Video%207.mp4`,
-    title: 'Candle Spell Rituals',
-    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
-    image: '/service-candle.webp',
   },
   {
     id: 3,
@@ -82,6 +75,13 @@ const FALLBACK_REELS: Reel[] = [
   {
     id: 4,
     src: `${BASE}/Video%204.mp4`,
+    title: 'Candle Spell Rituals',
+    caption: 'Watch a real candle spell designed to manifest alignment and positivity.',
+    image: '/service-candle.webp',
+  },
+  {
+    id: 5,
+    src: `${BASE}/Video%205.mp4`,
     title: 'Spell Jars & Energy',
     caption: 'Handcrafted with moonlight-charged crystals, oils, and focused intentions.',
     image: '/service-spelljar.webp',
@@ -94,8 +94,8 @@ const FALLBACK_REELS: Reel[] = [
     image: '/service-numerology.webp',
   },
   {
-    id: 5,
-    src: `${BASE}/Video%205.mp4`,
+    id: 7,
+    src: `${BASE}/Video%207.mp4`,
     title: 'Pure Crystal Energy',
     caption: 'Handpicked and ritually cleansed stones to invite harmony into your home.',
     image: '/crystal-hero.webp',

@@ -141,11 +141,6 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
     setError(null);
 
     const activeCountry = countryCode || 'IN';
-    if (activeCountry !== 'IN') {
-      setError('International Payments Paused: We are currently not accepting international payments. Bookings are only available within India.');
-      return;
-    }
-
     const formattedPhone = formatPhone(phone, activeCountry);
     const validation = validatePhone(formattedPhone, activeCountry);
     if (!validation.isValid) {

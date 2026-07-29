@@ -150,11 +150,6 @@ export default function CheckoutPage() {
     setError(null);
 
     const activeCountry = form.country || countryCode || 'IN';
-    if (activeCountry !== 'IN') {
-      setError('International Payments Paused: We are currently not accepting international payments. Orders can only be placed and paid within India.');
-      setSubmitting(false);
-      return;
-    }
     const formattedPhone = formatPhone(form.phone, activeCountry);
     const validation = validatePhone(formattedPhone, activeCountry);
     if (!validation.isValid) {

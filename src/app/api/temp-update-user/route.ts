@@ -22,7 +22,7 @@ export async function GET() {
     
     for (const u of users) {
       const oldCountry = u.country;
-      u.country = 'IN';
+      u.country = 'US';
       await u.save();
       results.push({
         email: u.email,

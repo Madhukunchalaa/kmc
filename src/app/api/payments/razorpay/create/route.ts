@@ -45,12 +45,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
   }
 
+  let amount = order.total && order.total > 0 ? order.total : order.subtotal;
+  let currency = order.currency || 'INR';
+
+  if (currency !== 'INR') {
+    // Reverse the client-side display division of 50 to get the original INR value
+    amount = amount * 50;
+    currency = 'INR';
+  }
+
+  const amountInPaise = toPaise(amount);
+  if (amountInPaise < 100) {
+    return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is ₹1.00.' }, { status: 400 });
+  }
+
   try {
     let razorpayOrderId = order.razorpayOrderId;
     if (!razorpayOrderId) {
       const rpOrder = await razorpay.orders.create({
-        amount: toPaise(order.subtotal),
-        currency: order.currency || 'INR',
+        amount: amountInPaise,
+        currency,
         receipt: order.orderNumber,
         notes: {
           kmcOrderId: String(order._id),
@@ -66,8 +80,8 @@ export async function POST(req: Request) {
       ok: true,
       keyId,
       razorpayOrderId,
-      amount: toPaise(order.subtotal),
-      currency: order.currency || 'INR',
+      amount: amountInPaise,
+      currency,
       orderNumber: order.orderNumber,
       customer: {
         name: order.customer.name,
@@ -75,8 +89,13 @@ export async function POST(req: Request) {
         phone: order.customer.phone,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('razorpay order create failed', err);
-    return NextResponse.json({ ok: false, reason: 'razorpay-error' }, { status: 502 });
+    return NextResponse.json({
+      ok: false,
+      reason: 'razorpay-error',
+      message: err.message || 'Razorpay order creation failed',
+      description: err.description || ''
+    }, { status: 502 });
   }
 }

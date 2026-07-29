@@ -45,25 +45,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'order-not-found' }, { status: 404 });
   }
 
-  let amount = order.total && order.total > 0 ? order.total : order.subtotal;
-  let currency = order.currency || 'INR';
+  const amount = order.total && order.total > 0 ? order.total : order.subtotal;
+  const currency = order.currency || 'INR';
 
-  if (currency !== 'INR') {
-    // Reverse the client-side display division of 50 to get the original INR value
-    amount = amount * 50;
-    currency = 'INR';
-  }
-
-  const amountInPaise = toPaise(amount);
-  if (amountInPaise < 100) {
-    return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is ₹1.00.' }, { status: 400 });
+  const amountInSubunits = toPaise(amount);
+  if (currency === 'USD') {
+    if (amountInSubunits < 50) {
+      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is $0.50.' }, { status: 400 });
+    }
+  } else {
+    if (amountInSubunits < 100) {
+      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is ₹1.00.' }, { status: 400 });
+    }
   }
 
   try {
     let razorpayOrderId = order.razorpayOrderId;
     if (!razorpayOrderId) {
       const rpOrder = await razorpay.orders.create({
-        amount: amountInPaise,
+        amount: amountInSubunits,
         currency,
         receipt: order.orderNumber,
         notes: {
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       ok: true,
       keyId,
       razorpayOrderId,
-      amount: amountInPaise,
+      amount: amountInSubunits,
       currency,
       orderNumber: order.orderNumber,
       customer: {

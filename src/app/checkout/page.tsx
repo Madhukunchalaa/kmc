@@ -817,20 +817,10 @@ export default function CheckoutPage() {
                   </span>
                 </label>
 
-                {destinationIsIntl ? (
-                  <div style={{ background: 'rgba(217,95,95,0.06)', border: '1.5px solid rgba(217,95,95,0.25)', borderRadius: 12, padding: '16px 18px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.8rem', marginBottom: 8 }}>🇮🇳</div>
-                    <p style={{ fontWeight: 700, color: '#D95F5F', margin: '0 0 6px', fontSize: '0.95rem' }}>India Orders Only</p>
-                    <p style={{ fontSize: '0.82rem', color: '#888', margin: 0 }}>
-                      We are currently accepting orders within India only. International shipping will be available soon — please contact us on WhatsApp for assistance.
-                    </p>
-                  </div>
-                ) : (
                   <button type="submit" className="btn-primary-custom" disabled={submitting || !termsAccepted} style={{ justifyContent: 'center', opacity: submitting || !termsAccepted ? 0.65 : 1, cursor: submitting ? 'wait' : !termsAccepted ? 'not-allowed' : 'pointer' }}>
                     {submitting ? <Spinner /> : <i className={paymentMethod === 'cod' ? 'fa-solid fa-truck' : 'fa-solid fa-lock'}></i>}
                     <span>{submitting ? 'Processing…' : paymentMethod === 'cod' ? `Place Order (COD) — ${formatPrice(payableInr, 0)}` : `Pay ${formatPrice(payableInr, usdSubtotal)}`}</span>
                   </button>
-                )}
 
                 <p style={{ fontSize: '0.78rem', color: 'var(--text-light,#888)', textAlign: 'center' }}>
                   {paymentMethod === 'online'

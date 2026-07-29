@@ -233,7 +233,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
+      const gateway = orderData.gateway || 'cashfree';
 
       if (gateway === 'razorpay') {
         const payRes = await fetch('/api/payments/razorpay/create', {

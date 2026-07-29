@@ -74,3 +74,13 @@ export async function getRazorpayOrderStatus(
   };
 }
 
+export function getActivePaymentGateway(): 'razorpay' | 'cashfree' {
+  const envGateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || process.env.PAYMENT_GATEWAY;
+  if (envGateway === 'razorpay') return 'razorpay';
+  if (envGateway === 'cashfree') return 'cashfree';
+
+  if (isRazorpayConfigured()) return 'razorpay';
+  return 'cashfree';
+}
+
+

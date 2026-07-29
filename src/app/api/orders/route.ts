@@ -7,7 +7,7 @@ import { CART_COOKIE } from '@/lib/cartSession';
 import { resolveOrderLines } from '@/lib/orderLines';
 import { computeOrderShipping } from '@/lib/shipping';
 import { isCashfreeConfigured } from '@/lib/cashfree';
-import { isRazorpayConfigured } from '@/lib/razorpay';
+import { isRazorpayConfigured, getActivePaymentGateway } from '@/lib/razorpay';
 import { createOrderSchema, zodErrorMessage } from '@/lib/validators';
 
 export async function POST(req: Request) {
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'login-required' }, { status: 401 });
   }
 
-  const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
+  const gateway = getActivePaymentGateway();
   if (gateway === 'razorpay') {
     if (!isRazorpayConfigured()) {
       return NextResponse.json({ ok: false, reason: 'razorpay-not-configured' }, { status: 503 });
@@ -107,6 +107,7 @@ export async function POST(req: Request) {
       total,
       international,
       requiresPayment: true,
+      gateway,
     });
   } catch (err) {
     console.error('order create failed', err);

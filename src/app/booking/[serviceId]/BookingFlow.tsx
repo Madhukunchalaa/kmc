@@ -369,7 +369,7 @@ export default function BookingFlow({
         return;
       }
 
-      const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
+      const gateway = data.gateway || 'cashfree';
 
       if (gateway === 'razorpay') {
         const payRes = await fetch('/api/payments/razorpay/booking/create', {

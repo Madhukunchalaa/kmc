@@ -46,6 +46,8 @@ export async function POST(req: Request) {
   const isObjectId = /^[a-f0-9]{24}$/i.test(bookingId);
   if (isObjectId) {
     booking = await Booking.findOne({ _id: bookingId, user: session.user.id });
+  } else if (bookingId.startsWith('order_')) {
+    booking = await Booking.findOne({ razorpayOrderId: bookingId, user: session.user.id });
   } else {
     let bookingNumber = bookingId;
     if (bookingNumber.startsWith('KMCB-')) {

@@ -789,7 +789,7 @@ export default function CheckoutPage() {
                       <input type="radio" name="paymentMethod" value="online" checked={paymentMethod === 'online'} onChange={() => setPaymentMethod('online')} style={{ accentColor: 'var(--primary,#C8956C)', width: 18, height: 18 }} />
                       <div>
                         <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text,#2D1B0E)' }}><i className="fa-solid fa-credit-card me-2" style={{ color: 'var(--primary,#C8956C)' }}></i>Pay Online</div>
-                        <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>UPI, Cards, Netbanking & Wallets via Cashfree</div>
+                        <div style={{ fontSize: '0.78rem', color: '#888', marginTop: 2 }}>UPI, Cards, Netbanking & Wallets via Razorpay</div>
                       </div>
                     </label>
                   </div>
@@ -834,7 +834,7 @@ export default function CheckoutPage() {
 
                 <p style={{ fontSize: '0.78rem', color: 'var(--text-light,#888)', textAlign: 'center' }}>
                   {paymentMethod === 'online'
-                    ? '🔒 Secure payment via Cashfree — UPI, Cards, Netbanking & Wallets'
+                    ? '🔒 Secure payment via Razorpay — UPI, Cards, Netbanking & Wallets'
                     : '🚚 Cash on Delivery — pay when your order arrives'}
                 </p>
               </form>

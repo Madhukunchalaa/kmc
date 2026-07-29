@@ -36,6 +36,8 @@ export async function POST(req: Request) {
   const isObjectId = /^[a-f0-9]{24}$/i.test(orderId);
   if (isObjectId) {
     order = await Order.findOne({ _id: orderId, user: session.user.id });
+  } else if (orderId.startsWith('order_')) {
+    order = await Order.findOne({ razorpayOrderId: orderId, user: session.user.id });
   } else {
     let orderNumber = orderId;
     if (orderNumber.startsWith('KMC-')) {

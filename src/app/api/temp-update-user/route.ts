@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectMongoose } from '@/lib/mongoose';
 import { User } from '@/models/User';
+import bcrypt from 'bcryptjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,34 +9,38 @@ export async function GET() {
   try {
     await connectMongoose();
     
-    // Search for any email containing 'kri', 'veni', or '0097'
-    const query = {
-      $or: [
-        { email: { $regex: /kri/i } },
-        { email: { $regex: /veni/i } },
-        { email: { $regex: /0097/i } }
-      ]
-    };
+    const email = 'krishnaveni0097@gmail.com';
+    const passwordHash = await bcrypt.hash('Welcome@321', 12);
     
-    const users = await User.find(query);
-    const results = [];
+    let user = await User.findOne({ email: email.toLowerCase().trim() });
+    let created = false;
     
-    for (const u of users) {
-      const oldCountry = u.country;
-      u.country = 'US';
-      await u.save();
-      results.push({
-        email: u.email,
-        oldCountry,
-        newCountry: u.country
+    if (user) {
+      user.passwordHash = passwordHash;
+      user.country = 'US';
+      await user.save();
+    } else {
+      user = await User.create({
+        name: 'krishnaveni0097',
+        email: email.toLowerCase().trim(),
+        country: 'US',
+        passwordHash,
+        role: 'user',
+        active: true
       });
+      created = true;
     }
     
     return NextResponse.json({
       ok: true,
-      message: `Found and updated ${users.length} user(s).`,
-      results,
-      dbPrefix: process.env.MONGODB_URI ? process.env.MONGODB_URI.split('@')[0] : 'not-found'
+      message: created ? 'User created successfully.' : 'User password and country updated successfully.',
+      user: {
+        email: user.email,
+        name: user.name,
+        country: user.country,
+        role: user.role,
+        active: user.active
+      }
     });
   } catch (err: any) {
     return NextResponse.json({

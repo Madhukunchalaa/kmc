@@ -233,31 +233,80 @@ export default function CheckoutPage() {
         return;
       }
 
-      const payRes = await fetch('/api/payments/cashfree/create', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ orderId: orderData.orderId }),
-      });
-      const payData = await payRes.json();
-      if (!payRes.ok || !payData.ok) {
-        setError(payData.reason ?? 'Could not start payment. Please try again.');
-        setSubmitting(false);
-        return;
+      const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
+
+      if (gateway === 'razorpay') {
+        const payRes = await fetch('/api/payments/razorpay/create', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ orderId: orderData.orderId }),
+        });
+        const payData = await payRes.json();
+        if (!payRes.ok || !payData.ok) {
+          setError(payData.reason ?? 'Could not start payment. Please try again.');
+          setSubmitting(false);
+          return;
+        }
+
+        const { openRazorpayCheckout } = await import('@/lib/razorpayCheckout');
+        const rzpRes = await openRazorpayCheckout({
+          keyId: payData.keyId,
+          amount: payData.amount,
+          currency: payData.currency,
+          razorpayOrderId: payData.razorpayOrderId,
+          orderNumber: payData.orderNumber,
+          name: payData.customer.name,
+          email: payData.customer.email,
+          phone: payData.customer.phone,
+        });
+
+        // Verification call is done client-side first
+        const verifyRes = await fetch('/api/payments/razorpay/verify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderData.orderId,
+            razorpay_order_id: rzpRes.razorpay_order_id,
+            razorpay_payment_id: rzpRes.razorpay_payment_id,
+            razorpay_signature: rzpRes.razorpay_signature,
+          }),
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.ok) {
+          setError(verifyData.reason ?? 'Payment verification failed. Please contact support.');
+          setSubmitting(false);
+          return;
+        }
+
+        await clear();
+        clearGifting();
+
+        router.replace(`/checkout/success?order_id=${encodeURIComponent(payData.razorpayOrderId)}&gateway=razorpay`);
+      } else {
+        const payRes = await fetch('/api/payments/cashfree/create', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ orderId: orderData.orderId }),
+        });
+        const payData = await payRes.json();
+        if (!payRes.ok || !payData.ok) {
+          setError(payData.reason ?? 'Could not start payment. Please try again.');
+          setSubmitting(false);
+          return;
+        }
+
+        await openCashfreeCheckout({
+          paymentSessionId: payData.paymentSessionId,
+          orderId: payData.orderId,
+          mode: payData.mode,
+        });
+
+        await clear();
+        clearGifting();
+
+        const merchantOrderId = payData.cfOrderId || `KMC-${orderData.orderNumber}`;
+        router.replace(`/checkout/success?order_id=${encodeURIComponent(merchantOrderId)}&gateway=cashfree`);
       }
-
-      await openCashfreeCheckout({
-        paymentSessionId: payData.paymentSessionId,
-        orderId: payData.orderId,
-        mode: payData.mode,
-      });
-
-      // Payment dialog closed — clear cart then redirect to /checkout/success for animation + confirmation
-      await clear();
-      clearGifting();
-
-      // The success page will re-verify and show the full confirmation with animation
-      const merchantOrderId = payData.cfOrderId || `KMC-${orderData.orderNumber}`;
-      router.replace(`/checkout/success?order_id=${encodeURIComponent(merchantOrderId)}`);
     } catch (err) {
       setShowAnimation(false);
       if (err instanceof Error && err.message === 'payment-cancelled') {

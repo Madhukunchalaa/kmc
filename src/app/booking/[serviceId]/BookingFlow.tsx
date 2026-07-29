@@ -369,39 +369,85 @@ export default function BookingFlow({
         return;
       }
 
-      // Proceed to Cashfree payment
-      const payRes = await fetch('/api/payments/cashfree/booking/create', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ bookingId: data.bookingId }),
-      });
-      const payData = await payRes.json();
-      
-      if (!payRes.ok || !payData.ok) {
-        setError(payData.reason ?? 'Could not start payment. Please try again.');
-        setSubmitting(false);
-        return;
-      }
+      const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
 
-      await openCashfreeCheckout({
-        paymentSessionId: payData.paymentSessionId,
-        orderId: payData.cfOrderId,
-        mode: payData.mode,
-      });
+      if (gateway === 'razorpay') {
+        const payRes = await fetch('/api/payments/razorpay/booking/create', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ bookingId: data.bookingId }),
+        });
+        const payData = await payRes.json();
+        
+        if (!payRes.ok || !payData.ok) {
+          setError(payData.reason ?? 'Could not start payment. Please try again.');
+          setSubmitting(false);
+          return;
+        }
 
-      const verifyRes = await fetch('/api/payments/cashfree/booking/verify', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          bookingId: data.bookingId,
-          cfOrderId: payData.cfOrderId,
-        }),
-      });
-      const verifyData = await verifyRes.json();
-      if (!verifyRes.ok || !verifyData.ok) {
-        setError(verifyData.reason ?? 'Payment verification failed. Contact us with your booking ID.');
-        setSubmitting(false);
-        return;
+        const { openRazorpayCheckout } = await import('@/lib/razorpayCheckout');
+        const rzpRes = await openRazorpayCheckout({
+          keyId: payData.keyId,
+          amount: payData.amount,
+          currency: payData.currency,
+          razorpayOrderId: payData.razorpayOrderId,
+          orderNumber: payData.bookingNumber,
+          name: payData.customer.name,
+          email: payData.customer.email,
+          phone: payData.customer.phone,
+        });
+
+        const verifyRes = await fetch('/api/payments/razorpay/booking/verify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            bookingId: data.bookingId,
+            razorpay_order_id: rzpRes.razorpay_order_id,
+            razorpay_payment_id: rzpRes.razorpay_payment_id,
+            razorpay_signature: rzpRes.razorpay_signature,
+          }),
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.ok) {
+          setError(verifyData.reason ?? 'Payment verification failed. Contact us with your booking ID.');
+          setSubmitting(false);
+          return;
+        }
+      } else {
+        // Proceed to Cashfree payment
+        const payRes = await fetch('/api/payments/cashfree/booking/create', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ bookingId: data.bookingId }),
+        });
+        const payData = await payRes.json();
+        
+        if (!payRes.ok || !payData.ok) {
+          setError(payData.reason ?? 'Could not start payment. Please try again.');
+          setSubmitting(false);
+          return;
+        }
+
+        await openCashfreeCheckout({
+          paymentSessionId: payData.paymentSessionId,
+          orderId: payData.cfOrderId,
+          mode: payData.mode,
+        });
+
+        const verifyRes = await fetch('/api/payments/cashfree/booking/verify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            bookingId: data.bookingId,
+            cfOrderId: payData.cfOrderId,
+          }),
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.ok) {
+          setError(verifyData.reason ?? 'Payment verification failed. Contact us with your booking ID.');
+          setSubmitting(false);
+          return;
+        }
       }
 
       // Show cosmic animation first, then reveal confirmation

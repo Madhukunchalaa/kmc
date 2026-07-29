@@ -7,6 +7,7 @@ import { CART_COOKIE } from '@/lib/cartSession';
 import { resolveOrderLines } from '@/lib/orderLines';
 import { computeOrderShipping } from '@/lib/shipping';
 import { isCashfreeConfigured } from '@/lib/cashfree';
+import { isRazorpayConfigured } from '@/lib/razorpay';
 import { createOrderSchema, zodErrorMessage } from '@/lib/validators';
 
 export async function POST(req: Request) {
@@ -30,8 +31,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'login-required' }, { status: 401 });
   }
 
-  if (!isCashfreeConfigured()) {
-    return NextResponse.json({ ok: false, reason: 'cashfree-not-configured' }, { status: 503 });
+  const gateway = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY || 'cashfree';
+  if (gateway === 'razorpay') {
+    if (!isRazorpayConfigured()) {
+      return NextResponse.json({ ok: false, reason: 'razorpay-not-configured' }, { status: 503 });
+    }
+  } else {
+    if (!isCashfreeConfigured()) {
+      return NextResponse.json({ ok: false, reason: 'cashfree-not-configured' }, { status: 503 });
+    }
   }
 
   await connectMongoose();

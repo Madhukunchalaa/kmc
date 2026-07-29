@@ -55,7 +55,7 @@ export default function ConfirmPaymentButton({
         style={{ justifyContent: 'center', width: '100%', background: '#2B7A5C', borderColor: '#2B7A5C', padding: '12px 20px', borderRadius: '30px' }}
       >
         <i className={`fa-solid ${busy ? 'fa-spinner fa-spin' : 'fa-circle-check'}`}></i>
-        <span style={{ marginLeft: 8 }}>{busy ? 'Checking with Cashfree…' : 'Confirm payment'}</span>
+        <span style={{ marginLeft: 8 }}>{busy ? 'Checking status…' : 'Confirm payment'}</span>
       </button>
       {result && tone && (
         <div style={{

@@ -68,9 +68,9 @@ export const razorpayCreateSchema = z.object({
 
 export const razorpayVerifySchema = z.object({
   orderId: z.string().min(1),
-  razorpay_order_id: z.string().min(1),
-  razorpay_payment_id: z.string().min(1),
-  razorpay_signature: z.string().min(1),
+  razorpay_order_id: z.string().optional(),
+  razorpay_payment_id: z.string().optional(),
+  razorpay_signature: z.string().optional(),
 });
 
 export const productInputSchema = z.object({

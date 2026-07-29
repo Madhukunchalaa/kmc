@@ -28,11 +28,48 @@ export async function confirmOrderPayment(id: string): Promise<ConfirmOutcome> {
   if (order.paymentStatus === 'paid') {
     return { ok: true, status: 'already-paid', message: 'This order is already marked as paid.' };
   }
-  if (!order.cfOrderId) {
+  if (!order.cfOrderId && !order.razorpayOrderId) {
     return {
       ok: false,
       status: 'no-cf-order',
       message: 'No online payment was ever started for this order, so there is nothing to confirm.',
+    };
+  }
+
+  if (order.razorpayOrderId) {
+    const { getRazorpayOrderStatus } = await import('./razorpay');
+    let orderStatus: string;
+    let razorpayPaymentId: string | undefined;
+    try {
+      const r = await getRazorpayOrderStatus(order.razorpayOrderId);
+      orderStatus = r.orderStatus;
+      razorpayPaymentId = r.razorpayPaymentId;
+    } catch (err) {
+      return {
+        ok: false,
+        status: 'error',
+        message: `Could not reach Razorpay to check this payment: ${err instanceof Error ? err.message : String(err)}`,
+      };
+    }
+
+    if (orderStatus !== 'paid') {
+      return {
+        ok: false,
+        status: 'not-paid',
+        message: `Razorpay shows this payment as "${orderStatus}", not paid. Nothing was changed.`,
+      };
+    }
+
+    order.paymentStatus = 'paid';
+    if (order.status === 'pending') order.status = 'confirmed';
+    order.razorpayPaymentId = razorpayPaymentId ?? null;
+    await order.save();
+    await fulfillPaidOrder(order);
+
+    return {
+      ok: true,
+      status: 'confirmed',
+      message: 'Payment confirmed with Razorpay and marked as paid. Confirmation email sent.',
     };
   }
 
@@ -80,11 +117,48 @@ export async function confirmBookingPayment(id: string): Promise<ConfirmOutcome>
   if (booking.paymentStatus === 'paid') {
     return { ok: true, status: 'already-paid', message: 'This booking is already marked as paid.' };
   }
-  if (!booking.cfOrderId) {
+  if (!booking.cfOrderId && !booking.razorpayOrderId) {
     return {
       ok: false,
       status: 'no-cf-order',
       message: 'No online payment was ever started for this booking, so there is nothing to confirm.',
+    };
+  }
+
+  if (booking.razorpayOrderId) {
+    const { getRazorpayOrderStatus } = await import('./razorpay');
+    let orderStatus: string;
+    let razorpayPaymentId: string | undefined;
+    try {
+      const r = await getRazorpayOrderStatus(booking.razorpayOrderId);
+      orderStatus = r.orderStatus;
+      razorpayPaymentId = r.razorpayPaymentId;
+    } catch (err) {
+      return {
+        ok: false,
+        status: 'error',
+        message: `Could not reach Razorpay to check this payment: ${err instanceof Error ? err.message : String(err)}`,
+      };
+    }
+
+    if (orderStatus !== 'paid') {
+      return {
+        ok: false,
+        status: 'not-paid',
+        message: `Razorpay shows this payment as "${orderStatus}", not paid. Nothing was changed.`,
+      };
+    }
+
+    booking.paymentStatus = 'paid';
+    if (booking.status === 'pending' || booking.status === 'approved') booking.status = 'booked';
+    booking.razorpayPaymentId = razorpayPaymentId;
+    await booking.save();
+    await fulfillPaidBooking(booking);
+
+    return {
+      ok: true,
+      status: 'confirmed',
+      message: 'Payment confirmed with Razorpay and marked as paid. Confirmation email sent.',
     };
   }
 

@@ -18,12 +18,17 @@ function BookingSuccessContent() {
       return;
     }
 
+    const gateway = searchParams.get('gateway') || 'cashfree';
+
     async function verifyBooking() {
       try {
-        const res = await fetch('/api/payments/cashfree/booking/verify', {
+        const endpoint = gateway === 'razorpay' ? '/api/payments/razorpay/booking/verify' : '/api/payments/cashfree/booking/verify';
+        const bodyObj = gateway === 'razorpay' ? { bookingId: orderId } : { merchantOrderId: orderId };
+
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ merchantOrderId: orderId })
+          body: JSON.stringify(bodyObj)
         });
         const data = await res.json();
         if (res.ok && data.ok) {

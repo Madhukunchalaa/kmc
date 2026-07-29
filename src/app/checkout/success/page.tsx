@@ -54,15 +54,20 @@ function CheckoutSuccessContent() {
       return;
     }
 
+    const gateway = searchParams.get('gateway') || 'cashfree';
+
     async function verifyPayment() {
       // Start the delivery animation
       const animPromise = runDeliveryAnimation();
 
       try {
-        const res = await fetch('/api/payments/cashfree/verify', {
+        const endpoint = gateway === 'razorpay' ? '/api/payments/razorpay/verify' : '/api/payments/cashfree/verify';
+        const bodyObj = gateway === 'razorpay' ? { orderId } : { merchantOrderId: orderId };
+
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ merchantOrderId: orderId })
+          body: JSON.stringify(bodyObj)
         });
         const data = await res.json();
         if (res.ok && data.ok) {

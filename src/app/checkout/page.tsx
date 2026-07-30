@@ -230,6 +230,17 @@ export default function CheckoutPage() {
 
       const gateway = orderData.gateway || 'cashfree';
 
+      if (gateway === 'whatsapp') {
+        const message = `Hello! I have placed order #${orderData.orderNumber} for total ${formatPrice(payableInr, usdSubtotal)}. Please help me complete the payment.`;
+        const whatsappUrl = `https://wa.me/918096223929?text=${encodeURIComponent(message)}`;
+        
+        window.open(whatsappUrl, '_blank');
+        
+        router.push(`/checkout/success?order_id=${orderData.orderId}&order_number=${orderData.orderNumber}&gateway=whatsapp`);
+        setSubmitting(false);
+        return;
+      }
+
       if (gateway === 'razorpay') {
         const payRes = await fetch('/api/payments/razorpay/create', {
           method: 'POST',

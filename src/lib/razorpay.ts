@@ -83,4 +83,19 @@ export function getActivePaymentGateway(): 'razorpay' | 'cashfree' {
   return 'cashfree';
 }
 
+export async function getActivePaymentGatewayFromDb(): Promise<'razorpay' | 'cashfree' | 'whatsapp'> {
+  try {
+    const { Setting } = await import('@/models/Setting');
+    const setting = await Setting.findOne({ key: 'payment_gateway' }).lean();
+    if (setting && ['razorpay', 'cashfree', 'whatsapp'].includes(setting.value)) {
+      return setting.value as 'razorpay' | 'cashfree' | 'whatsapp';
+    }
+  } catch (err) {
+    console.error('Failed to get payment gateway from DB settings:', err);
+  }
+
+  const gateway = getActivePaymentGateway();
+  return gateway as 'razorpay' | 'cashfree';
+}
+
 

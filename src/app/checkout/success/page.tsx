@@ -60,6 +60,19 @@ function CheckoutSuccessContent() {
       // Start the delivery animation
       const animPromise = runDeliveryAnimation();
 
+      if (gateway === 'whatsapp') {
+        const orderNumberParam = searchParams.get('order_number') || 'N/A';
+        setOrderNumber(orderNumberParam);
+        setConfirmedOrder({
+          orderNumber: orderNumberParam,
+          items: [],
+          subtotal: 0,
+        });
+        await animPromise;
+        setLoading(false);
+        return;
+      }
+
       try {
         const endpoint = gateway === 'razorpay' ? '/api/payments/razorpay/verify' : '/api/payments/cashfree/verify';
         const bodyObj = gateway === 'razorpay' ? { orderId } : { merchantOrderId: orderId };

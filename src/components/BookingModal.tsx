@@ -179,6 +179,36 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
         return;
       }
 
+      const gateway = data.gateway || 'razorpay';
+
+      if (gateway === 'whatsapp') {
+        const message = `Hello! I have placed booking #${data.bookingNumber} for ${title}. Please help me complete the payment.`;
+        const whatsappUrl = `https://wa.me/918096223929?text=${encodeURIComponent(message)}`;
+        
+        window.open(whatsappUrl, '_blank');
+        
+        router.push(`/booking/success?booking_id=${data.bookingId}&booking_number=${data.bookingNumber}&gateway=whatsapp`);
+        setSubmitting(false);
+        onClose();
+        return;
+      }
+
+      if (gateway === 'cashfree') {
+        const payRes = await fetch('/api/payments/cashfree/booking/create', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ bookingId: data.bookingId }),
+        });
+        const payData = await payRes.json();
+        if (!payRes.ok || !payData.ok) {
+          setError(payData.reason ?? 'Could not start payment. Please try again.');
+          setSubmitting(false);
+          return;
+        }
+        window.location.href = payData.paymentLink;
+        return;
+      }
+
       // Hit the Razorpay create endpoint
       const payRes = await fetch('/api/payments/razorpay/booking/create', {
         method: 'POST',

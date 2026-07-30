@@ -5,7 +5,7 @@ import { connectMongoose } from '@/lib/mongoose';
 import { Booking } from '@/models/Booking';
 import { Service } from '@/models/Service';
 import { createBookingSchema, zodErrorMessage } from '@/lib/validators';
-import { getActivePaymentGateway } from '@/lib/razorpay';
+import { getActivePaymentGatewayFromDb } from '@/lib/razorpay';
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -97,6 +97,6 @@ export async function POST(req: Request) {
     console.error('Failed to update user phone profile from booking:', err);
   }
 
-  const gateway = getActivePaymentGateway();
+  const gateway = await getActivePaymentGatewayFromDb();
   return NextResponse.json({ ok: true, bookingNumber, bookingId: String(booking._id), gateway });
 }

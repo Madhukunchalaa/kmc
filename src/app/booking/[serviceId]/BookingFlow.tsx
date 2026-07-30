@@ -161,6 +161,7 @@ export default function BookingFlow({
   initialType?: string;
 }) {
   const today = useMemo(() => new Date(), []);
+  const router = useRouter();
   const { formatPrice, countryCode } = useCurrency();
   const currency = (COUNTRY_CURRENCY_MAP[countryCode.toUpperCase()] || COUNTRY_CURRENCY_MAP['Other']).code;
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -365,6 +366,17 @@ export default function BookingFlow({
       }
 
       const gateway = data.gateway || 'cashfree';
+
+      if (gateway === 'whatsapp') {
+        const message = `Hello! I have placed booking #${data.bookingNumber} for ${serviceTitle}. Please help me complete the payment.`;
+        const whatsappUrl = `https://wa.me/918096223929?text=${encodeURIComponent(message)}`;
+        
+        window.open(whatsappUrl, '_blank');
+        
+        router.push(`/booking/success?booking_id=${data.bookingId}&booking_number=${data.bookingNumber}&gateway=whatsapp`);
+        setSubmitting(false);
+        return;
+      }
 
       if (gateway === 'razorpay') {
         const payRes = await fetch('/api/payments/razorpay/booking/create', {

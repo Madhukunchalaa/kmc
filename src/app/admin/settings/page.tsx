@@ -33,6 +33,7 @@ export default function AdminSettingsPage() {
   const [uploadingCarousel, setUploadingCarousel] = useState(false);
   const [success, setSuccess] = useState('');
   const [err, setErr] = useState('');
+  const [paymentGateway, setPaymentGateway] = useState<string>('razorpay');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const carouselFileInputRef = useRef<HTMLInputElement>(null);
@@ -98,6 +99,7 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (data.ok && data.settings) {
         setFounderImageUrl(data.settings.founderImageUrl || '');
+        setPaymentGateway(data.settings.payment_gateway || 'razorpay');
         if (data.settings.signatureCarouselImages) {
           if (Array.isArray(data.settings.signatureCarouselImages)) {
             setSignatureCarouselImages(data.settings.signatureCarouselImages);
@@ -307,7 +309,8 @@ export default function AdminSettingsPage() {
             founderImageUrl: founderImageUrl,
             signatureCarouselImages: JSON.stringify(signatureCarouselImages),
             featuredProductSlugs: JSON.stringify(featuredSlugs),
-            categoryFeaturedProducts: JSON.stringify(featuredByCategory)
+            categoryFeaturedProducts: JSON.stringify(featuredByCategory),
+            payment_gateway: paymentGateway
           }
         }),
       });
@@ -1038,6 +1041,40 @@ export default function AdminSettingsPage() {
               div:hover > .cat-img-overlay { background: rgba(0,0,0,0.45) !important; }
               div:hover .cat-img-btn { opacity: 1 !important; }
             `}</style>
+          </div>
+
+          {/* Payment Configurations */}
+          <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '2rem', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.15rem', color: '#2D1B0E', fontWeight: 600, margin: '0 0 1rem' }}>
+              <i className="fa-solid fa-credit-card me-2" style={{ color: '#C8956C', fontSize: '1rem' }} />
+              Payment Gateway Configuration
+            </h3>
+            <p style={{ margin: '0 0 1rem', fontSize: '0.8rem', color: '#666', lineHeight: 1.4 }}>
+              Select the active payment gateway for product checkout and service bookings. In case of payment gateway failures, you can temporarily select &ldquo;WhatsApp Chat Link&rdquo; to redirect orders directly to WhatsApp.
+            </p>
+            <div className="row">
+              <div className="col-md-6">
+                <label style={labelStyle}>Active Payment Method</label>
+                <select
+                  value={paymentGateway}
+                  onChange={(e) => setPaymentGateway(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.65rem 0.85rem',
+                    borderRadius: 10,
+                    border: '1.5px solid rgba(200, 149, 108, 0.25)',
+                    background: '#FCFBF9',
+                    color: '#2D1B0E',
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                  }}
+                >
+                  <option value="razorpay">Razorpay Checkout (Recommended)</option>
+                  <option value="cashfree">Cashfree Checkout</option>
+                  <option value="whatsapp">WhatsApp Chat Link (Manual Orders)</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           {/* Form Actions */}

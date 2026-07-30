@@ -21,6 +21,13 @@ function BookingSuccessContent() {
     const gateway = searchParams.get('gateway') || 'cashfree';
 
     async function verifyBooking() {
+      if (gateway === 'whatsapp') {
+        const bookingNumberParam = searchParams.get('booking_number') || 'N/A';
+        setBookingNumber(bookingNumberParam);
+        setLoading(false);
+        return;
+      }
+
       try {
         const endpoint = gateway === 'razorpay' ? '/api/payments/razorpay/booking/verify' : '/api/payments/cashfree/booking/verify';
         const bodyObj = gateway === 'razorpay' ? { bookingId: orderId } : { merchantOrderId: orderId };

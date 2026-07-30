@@ -276,27 +276,7 @@ export default function BookingModal({ open, onClose, serviceSlug, title, tiers 
             </div>
           ) : (
             <form onSubmit={onSubmit}>
-              {(countryCode || 'IN') !== 'IN' && (
-                <div style={{
-                  background: 'rgba(217,95,95,0.08)',
-                  border: '1.5px dashed #D95F5F',
-                  borderRadius: 12,
-                  padding: '12px 16px',
-                  color: '#D95F5F',
-                  fontSize: '0.85rem',
-                  lineHeight: '1.5',
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 10
-                }}>
-                  <i className="fa-solid fa-circle-exclamation" style={{ marginTop: 2, fontSize: '1rem' }}></i>
-                  <div>
-                    <strong style={{ fontWeight: 700, display: 'block', marginBottom: 2 }}>International Payments Temporarily Paused</strong>
-                    We are currently not accepting international payments. Bookings can only be placed and paid within India. We apologize for the inconvenience.
-                  </div>
-                </div>
-              )}
+
 
               <p className="kmc-modal-intro">
                 Please select your session duration, date, and preferred hour. Secure your slot by completing the payment below.

@@ -50,12 +50,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, reason: 'booking-not-found' }, { status: 404 });
   }
 
+  const amount = booking.servicePrice;
+  const currency = booking.currency || 'INR';
+  const amountInSubunits = toPaise(amount);
+
+  if (currency === 'USD') {
+    if (amountInSubunits < 50) {
+      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is $0.50.' }, { status: 400 });
+    }
+  } else {
+    if (amountInSubunits < 100) {
+      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is ₹1.00.' }, { status: 400 });
+    }
+  }
+
   try {
     let razorpayOrderId = booking.razorpayOrderId;
     if (!razorpayOrderId) {
       const rpOrder = await razorpay.orders.create({
-        amount: toPaise(booking.servicePrice),
-        currency: 'INR',
+        amount: amountInSubunits,
+        currency,
         receipt: booking.bookingNumber,
         notes: {
           kmcBookingId: String(booking._id),
@@ -71,8 +85,8 @@ export async function POST(req: Request) {
       ok: true,
       keyId,
       razorpayOrderId,
-      amount: toPaise(booking.servicePrice),
-      currency: 'INR',
+      amount: amountInSubunits,
+      currency,
       bookingNumber: booking.bookingNumber,
       customer: {
         name: booking.customer.name,
@@ -80,8 +94,13 @@ export async function POST(req: Request) {
         phone: booking.customer.phone,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('razorpay booking create failed', err);
-    return NextResponse.json({ ok: false, reason: 'razorpay-error' }, { status: 502 });
+    return NextResponse.json({
+      ok: false,
+      reason: 'razorpay-error',
+      message: err.message || 'Razorpay order creation failed',
+      description: err.description || ''
+    }, { status: 502 });
   }
 }

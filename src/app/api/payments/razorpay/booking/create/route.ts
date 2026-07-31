@@ -54,13 +54,13 @@ export async function POST(req: Request) {
   const currency = booking.currency || 'INR';
   const amountInSubunits = toPaise(amount);
 
-  if (currency === 'USD') {
-    if (amountInSubunits < 50) {
-      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is $0.50.' }, { status: 400 });
-    }
-  } else {
+  if (currency === 'INR') {
     if (amountInSubunits < 100) {
       return NextResponse.json({ ok: false, reason: 'amount-too-low', message: 'The minimum payable amount is ₹1.00.' }, { status: 400 });
+    }
+  } else {
+    if (amountInSubunits < 50) {
+      return NextResponse.json({ ok: false, reason: 'amount-too-low', message: `The minimum payable amount is 0.50 ${currency}.` }, { status: 400 });
     }
   }
 

@@ -10,6 +10,12 @@ export function currencySymbol(currency?: string | null): string {
   if (c === 'USD') return '$';
   if (c === 'EUR') return '€';
   if (c === 'GBP') return '£';
+  if (c === 'CAD') return 'C$';
+  if (c === 'AUD') return 'A$';
+  if (c === 'SGD') return 'S$';
+  if (c === 'AED') return 'د.إ';
+  if (c === 'MYR') return 'RM';
+  if (['NPR', 'LKR', 'PKR', 'BDT', 'BTN'].includes(c)) return 'Rs.';
   return c + ' ';
 }
 

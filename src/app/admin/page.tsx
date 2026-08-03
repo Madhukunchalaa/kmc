@@ -7,6 +7,7 @@ import { User } from '@/models/User';
 import DashboardCharts from './DashboardCharts';
 import MonthlyExport from './MonthlyExport';
 import DashboardFilter from './DashboardFilter';
+import { formatMoney } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Dashboard · Admin' };
@@ -320,7 +321,7 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
                           <div style={{ color: '#888', fontSize: '0.75rem' }}>{o.customer.email}</div>
                         </td>
                         <td style={{ padding: '10px 0', textAlign: 'right', fontWeight: 600 }}>
-                          ₹{o.subtotal.toLocaleString('en-IN')}
+                          {formatMoney(o.total && o.total > 0 ? o.total : o.subtotal, o.currency)}
                         </td>
                         <td style={{ padding: '10px 0', textAlign: 'center' }}>
                           <span className="crystal-tag status-tag" style={{ fontSize: '0.68rem', padding: '3px 8px' }}>{o.status}</span>

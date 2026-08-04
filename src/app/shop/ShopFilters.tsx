@@ -462,8 +462,8 @@ export default function ShopFilters({ products, categoryImages = {}, categoryRow
       });
     }
 
-    // "view-all" tab: show one product per unique name (no duplicates)
-    if (activeCat === 'view-all') {
+    // "view-all" tab: show one product per unique name (no duplicates), unless searching
+    if (activeCat === 'view-all' && !query.trim()) {
       const seen = new Set<string>();
       list = list.filter((p) => {
         const key = p.name.toLowerCase().trim();

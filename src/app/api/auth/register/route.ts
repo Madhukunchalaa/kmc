@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   try {
     await connectMongoose();
     const existing = await User.findOne({ email: normEmail });
-    if (existing) {
+    if (existing && existing.passwordHash) {
       return NextResponse.json(
         { ok: false, reason: 'email-already-registered' },
         { status: 409 },
@@ -55,14 +55,23 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = await User.create({
-      name,
-      email: normEmail,
-      phone: phone || '',
-      passwordHash,
-      role: 'user',
-      country,
-    });
+    let user;
+    if (existing) {
+      existing.name = name;
+      existing.phone = phone || '';
+      existing.passwordHash = passwordHash;
+      existing.country = country;
+      user = await existing.save();
+    } else {
+      user = await User.create({
+        name,
+        email: normEmail,
+        phone: phone || '',
+        passwordHash,
+        role: 'user',
+        country,
+      });
+    }
 
     // Delete OTP record since it's used
     await RegistrationOtp.deleteOne({ _id: otpRecord._id });

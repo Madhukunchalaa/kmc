@@ -69,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!user) return null;
 
         // If OTP is provided, verify OTP
-        if (otp) {
+        if (otp && otp.trim().length === 6 && /^\d+$/.test(otp)) {
           if (!user.otp || user.otp !== otp || !user.otpExpires || user.otpExpires < new Date()) {
             return null; // Invalid or expired OTP
           }

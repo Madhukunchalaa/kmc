@@ -19,9 +19,9 @@ export async function POST(req: Request) {
     await connectMongoose();
     const normalizedEmail = email.trim().toLowerCase();
 
-    // Check if user already exists
+    // Check if user already exists and has a password hash
     const existingUser = await User.findOne({ email: normalizedEmail });
-    if (existingUser) {
+    if (existingUser && existingUser.passwordHash) {
       return NextResponse.json({ ok: false, reason: 'email-already-registered' }, { status: 409 });
     }
 

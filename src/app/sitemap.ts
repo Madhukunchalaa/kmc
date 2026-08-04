@@ -12,6 +12,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticUrls = [
     '',
     '/about',
+    '/founder',
+    '/add-review',
     '/contact',
     '/crystal-strength',
     '/services',

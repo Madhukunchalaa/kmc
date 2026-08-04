@@ -1258,6 +1258,14 @@ export default function Home() {
               />
             ))}
           </div>
+
+          {/* Add a Review Link Button */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+            <Link href="/add-review" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+              <i className="fa-solid fa-pen-to-square"></i>
+              <span>Write a Review</span>
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -61,6 +61,7 @@ export default function Footer() {
               <li><Link href="/about">About</Link></li>
               <li><Link href="/#founder">Founder</Link></li>
               <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="/add-review">Add a Review</Link></li>
             </ul>
           </div>
 
@@ -92,6 +93,7 @@ export default function Footer() {
                 { label: 'About',         href: '/about' },
                 { label: 'Founder',       href: '/#founder' },
                 { label: 'Contact',       href: '/contact' },
+                { label: 'Add a Review',  href: '/add-review' },
                 { label: 'Tarot',         href: '/services#tarot' },
                 { label: 'Candle Spells', href: '/services#candle' },
                 { label: 'Spell Jars',    href: '/services#spelljar' },

@@ -161,14 +161,21 @@ export default function BookingFlow({
   initialType?: string;
 }) {
   const today = useMemo(() => new Date(), []);
+  const minSelectableDate = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 2);
+    return d;
+  }, []);
+  const minSelectableDateStr = useMemo(() => ymd(minSelectableDate), [minSelectableDate]);
+
   const router = useRouter();
   const { formatPrice, countryCode } = useCurrency();
   const currency = (COUNTRY_CURRENCY_MAP[countryCode.toUpperCase()] || COUNTRY_CURRENCY_MAP['Other']).code;
   const [step, setStep] = useState<1 | 2 | 3>(1);
 
   // Calendar month state
-  const [calYear,  setCalYear]  = useState(today.getFullYear());
-  const [calMonth, setCalMonth] = useState(today.getMonth()); // 0-indexed
+  const [calYear,  setCalYear]  = useState(minSelectableDate.getFullYear());
+  const [calMonth, setCalMonth] = useState(minSelectableDate.getMonth()); // 0-indexed
 
   const calDays = useMemo(() => {
     const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
@@ -185,10 +192,10 @@ export default function BookingFlow({
     else setCalMonth(m => m + 1);
   };
   // Disable prev if already at current month
-  const isPrevDisabled = calYear === today.getFullYear() && calMonth === today.getMonth();
+  const isPrevDisabled = calYear === minSelectableDate.getFullYear() && calMonth === minSelectableDate.getMonth();
 
   const [tierIdx,      setTierIdx]      = useState(0);
-  const [selectedDate, setSelectedDate] = useState<string>(ymd(today));
+  const [selectedDate, setSelectedDate] = useState<string>(minSelectableDateStr);
   const [slots,        setSlots]        = useState<Slot[]>([]);
   const [loading,      setLoading]      = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -519,7 +526,7 @@ export default function BookingFlow({
 
   /* ── Selected date spiritual info ── */
   const selDateObj = (() => {
-    if (!selectedDate) return today;
+    if (!selectedDate) return minSelectableDate;
     const [y, m, d] = selectedDate.split('-').map(Number);
     return new Date(y, m - 1, d);
   })();
@@ -809,7 +816,7 @@ export default function BookingFlow({
             const dateObj = new Date(calYear, calMonth, dayNum);
             const v = ymd(dateObj);
             const todayStr = ymd(today);
-            const isPast = v < todayStr;
+            const isPast = v < minSelectableDateStr;
             const active = v === selectedDate;
             const isToday = v === todayStr;
             const { planet: dp, moon: dm } = getSpiritualInfo(dateObj);

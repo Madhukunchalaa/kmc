@@ -68,6 +68,15 @@ function CheckoutSuccessContent() {
           items: [],
           subtotal: 0,
         });
+
+        // Trigger Google Ads Purchase Conversion
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'conversion', {
+            'send_to': 'AW-17664610156/vgogCJn3990cEOyekudB',
+            'transaction_id': orderNumberParam || orderId || ''
+          });
+        }
+
         await animPromise;
         setLoading(false);
         return;
@@ -86,6 +95,14 @@ function CheckoutSuccessContent() {
         if (res.ok && data.ok) {
           setConfirmedOrder(data);
           
+          // Trigger Google Ads Purchase Conversion
+          if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'conversion', {
+              'send_to': 'AW-17664610156/vgogCJn3990cEOyekudB',
+              'transaction_id': data.orderNumber || orderId || ''
+            });
+          }
+
           // Wait for the animation to complete
           await animPromise;
 

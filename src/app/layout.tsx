@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Cinzel, Cinzel_Decorative, Cormorant_Garamond, Raleway } from "next/font/google";
 import "./globals.css";
 import Shell from "@/components/Shell";
+import { Suspense } from "react";
+import ScrollToHash from "@/components/ScrollToHash";
 
 // Cinzel — ancient/mystical Roman engraving feel, perfect for crystal/astrology
 const cinzel = Cinzel({
@@ -105,6 +107,9 @@ export default function RootLayout({
       </head>
       <body className={`${cinzel.variable} ${cinzelDecorative.variable} ${cormorant.variable} ${raleway.variable}`} suppressHydrationWarning>
         <div id="page-wrapper">
+          <Suspense fallback={null}>
+            <ScrollToHash />
+          </Suspense>
           <Shell>{children}</Shell>
         </div>
       </body>

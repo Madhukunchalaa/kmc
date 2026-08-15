@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
         destination: '/shop',
         permanent: true,
       },
+      {
+        source: '/cart-2',
+        destination: '/cart',
+        permanent: true,
+      },
+      {
+        source: '/checkout-2',
+        destination: '/checkout',
+        permanent: true,
+      },
     ];
   },
   experimental: {

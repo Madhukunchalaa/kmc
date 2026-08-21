@@ -74,12 +74,6 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
       { subcategory: { $regex: q, $options: 'i' } },
     ];
   }
-  if (from || to) {
-    const range: Record<string, Date> = {};
-    if (from) range.$gte = new Date(from);
-    if (to) { const end = new Date(to); end.setDate(end.getDate() + 1); range.$lt = end; }
-    filter.createdAt = range;
-  }
 
   const [items, totalCount, uniqueCategories] = await Promise.all([
     Product.find(filter).sort(sortSpec).skip(skip).limit(limit).lean(),

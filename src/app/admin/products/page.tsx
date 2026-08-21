@@ -19,8 +19,6 @@ interface SP {
   status?: string;
   sort?: string;
   page?: string;
-  from?: string;
-  to?: string;
 }
 
 export default async function AdminProducts(props: PageProps<'/admin/products'>) {
@@ -29,8 +27,6 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   const category = sp.category || '';
   const status = sp.status || '';
   const sort = sp.sort || '';
-  const from = sp.from || '';
-  const to = sp.to || '';
   const sortSpec: Record<string, 1 | -1> =
     sort === 'name' ? { name: 1 } : sort === 'name-desc' ? { name: -1 } : { createdAt: -1 };
 
@@ -102,8 +98,6 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (category) params.set('category', category);
     if (status) params.set('status', status);
     if (sort) params.set('sort', sort);
-    if (from) params.set('from', from);
-    if (to) params.set('to', to);
     if (page > 1) params.set('page', String(page));
     return params.toString();
   })();
@@ -114,8 +108,6 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (category) params.set('category', category);
     if (status) params.set('status', status);
     if (sort) params.set('sort', sort);
-    if (from) params.set('from', from);
-    if (to) params.set('to', to);
     params.set('page', String(pageNum));
     return `/admin/products?${params.toString()}`;
   }

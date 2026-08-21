@@ -62,7 +62,7 @@ export default async function AdminBookingDetail(props: PageProps<'/admin/bookin
             {(b.paymentStatus || 'unpaid') !== 'paid' && (
               <div style={{ marginTop: 12 }}>
                 <p style={{ fontSize: '0.82rem', color: '#666', marginBottom: 12 }}>
-                  If the customer paid but the status still shows unpaid, click below. We&apos;ll check with Cashfree and mark it paid only if the payment is confirmed — then send the confirmation email.
+                  If the customer paid but the status still shows unpaid, click below. We&apos;ll check with Razorpay and mark it paid only if the payment is confirmed — then send the confirmation email.
                 </p>
                 <ConfirmPaymentButton kind="booking" id={String(b._id)} />
               </div>

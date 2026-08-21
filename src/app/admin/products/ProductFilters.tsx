@@ -37,6 +37,8 @@ export default function ProductFilters() {
   const category = sp.get('category') || '';
   const status = sp.get('status') || '';
   const sort = sp.get('sort') || '';
+  const from = sp.get('from') || '';
+  const to = sp.get('to') || '';
 
   // Apply a change to one or more params and navigate (resets to page 1).
   const navigate = (changes: Record<string, string>) => {
@@ -50,15 +52,16 @@ export default function ProductFilters() {
     router.push(qs ? `/admin/products?${qs}` : '/admin/products');
   };
 
-  const hasFilters = !!(q || category || status || sort);
+  const hasFilters = !!(q || category || status || sort || from || to);
 
   return (
     <div style={{ background: '#fff', padding: '1rem', borderRadius: 14, marginBottom: '1rem', boxShadow: '0 4px 14px rgba(0,0,0,0.02)' }}>
-      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        {/* Search (Enter or button to apply) */}
+      {/* Row 1 — search + category + status + sort */}
+      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center', marginBottom: '0.6rem' }}>
+        {/* Search */}
         <form
           onSubmit={(e) => { e.preventDefault(); navigate({ q }); }}
-          style={{ flex: '1 1 240px', position: 'relative', margin: 0 }}
+          style={{ flex: '2 1 240px', position: 'relative', margin: 0 }}
         >
           <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: '0.9rem' }}></i>
           <input
@@ -71,7 +74,7 @@ export default function ProductFilters() {
           />
         </form>
 
-        {/* Category — applies immediately on change */}
+        {/* Category */}
         <div style={{ flex: '1 1 160px' }}>
           <select value={category} onChange={(e) => navigate({ category: e.target.value })} className="newsletter-input" style={{ width: '100%' }}>
             <option value="">— All Categories —</option>
@@ -81,7 +84,7 @@ export default function ProductFilters() {
           </select>
         </div>
 
-        {/* Status — applies immediately */}
+        {/* Status */}
         <div style={{ flex: '1 1 120px' }}>
           <select value={status} onChange={(e) => navigate({ status: e.target.value })} className="newsletter-input" style={{ width: '100%' }}>
             <option value="">— All Status —</option>
@@ -90,7 +93,7 @@ export default function ProductFilters() {
           </select>
         </div>
 
-        {/* Sort — applies immediately */}
+        {/* Sort */}
         <div style={{ flex: '1 1 150px' }}>
           <select value={sort} onChange={(e) => navigate({ sort: e.target.value })} className="newsletter-input" style={{ width: '100%' }}>
             <option value="">Sort: Newest</option>
@@ -106,6 +109,43 @@ export default function ProductFilters() {
         {hasFilters && (
           <button type="button" onClick={() => { setQ(''); router.push('/admin/products'); }} className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px' }}>
             Clear
+          </button>
+        )}
+      </div>
+
+      {/* Row 2 — date range */}
+      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+            From
+          </label>
+          <input
+            type="date"
+            value={from}
+            onChange={(e) => navigate({ from: e.target.value })}
+            className="newsletter-input"
+            style={{ height: 38, width: 150, fontSize: '0.85rem' }}
+          />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+            To
+          </label>
+          <input
+            type="date"
+            value={to}
+            onChange={(e) => navigate({ to: e.target.value })}
+            className="newsletter-input"
+            style={{ height: 38, width: 150, fontSize: '0.85rem' }}
+          />
+        </div>
+        {(from || to) && (
+          <button
+            type="button"
+            onClick={() => navigate({ from: '', to: '' })}
+            style={{ background: 'none', border: 'none', color: '#999', fontSize: '0.78rem', cursor: 'pointer', padding: '0 4px' }}
+          >
+            <i className="fa-solid fa-xmark me-1"></i>Clear dates
           </button>
         )}
       </div>

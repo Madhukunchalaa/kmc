@@ -8,6 +8,7 @@ import ProductFilters from './ProductFilters';
 import FinalPriceEditor from './FinalPriceEditor';
 import UsdPriceEditor from './UsdPriceEditor';
 import SizesEditor from './SizesEditor';
+import SizeStockEditor from './SizeStockEditor';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products · Admin' };
@@ -18,6 +19,8 @@ interface SP {
   status?: string;
   sort?: string;
   page?: string;
+  from?: string;
+  to?: string;
 }
 
 export default async function AdminProducts(props: PageProps<'/admin/products'>) {
@@ -26,6 +29,8 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
   const category = sp.category || '';
   const status = sp.status || '';
   const sort = sp.sort || '';
+  const from = sp.from || '';
+  const to = sp.to || '';
   const sortSpec: Record<string, 1 | -1> =
     sort === 'name' ? { name: 1 } : sort === 'name-desc' ? { name: -1 } : { createdAt: -1 };
 
@@ -73,6 +78,12 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
       { subcategory: { $regex: q, $options: 'i' } },
     ];
   }
+  if (from || to) {
+    const range: Record<string, Date> = {};
+    if (from) range.$gte = new Date(from);
+    if (to) { const end = new Date(to); end.setDate(end.getDate() + 1); range.$lt = end; }
+    filter.createdAt = range;
+  }
 
   const [items, totalCount, uniqueCategories] = await Promise.all([
     Product.find(filter).sort(sortSpec).skip(skip).limit(limit).lean(),
@@ -91,6 +102,8 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (category) params.set('category', category);
     if (status) params.set('status', status);
     if (sort) params.set('sort', sort);
+    if (from) params.set('from', from);
+    if (to) params.set('to', to);
     if (page > 1) params.set('page', String(page));
     return params.toString();
   })();
@@ -101,6 +114,8 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
     if (category) params.set('category', category);
     if (status) params.set('status', status);
     if (sort) params.set('sort', sort);
+    if (from) params.set('from', from);
+    if (to) params.set('to', to);
     params.set('page', String(pageNum));
     return `/admin/products?${params.toString()}`;
   }
@@ -212,6 +227,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                 <th style={{ padding: 12, textAlign: 'left' }}>USD Price</th>
                 <th style={{ padding: 12, textAlign: 'left' }}>Stock</th>
                 {!isTrashView && <th style={{ padding: 12, textAlign: 'left' }}>Sizes (bracelets)</th>}
+                {!isTrashView && <th style={{ padding: 12, textAlign: 'left' }}>Size Stock</th>}
                 {!isTrashView && <th style={{ padding: 12, textAlign: 'left' }}>Status</th>}
                 <th style={{ padding: 12, textAlign: 'right', width: isTrashView ? 110 : 180 }}>
                   {isTrashView ? 'Action' : ''}
@@ -221,7 +237,7 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
             <tbody>
               {items.length === 0 && (
                 <tr>
-                  <td colSpan={isTrashView ? 8 : 10} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
+                  <td colSpan={isTrashView ? 8 : 11} style={{ padding: 32, textAlign: 'center', color: '#999' }}>
                     <i className="fa-solid fa-inbox" style={{ fontSize: '2rem', marginBottom: '8px', display: 'block', color: '#ccc' }}></i>
                     {isTrashView ? 'No deleted products — trash is empty.' : 'No products found matching these criteria.'}
                   </td>
@@ -264,6 +280,17 @@ export default async function AdminProducts(props: PageProps<'/admin/products'>)
                     <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
                       {(p.category ?? '').toLowerCase().includes('bracelet') || (p.subcategory ?? '').toLowerCase().includes('bracelet')
                         ? <SizesEditor id={String(p._id)} sizes={(p.sizes ?? []) as string[]} />
+                        : <span style={{ color: '#ccc', fontSize: '0.8rem' }}>—</span>}
+                    </td>
+                  )}
+                  {!isTrashView && (
+                    <td style={{ padding: 12, textAlign: 'left' }} data-no-row-nav>
+                      {((p.category ?? '').toLowerCase().includes('bracelet') || (p.subcategory ?? '').toLowerCase().includes('bracelet')) && (p.sizes ?? []).length > 0
+                        ? <SizeStockEditor
+                            id={String(p._id)}
+                            sizes={(p.sizes ?? []) as string[]}
+                            sizeStock={((p as any).sizeStock ?? {}) as Record<string, number>}
+                          />
                         : <span style={{ color: '#ccc', fontSize: '0.8rem' }}>—</span>}
                     </td>
                   )}

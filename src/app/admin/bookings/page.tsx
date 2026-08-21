@@ -144,71 +144,75 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
 
       {/* Search Bar */}
       <div style={{ background: '#fff', padding: '1rem', borderRadius: 14, marginBottom: '1rem', boxShadow: '0 4px 14px rgba(0,0,0,0.02)' }}>
-        <form method="GET" action="/admin/bookings" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <form method="GET" action="/admin/bookings">
           {status && <input type="hidden" name="status" value={status} />}
-          
-          <div style={{ flex: '2 1 280px', position: 'relative' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Search</label>
-            <div style={{ position: 'relative' }}>
-              <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, bottom: 13, color: '#aaa', fontSize: '0.9rem' }}></i>
-              <input
-                type="text"
-                name="q"
-                defaultValue={q}
-                placeholder="Search by customer, service, or booking #..."
-                className="newsletter-input"
-                style={{ width: '100%', paddingLeft: '34px', height: 42 }}
-              />
+
+          {/* Row 1 — Search + Service + Payment + From + To */}
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: '0.75rem' }}>
+            <div style={{ flex: '2 1 220px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Search</label>
+              <div style={{ position: 'relative' }}>
+                <i className="fa-solid fa-magnifying-glass" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: '0.9rem' }}></i>
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={q}
+                  placeholder="Customer, service, booking #..."
+                  className="newsletter-input"
+                  style={{ width: '100%', paddingLeft: '34px', height: 42 }}
+                />
+              </div>
+            </div>
+
+            <div style={{ flex: '1 1 160px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Service</label>
+              <select name="service" defaultValue={service} className="newsletter-input" style={{ height: 42, width: '100%' }}>
+                <option value="">All services</option>
+                {serviceTitles.sort().map((s: string) => (
+                  <option key={s} value={s}>{s.length > 36 ? s.slice(0, 36) + '…' : s}</option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ flex: '1 1 120px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Payment</label>
+              <select name="payment" defaultValue={payment} className="newsletter-input" style={{ height: 42, width: '100%' }}>
+                <option value="">All</option>
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+            </div>
+
+            <div style={{ flex: '1 1 140px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>From</label>
+              <input type="date" name="from" defaultValue={from} className="newsletter-input" style={{ height: 42, width: '100%' }} />
+            </div>
+
+            <div style={{ flex: '1 1 140px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>To</label>
+              <input type="date" name="to" defaultValue={to} className="newsletter-input" style={{ height: 42, width: '100%' }} />
             </div>
           </div>
 
-          <div style={{ flex: '1 1 180px' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Service</label>
-            <select name="service" defaultValue={service} className="newsletter-input" style={{ height: 42, width: '100%' }}>
-              <option value="">All services</option>
-              {serviceTitles.sort().map((s: string) => (
-                <option key={s} value={s}>{s.length > 40 ? s.slice(0, 40) + '…' : s}</option>
-              ))}
-            </select>
-          </div>
+          {/* Row 2 — Sort + buttons */}
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            <div style={{ flex: '1 1 160px' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Sort by</label>
+              <select name="sort" defaultValue={sort} className="newsletter-input" style={{ height: 42, width: '100%' }}>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="event-date">Event date</option>
+                <option value="price-high">Price: high → low</option>
+                <option value="price-low">Price: low → high</option>
+              </select>
+            </div>
 
-          <div style={{ flex: '1 1 110px' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Payment</label>
-            <select name="payment" defaultValue={payment} className="newsletter-input" style={{ height: 42, width: '100%' }}>
-              <option value="">All</option>
-              <option value="paid">Paid</option>
-              <option value="unpaid">Unpaid</option>
-            </select>
-          </div>
-
-          <div style={{ flex: '1 1 140px' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>From</label>
-            <input type="date" name="from" defaultValue={from} className="newsletter-input" style={{ height: 42, width: '100%' }} />
-          </div>
-
-          <div style={{ flex: '1 1 140px' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>To</label>
-            <input type="date" name="to" defaultValue={to} className="newsletter-input" style={{ height: 42, width: '100%' }} />
-          </div>
-
-          <div style={{ flex: '1 1 150px' }}>
-            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Sort by</label>
-            <select name="sort" defaultValue={sort} className="newsletter-input" style={{ height: 42, width: '100%' }}>
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-              <option value="event-date">Event date</option>
-              <option value="price-high">Price: high → low</option>
-              <option value="price-low">Price: low → high</option>
-            </select>
-          </div>
-
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', flex: '1 1 auto' }}>
-            <button type="submit" className="btn-primary-custom" style={{ padding: '0 24px', height: '42px', minWidth: '80px', flex: '1 1 auto' }}>
+            <button type="submit" className="btn-primary-custom" style={{ padding: '0 32px', height: '42px', flex: '1 1 auto', maxWidth: 160 }}>
               Apply
             </button>
 
             {(q || status || service || payment || from || to || sort !== 'newest') && (
-              <Link href="/admin/bookings" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px', textDecoration: 'none', flex: '1 1 auto' }}>
+              <Link href="/admin/bookings" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px', textDecoration: 'none' }}>
                 Reset
               </Link>
             )}

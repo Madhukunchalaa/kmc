@@ -11,7 +11,6 @@ interface SP {
   status?: string;
   q?: string;
   service?: string;
-  payment?: string;
   from?: string;
   to?: string;
   sort?: string;
@@ -30,7 +29,6 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
   const status = sp.status;
   const q = sp.q || '';
   const service = sp.service || '';
-  const payment = sp.payment || '';
   const from = sp.from || '';
   const to = sp.to || '';
   const sort = sp.sort && SORTS[sp.sort] ? sp.sort : 'newest';
@@ -41,8 +39,6 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
   const filter: Record<string, unknown> = {};
   if (status) filter.status = status;
   if (service) filter.serviceTitle = service;
-  if (payment === 'paid') filter.paymentStatus = 'paid';
-  if (payment === 'unpaid') filter.paymentStatus = { $ne: 'paid' };
   if (from || to) {
     const range: Record<string, Date> = {};
     if (from) range.$gte = new Date(from);
@@ -123,7 +119,6 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
             if (s !== 'all') params.set('status', s);
             if (q) params.set('q', q);
             if (service) params.set('service', service);
-            if (payment) params.set('payment', payment);
             if (from) params.set('from', from);
             if (to) params.set('to', to);
             if (sort !== 'newest') params.set('sort', sort);
@@ -174,15 +169,6 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
               </select>
             </div>
 
-            <div style={{ flex: '1 1 120px' }}>
-              <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Payment</label>
-              <select name="payment" defaultValue={payment} className="newsletter-input" style={{ height: 42, width: '100%' }}>
-                <option value="">All</option>
-                <option value="paid">Paid</option>
-                <option value="unpaid">Unpaid</option>
-              </select>
-            </div>
-
             <div style={{ flex: '1 1 140px' }}>
               <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>From</label>
               <input type="date" name="from" defaultValue={from} className="newsletter-input" style={{ height: 42, width: '100%' }} />
@@ -211,7 +197,7 @@ export default async function AdminBookings(props: PageProps<'/admin/bookings'>)
               Apply
             </button>
 
-            {(q || status || service || payment || from || to || sort !== 'newest') && (
+            {(q || status || service || from || to || sort !== 'newest') && (
               <Link href="/admin/bookings" className="btn-outline-custom" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', height: '42px', padding: '0 16px', textDecoration: 'none' }}>
                 Reset
               </Link>
